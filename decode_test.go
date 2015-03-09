@@ -186,6 +186,19 @@ func TestDecodeInstructions(t *testing.T) {
 				Width:  reverse(math.Float32bits(123)),
 			},
 		},
+		{
+			in: []byte{
+				0x00, 0x04, 0x00, opTypeVector,
+				0x00, 0x00, 0x00, 0x32,
+				0x00, 0x00, 0x00, 0x12,
+				0x00, 0x00, 0x00, 0x03,
+			},
+			want: &OpTypeVector{
+				Result:         0x32,
+				ComponentType:  0x12,
+				ComponentCount: 0x03,
+			},
+		},
 	} {
 		wr := NewReader(bytes.NewBuffer(st.in))
 		wr.SetEndian(LittleEndian)

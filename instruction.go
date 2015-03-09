@@ -40,6 +40,7 @@ const (
 	opTypeBool        = 9
 	opTypeInt         = 10
 	opTypeFloat       = 11
+	opTypeVector      = 12
 	opExtInst         = 44
 	opCompileFlag     = 218
 )
