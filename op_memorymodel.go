@@ -5,7 +5,7 @@ package spirv
 
 import "fmt"
 
-// MemoryModel defines represents the OpMemoryModel instruction.
+// MemoryModel represents the OpMemoryModel instruction.
 //
 // It sets addressing model and memory model for the entire module.
 type MemoryModel struct {
@@ -14,7 +14,7 @@ type MemoryModel struct {
 }
 
 func init() {
-	DefaultInstructionSet[OpMemoryModel] = InstructionBuilder{
+	DefaultInstructionSet[OpMemoryModel] = InstructionCodec{
 		Decode: decodeOpMemoryModel,
 		Encode: encodeOpMemoryModel,
 	}

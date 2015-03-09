@@ -12,9 +12,9 @@ import (
 var (
 	ErrUnexpectedEOF            = errors.New("unexpected EOF")
 	ErrInvalidMagicValue        = errors.New("invalid magic value")
-	ErrUnsupportedModuleVersion = fmt.Errorf("unsupported module version: >%d", Version)
 	ErrInvalidInstructionSize   = errors.New("instruction word count is zero")
 	ErrMissingInstructionArgs   = errors.New("insufficient instruction arguments")
+	ErrUnsupportedModuleVersion = fmt.Errorf("unsupported module version: >%d", Version)
 )
 
 // Decoder defines a decoder for the SPIR-V format.

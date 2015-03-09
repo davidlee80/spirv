@@ -13,7 +13,7 @@ type ExtInstImport struct {
 }
 
 func init() {
-	DefaultInstructionSet[OpExtInstImport] = InstructionBuilder{
+	DefaultInstructionSet[OpExtInstImport] = InstructionCodec{
 		Decode: decodeOpExtInstImport,
 		Encode: encodeOpExtInstImport,
 	}

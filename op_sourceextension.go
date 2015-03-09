@@ -10,7 +10,7 @@ package spirv
 type SourceExtension string
 
 func init() {
-	DefaultInstructionSet[OpSourceExtension] = InstructionBuilder{
+	DefaultInstructionSet[OpSourceExtension] = InstructionCodec{
 		Decode: decodeOpSourceExtension,
 		Encode: encodeOpSourceExtension,
 	}

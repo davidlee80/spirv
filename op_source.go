@@ -15,7 +15,7 @@ type Source struct {
 }
 
 func init() {
-	DefaultInstructionSet[OpSource] = InstructionBuilder{
+	DefaultInstructionSet[OpSource] = InstructionCodec{
 		Decode: decodeOpSource,
 		Encode: encodeOpSource,
 	}

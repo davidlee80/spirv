@@ -134,6 +134,8 @@ func TestDecodeInstructions(t *testing.T) {
 					i, st.in, err, st.err)
 			}
 
+			// We got an error as we expected, so no further processing
+			// is needed.
 			continue
 		}
 

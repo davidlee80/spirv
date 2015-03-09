@@ -5,7 +5,7 @@ package spirv
 
 import "io"
 
-// WordReader reads 32-bit words from an underlying stream.
+// Reader reads 32-bit words from an underlying stream.
 //
 // The stream's expected endianess defaults to LittleEndian but can be
 // changed to BigEndian if applicable. When decoding an entire module,

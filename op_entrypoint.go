@@ -13,7 +13,7 @@ type EntryPoint struct {
 }
 
 func init() {
-	DefaultInstructionSet[OpEntryPoint] = InstructionBuilder{
+	DefaultInstructionSet[OpEntryPoint] = InstructionCodec{
 		Decode: decodeOpEntryPoint,
 		Encode: encodeOpEntryPoint,
 	}

@@ -3,9 +3,9 @@
 
 package spirv
 
-// InstructionBuilder creates a specific instruction from the given
-// set of arguments.
-type InstructionBuilder struct {
+// InstructionCodec defines handlers used to encode or decode
+// a the operand list for a specific type of instruction
+type InstructionCodec struct {
 	// Decoder for an instruction's arguments.
 	//
 	// The provided set of arguments is guaranteed to have the size
@@ -23,8 +23,8 @@ type InstructionBuilder struct {
 	Encode func(Instruction) ([]uint32, error)
 }
 
-// InstructionSet maps opcodes to an insutrction constructor.
-type InstructionSet map[uint32]InstructionBuilder
+// InstructionSet maps opcodes to an instruction encoder/decoder.
+type InstructionSet map[uint32]InstructionCodec
 
 // Instruction defines a generic instruction.
 type Instruction interface{}
