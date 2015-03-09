@@ -5,6 +5,7 @@ package spirv
 
 import (
 	"bytes"
+	"math"
 	"reflect"
 	"testing"
 )
@@ -174,6 +175,17 @@ func TestDecodeInstructions(t *testing.T) {
 				Signedness: 1,
 			},
 		},
+		{
+			in: []byte{
+				0x00, 0x03, 0x00, opTypeFloat,
+				0x00, 0x00, 0x00, 0x32,
+				0x00, 0x00, 0xf6, 0x42,
+			},
+			want: &OpTypeFloat{
+				Result: 0x32,
+				Width:  reverse(math.Float32bits(123)),
+			},
+		},
 	} {
 		wr := NewReader(bytes.NewBuffer(st.in))
 		wr.SetEndian(LittleEndian)
@@ -286,4 +298,13 @@ func TestDecodeHeaders(t *testing.T) {
 				st.in, have, st.want)
 		}
 	}
+}
+
+// reverse reverses the bytes in the given integer.
+func reverse(v uint32) uint32 {
+	a := v & 0xff
+	b := (v >> 8) & 0xff
+	c := (v >> 16) & 0xff
+	d := (v >> 24) & 0xff
+	return a<<24 | b<<16 | c<<8 | d
 }
