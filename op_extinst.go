@@ -3,8 +3,8 @@
 
 package spirv
 
-// ExtInst defines an instruction in an imported set of extended instructions.
-type ExtInst struct {
+// OpExtInst defines an instruction in an imported set of extended instructions.
+type OpExtInst struct {
 	ResultType  uint32
 	ResultId    uint32
 	Set         uint32   // Result of an OpExtInstImport instruction.
@@ -13,36 +13,32 @@ type ExtInst struct {
 }
 
 func init() {
-	DefaultInstructionSet[OpExtInst] = InstructionCodec{
-		Decode: decodeOpExtInst,
-		Encode: encodeOpExtInst,
+	DefaultInstructionSet[opExtInst] = Codec{
+		Decode: func(argv []uint32) (interface{}, error) {
+			if len(argv) < 4 {
+				return nil, ErrMissingInstructionArgs
+			}
+
+			operands := make([]uint32, len(argv)-4)
+			copy(operands, argv[4:])
+
+			return &OpExtInst{
+				ResultType:  argv[0],
+				ResultId:    argv[1],
+				Set:         argv[2],
+				Instruction: argv[3],
+				Operands:    operands,
+			}, nil
+		},
+		Encode: func(instr interface{}) ([]uint32, error) {
+			ext := instr.(*OpExtInst)
+			out := make([]uint32, 4+len(ext.Operands))
+			out[0] = ext.ResultType
+			out[1] = ext.ResultId
+			out[2] = ext.Set
+			out[3] = ext.Instruction
+			copy(out[4:], ext.Operands)
+			return out, nil
+		},
 	}
-}
-
-func decodeOpExtInst(argv []uint32) (Instruction, error) {
-	if len(argv) < 4 {
-		return nil, ErrMissingInstructionArgs
-	}
-
-	operands := make([]uint32, len(argv)-4)
-	copy(operands, argv[4:])
-
-	return &ExtInst{
-		ResultType:  argv[0],
-		ResultId:    argv[1],
-		Set:         argv[2],
-		Instruction: argv[3],
-		Operands:    operands,
-	}, nil
-}
-
-func encodeOpExtInst(instr Instruction) ([]uint32, error) {
-	ext := instr.(*ExtInst)
-	out := make([]uint32, 4+len(ext.Operands))
-	out[0] = ext.ResultType
-	out[1] = ext.ResultId
-	out[2] = ext.Set
-	out[3] = ext.Instruction
-	copy(out[4:], ext.Operands)
-	return out, nil
 }

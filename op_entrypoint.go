@@ -5,37 +5,33 @@ package spirv
 
 import "fmt"
 
-// EntryPoint represents the OpEntryPoint instruction.
+// OpEntryPoint represents the OpEntryPoint instruction.
 // It declares an entry point and its execution model.
-type EntryPoint struct {
+type OpEntryPoint struct {
 	Execution ExecutionModel // Execution model for the entry point and its static call tree.
 	Id        uint32         // Must the Result <id> of an OpFunction instruction.
 }
 
 func init() {
-	DefaultInstructionSet[OpEntryPoint] = InstructionCodec{
-		Decode: decodeOpEntryPoint,
-		Encode: encodeOpEntryPoint,
+	DefaultInstructionSet[opEntryPoint] = Codec{
+		Decode: func(argv []uint32) (interface{}, error) {
+			if len(argv) < 2 {
+				return nil, ErrMissingInstructionArgs
+			}
+
+			return &OpEntryPoint{
+				Execution: ExecutionModel(argv[0]),
+				Id:        argv[1],
+			}, nil
+		},
+		Encode: func(instr interface{}) ([]uint32, error) {
+			ep := instr.(*OpEntryPoint)
+			return []uint32{
+				uint32(ep.Execution),
+				ep.Id,
+			}, nil
+		},
 	}
-}
-
-func decodeOpEntryPoint(argv []uint32) (Instruction, error) {
-	if len(argv) < 2 {
-		return nil, ErrMissingInstructionArgs
-	}
-
-	return &EntryPoint{
-		Execution: ExecutionModel(argv[0]),
-		Id:        argv[1],
-	}, nil
-}
-
-func encodeOpEntryPoint(instr Instruction) ([]uint32, error) {
-	ep := instr.(*EntryPoint)
-	return []uint32{
-		uint32(ep.Execution),
-		ep.Id,
-	}, nil
 }
 
 // ExecutionModel defines a single execution model.

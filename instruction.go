@@ -3,9 +3,9 @@
 
 package spirv
 
-// InstructionCodec defines handlers used to encode or decode
+// Codec defines handlers used to encode or decode
 // a the operand list for a specific type of instruction
-type InstructionCodec struct {
+type Codec struct {
 	// Decoder for an instruction's arguments.
 	//
 	// The provided set of arguments is guaranteed to have the size
@@ -13,32 +13,34 @@ type InstructionCodec struct {
 	// mean it is the amount actually expected by the instruction. So
 	// a size check on this slice is warrented. ErrMissingInstructionArgs
 	// should returned if this check fails.
-	Decode func(argv []uint32) (Instruction, error)
+	Decode func(argv []uint32) (interface{}, error)
 
 	// Encoder for an instruction's arguments.
 	//
 	// The word set being returned must not include the instruction's
 	// first word with opcode or word count. This will be generated
 	// by the module encoder.
-	Encode func(Instruction) ([]uint32, error)
+	Encode func(interface{}) ([]uint32, error)
 }
 
 // InstructionSet maps opcodes to an instruction encoder/decoder.
-type InstructionSet map[uint32]InstructionCodec
-
-// Instruction defines a generic instruction.
-type Instruction interface{}
+type InstructionSet map[uint32]Codec
 
 // Known opcode values as defined in the specification.
 const (
-	OpNop             = 0x0000
-	OpSource          = 0x0001
-	OpSourceExtension = 0x0002
-	OpExtension       = 0x0003
-	OpExtInstImport   = 0x0004
-	OpExtInst         = 0x0044
-	OpMemoryModel     = 0x0005
-	OpEntryPoint      = 0x0006
+	opNop             = 0
+	opSource          = 1
+	opSourceExtension = 2
+	opExtension       = 3
+	opExtInstImport   = 4
+	opMemoryModel     = 5
+	opEntryPoint      = 6
+	opExecutionMode   = 7
+	opTypeVoid        = 8
+	opTypeBool        = 9
+	opTypeInt         = 10
+	opExtInst         = 44
+	opCompileFlag     = 218
 )
 
 // DefaultInstructionSet defines a map with the default instruction set.

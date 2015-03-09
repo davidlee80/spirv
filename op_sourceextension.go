@@ -3,28 +3,24 @@
 
 package spirv
 
-// SourceExtension defines optional extensions used within the source language.
+// OpSourceExtension defines optional extensions used within the source language.
 //
 // It documents an extension to the source language. This has no semantic
 // impact and can safely be removed from a module.
-type SourceExtension string
+type OpSourceExtension string
 
 func init() {
-	DefaultInstructionSet[OpSourceExtension] = InstructionCodec{
-		Decode: decodeOpSourceExtension,
-		Encode: encodeOpSourceExtension,
+	DefaultInstructionSet[opSourceExtension] = Codec{
+		Decode: func(argv []uint32) (interface{}, error) {
+			return OpSourceExtension(
+				DecodeString(argv),
+			), nil
+		},
+		Encode: func(instr interface{}) ([]uint32, error) {
+			sext := instr.(OpSourceExtension)
+			out := make([]uint32, EncodedStringLen(string(sext)))
+			EncodeString(string(sext), out)
+			return out, nil
+		},
 	}
-}
-
-func decodeOpSourceExtension(argv []uint32) (Instruction, error) {
-	return SourceExtension(
-		DecodeString(argv),
-	), nil
-}
-
-func encodeOpSourceExtension(instr Instruction) ([]uint32, error) {
-	sext := instr.(SourceExtension)
-	out := make([]uint32, EncodedStringLen(string(sext)))
-	EncodeString(string(sext), out)
-	return out, nil
 }

@@ -33,7 +33,7 @@ func NewDecoder(wr *Reader, lib InstructionSet) *Decoder {
 // Decode reads a SPIR-V module from the input stream.
 func (d *Decoder) Decode() (*Module, error) {
 	var mod Module
-	mod.Code = make([]Instruction, 0, 128)
+	mod.Code = make([]interface{}, 0, 128)
 
 	err := d.DecodeHeader(&mod.Header)
 	if err != nil {
@@ -103,7 +103,7 @@ func (d *Decoder) DecodeHeader(h *Header) error {
 }
 
 // DecodeInstruction decodes the next instruction from the given stream.
-func (d *Decoder) DecodeInstruction() (Instruction, error) {
+func (d *Decoder) DecodeInstruction() (interface{}, error) {
 	// Read the first word: word count + opcode.
 	err := d.r.Read(d.buf[:1])
 	if err != nil {
@@ -134,7 +134,7 @@ func (d *Decoder) DecodeInstruction() (Instruction, error) {
 	// Find the instruction-specific decoder and call it.
 	instr, ok := d.lib[opcode]
 	if !ok {
-		return nil, fmt.Errorf("unknown opcode: %x", opcode)
+		return nil, fmt.Errorf("unknown opcode: 0x%x", opcode)
 	}
 
 	return instr.Decode(argv)

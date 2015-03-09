@@ -5,39 +5,35 @@ package spirv
 
 import "fmt"
 
-// Source defines the OpSource instruction.
+// OpSource defines the OpSource instruction.
 //
 // It documents what source language a module was translated from.
 // This has no semantic impact and can safely be removed from a module.
-type Source struct {
+type OpSource struct {
 	Language SourceLanguage
 	Version  uint32
 }
 
 func init() {
-	DefaultInstructionSet[OpSource] = InstructionCodec{
-		Decode: decodeOpSource,
-		Encode: encodeOpSource,
+	DefaultInstructionSet[opSource] = Codec{
+		Decode: func(argv []uint32) (interface{}, error) {
+			if len(argv) < 2 {
+				return nil, ErrMissingInstructionArgs
+			}
+
+			return &OpSource{
+				Language: SourceLanguage(argv[0]),
+				Version:  argv[1],
+			}, nil
+		},
+		Encode: func(instr interface{}) ([]uint32, error) {
+			src := instr.(*OpSource)
+			return []uint32{
+				uint32(src.Language),
+				src.Version,
+			}, nil
+		},
 	}
-}
-
-func decodeOpSource(argv []uint32) (Instruction, error) {
-	if len(argv) < 2 {
-		return nil, ErrMissingInstructionArgs
-	}
-
-	return &Source{
-		Language: SourceLanguage(argv[0]),
-		Version:  argv[1],
-	}, nil
-}
-
-func encodeOpSource(instr Instruction) ([]uint32, error) {
-	src := instr.(*Source)
-	return []uint32{
-		uint32(src.Language),
-		src.Version,
-	}, nil
 }
 
 // SourceLanguage defines a source language constant.

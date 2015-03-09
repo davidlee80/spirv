@@ -5,38 +5,34 @@ package spirv
 
 import "fmt"
 
-// MemoryModel represents the OpMemoryModel instruction.
+// OpMemoryModel represents the OpMemoryModel instruction.
 //
 // It sets addressing model and memory model for the entire module.
-type MemoryModel struct {
+type OpMemoryModel struct {
 	Addressing AddressingMode // Selects the module’s addressing model
 	Memory     MemoryMode     // Selects the module’s memory model
 }
 
 func init() {
-	DefaultInstructionSet[OpMemoryModel] = InstructionCodec{
-		Decode: decodeOpMemoryModel,
-		Encode: encodeOpMemoryModel,
+	DefaultInstructionSet[opMemoryModel] = Codec{
+		Decode: func(argv []uint32) (interface{}, error) {
+			if len(argv) < 2 {
+				return nil, ErrMissingInstructionArgs
+			}
+
+			return &OpMemoryModel{
+				Addressing: AddressingMode(argv[0]),
+				Memory:     MemoryMode(argv[1]),
+			}, nil
+		},
+		Encode: func(instr interface{}) ([]uint32, error) {
+			mm := instr.(*OpMemoryModel)
+			return []uint32{
+				uint32(mm.Addressing),
+				uint32(mm.Memory),
+			}, nil
+		},
 	}
-}
-
-func decodeOpMemoryModel(argv []uint32) (Instruction, error) {
-	if len(argv) < 2 {
-		return nil, ErrMissingInstructionArgs
-	}
-
-	return &MemoryModel{
-		Addressing: AddressingMode(argv[0]),
-		Memory:     MemoryMode(argv[1]),
-	}, nil
-}
-
-func encodeOpMemoryModel(instr Instruction) ([]uint32, error) {
-	mm := instr.(*MemoryModel)
-	return []uint32{
-		uint32(mm.Addressing),
-		uint32(mm.Memory),
-	}, nil
 }
 
 // AddressingMode defines an existing addressing mode.
