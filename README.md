@@ -1,13 +1,13 @@
 ## SPIR-V
 
-_Note_: This is work in progress. Not all instructions have yet
+_Note_: This is a work in progress. Not all instructions have yet
 been implemented. They will be in the course of the next few days.
 
 Package SPIR-V is a Go encoder/decoder for the Vulkan SPIR-V format.
-This is based on the [priliminary specification][1] (pdf) and is subject to
+This is based on the [preliminary specificationn][1] (pdf) and is subject to
 change as the specification matures.
 
-Additionaly SPIR-V information can be found [here][2] (pdf).
+Additional SPIR-V information can be found [here][2] (pdf).
 
 [1]: https://www.khronos.org/registry/spir-v/specs/1.0/SPIRV.pdf
 [2]: https://www.khronos.org/registry/spir-v/

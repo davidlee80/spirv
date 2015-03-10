@@ -73,7 +73,7 @@ func (d *Decoder) DecodeHeader(h *Header) error {
 	h.Magic = d.buf[0]
 
 	// Make sure it's a valid one. The order of the magic bytes lets us
-	// determine the endianess of the stream's data.
+	// determine the endianness of the stream's data.
 	switch h.Magic {
 	case MagicLE:
 		d.r.SetEndian(LittleEndian)
@@ -96,7 +96,7 @@ func (d *Decoder) DecodeHeader(h *Header) error {
 		return ErrUnsupportedModuleVersion
 	}
 
-	h.Generator = d.buf[1]
+	h.GeneratorMagic = d.buf[1]
 	h.Bound = d.buf[2]
 	h.Reserved = d.buf[3]
 	return nil
