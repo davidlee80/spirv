@@ -40,7 +40,7 @@ func EncodeString(v string, out []uint32) int {
 
 	var index int
 
-	// Write bulk of string.
+	// Write whole blocks from string.
 	for len(v) >= 4 {
 		out[index] = uint32(v[0]) | uint32(v[1])<<8 |
 			uint32(v[2])<<16 | uint32(v[3])<<24
@@ -48,37 +48,23 @@ func EncodeString(v string, out []uint32) int {
 		v = v[4:]
 	}
 
-	// Write remaining characters.
-	if len(v) > 0 {
-		word := uint32(v[0])
+	// Write non-whole tail block with nul-terminator.
+	// If the tail is empty, it simply consists of the nul-terminator.
+	word := uint32(0)
 
-		if len(v) > 1 {
-			word |= uint32(v[1]) << 8
-		}
-
-		if len(v) > 2 {
-			word |= uint32(v[2]) << 16
-		}
-
-		if len(v) > 3 {
-			word |= uint32(v[3]) << 24
-
-			// We need a separate trailing nul if this word is
-			// filled with character data.
-			out[index] = word
-			index++
-			word = 0
-		}
-
-		out[index] = word
-		index++
-	} else {
-		// We at least need a trailing nul terminator.
-		out[index] = 0
-		index++
+	switch len(v) {
+	case 3:
+		word |= uint32(v[2]) << 16
+		fallthrough
+	case 2:
+		word |= uint32(v[1]) << 8
+		fallthrough
+	case 1:
+		word |= uint32(v[0])
 	}
 
-	return index
+	out[index] = word
+	return index + 1
 }
 
 // DecodeString reads a Go string from the given slice of words.
