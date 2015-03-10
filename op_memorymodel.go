@@ -3,8 +3,6 @@
 
 package spirv
 
-import "fmt"
-
 // OpMemoryModel represents the OpMemoryModel instruction.
 //
 // It sets addressing model and memory model for the entire module.
@@ -33,56 +31,4 @@ func init() {
 			}, nil
 		},
 	}
-}
-
-// AddressingMode defines an existing addressing mode.
-type AddressingMode uint32
-
-// Known addressing modes.
-const (
-	AddressLogical    AddressingMode = 0
-	AddressPhysical32 AddressingMode = 1
-	AddressPhysical64 AddressingMode = 2
-)
-
-func (am AddressingMode) String() string {
-	switch am {
-	case AddressLogical:
-		return "Logical"
-	case AddressPhysical32:
-		return "Physical32"
-	case AddressPhysical64:
-		return "Physical64"
-	}
-
-	return fmt.Sprintf("AddressingMode(%d)", uint32(am))
-}
-
-// MemoryMode defines an existing memory model.
-type MemoryMode uint32
-
-// Known addressing modes.
-const (
-	MemorySimple   MemoryMode = 0 // No shared memory consistency issues.
-	MemoryGLSL450  MemoryMode = 1 // Memory model needed by later versions of GLSL and ESSL. Works across multiple versions.
-	MemoryOpenCL12 MemoryMode = 2 // OpenCL 1.2 memory model.
-	MemoryOpenCL20 MemoryMode = 3 // OpenCL 2.0 memory model.
-	MemoryOpenCL21 MemoryMode = 4 // OpenCL 2.1 memory model.
-)
-
-func (mm MemoryMode) String() string {
-	switch mm {
-	case MemorySimple:
-		return "Simple"
-	case MemoryGLSL450:
-		return "GLSL450"
-	case MemoryOpenCL12:
-		return "OpenCL1.2"
-	case MemoryOpenCL20:
-		return "OpenCL2.0"
-	case MemoryOpenCL21:
-		return "OpenCL2.1"
-	}
-
-	return fmt.Sprintf("MemoryMode(%d)", uint32(mm))
 }
