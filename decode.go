@@ -3,16 +3,7 @@
 
 package spirv
 
-import (
-	"errors"
-	"io"
-)
-
-var (
-	ErrUnexpectedEOF          = errors.New("unexpected EOF")
-	ErrInvalidMagicValue      = errors.New("invalid magic value")
-	ErrInvalidInstructionSize = errors.New("instruction has invalid size")
-)
+import "io"
 
 // Decoder defines a decoder for the SPIR-V format.
 // It reads binary data from a stream and yields sequences

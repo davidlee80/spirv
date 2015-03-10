@@ -94,8 +94,25 @@ And the same to encode a module to a file:
 	}
 
 
-The various sub packages in this repository provide some higher level
-abstractions which may be more useful.
+This package also defines a higher level abstraction for all the
+supported instructions in the specification. They can be created by
+passing in the decoded words from a Decoder:
+
+	// Create an instruction set and load up all default instructions.
+	var lib InstructionSet
+	lib.LoadDefaults()
+
+	// Decode a slice of words.
+	instr, err := lib.Decode(words)
+
+Similarly, to encode data:
+
+	// Create an instruction set and load up all default instructions.
+	var lib InstructionSet
+	lib.LoadDefaults()
+
+	// Encode an instruction into a set of words.
+	words, err := lib.Encode(instr)
 
 
 */

@@ -3,12 +3,7 @@
 
 package spirv
 
-import (
-	"errors"
-	"io"
-)
-
-var ErrInvalidVersion = errors.New("module version is invalid; want 99")
+import "io"
 
 // Encoder defines an encoder for the SPIR-V format.
 // It writes SPIR-V sequences of words into a binary stream.
