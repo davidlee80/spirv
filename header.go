@@ -34,7 +34,7 @@ type Header struct {
 	// Using a non-0 value is encouraged, and can be registered with Khronos.
 	GeneratorMagic uint32
 
-	// All Ids in this module are guaranteed to satisfiy: 0 < id < Bound
+	// All Ids in this module are guaranteed to satisfy: 0 < id < Bound.
 	// Bound should be small; smaller is better with all <id> in a module
 	// being densely packed and near 0.
 	Bound uint32
