@@ -12,7 +12,7 @@ import (
 // InstructionSet maps opcodes to an instruction encoder/decoder.
 type InstructionSet struct {
 	data map[uint32]Codec // List of registered instruction codecs.
-	buf  [128]uint32      // Encoding scratch buffer.
+	buf  [64]uint32       // Encoding scratch buffer.
 }
 
 // BindDefaults loads all default instruction codecs into the set.
