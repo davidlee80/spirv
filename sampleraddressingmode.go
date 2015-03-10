@@ -13,34 +13,34 @@ type SamplerAddressingMode uint32
 const (
 	// The image coordinates used to sample elements of the image refer to a
 	// location inside the image, otherwise the results are undefined.
-	SamplerNone SamplerAddressingMode = 0
+	SAMNone SamplerAddressingMode = 0
 
 	// Out-of-range image coordinates are clamped to the extent.
-	SamplerClampEdge SamplerAddressingMode = 2
+	SAMClampEdge SamplerAddressingMode = 2
 
 	// Out-of-range image coordinates will return a border color.
-	SamplerClamp SamplerAddressingMode = 4
+	SAMClamp SamplerAddressingMode = 4
 
 	// Out-of-range image coordinates are wrapped to the valid range.
 	// Can only be used with normalized coordinates.
-	SamplerRepeat SamplerAddressingMode = 6
+	SAMRepeat SamplerAddressingMode = 6
 
 	// Flip the image coordinate at every integer junction.
 	// Can only be used with normalized coordinates.
-	SamplerRepeatMirrored SamplerAddressingMode = 8
+	SAMRepeatMirrored SamplerAddressingMode = 8
 )
 
 func (sam SamplerAddressingMode) String() string {
 	switch sam {
-	case SamplerNone:
+	case SAMNone:
 		return "None"
-	case SamplerClampEdge:
+	case SAMClampEdge:
 		return "Clamp: Edge"
-	case SamplerClamp:
+	case SAMClamp:
 		return "Clamp"
-	case SamplerRepeat:
+	case SAMRepeat:
 		return "Repeat"
-	case SamplerRepeatMirrored:
+	case SAMRepeatMirrored:
 		return "Repeat: Mirrored"
 	}
 
