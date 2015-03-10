@@ -12,7 +12,7 @@ type Instruction interface {
 }
 
 // Codec defines handlers used to encode or decode
-// a the operand list for a specific type of instruction
+// the a specific type of instruction
 type Codec struct {
 	// Decoder for an instruction's arguments.
 	//
