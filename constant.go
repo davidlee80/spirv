@@ -729,3 +729,99 @@ const (
 	//
 	DSpecId Decoration = 44
 )
+
+// Builtin defines a builtin operation.
+//
+// It us when Decoration is Built-In. Apply to either:
+//   - The result <id> of the variable declaration of the built-in variable, or
+//   - A structure member, if the built-in is a member of a structure.
+//
+// These have the semantics described by their originating API and
+// high-level language environments. TBD: make these native to this
+// specification
+type Builtin uint32
+
+// Known builtin operations.
+const (
+	BPosition                  Builtin = 0
+	BPointSize                 Builtin = 1
+	BClipVertex                Builtin = 2
+	BClipDistance              Builtin = 3
+	BCullDistance              Builtin = 4
+	BVertexId                  Builtin = 5
+	BInstanceId                Builtin = 6
+	BPrimitiveId               Builtin = 7
+	BInvocationId              Builtin = 8
+	BLayer                     Builtin = 9
+	BViewportIndex             Builtin = 10
+	BTessLevelOuter            Builtin = 11
+	BTessLevelInner            Builtin = 12
+	BTessCoord                 Builtin = 13
+	BPatchVertices             Builtin = 14
+	BFragCoord                 Builtin = 15
+	BPointCoord                Builtin = 16
+	BFrontFacing               Builtin = 17
+	BSampleId                  Builtin = 18
+	BSamplePosition            Builtin = 19
+	BSampleMask                Builtin = 20
+	BFragColor                 Builtin = 21
+	BFragDepth                 Builtin = 22
+	BHelperInvocation          Builtin = 23
+	BNumWorkgroups             Builtin = 24
+	BWorkgroupSize             Builtin = 25
+	BWorkgroupId               Builtin = 26
+	BLocalInvocationId         Builtin = 27
+	BGlobalInvocationId        Builtin = 28
+	BLocalInvocationIndex      Builtin = 29
+	BWorkDim                   Builtin = 30
+	BGlobalSize                Builtin = 31
+	BEnqueuedWorkgroupSize     Builtin = 32
+	BGlobalOffset              Builtin = 33
+	BGlobalLinearId            Builtin = 34
+	BWorkgroupLinearId         Builtin = 35
+	BSubgroupSize              Builtin = 36
+	BSubgroupMaxSize           Builtin = 37
+	BNumSubgroups              Builtin = 38
+	BNumEnqueuedSubgroups      Builtin = 39
+	BSubgroupId                Builtin = 40
+	BSubgroupLocalInvocationId Builtin = 41
+)
+
+// SelectionControl defines priorities for flattening
+// of flow control structures.
+//
+// It is used by OpSelectionMerge.
+type SelectionControl uint32
+
+// Known Selection Control values.
+const (
+	// No control requested.
+	SCNoControl SelectionControl = 0
+
+	// Strong request, to the extent possible, to remove the flow
+	// control for this selection.
+	SCFlatten SelectionControl = 1
+
+	// Strong request, to the extent possible, to keep this
+	// selection as flow control.
+	SCDontFlatten SelectionControl = 2
+)
+
+// LoopControl defines priorities for unrolling of
+// loop constructs.
+//
+// It is used by OpLoopMerge.
+type LoopControl uint32
+
+// Known Loop Control values.
+const (
+	// No control requested.
+	LCNoControl LoopControl = 0
+
+	// Strong request, to the extent possible, to unroll or unwind this loop.
+	LCUnroll LoopControl = 1
+
+	// Strong request, to the extent possible, to keep this loop as a loop,
+	// without unrolling.
+	LCDontUnroll LoopControl = 2
+)
