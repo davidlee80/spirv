@@ -27,13 +27,13 @@ func NewOpExecutionMode() Codec {
 				Argv:       argv[2:],
 			}, nil
 		},
-		Encode: func(i Instruction) ([]uint32, error) {
-			em := i.(*OpExecutionMode)
-			out := make([]uint32, 2+len(em.Argv))
-			out[0] = em.EntryPoint
-			out[1] = uint32(em.Mode)
-			copy(out[2:], em.Argv)
-			return out, nil
+		Encode: func(i Instruction, out []uint32) error {
+			v := i.(*OpExecutionMode)
+			out[0] = EncodeOpcode(3+len(v.Argv), 7)
+			out[1] = v.EntryPoint
+			out[2] = uint32(v.Mode)
+			copy(out[3:], v.Argv)
+			return nil
 		},
 	}
 }

@@ -23,11 +23,12 @@ func NewOpExtension() Codec {
 				DecodeString(argv),
 			), nil
 		},
-		Encode: func(i Instruction) ([]uint32, error) {
-			ext := i.(OpExtension)
-			out := make([]uint32, EncodedStringLen(string(ext)))
-			EncodeString(string(ext), out)
-			return out, nil
+		Encode: func(i Instruction, out []uint32) error {
+			cf := i.(OpExtension)
+			size := EncodedStringLen(string(cf))
+			out[0] = EncodeOpcode(size+1, 3)
+			EncodeString(string(cf), out[1:])
+			return nil
 		},
 	}
 }

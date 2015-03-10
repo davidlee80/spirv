@@ -18,9 +18,11 @@ func NewOpTypeBool() Codec {
 
 			return OpTypeBool(argv[0]), nil
 		},
-		Encode: func(i Instruction) ([]uint32, error) {
-			id := i.(OpTypeBool)
-			return []uint32{uint32(id)}, nil
+		Encode: func(i Instruction, out []uint32) error {
+			v := i.(OpTypeBool)
+			out[0] = EncodeOpcode(2, 9)
+			out[1] = uint32(v)
+			return nil
 		},
 	}
 }

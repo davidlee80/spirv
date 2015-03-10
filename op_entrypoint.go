@@ -25,12 +25,12 @@ func NewOpEntryPoint() Codec {
 				Id:        argv[1],
 			}, nil
 		},
-		Encode: func(i Instruction) ([]uint32, error) {
-			ep := i.(*OpEntryPoint)
-			return []uint32{
-				uint32(ep.Execution),
-				ep.Id,
-			}, nil
+		Encode: func(i Instruction, out []uint32) error {
+			v := i.(*OpEntryPoint)
+			out[0] = EncodeOpcode(3, 6)
+			out[1] = uint32(v.Execution)
+			out[2] = v.Id
+			return nil
 		},
 	}
 }

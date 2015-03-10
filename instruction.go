@@ -26,12 +26,13 @@ type Codec struct {
 	// should returned if this check fails.
 	Decode func(argv []uint32) (Instruction, error)
 
-	// Encoder for an instruction's arguments.
+	// Encoder for an instruction
 	//
-	// The word set being returned must not include the instruction's
-	// first word with opcode or word count. This will be generated
-	// by the module encoder.
-	Encode func(Instruction) ([]uint32, error)
+	// The word set must define the FULL instruction. This includes the first
+	// word with the word count and opcode.
+	//
+	// The provided word buffer is large enough to hold a full instruction.
+	Encode func(Instruction, []uint32) error
 }
 
 // InstructionSet maps opcodes to an instruction encoder/decoder.

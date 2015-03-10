@@ -26,12 +26,12 @@ func NewOpMemoryModel() Codec {
 				Memory:     MemoryMode(argv[1]),
 			}, nil
 		},
-		Encode: func(i Instruction) ([]uint32, error) {
-			mm := i.(*OpMemoryModel)
-			return []uint32{
-				uint32(mm.Addressing),
-				uint32(mm.Memory),
-			}, nil
+		Encode: func(i Instruction, out []uint32) error {
+			v := i.(*OpMemoryModel)
+			out[0] = EncodeOpcode(3, 5)
+			out[1] = uint32(v.Addressing)
+			out[2] = uint32(v.Memory)
+			return nil
 		},
 	}
 }

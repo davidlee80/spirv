@@ -16,12 +16,12 @@ func NewOpCompileFlag() Codec {
 				DecodeString(argv),
 			), nil
 		},
-		Encode: func(i Instruction) ([]uint32, error) {
+		Encode: func(i Instruction, out []uint32) error {
 			cf := i.(OpCompileFlag)
 			size := EncodedStringLen(string(cf))
-			out := make([]uint32, size)
-			EncodeString(string(cf), out)
-			return out, nil
+			out[0] = EncodeOpcode(size+1, 218)
+			EncodeString(string(cf), out[1:])
+			return nil
 		},
 	}
 }

@@ -19,11 +19,12 @@ func NewOpSourceExtension() Codec {
 				DecodeString(argv),
 			), nil
 		},
-		Encode: func(i Instruction) ([]uint32, error) {
-			sext := i.(OpSourceExtension)
-			out := make([]uint32, EncodedStringLen(string(sext)))
-			EncodeString(string(sext), out)
-			return out, nil
+		Encode: func(i Instruction, out []uint32) error {
+			cf := i.(OpSourceExtension)
+			size := EncodedStringLen(string(cf))
+			out[0] = EncodeOpcode(size+1, 2)
+			EncodeString(string(cf), out[1:])
+			return nil
 		},
 	}
 }

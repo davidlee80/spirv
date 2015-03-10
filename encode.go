@@ -4,9 +4,20 @@
 package spirv
 
 import (
+	"errors"
 	"fmt"
 	"io"
 )
+
+var (
+	ErrZeroLengthInstruction = errors.New("encoded instruction has zero length")
+)
+
+// EncodeOpcode returns the first word of an instruction from the
+// given word cound and opcode.
+func EncodeOpcode(wordCount, opcode int) uint32 {
+	return uint32(wordCount&0xffff)<<16 | uint32(opcode&0xffff)
+}
 
 // Encoder defines an encoder for the SPIR-V format.
 // It writes SPIR-V data structures into a binary stream.
@@ -14,7 +25,8 @@ type Encoder struct {
 	lib    InstructionSet
 	w      io.Writer
 	endian Endian
-	buf    [4]byte
+	ubuf   [64]uint32
+	bbuf   [4]byte
 }
 
 // NewEncoder creates a new encoder for the given stream and
@@ -64,39 +76,43 @@ func (e *Encoder) EncodeInstruction(i Instruction) error {
 		return fmt.Errorf("unknown instruction %T", i)
 	}
 
+	// If the encoder fails to write a proper first word,
+	// we want to know about it.
+	e.ubuf[0] = 0
+
 	// Fetch encoded instruction operands.
-	argv, err := codec.Encode(i)
+	err := codec.Encode(i, e.ubuf[:])
 	if err != nil {
 		return err
 	}
 
-	// Write opcode and word count.
-	err = e.write(uint32(len(argv)+1)<<16 | opcode&0xffff)
-	if err != nil {
-		return err
+	// Get the size of the instruction from the first word.
+	wordCount := e.ubuf[0] >> 16
+	if wordCount == 0 {
+		return ErrZeroLengthInstruction
 	}
 
-	// Write operands.
-	return e.write(argv...)
+	// Write the instruction.
+	return e.write(e.ubuf[:wordCount])
 }
 
 // Write writes exactly len(p) words to the underlying stream.
 // It returns an error if this failed.
-func (e *Encoder) write(p ...uint32) error {
+func (e *Encoder) write(p []uint32) error {
 	for _, word := range p {
 		if e.endian == LittleEndian {
-			e.buf[0] = byte(word)
-			e.buf[1] = byte(word >> 8)
-			e.buf[2] = byte(word >> 16)
-			e.buf[3] = byte(word >> 24)
+			e.bbuf[0] = byte(word)
+			e.bbuf[1] = byte(word >> 8)
+			e.bbuf[2] = byte(word >> 16)
+			e.bbuf[3] = byte(word >> 24)
 		} else {
-			e.buf[0] = byte(word >> 24)
-			e.buf[1] = byte(word >> 16)
-			e.buf[2] = byte(word >> 8)
-			e.buf[3] = byte(word)
+			e.bbuf[0] = byte(word >> 24)
+			e.bbuf[1] = byte(word >> 16)
+			e.bbuf[2] = byte(word >> 8)
+			e.bbuf[3] = byte(word)
 		}
 
-		_, err := e.w.Write(e.buf[:])
+		_, err := e.w.Write(e.bbuf[:])
 		if err != nil {
 			return err
 		}

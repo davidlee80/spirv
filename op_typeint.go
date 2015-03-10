@@ -39,13 +39,13 @@ func NewOpTypeInt() Codec {
 				Signedness: argv[2],
 			}, nil
 		},
-		Encode: func(i Instruction) ([]uint32, error) {
-			t := i.(*OpTypeInt)
-			return []uint32{
-				t.Result,
-				t.Width,
-				t.Signedness,
-			}, nil
+		Encode: func(i Instruction, out []uint32) error {
+			v := i.(*OpTypeInt)
+			out[0] = EncodeOpcode(4, 10)
+			out[1] = v.Result
+			out[2] = v.Width
+			out[3] = v.Signedness
+			return nil
 		},
 	}
 }

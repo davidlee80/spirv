@@ -33,15 +33,15 @@ func NewOpExtInst() Codec {
 				Operands:    operands,
 			}, nil
 		},
-		Encode: func(i Instruction) ([]uint32, error) {
-			ext := i.(*OpExtInst)
-			out := make([]uint32, 4+len(ext.Operands))
-			out[0] = ext.ResultType
-			out[1] = ext.ResultId
-			out[2] = ext.Set
-			out[3] = ext.Instruction
-			copy(out[4:], ext.Operands)
-			return out, nil
+		Encode: func(i Instruction, out []uint32) error {
+			v := i.(*OpExtInst)
+			out[0] = EncodeOpcode(5+len(v.Operands), 44)
+			out[1] = v.ResultType
+			out[2] = v.ResultId
+			out[3] = v.Set
+			out[4] = v.Instruction
+			copy(out[5:], v.Operands)
+			return nil
 		},
 	}
 }

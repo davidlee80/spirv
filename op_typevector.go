@@ -33,13 +33,13 @@ func NewOpTypeVector() Codec {
 				ComponentCount: argv[2],
 			}, nil
 		},
-		Encode: func(i Instruction) ([]uint32, error) {
+		Encode: func(i Instruction, out []uint32) error {
 			v := i.(*OpTypeVector)
-			return []uint32{
-				v.Result,
-				v.ComponentType,
-				v.ComponentCount,
-			}, nil
+			out[0] = EncodeOpcode(4, 12)
+			out[1] = v.Result
+			out[2] = v.ComponentType
+			out[3] = v.ComponentCount
+			return nil
 		},
 	}
 }

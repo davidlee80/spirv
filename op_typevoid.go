@@ -18,9 +18,11 @@ func NewOpTypeVoid() Codec {
 
 			return OpTypeVoid(argv[0]), nil
 		},
-		Encode: func(i Instruction) ([]uint32, error) {
-			id := i.(OpTypeVoid)
-			return []uint32{uint32(id)}, nil
+		Encode: func(i Instruction, out []uint32) error {
+			v := i.(OpTypeVoid)
+			out[0] = EncodeOpcode(2, 8)
+			out[1] = uint32(v)
+			return nil
 		},
 	}
 }

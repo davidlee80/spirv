@@ -29,12 +29,12 @@ func NewOpTypeFloat() Codec {
 				Width:  argv[1],
 			}, nil
 		},
-		Encode: func(i Instruction) ([]uint32, error) {
-			f := i.(*OpTypeFloat)
-			return []uint32{
-				f.Result,
-				f.Width,
-			}, nil
+		Encode: func(i Instruction, out []uint32) error {
+			v := i.(*OpTypeFloat)
+			out[0] = EncodeOpcode(3, 11)
+			out[1] = v.Result
+			out[2] = v.Width
+			return nil
 		},
 	}
 }

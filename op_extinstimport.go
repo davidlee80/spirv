@@ -27,12 +27,14 @@ func NewOpExtInstImport() Codec {
 				Name:     DecodeString(argv[1:]),
 			}, nil
 		},
-		Encode: func(i Instruction) ([]uint32, error) {
-			ext := i.(*OpExtInstImport)
-			out := make([]uint32, 1+EncodedStringLen(ext.Name))
-			out[0] = ext.ResultId
-			EncodeString(ext.Name, out[1:])
-			return out, nil
+		Encode: func(i Instruction, out []uint32) error {
+			v := i.(*OpExtInstImport)
+			size := EncodedStringLen(v.Name)
+
+			out[0] = EncodeOpcode(2+size, 4)
+			out[1] = v.ResultId
+			EncodeString(v.Name, out[2:])
+			return nil
 		},
 	}
 }

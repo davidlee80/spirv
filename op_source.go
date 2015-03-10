@@ -27,12 +27,12 @@ func NewOpSource() Codec {
 				Version:  argv[1],
 			}, nil
 		},
-		Encode: func(i Instruction) ([]uint32, error) {
-			src := i.(*OpSource)
-			return []uint32{
-				uint32(src.Language),
-				src.Version,
-			}, nil
+		Encode: func(i Instruction, out []uint32) error {
+			v := i.(*OpSource)
+			out[0] = EncodeOpcode(3, 1)
+			out[1] = uint32(v.Language)
+			out[2] = uint32(v.Version)
+			return nil
 		},
 	}
 }
