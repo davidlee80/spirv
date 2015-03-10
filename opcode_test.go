@@ -19,7 +19,7 @@ func TestOpcode(t *testing.T) {
 		{0x10000, 1, 0x00000001},
 		{0x10000, 0x10000, 0},
 	} {
-		have := EncodeOpcode(int(st.a), int(st.b))
+		have := EncodeOpcode(st.a, st.b)
 		if have != st.want {
 			t.Fatalf("case %d: encode mismatch: %d/%d\nHave: %08x\nWant: %08x",
 				i, st.a, st.b, have, st.want)

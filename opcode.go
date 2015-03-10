@@ -5,8 +5,8 @@ package spirv
 
 // EncodeOpcode returns the first word of an instruction from the
 // given word cound and opcode.
-func EncodeOpcode(wordCount, opcode int) uint32 {
-	return uint32(wordCount&0xffff)<<16 | uint32(opcode&0xffff)
+func EncodeOpcode(wordCount, opcode uint32) uint32 {
+	return (wordCount&0xffff)<<16 | (opcode & 0xffff)
 }
 
 // DecodeOpcode extracts the word count and opcode from the given word.

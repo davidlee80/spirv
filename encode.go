@@ -5,89 +5,82 @@ package spirv
 
 import (
 	"errors"
-	"fmt"
 	"io"
 )
 
-var (
-	ErrZeroLengthInstruction = errors.New("encoded instruction has zero length")
-)
+var ErrInvalidVersion = errors.New("module version is invalid; want 99")
 
 // Encoder defines an encoder for the SPIR-V format.
-// It writes SPIR-V data structures into a binary stream.
+// It writes SPIR-V sequences of words into a binary stream.
 type Encoder struct {
-	lib    InstructionSet
 	w      io.Writer
+	buf    [4]byte
 	endian Endian
-	ubuf   [64]uint32
-	bbuf   [4]byte
 }
 
 // NewEncoder creates a new encoder for the given stream and
 // instruction set.
-func NewEncoder(w io.Writer, lib InstructionSet) *Encoder {
+func NewEncoder(w io.Writer) *Encoder {
 	return &Encoder{
 		w:      w,
-		lib:    lib,
 		endian: LittleEndian,
 	}
 }
 
-// SetEndian sets the endianess for the output stream.
-// This defaults to LittleEndian.
-func (e *Encoder) SetEndian(endian Endian) { e.endian = endian }
+// EncodeHeader writes the SPIR-V encoding of header h to the
+// underlying stream. The magic value (first element in the set), determines
+// the byte order for all remaining data being written in this- and subsequent
+// calls to the Encoder.
+func (e *Encoder) EncodeHeader(h Header) error {
+	// The magic value should be written byte-for-byte, regardless
+	// of the endianess. Infact, its byte order defines the byte order
+	// for the remaining stream.
+	switch h.Magic {
+	case MagicLE:
+		e.endian = LittleEndian
+	case MagicBE:
+		e.endian = BigEndian
+	default:
+		return ErrInvalidMagicValue
+	}
 
-// EncodeModule writes the SPIR-V encoding of module m to the underlying stream.
-func (e *Encoder) EncodeModule(m *Module) error {
-	err := e.EncodeHeader(&m.Header)
+	_, err := e.w.Write([]byte{
+		byte(h.Magic),
+		byte(h.Magic >> 8),
+		byte(h.Magic >> 16),
+		byte(h.Magic >> 24),
+	})
+
 	if err != nil {
 		return err
 	}
 
-	for _, instr := range m.Code {
-		err := e.EncodeInstruction(instr)
-		if err != nil {
-			return err
-		}
+	if h.Version != 99 {
+		return ErrInvalidVersion
 	}
 
-	return nil
-}
-
-// EncodeHeader writes the SPIR-V encoding of header h to the
-// underlying stream.
-func (e *Encoder) EncodeHeader(h *Header) error {
-	return nil
+	return e.write([]uint32{
+		h.Version,
+		h.Generator,
+		h.Bound,
+		h.Reserved,
+	})
 }
 
 // EncodeInstruction writes the SPIR-V encoding of the given instruction
-// to the underlying stream.
-func (e *Encoder) EncodeInstruction(i Instruction) error {
-	opcode := i.Opcode()
-
-	codec, ok := e.lib.Get(opcode)
-	if !ok {
-		return fmt.Errorf("unknown instruction %T", i)
+// to the underlying stream. The first word in the set defines the opcode
+// and word count. The word count must be <= len(data).
+func (e *Encoder) EncodeInstruction(data []uint32) error {
+	if len(data) == 0 {
+		return nil
 	}
 
-	// If the encoder fails to write a proper first word,
-	// we want to know about it.
-	e.ubuf[0] = 0
-
-	// Fetch encoded instruction operands.
-	err := codec.Encode(i, e.ubuf[:])
-	if err != nil {
-		return err
+	size := int(data[0] >> 16)
+	if len(data) < size {
+		return ErrInvalidInstructionSize
 	}
 
-	// Get the size of the instruction from the first word.
-	wordCount := e.ubuf[0] >> 16
-	if wordCount == 0 {
-		return ErrZeroLengthInstruction
-	}
-
-	// Write the instruction.
-	return e.write(e.ubuf[:wordCount])
+	return e.write(data[:size])
 }
 
 // Write writes exactly len(p) words to the underlying stream.
@@ -95,18 +88,18 @@ func (e *Encoder) EncodeInstruction(i Instruction) error {
 func (e *Encoder) write(p []uint32) error {
 	for _, word := range p {
 		if e.endian == LittleEndian {
-			e.bbuf[0] = byte(word)
-			e.bbuf[1] = byte(word >> 8)
-			e.bbuf[2] = byte(word >> 16)
-			e.bbuf[3] = byte(word >> 24)
+			e.buf[0] = byte(word)
+			e.buf[1] = byte(word >> 8)
+			e.buf[2] = byte(word >> 16)
+			e.buf[3] = byte(word >> 24)
 		} else {
-			e.bbuf[0] = byte(word >> 24)
-			e.bbuf[1] = byte(word >> 16)
-			e.bbuf[2] = byte(word >> 8)
-			e.bbuf[3] = byte(word)
+			e.buf[0] = byte(word >> 24)
+			e.buf[1] = byte(word >> 16)
+			e.buf[2] = byte(word >> 8)
+			e.buf[3] = byte(word)
 		}
 
-		_, err := e.w.Write(e.bbuf[:])
+		_, err := e.w.Write(e.buf[:])
 		if err != nil {
 			return err
 		}

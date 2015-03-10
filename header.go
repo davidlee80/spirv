@@ -3,6 +3,15 @@
 
 package spirv
 
+// Endian determines the byte order for a stream.
+type Endian uint8
+
+// Known endian values.
+const (
+	LittleEndian Endian = iota
+	BigEndian
+)
+
 // SPIR-V Magic value as stored in a module header.
 // The byte order of these lets us determine how to read the rest
 // of the word stream.
@@ -11,13 +20,9 @@ const (
 	MagicBE = 0x03022307
 )
 
-// Version defines the SPIR-V specification for which this package
-// was written. The decoder will refuse to read modules with a version >Version.
-const Version = 99
-
 // Header defines the header of a SPIR-V Module.
 type Header struct {
-	// SPIR-V Magic number: 0x07230203
+	// SPIR-V Magic number.
 	//
 	// A module is defined as a stream of words, not a stream of bytes.
 	// However, if stored as a stream of bytes (e.g., in a file), the magic
@@ -29,10 +34,10 @@ type Header struct {
 	// Uses 99 for pre-release.
 	Version uint32
 
-	// Magic number of the tool that generated the module.
+	// Version number of the tool that generated the module.
 	// Its value does not effect any semantics, and is allowed to be 0.
 	// Using a non-0 value is encouraged, and can be registered with Khronos.
-	GeneratorMagic uint32
+	Generator uint32
 
 	// All Ids in this module are guaranteed to satisfy: 0 < id < Bound.
 	// Bound should be small; smaller is better with all <id> in a module

@@ -5,154 +5,115 @@ package spirv
 
 import (
 	"errors"
-	"fmt"
 	"io"
 )
 
 var (
-	ErrUnexpectedEOF            = errors.New("unexpected EOF")
-	ErrInvalidMagicValue        = errors.New("invalid magic value")
-	ErrInvalidInstructionSize   = errors.New("instruction word count is zero")
-	ErrMissingInstructionArgs   = errors.New("insufficient instruction arguments")
-	ErrUnsupportedModuleVersion = fmt.Errorf("unsupported module version: >%d", Version)
+	ErrUnexpectedEOF          = errors.New("unexpected EOF")
+	ErrInvalidMagicValue      = errors.New("invalid magic value")
+	ErrInvalidInstructionSize = errors.New("instruction has invalid size")
 )
 
 // Decoder defines a decoder for the SPIR-V format.
-// It reads binary data from a stream and creates a SPIR-V data structure.
+// It reads binary data from a stream and yields sequences
+// of 32-bit words.
 type Decoder struct {
 	r      io.Reader
+	ubuf   []uint32 // Scratch buffer for instruction decoding.
+	bbuf   [4]byte  // Scratch buffer for the word reader.
 	endian Endian
-	lib    InstructionSet // Collection of known instruction decoders.
-	ubuf   [16]uint32     // Scratch buffer for instruction decoding.
-	bbuf   [4]byte        // Scratch buffer for the word reader.
 }
 
 // NewDecoder creates a new decoder for the given stream and instruction set.
-func NewDecoder(r io.Reader, lib InstructionSet) *Decoder {
+func NewDecoder(r io.Reader) *Decoder {
 	return &Decoder{
 		r:      r,
-		lib:    lib,
 		endian: LittleEndian,
+		ubuf:   make([]uint32, 32),
 	}
 }
 
-// SetEndian sets the endianess for the input stream.
-// This defaults to LittleEndian.
-func (d *Decoder) SetEndian(e Endian) { d.endian = e }
-
-// DecodeModule reads a SPIR-V module from the input stream.
-func (d *Decoder) DecodeModule() (*Module, error) {
-	var mod Module
-	mod.Code = make([]Instruction, 0, 128)
-
-	err := d.DecodeHeader(&mod.Header)
-	if err != nil {
-		return nil, err
-	}
-
-	// Decode all instructions for as long as we can find some.
-	for {
-		instr, err := d.DecodeInstruction()
-
-		if err != nil {
-			if err == io.EOF {
-				break // Nothing wrong here -- just done reading.
-			}
-			return nil, err
-		}
-
-		mod.Code = append(mod.Code, instr)
-	}
-
-	return &mod, nil
-}
-
-// DecodeHeader reads the given header from the underlying stream.
+// DecodeHeader reads a module header from the underlying stream.
 //
 // The magic value's byte order will be used to determine the byte order
-// for the entire stream and will be stored in the decoder's WordReader.
+// for the entire stream.
 //
-// Returns an error if the magic value is invalid or the version number
-// does not match our expectations.
-func (d *Decoder) DecodeHeader(h *Header) error {
-	// Read the magic value. This is the one value we
-	// read as separate bytes. The order will tell us the byte
-	// order of the rest of the stream.
+// Returns an error if the magic value is invalid.
+func (d *Decoder) DecodeHeader() (Header, error) {
+	var hdr Header
+
+	// Read the magic value. This is the one value we read as separate bytes.
+	// The order will tell us the byte order of the rest of the stream.
 	_, err := io.ReadFull(d.r, d.bbuf[:])
 	if err != nil {
 		if err == io.EOF {
-			return ErrUnexpectedEOF
+			return hdr, ErrUnexpectedEOF
 		}
-		return err
+		return hdr, err
 	}
 
-	h.Magic = uint32(d.bbuf[0]) | uint32(d.bbuf[1])<<8 | uint32(d.bbuf[2])<<16 |
-		uint32(d.bbuf[3])<<24
+	hdr.Magic = uint32(d.bbuf[0]) | uint32(d.bbuf[1])<<8 |
+		uint32(d.bbuf[2])<<16 | uint32(d.bbuf[3])<<24
 
 	// Make sure it's a valid number. The order of the magic bytes lets us
-	// determine the endianness of the stream's data.
-	switch h.Magic {
+	// determine the endianness of the stream's remaining data.
+	switch hdr.Magic {
 	case MagicLE:
 		d.endian = LittleEndian
 	case MagicBE:
 		d.endian = BigEndian
 	default:
-		return ErrInvalidMagicValue
+		return hdr, ErrInvalidMagicValue
 	}
 
 	// Read remaining header.
 	err = d.read(d.ubuf[:4])
 	if err != nil {
-		return err
+		return hdr, nil
 	}
 
-	h.Version = d.ubuf[0]
-
-	// Make sure we have a suitable version number.
-	if h.Version > Version {
-		return ErrUnsupportedModuleVersion
-	}
-
-	h.GeneratorMagic = d.ubuf[1]
-	h.Bound = d.ubuf[2]
-	h.Reserved = d.ubuf[3]
-	return nil
+	hdr.Version = d.ubuf[0]
+	hdr.Generator = d.ubuf[1]
+	hdr.Bound = d.ubuf[2]
+	hdr.Reserved = d.ubuf[3]
+	return hdr, nil
 }
 
-// DecodeInstruction decodes the next instruction from the given stream.
-func (d *Decoder) DecodeInstruction() (Instruction, error) {
+// DecodeInstruction decodes the next instruction from the underlying stream.
+// The returned slice of words contains all data for the entire instruction.
+//
+// The data remains valid until the next call to DecodeHeader or
+// DecodeInstruction.
+func (d *Decoder) DecodeInstruction() ([]uint32, error) {
 	// Read the first word: word count + opcode.
 	err := d.read(d.ubuf[:1])
 	if err != nil {
 		return nil, err
 	}
 
-	wordCount, opcode := DecodeOpcode(d.ubuf[0])
-	if wordCount < 1 {
+	words := int(d.ubuf[0] >> 16)
+	if words < 1 {
 		return nil, ErrInvalidInstructionSize
 	}
 
-	var argv []uint32
+	if words > 1 {
+		if words >= len(d.ubuf) {
+			// Resize read buffer if necessary.
+			tmp := d.ubuf[0]
+			d.ubuf = make([]uint32, words)
+			d.ubuf[0] = tmp
+		}
 
-	if wordCount > 1 {
-		// wordCount defines the number of words for the entire instruction.
+		// words defines the number of words for the entire instruction.
 		// This includes the first one we just read. So remaining number of
-		// operands are wordCount - 1.
-		err = d.read(d.ubuf[:wordCount-1])
+		// operands are words - 1.
+		err = d.read(d.ubuf[1:words])
 		if err != nil {
 			return nil, err
 		}
-
-		argv = d.ubuf[:wordCount-1]
 	}
 
-	// Find the instruction-specific decoder and call it.
-	codec, ok := d.lib.Get(opcode)
-	if !ok {
-		return nil, fmt.Errorf("unknown opcode: 0x%x", opcode)
-	}
-
-	return codec.Decode(argv)
+	return d.ubuf[:words:words], nil
 }
 
 // Next reads exactly len(p) words from the stream.

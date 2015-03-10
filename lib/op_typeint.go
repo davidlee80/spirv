@@ -1,7 +1,7 @@
 // This file is subject to a 1-clause BSD license.
 // Its contents can be found in the enclosed LICENSE file.
 
-package v99
+package lib
 
 import "github.com/jteeuwen/spirv"
 
@@ -28,11 +28,11 @@ type OpTypeInt struct {
 func (c *OpTypeInt) Opcode() uint32 { return 10 }
 
 // NewOpTypeInt creates a new codec for the OpTypeInt instruction.
-func NewOpTypeInt() spirv.Codec {
-	return spirv.Codec{
-		Decode: func(argv []uint32) (spirv.Instruction, error) {
+func NewOpTypeInt() Codec {
+	return Codec{
+		Decode: func(argv []uint32) (Instruction, error) {
 			if len(argv) < 3 {
-				return nil, spirv.ErrMissingInstructionArgs
+				return nil, ErrMissingInstructionArgs
 			}
 
 			return &OpTypeInt{
@@ -41,7 +41,7 @@ func NewOpTypeInt() spirv.Codec {
 				Signedness: argv[2],
 			}, nil
 		},
-		Encode: func(i spirv.Instruction, out []uint32) error {
+		Encode: func(i Instruction, out []uint32) error {
 			v := i.(*OpTypeInt)
 			out[0] = spirv.EncodeOpcode(4, 10)
 			out[1] = v.Result

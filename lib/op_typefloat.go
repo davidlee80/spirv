@@ -1,7 +1,7 @@
 // This file is subject to a 1-clause BSD license.
 // Its contents can be found in the enclosed LICENSE file.
 
-package v99
+package lib
 
 import "github.com/jteeuwen/spirv"
 
@@ -19,11 +19,11 @@ type OpTypeFloat struct {
 func (c *OpTypeFloat) Opcode() uint32 { return 11 }
 
 // NewOpTypeFloat creates a new codec for the OpTypeFloat instruction.
-func NewOpTypeFloat() spirv.Codec {
-	return spirv.Codec{
-		Decode: func(argv []uint32) (spirv.Instruction, error) {
+func NewOpTypeFloat() Codec {
+	return Codec{
+		Decode: func(argv []uint32) (Instruction, error) {
 			if len(argv) < 2 {
-				return nil, spirv.ErrMissingInstructionArgs
+				return nil, ErrMissingInstructionArgs
 			}
 
 			return &OpTypeFloat{
@@ -31,7 +31,7 @@ func NewOpTypeFloat() spirv.Codec {
 				Width:  argv[1],
 			}, nil
 		},
-		Encode: func(i spirv.Instruction, out []uint32) error {
+		Encode: func(i Instruction, out []uint32) error {
 			v := i.(*OpTypeFloat)
 			out[0] = spirv.EncodeOpcode(3, 11)
 			out[1] = v.Result

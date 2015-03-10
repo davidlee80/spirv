@@ -2,6 +2,7 @@
 
 _Note_: This is a work in progress. Not all instructions have yet
 been implemented. They will be in the course of the next few days.
+Expect breaking code changes to appear regularly.
 
 Package SPIR-V is a Go encoder/decoder for the Vulkan SPIR-V format.
 This is based on the [preliminary specificationn][1] (pdf) and is subject to
@@ -61,42 +62,48 @@ the ground up around the capabilities of modern hardware.
 
 ### Install
 
-    go get github.com/jteeuwen/spirv
+    go get github.com/jteeuwen/spirv/...
 
 
 ### Usage
 
 By itself, this package is not very useful. All it does is decode SPIR-V
-binary into a typed data structure and vice-versa. It is intended as a tool
-to facilitate the creation of SPIR-V debugging tools, compilers, and whatever
-else you may require.
+binary into sets of 32-bit words data structure and vice-versa. It is intended
+as a tool to facilitate the creation of SPIR-V debugging tools, compilers,
+and whatever else you may require.
 
-Here is a quick sample on how to decode a module from a file.
-
-	var module spirv.Module
-	
-	// First we need to define the supported instruction set.
-	// We can call spirv.BindDefault to load up all default instructions.
-	var lib spirv.InstructionSet
-	v99.Bind(&lib)
+Here is an sample on how to decode a module from a file.
+The `Decode` methods return either a `Header` or a `[]uint32` slice,
+representing an individual instruction.
 
 	// Create a decoder.
-	dec := spirv.NewDecoder(fd, lib)
-	err := dec.DecodeModule(&module)
+	dec := spirv.NewDecoder(fd)
+	header, err := dec.DecodeHeader()
 	...
+
+	for {
+		instruction, err := dec.DecodeInstruction()
+		...
+	}
 
 
 And the same to encode a module to a file:
 
-	var module spirv.Module
+	var hdr spirv.Header
 	...
 	
-	var lib spirv.InstructionSet
-	v99.Bind(&lib)
-
-	enc := spirv.NewEncoder(fd, lib)
-	err := enc.EncodeModule(&module)
+	enc := spirv.NewEncoder(fd)
+	err := enc.EncodeHeader(hdr)
 	...
+	
+	for _, data := instructions {
+		err := enc.EncodeInstruction(data)
+		...
+	}
+
+
+The various sub packages in this repository provide some higher level
+abstractions which may be more useful.
 
 
 ### License
