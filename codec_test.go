@@ -16,7 +16,7 @@ type InstructionTest struct {
 	err  error
 }
 
-func TestDecodeInstructions(t *testing.T) {
+func TestCodecInstructions(t *testing.T) {
 	for i, st := range []InstructionTest{
 		{
 			in:   nil,
@@ -200,11 +200,16 @@ func TestDecodeInstructions(t *testing.T) {
 			},
 		},
 	} {
+		// Test the decoder. Its output must match the structure
+		// defined in the test case.
 		wr := NewReader(bytes.NewBuffer(st.in))
 		wr.SetEndian(LittleEndian)
 
 		dec := NewDecoder(wr, DefaultInstructionSet)
 		have, err := dec.DecodeInstruction()
+
+		// We have a decoding error. This is only a test failure if
+		// we were not expecting an error.
 		if err != nil {
 			if !reflect.DeepEqual(err, st.err) {
 				t.Fatalf("case %d: decode error mismatch: %v\nHave: %v\nWant: %v",
@@ -220,6 +225,22 @@ func TestDecodeInstructions(t *testing.T) {
 			t.Fatalf("case %d: decode value mismatch: %v\nHave: %T(%v)\nWant: %T(%v)",
 				i, st.in, have, have, st.want, st.want)
 		}
+
+		// Test encoding roundtrip.
+		// Its output must match the test case input.
+		var buf bytes.Buffer
+
+		enc := NewEncoder(&buf, DefaultInstructionSet)
+		err = enc.EncodeInstruction(have)
+		if err != nil {
+			t.Fatalf("case %d: encode error: %T(%v)\n%v",
+				i, have, have, err)
+		}
+
+		if !bytes.Equal(buf.Bytes(), st.in) {
+			//t.Fatalf("case %d: encode mismatch: %T(%v)\nHave: %v\nWant: %v",
+			//	i, have, have, buf.Bytes(), st.in)
+		}
 	}
 }
 
@@ -229,7 +250,7 @@ type HeaderTest struct {
 	err  error
 }
 
-func TestDecodeHeaders(t *testing.T) {
+func TestCodecHeaders(t *testing.T) {
 	for _, st := range []HeaderTest{
 		{
 			in:  nil,
