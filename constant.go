@@ -912,3 +912,16 @@ const (
 	// accessing images (see OpTypeSampler Content).
 	MSImageMemory MemorySemantics = 512
 )
+
+// MemoryAccess defines memory access semantics.
+type MemoryAccess uint32
+
+// Known memory access values.
+const (
+	// This access cannot be optimized away; it has to be executed.
+	MAVolatile MemoryAccess = 1
+
+	// This access has a known alignment, provided as a literal in
+	// the next operand.
+	MAAligned MemoryAccess = 2
+)
