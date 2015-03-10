@@ -825,3 +825,90 @@ const (
 	// without unrolling.
 	LCDontUnroll LoopControl = 2
 )
+
+// FunctionControlMask defines bitmask hints for function optimisations.
+//
+// It is used by OpFunction.
+type FunctionControlMask uint32
+
+// Known Function Control masks.
+const (
+	// Strong request, to the extent possible, to inline the function.
+	FCMInLine FunctionControlMask = 1
+
+	// Strong request, to the extent possible, to not inline the function.
+	FCMDontInline FunctionControlMask = 2
+
+	// Compiler can assume this function has no side effect, but might
+	// read global memory or read through dereferenced function parameters.
+	// Always computes the same result for the same argument values.
+	FCMPure FunctionControlMask = 4
+
+	// Compiler can assume this function has no side effects, and will not
+	// access global memory or dereference function parameters. Always
+	// computes the same result for the same argument values.
+	FCMConst FunctionControlMask = 8
+)
+
+// MemorySemantics defines bitflag memory classifications and
+// ordering semantics. Used by:
+//
+// - OpMemoryBarrier
+// - OpAtomicLoad
+// - OpAtomicStore
+// - OpAtomicExchange
+// - OpAtomicCompareExchange
+// - OpAtomicCompareExchangeWeak
+// - OpAtomicIIncrement
+// - OpAtomicIDecrement
+// - OpAtomicIAdd
+// - OpAtomicISub
+// - OpAtomicUMin
+// - OpAtomicUMax
+// - OpAtomicAnd
+// - OpAtomicOr
+// - OpAtomicXor
+//
+type MemorySemantics uint32
+
+// Known memory semantics.
+const (
+	// TODO: ...
+	MSRelaxed MemorySemantics = 1
+
+	// All observers will see this memory access in the same order WRT to
+	// other sequentially-consistent memory accesses from this invocation.
+	MSSequentiallyConsistent MemorySemantics = 2
+
+	// All memory operations provided in program order after this memory
+	// operation will execute after this memory operation.
+	MSAcquire MemorySemantics = 4
+
+	// All memory operations provided in program order before this memory
+	// operation will execute before this memory operation.
+	MSRelease MemorySemantics = 8
+
+	// Filter the memory operations being constrained to just those
+	// accessing Uniform Storage Class memory.
+	MSUniformMemory MemorySemantics = 16
+
+	// The memory semantics only have to be correct WRT to this invocation’s
+	// subgroup memory
+	MSSubgroupMemory MemorySemantics = 32
+
+	// The memory semantics only have to be correct WRT to this invocation’s
+	// local workgroup memory.
+	MSWorkgroupLocalMemory MemorySemantics = 64
+
+	// The memory semantics only have to be correct WRT to this invocation’s
+	// global workgroup memory.
+	MSWorkgroupGlobalMemory MemorySemantics = 128
+
+	// Filter the memory operations being constrained to just those
+	// accessing AtomicCounter Storage Class memory.
+	MSAtomicCounterMemory MemorySemantics = 256
+
+	// Filter the memory operations being constrained to just those
+	// accessing images (see OpTypeSampler Content).
+	MSImageMemory MemorySemantics = 512
+)
