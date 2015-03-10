@@ -35,13 +35,9 @@ func TestCodecInstructions(t *testing.T) {
 			err: ErrMissingInstructionArgs,
 		},
 		{
-			in: []uint32{
-				0x0030001,
-				uint32(SourceGLSL),
-				450,
-			},
+			in: []uint32{0x0030001, uint32(SLGLSL), 450},
 			want: &OpSource{
-				Language: SourceGLSL,
+				Language: SLGLSL,
 				Version:  450,
 			},
 		},
@@ -98,26 +94,26 @@ func TestCodecInstructions(t *testing.T) {
 		{
 			in: []uint32{
 				0x00030005,
-				uint32(AddressPhysical32),
-				uint32(MemoryGLSL450),
+				uint32(AMPhysical32),
+				uint32(MMGLSL450),
 			},
 			want: &OpMemoryModel{
-				Addressing: AddressPhysical32,
-				Memory:     MemoryGLSL450,
+				Addressing: AMPhysical32,
+				Memory:     MMGLSL450,
 			},
 		},
 		{
-			in: []uint32{0x00030006, uint32(ExecFragment), 0x7f},
+			in: []uint32{0x00030006, uint32(EMFragment), 0x7f},
 			want: &OpEntryPoint{
-				Execution: ExecFragment,
+				Execution: EMFragment,
 				Id:        0x7f,
 			},
 		},
 		{
-			in: []uint32{0x00060007, 0x7f, uint32(ModeSpacingEqual), 1, 2, 3},
+			in: []uint32{0x00060007, 0x7f, uint32(EMSpacingEqual), 1, 2, 3},
 			want: &OpExecutionMode{
 				EntryPoint: 0x7f,
-				Mode:       ModeSpacingEqual,
+				Mode:       EMSpacingEqual,
 				Argv:       []uint32{1, 2, 3},
 			},
 		},

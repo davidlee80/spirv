@@ -14,18 +14,18 @@ type AccessQualifier uint32
 
 // Known access qualifiers.
 const (
-	AccessReadOnly  AccessQualifier = 0 // A read-only object.
-	AccessWriteOnly AccessQualifier = 1 // A write-only object.
-	AccessReadWrite AccessQualifier = 2 // A readable and writable object.
+	AQReadOnly  AccessQualifier = 0 // A read-only object.
+	AQWriteOnly AccessQualifier = 1 // A write-only object.
+	AQReadWrite AccessQualifier = 2 // A readable and writable object.
 )
 
 func (e AccessQualifier) String() string {
 	switch e {
-	case AccessReadOnly:
+	case AQReadOnly:
 		return "Read Only"
-	case AccessWriteOnly:
+	case AQWriteOnly:
 		return "Write Only"
-	case AccessReadWrite:
+	case AQReadWrite:
 		return "Read Write"
 	}
 
@@ -37,18 +37,18 @@ type AddressingMode uint32
 
 // Known addressing modes.
 const (
-	AddressLogical    AddressingMode = 0
-	AddressPhysical32 AddressingMode = 1
-	AddressPhysical64 AddressingMode = 2
+	AMLogical    AddressingMode = 0
+	AMPhysical32 AddressingMode = 1
+	AMPhysical64 AddressingMode = 2
 )
 
 func (am AddressingMode) String() string {
 	switch am {
-	case AddressLogical:
+	case AMLogical:
 		return "Logical"
-	case AddressPhysical32:
+	case AMPhysical32:
 		return "Physical32"
-	case AddressPhysical64:
+	case AMPhysical64:
 		return "Physical64"
 	}
 
@@ -62,27 +62,27 @@ type Dim uint32
 
 // Known execution models.
 const (
-	Dim1D     Dim = 0
-	Dim2D     Dim = 1
-	Dim3D     Dim = 2
-	DimCube   Dim = 3
-	DimRect   Dim = 4
-	DimBuffer Dim = 5
+	D1D     Dim = 0
+	D2D     Dim = 1
+	D3D     Dim = 2
+	DCube   Dim = 3
+	DRect   Dim = 4
+	DBuffer Dim = 5
 )
 
 func (d Dim) String() string {
 	switch d {
-	case Dim1D:
+	case D1D:
 		return "1D"
-	case Dim2D:
+	case D2D:
 		return "2D"
-	case Dim3D:
+	case D3D:
 		return "3D"
-	case DimCube:
+	case DCube:
 		return "Cube"
-	case DimRect:
+	case DRect:
 		return "Rect"
-	case DimBuffer:
+	case DBuffer:
 		return "Buffer"
 	}
 
@@ -103,83 +103,83 @@ const (
 	//
 	//   [0]: Number of invocations.
 	//
-	ModeInvocations ExecutionMode = 0
+	EMInvocations ExecutionMode = 0
 
 	// Requests the tessellation primitive generator to divide edges into a
 	// collection of equal-sized segments. Only valid with one of the
 	// tessellation Execution Models.
-	ModeSpacingEqual ExecutionMode = 1
+	EMSpacingEqual ExecutionMode = 1
 
 	// Requests the tessellation primitive generator to divide edges into an
 	// even number of equal-length segments plus two additional shorter
 	// fractional segments. Only valid with one of the tessellation
 	// Execution Models.
-	ModeSpacingFractionalEven ExecutionMode = 2
+	EMSpacingFractionalEven ExecutionMode = 2
 
 	// Requests the tessellation primitive generator to divide edges into an
 	// even number of equal-length segments plus two additional shorter
 	// fractional segments. Only valid with one of the tessellation.
 	// Execution Models.
-	ModeSpacingFractionalOdd ExecutionMode = 3
+	EMSpacingFractionalOdd ExecutionMode = 3
 
 	// Requests the tessellation primitive generator to generate triangles in
 	// clockwise order. Only valid with one of the tessellation Execution Models.
-	ModeVertexOrderCw ExecutionMode = 4
+	EMVertexOrderCw ExecutionMode = 4
 
 	// Requests the tessellation primitive generator to generate triangles in
 	// counter-clockwise order. Only valid with one of the tessellation
 	// Execution Models.
-	ModeVertexOrderCcw ExecutionMode = 5
+	EMVertexOrderCcw ExecutionMode = 5
 
 	// Pixels appear centered on whole-number pixel offsets. E.g., the
 	// coordinate (0.5, 0.5) appears to move to (0.0, 0.0). Only valid with
 	// the Fragment Execution Model.
-	ModePixelCenterInteger ExecutionMode = 6
+	EMPixelCenterInteger ExecutionMode = 6
 
 	// Pixel coordinates appear to originate in the upper left, and increase
 	// toward the right and downward. Only valid with the Fragment Execution Model.
-	ModeOriginUpperLeft ExecutionMode = 7
+	EMOriginUpperLeft ExecutionMode = 7
 
 	// Fragment tests are to be performed before fragment shader execution.
 	// Only valid with the Fragment Execution Model.
-	ModeEarlyFragmentTests ExecutionMode = 8
+	EMEarlyFragmentTests ExecutionMode = 8
 
 	// Requests the tessellation primitive generator to generate a point for
 	// each distinct vertex in the subdivided primitive, rather than to
 	// generate lines or triangles. Only valid with one of the tessellation
 	// Execution Models.
-	ModePointMode ExecutionMode = 9
+	EMPointMode ExecutionMode = 9
 
 	// This stage will run in transform feedback-capturing mode and this module
 	// is responsible for describing the transform-feedback setup.
 	// See the XfbBuffer, Offset, and Stride Decorations.
-	ModeXFB ExecutionMode = 10
+	EMXFB ExecutionMode = 10
 
 	// This mode must be declared if this module potentially changes the
 	// fragment’s depth. Only valid with the Fragment Execution Model.
-	ModeDepthReplacing ExecutionMode = 11
+	EMDepthReplacing ExecutionMode = 11
 
 	// TBD: this should probably be removed. Depth testing will always be
 	// performed after the shader has executed. Only valid with the Fragment
 	// Execution Model.
-	ModeDepthAny ExecutionMode = 12
+	EMDepthAny ExecutionMode = 12
 
 	// External optimizations may assume depth modifications will leave the
 	// fragment’s depth as greater than or equal to the fragment’s interpolated
 	// depth value (given by the z component of the FragCoord Built-In
 	// decorated variable). Only valid with the Fragment Execution Model.
-	ModeDepthGreater ExecutionMode = 13
+	EMDepthGreater ExecutionMode = 13
 
 	// External optimizations may assume depth modifications leave the
 	// fragment’s depth less than the fragment’s interpolated depth
 	// value, (given by the z component of the FragCoord Built-In decorated
 	// variable). Only valid with the Fragment Execution Model.
-	ModeDepthLess ExecutionMode = 14
+	EMDepthLess ExecutionMode = 14
 
 	// External optimizations may assume this stage did not modify the
 	// fragment’s depth. However, DepthReplacing mode must accurately
 	// represent depth modification. Only valid with the Fragment Execution Model.
-	ModeDepthUnchanged ExecutionMode = 15
+	EMDepthUnchanged ExecutionMode = 15
 
 	// Indicates the work-group size in the x, y, and z dimensions. Only valid
 	// with the GLCompute or Kernel Execution Models.
@@ -190,7 +190,7 @@ const (
 	//   [1]: y size
 	//   [2]: z size
 	//
-	ModeLocalSize ExecutionMode = 16
+	EMLocalSize ExecutionMode = 16
 
 	// A hint to the compiler, which indicates the most likely to be used
 	// work-group size in the x, y, and z dimensions. Only valid with the
@@ -202,35 +202,35 @@ const (
 	//   [1]: y size
 	//   [2]: z size
 	//
-	ModeLocalSizeHint ExecutionMode = 17
+	EMLocalSizeHint ExecutionMode = 17
 
 	// Stage input primitive is points. Only valid with the Geometry Execution Model.
-	ModeInputPoints ExecutionMode = 18
+	EMInputPoints ExecutionMode = 18
 
 	// Stage input primitive is lines. Only valid with the Geometry Execution Model.
-	ModeInputLines ExecutionMode = 19
+	EMInputLines ExecutionMode = 19
 
 	// Stage input primitive is lines adjacency. Only valid with the Geometry
 	// Execution Model.
-	ModeInputLinesAdjacency ExecutionMode = 20
+	EMInputLinesAdjacency ExecutionMode = 20
 
 	// For a geometry stage, input primitive is triangles. For a tessellation
 	// stage, requests the tessellation primitive generator to generate
 	// triangles. Only valid with the Geometry or one of the tessellation
 	// Execution Models.
-	ModeInputTriangles ExecutionMode = 21
+	EMInputTriangles ExecutionMode = 21
 
 	// Geometry stage input primitive is triangles adjacency. Only valid with
 	// the Geometry Execution Model.
-	ModeInputTrianglesAdjacency ExecutionMode = 22
+	EMInputTrianglesAdjacency ExecutionMode = 22
 
 	// Requests the tessellation primitive generator to generate quads.
 	// Only valid with one of the tessellation Execution Models.
-	ModeInputQuads ExecutionMode = 23
+	EMInputQuads ExecutionMode = 23
 
 	// Requests the tessellation primitive generator to generate isolines.
 	// Only valid with one of the tessellation Execution Models
-	ModeInputIsolines ExecutionMode = 24
+	EMInputIsolines ExecutionMode = 24
 
 	// For a geometry stage, the maximum number of vertices the shader will
 	// ever emit in a single invocation. For a tessellation-control stage,
@@ -243,19 +243,19 @@ const (
 	//
 	//   [0]: Vertex count
 	//
-	ModeOutputVertices ExecutionMode = 25
+	EMOutputVertices ExecutionMode = 25
 
 	// Stage output primitive is points. Only valid with the Geometry
 	// Execution Model.
-	ModeOutputPoints ExecutionMode = 26
+	EMOutputPoints ExecutionMode = 26
 
 	// Stage output primitive is line strip. Only valid with the Geometry
 	// Execution Model.
-	ModeOutputLinestrip ExecutionMode = 27
+	EMOutputLinestrip ExecutionMode = 27
 
 	// Stage output primitive is triangle strip. Only valid with the
 	// Geometry Execution Model.
-	ModeOutputTrianglestrip ExecutionMode = 28
+	EMOutputTrianglestrip ExecutionMode = 28
 
 	// A hint to the compiler, which indicates that most operations used
 	// in the entry point are explicitly vectorized using a particular
@@ -265,76 +265,76 @@ const (
 	//
 	//   [0]: Vector type
 	//
-	ModeVecTypeHint ExecutionMode = 29
+	EMVecTypeHint ExecutionMode = 29
 
 	// Indicates that floating-point-expressions contraction is disallowed.
 	// Only valid with the Kernel Execution Model.
-	ModeContractionOff ExecutionMode = 30
+	EMContractionOff ExecutionMode = 30
 )
 
 func (em ExecutionMode) String() string {
 	switch em {
-	case ModeInvocations:
+	case EMInvocations:
 		return "Invocations"
-	case ModeSpacingEqual:
+	case EMSpacingEqual:
 		return "Spacing Equal"
-	case ModeSpacingFractionalEven:
+	case EMSpacingFractionalEven:
 		return "Spacing Fractional Even"
-	case ModeSpacingFractionalOdd:
+	case EMSpacingFractionalOdd:
 		return "Spacing Fractional Odd"
-	case ModeVertexOrderCw:
+	case EMVertexOrderCw:
 		return "Vertex Order Cw"
-	case ModeVertexOrderCcw:
+	case EMVertexOrderCcw:
 		return "Vertex Order Ccw"
-	case ModePixelCenterInteger:
+	case EMPixelCenterInteger:
 		return "Pixel Center Integer"
-	case ModeOriginUpperLeft:
+	case EMOriginUpperLeft:
 		return "Origin Upper Left"
-	case ModeEarlyFragmentTests:
+	case EMEarlyFragmentTests:
 		return "Early Fragment Tests"
-	case ModePointMode:
+	case EMPointMode:
 		return "Point Mode"
-	case ModeXFB:
+	case EMXFB:
 		return "XFB"
-	case ModeDepthReplacing:
+	case EMDepthReplacing:
 		return "Depth Replacing"
-	case ModeDepthAny:
+	case EMDepthAny:
 		return "Depth Any"
-	case ModeDepthGreater:
+	case EMDepthGreater:
 		return "Depth Greater"
-	case ModeDepthLess:
+	case EMDepthLess:
 		return "Depth Less"
-	case ModeDepthUnchanged:
+	case EMDepthUnchanged:
 		return "Depth Unchanged"
-	case ModeLocalSize:
+	case EMLocalSize:
 		return "Local Size"
-	case ModeLocalSizeHint:
+	case EMLocalSizeHint:
 		return "Local Size Hint"
-	case ModeInputPoints:
+	case EMInputPoints:
 		return "Input: Points"
-	case ModeInputLines:
+	case EMInputLines:
 		return "Input: Lines"
-	case ModeInputLinesAdjacency:
+	case EMInputLinesAdjacency:
 		return "Input: Lines Adjacency"
-	case ModeInputTriangles:
+	case EMInputTriangles:
 		return "Input: Triangles"
-	case ModeInputTrianglesAdjacency:
+	case EMInputTrianglesAdjacency:
 		return "Input: Triangles Adjacency"
-	case ModeInputQuads:
+	case EMInputQuads:
 		return "Input: Quads"
-	case ModeInputIsolines:
+	case EMInputIsolines:
 		return "Input: Isolines"
-	case ModeOutputVertices:
+	case EMOutputVertices:
 		return "Output: Vertices"
-	case ModeOutputPoints:
+	case EMOutputPoints:
 		return "Output: Points"
-	case ModeOutputLinestrip:
+	case EMOutputLinestrip:
 		return "Output: Linestrip"
-	case ModeOutputTrianglestrip:
+	case EMOutputTrianglestrip:
 		return "Output: Trianglestrip"
-	case ModeVecTypeHint:
+	case EMVecTypeHint:
 		return "Vector type hint"
-	case ModeContractionOff:
+	case EMContractionOff:
 		return "Contraction Off"
 	}
 
@@ -348,30 +348,30 @@ type ExecutionModel uint32
 
 // Known execution models.
 const (
-	ExecVertex                 ExecutionModel = 0 // Vertex shading stage
-	ExecTessellationControl    ExecutionModel = 1 // Tessellation control (or hull) shading stage.
-	ExecTessellationEvaluation ExecutionModel = 2 // Tessellation evaluation (or domain) shading stage
-	ExecGeometry               ExecutionModel = 3 // Geometry shading stage.
-	ExecFragment               ExecutionModel = 4 // Fragment shading stage.
-	ExecGLCompute              ExecutionModel = 5 // Graphical compute shading stage.
-	ExecKernel                 ExecutionModel = 6 // Compute kernel.
+	EMVertex                 ExecutionModel = 0 // Vertex shading stage
+	EMTessellationControl    ExecutionModel = 1 // Tessellation control (or hull) shading stage.
+	EMTessellationEvaluation ExecutionModel = 2 // Tessellation evaluation (or domain) shading stage
+	EMGeometry               ExecutionModel = 3 // Geometry shading stage.
+	EMFragment               ExecutionModel = 4 // Fragment shading stage.
+	EMGLCompute              ExecutionModel = 5 // Graphical compute shading stage.
+	EMKernel                 ExecutionModel = 6 // Compute kernel.
 )
 
 func (e ExecutionModel) String() string {
 	switch e {
-	case ExecVertex:
+	case EMVertex:
 		return "Vertex"
-	case ExecTessellationControl:
+	case EMTessellationControl:
 		return "Tessellation Control"
-	case ExecTessellationEvaluation:
+	case EMTessellationEvaluation:
 		return "Tessellation Evaluation"
-	case ExecGeometry:
+	case EMGeometry:
 		return "Geometry"
-	case ExecFragment:
+	case EMFragment:
 		return "Fragment"
-	case ExecGLCompute:
+	case EMGLCompute:
 		return "GL Compute"
-	case ExecKernel:
+	case EMKernel:
 		return "Kernel"
 	}
 
@@ -388,42 +388,42 @@ type FPFastMathMode uint32
 // Known fast math modes.
 const (
 	// Assume parameters and result are not NaN.
-	FMNotNaN FPFastMathMode = 0
+	FMMNotNaN FPFastMathMode = 0
 
 	// Assume parameters and result are not +/- Inf.
-	FMNotInf FPFastMathMode = 2
+	FMMNotInf FPFastMathMode = 2
 
 	// Treat the sign of a zero parameter or result as insignificant.
-	FMNSZ FPFastMathMode = 4
+	FMMNSZ FPFastMathMode = 4
 
 	// Allow the usage of reciprocal rather than perform a division.
-	FMAllowRecip FPFastMathMode = 8
+	FMMAllowRecip FPFastMathMode = 8
 
 	// Allow algebraic transformations according to real-number associative
 	// and distributive algebra. This flag implies all the others.
-	FMFast FPFastMathMode = 16
+	FMMFast FPFastMathMode = 16
 )
 
 func (fm FPFastMathMode) String() string {
 	set := make([]string, 0, 5)
 
-	if fm&FMNotNaN != 0 {
+	if fm&FMMNotNaN != 0 {
 		set = append(set, "Not NaN")
 	}
 
-	if fm&FMNotInf != 0 {
+	if fm&FMMNotInf != 0 {
 		set = append(set, "Not Inf")
 	}
 
-	if fm&FMNSZ != 0 {
+	if fm&FMMNSZ != 0 {
 		set = append(set, "Non-Significant Sign")
 	}
 
-	if fm&FMAllowRecip != 0 {
+	if fm&FMMAllowRecip != 0 {
 		set = append(set, "Allow Reciprocal")
 	}
 
-	if fm&FMFast != 0 {
+	if fm&FMMFast != 0 {
 		set = append(set, "Allow Reciprocal")
 	}
 
@@ -448,21 +448,21 @@ type FPRoundingMode uint32
 
 // Known rounding modes.
 const (
-	RTE FPRoundingMode = 0 // Round to nearest even.
-	RTZ FPRoundingMode = 1 // Round towards zero.
-	RTP FPRoundingMode = 2 // Round towards positive infinity.
-	RTN FPRoundingMode = 3 // Round towards negative infinity.
+	FPRMRTE FPRoundingMode = 0 // Round to nearest even.
+	FPRMRTZ FPRoundingMode = 1 // Round towards zero.
+	FPRMRTP FPRoundingMode = 2 // Round towards positive infinity.
+	FPRMRTN FPRoundingMode = 3 // Round towards negative infinity.
 )
 
 func (r FPRoundingMode) String() string {
 	switch r {
-	case RTE:
+	case FPRMRTE:
 		return "Nearest Even"
-	case RTZ:
+	case FPRMRTZ:
 		return "Zero"
-	case RTP:
+	case FPRMRTP:
 		return "Positive Infinity"
-	case RTN:
+	case FPRMRTN:
 		return "Negative Infinity"
 	}
 
@@ -476,15 +476,15 @@ type LinkageType uint32
 
 // Known execution models.
 const (
-	LinkExport LinkageType = 0 // Accessible by other modules as well.
-	LinkImport LinkageType = 1 // Declaration for a global identifier that exists in another module.
+	LTExport LinkageType = 0 // Accessible by other modules as well.
+	LTImport LinkageType = 1 // Declaration for a global identifier that exists in another module.
 )
 
 func (e LinkageType) String() string {
 	switch e {
-	case LinkExport:
+	case LTExport:
 		return "Export"
-	case LinkImport:
+	case LTImport:
 		return "Import"
 	}
 
@@ -496,24 +496,24 @@ type MemoryMode uint32
 
 // Known addressing modes.
 const (
-	MemorySimple   MemoryMode = 0 // No shared memory consistency issues.
-	MemoryGLSL450  MemoryMode = 1 // Memory model needed by later versions of GLSL and ESSL. Works across multiple versions.
-	MemoryOpenCL12 MemoryMode = 2 // OpenCL 1.2 memory model.
-	MemoryOpenCL20 MemoryMode = 3 // OpenCL 2.0 memory model.
-	MemoryOpenCL21 MemoryMode = 4 // OpenCL 2.1 memory model.
+	MMSimple   MemoryMode = 0 // No shared memory consistency issues.
+	MMGLSL450  MemoryMode = 1 // Memory model needed by later versions of GLSL and ESSL. Works across multiple versions.
+	MMOpenCL12 MemoryMode = 2 // OpenCL 1.2 memory model.
+	MMOpenCL20 MemoryMode = 3 // OpenCL 2.0 memory model.
+	MMOpenCL21 MemoryMode = 4 // OpenCL 2.1 memory model.
 )
 
 func (mm MemoryMode) String() string {
 	switch mm {
-	case MemorySimple:
+	case MMSimple:
 		return "Simple"
-	case MemoryGLSL450:
+	case MMGLSL450:
 		return "GLSL450"
-	case MemoryOpenCL12:
+	case MMOpenCL12:
 		return "OpenCL1.2"
-	case MemoryOpenCL20:
+	case MMOpenCL20:
 		return "OpenCL2.0"
-	case MemoryOpenCL21:
+	case MMOpenCL21:
 		return "OpenCL2.1"
 	}
 
@@ -591,23 +591,24 @@ type SourceLanguage uint32
 
 // Known source languages.
 const (
-	SourceUnknown SourceLanguage = 0
-	SourceESSL    SourceLanguage = 1
-	SourceGLSL    SourceLanguage = 2
-	SourceOpenCL  SourceLanguage = 3
+	SLUnknown SourceLanguage = 0
+	SLESSL    SourceLanguage = 1
+	SLGLSL    SourceLanguage = 2
+	SLOpenCL  SourceLanguage = 3
 )
 
 func (sl SourceLanguage) String() string {
 	switch sl {
-	case SourceUnknown:
+	case SLUnknown:
 		return "Unknown"
-	case SourceESSL:
+	case SLESSL:
 		return "ESSL"
-	case SourceGLSL:
+	case SLGLSL:
 		return "GLSL"
-	case SourceOpenCL:
+	case SLOpenCL:
 		return "OpenCL"
 	}
+
 	return fmt.Sprintf("SourceLanguage(%d)", uint32(sl))
 }
 
@@ -622,66 +623,66 @@ type StorageClass uint32
 const (
 	// Shared externally, read-only memory, visible across all instantiation
 	// or work groups. Graphics uniform memory. OpenCL Constant memory
-	StoreUniformConstant StorageClass = 0
+	SCUniformConstant StorageClass = 0
 
 	// Input from pipeline. Read only
-	StoreInput StorageClass = 1
+	SCInput StorageClass = 1
 
 	// Shared externally, visible across all instantiations or work groups
-	StoreUniform StorageClass = 2
+	SCUniform StorageClass = 2
 
 	// Output to pipeline.
-	StoreOutput StorageClass = 3
+	SCOutput StorageClass = 3
 
 	// Shared across all work items within a work group. OpenGL "shared".
 	// OpenCL local memory.
-	StoreWorkgroupLocal StorageClass = 4
+	SCWorkgroupLocal StorageClass = 4
 
 	// Visible across all work items of all work groups. OpenCL global memory.
-	StoreWorkgroupGlobal StorageClass = 5
+	SCWorkgroupGlobal StorageClass = 5
 
 	// Accessible across functions within a module, non-IO (not visible outside
 	// the module).
-	StorePrivateGlobal StorageClass = 6
+	SCPrivateGlobal StorageClass = 6
 
 	// A variable local to a function.
-	StoreFunction StorageClass = 7
+	SCFunction StorageClass = 7
 
 	// A generic pointer, which overloads StoragePrivate, StorageLocal,
 	// StorageGlobal. not a real storage class.
-	StoreGeneric StorageClass = 8
+	SCGeneric StorageClass = 8
 
 	// Private to a work-item and is not visible to another work-item.
 	// OpenCL private memory.
-	StorePrivate StorageClass = 9
+	SCPrivate StorageClass = 9
 
 	// For holding atomic counters.
-	StoreAtomicCounter StorageClass = 10
+	SCAtomicCounter StorageClass = 10
 )
 
 func (s StorageClass) String() string {
 	switch s {
-	case StoreUniformConstant:
+	case SCUniformConstant:
 		return "Uniform Constant"
-	case StoreInput:
+	case SCInput:
 		return "Input"
-	case StoreUniform:
+	case SCUniform:
 		return "Uniform"
-	case StoreOutput:
+	case SCOutput:
 		return "Output"
-	case StoreWorkgroupLocal:
+	case SCWorkgroupLocal:
 		return "Workgroup: Local"
-	case StoreWorkgroupGlobal:
+	case SCWorkgroupGlobal:
 		return "Workgroup: Global"
-	case StorePrivateGlobal:
+	case SCPrivateGlobal:
 		return "Private: Global"
-	case StoreFunction:
+	case SCFunction:
 		return "Function"
-	case StoreGeneric:
+	case SCGeneric:
 		return "Generic"
-	case StorePrivate:
+	case SCPrivate:
 		return "Private"
-	case StoreAtomicCounter:
+	case SCAtomicCounter:
 		return "Atomic Counter"
 	}
 
