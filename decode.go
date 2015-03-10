@@ -64,7 +64,7 @@ func (d *Decoder) DecodeHeader() (Header, error) {
 	}
 
 	hdr.Version = d.ubuf[0]
-	hdr.Generator = d.ubuf[1]
+	hdr.GeneratorMagic = d.ubuf[1]
 	hdr.Bound = d.ubuf[2]
 	hdr.Reserved = d.ubuf[3]
 	return hdr, nil
