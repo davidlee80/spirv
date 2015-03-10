@@ -57,5 +57,35 @@ the ground up around the capabilities of modern hardware.
 	  write their own compilers for other languages.
 
 
+Usage
+
+Here is a quick sample on how to decode a module from a file.
+
+	var module spirv.Module
+
+	// First we need to define the supported instruction set.
+	// We can call spirv.BindDefault to load up all default instructions.
+	var lib spirv.InstructionSet
+	spirv.BindDefault(&lib)
+
+	// Create a decoder.
+	dec := spirv.NewDecoder(fd, lib)
+	err := dec.DecodeModule(&module)
+	...
+
+
+And the same to encode a module to a file:
+
+	var module spirv.Module
+	...
+
+	var lib spirv.InstructionSet
+	spirv.BindDefault(&lib)
+
+	enc := spirv.NewEncoder(fd, lib)
+	err := enc.EncodeModule(&module)
+	...
+
+
 */
 package spirv
