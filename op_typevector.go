@@ -17,9 +17,12 @@ type OpTypeVector struct {
 	ComponentCount uint32
 }
 
-func init() {
-	DefaultInstructionSet[opTypeVector] = Codec{
-		Decode: func(argv []uint32) (interface{}, error) {
+func (c *OpTypeVector) Opcode() uint32 { return 12 }
+
+// NewOpTypeVector creates a new codec for the OpTypeVector instruction.
+func NewOpTypeVector() Codec {
+	return Codec{
+		Decode: func(argv []uint32) (Instruction, error) {
 			if len(argv) < 3 {
 				return nil, ErrMissingInstructionArgs
 			}
@@ -30,8 +33,8 @@ func init() {
 				ComponentCount: argv[2],
 			}, nil
 		},
-		Encode: func(instr interface{}) ([]uint32, error) {
-			v := instr.(*OpTypeVector)
+		Encode: func(i Instruction) ([]uint32, error) {
+			v := i.(*OpTypeVector)
 			return []uint32{
 				v.Result,
 				v.ComponentType,

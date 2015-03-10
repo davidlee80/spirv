@@ -6,17 +6,20 @@ package spirv
 // OpTypeBool represents the OpTypeBool instruction.
 type OpTypeBool uint32
 
-func init() {
-	DefaultInstructionSet[opTypeBool] = Codec{
-		Decode: func(argv []uint32) (interface{}, error) {
+func (c OpTypeBool) Opcode() uint32 { return 9 }
+
+// NewOpTypeBool creates a new codec for the OpTypeBool instruction.
+func NewOpTypeBool() Codec {
+	return Codec{
+		Decode: func(argv []uint32) (Instruction, error) {
 			if len(argv) < 1 {
 				return nil, ErrMissingInstructionArgs
 			}
 
 			return OpTypeBool(argv[0]), nil
 		},
-		Encode: func(instr interface{}) ([]uint32, error) {
-			id := instr.(OpTypeBool)
+		Encode: func(i Instruction) ([]uint32, error) {
+			id := i.(OpTypeBool)
 			return []uint32{uint32(id)}, nil
 		},
 	}

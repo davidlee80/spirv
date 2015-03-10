@@ -6,15 +6,18 @@ package spirv
 // OpCompileFlag represents the OpCompileFlag instruction.
 type OpCompileFlag string
 
-func init() {
-	DefaultInstructionSet[opCompileFlag] = Codec{
-		Decode: func(argv []uint32) (interface{}, error) {
+func (c OpCompileFlag) Opcode() uint32 { return 218 }
+
+// NewOpCompileFlag creates a new codec for the OpCompileFlag instruction.
+func NewOpCompileFlag() Codec {
+	return Codec{
+		Decode: func(argv []uint32) (Instruction, error) {
 			return OpCompileFlag(
 				DecodeString(argv),
 			), nil
 		},
-		Encode: func(instr interface{}) ([]uint32, error) {
-			cf := instr.(OpCompileFlag)
+		Encode: func(i Instruction) ([]uint32, error) {
+			cf := i.(OpCompileFlag)
 			size := EncodedStringLen(string(cf))
 			out := make([]uint32, size)
 			EncodeString(string(cf), out)

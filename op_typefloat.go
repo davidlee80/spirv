@@ -14,9 +14,12 @@ type OpTypeFloat struct {
 	Width uint32
 }
 
-func init() {
-	DefaultInstructionSet[opTypeFloat] = Codec{
-		Decode: func(argv []uint32) (interface{}, error) {
+func (c *OpTypeFloat) Opcode() uint32 { return 11 }
+
+// NewOpTypeFloat creates a new codec for the OpTypeFloat instruction.
+func NewOpTypeFloat() Codec {
+	return Codec{
+		Decode: func(argv []uint32) (Instruction, error) {
 			if len(argv) < 2 {
 				return nil, ErrMissingInstructionArgs
 			}
@@ -26,8 +29,8 @@ func init() {
 				Width:  argv[1],
 			}, nil
 		},
-		Encode: func(instr interface{}) ([]uint32, error) {
-			f := instr.(*OpTypeFloat)
+		Encode: func(i Instruction) ([]uint32, error) {
+			f := i.(*OpTypeFloat)
 			return []uint32{
 				f.Result,
 				f.Width,

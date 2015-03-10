@@ -23,9 +23,12 @@ type OpTypeInt struct {
 	Signedness uint32
 }
 
-func init() {
-	DefaultInstructionSet[opTypeInt] = Codec{
-		Decode: func(argv []uint32) (interface{}, error) {
+func (c *OpTypeInt) Opcode() uint32 { return 10 }
+
+// NewOpTypeInt creates a new codec for the OpTypeInt instruction.
+func NewOpTypeInt() Codec {
+	return Codec{
+		Decode: func(argv []uint32) (Instruction, error) {
 			if len(argv) < 3 {
 				return nil, ErrMissingInstructionArgs
 			}
@@ -36,8 +39,8 @@ func init() {
 				Signedness: argv[2],
 			}, nil
 		},
-		Encode: func(instr interface{}) ([]uint32, error) {
-			t := instr.(*OpTypeInt)
+		Encode: func(i Instruction) ([]uint32, error) {
+			t := i.(*OpTypeInt)
 			return []uint32{
 				t.Result,
 				t.Width,

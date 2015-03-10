@@ -12,9 +12,12 @@ type OpExtInst struct {
 	Operands    []uint32 // Operands to the extended instruction.
 }
 
-func init() {
-	DefaultInstructionSet[opExtInst] = Codec{
-		Decode: func(argv []uint32) (interface{}, error) {
+func (c *OpExtInst) Opcode() uint32 { return 44 }
+
+// NewOpExtInst creates a new codec for the OpExtInst instruction.
+func NewOpExtInst() Codec {
+	return Codec{
+		Decode: func(argv []uint32) (Instruction, error) {
 			if len(argv) < 4 {
 				return nil, ErrMissingInstructionArgs
 			}
@@ -30,8 +33,8 @@ func init() {
 				Operands:    operands,
 			}, nil
 		},
-		Encode: func(instr interface{}) ([]uint32, error) {
-			ext := instr.(*OpExtInst)
+		Encode: func(i Instruction) ([]uint32, error) {
+			ext := i.(*OpExtInst)
 			out := make([]uint32, 4+len(ext.Operands))
 			out[0] = ext.ResultType
 			out[1] = ext.ResultId

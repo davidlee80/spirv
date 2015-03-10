@@ -9,15 +9,18 @@ package spirv
 // impact and can safely be removed from a module.
 type OpSourceExtension string
 
-func init() {
-	DefaultInstructionSet[opSourceExtension] = Codec{
-		Decode: func(argv []uint32) (interface{}, error) {
+func (c OpSourceExtension) Opcode() uint32 { return 2 }
+
+// NewOpSourceExtension creates a new codec for the OpSourceExtension instruction.
+func NewOpSourceExtension() Codec {
+	return Codec{
+		Decode: func(argv []uint32) (Instruction, error) {
 			return OpSourceExtension(
 				DecodeString(argv),
 			), nil
 		},
-		Encode: func(instr interface{}) ([]uint32, error) {
-			sext := instr.(OpSourceExtension)
+		Encode: func(i Instruction) ([]uint32, error) {
+			sext := i.(OpSourceExtension)
 			out := make([]uint32, EncodedStringLen(string(sext)))
 			EncodeString(string(sext), out)
 			return out, nil

@@ -7,8 +7,8 @@ package spirv
 // The byte order of these lets us determine how to read the rest
 // of the word stream.
 const (
-	MagicLE = 0x03022307
-	MagicBE = 0x07230203
+	MagicLE = 0x07230203
+	MagicBE = 0x03022307
 )
 
 // Version defines the SPIR-V specification for which this package

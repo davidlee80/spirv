@@ -17,5 +17,5 @@ const (
 // linked OpenCL kernel module with one or more entry points.
 type Module struct {
 	Header Header
-	Code   []interface{}
+	Code   []Instruction
 }

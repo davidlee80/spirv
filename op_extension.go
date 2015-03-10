@@ -9,9 +9,12 @@ package spirv
 // additional instructions, tokens, semantics, etc
 type OpExtension string
 
-func init() {
-	DefaultInstructionSet[opExtension] = Codec{
-		Decode: func(argv []uint32) (interface{}, error) {
+func (c OpExtension) Opcode() uint32 { return 3 }
+
+// NewOpExtension creates a new codec for the OpExtension instruction.
+func NewOpExtension() Codec {
+	return Codec{
+		Decode: func(argv []uint32) (Instruction, error) {
 			if len(argv) < 1 {
 				return nil, ErrMissingInstructionArgs
 			}
@@ -20,8 +23,8 @@ func init() {
 				DecodeString(argv),
 			), nil
 		},
-		Encode: func(instr interface{}) ([]uint32, error) {
-			ext := instr.(OpExtension)
+		Encode: func(i Instruction) ([]uint32, error) {
+			ext := i.(OpExtension)
 			out := make([]uint32, EncodedStringLen(string(ext)))
 			EncodeString(string(ext), out)
 			return out, nil

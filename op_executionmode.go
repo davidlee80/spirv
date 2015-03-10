@@ -11,9 +11,12 @@ type OpExecutionMode struct {
 	Argv       []uint32      // Literal arguments.
 }
 
-func init() {
-	DefaultInstructionSet[opExecutionMode] = Codec{
-		Decode: func(argv []uint32) (interface{}, error) {
+func (c *OpExecutionMode) Opcode() uint32 { return 7 }
+
+// NewOpExecutionMode creates a new codec for the OpExecutionMode instruction.
+func NewOpExecutionMode() Codec {
+	return Codec{
+		Decode: func(argv []uint32) (Instruction, error) {
 			if len(argv) < 2 {
 				return nil, ErrMissingInstructionArgs
 			}
@@ -24,8 +27,8 @@ func init() {
 				Argv:       argv[2:],
 			}, nil
 		},
-		Encode: func(instr interface{}) ([]uint32, error) {
-			em := instr.(*OpExecutionMode)
+		Encode: func(i Instruction) ([]uint32, error) {
+			em := i.(*OpExecutionMode)
 			out := make([]uint32, 2+len(em.Argv))
 			out[0] = em.EntryPoint
 			out[1] = uint32(em.Mode)

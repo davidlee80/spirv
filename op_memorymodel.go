@@ -11,9 +11,12 @@ type OpMemoryModel struct {
 	Memory     MemoryMode     // Selects the module’s memory model
 }
 
-func init() {
-	DefaultInstructionSet[opMemoryModel] = Codec{
-		Decode: func(argv []uint32) (interface{}, error) {
+func (c *OpMemoryModel) Opcode() uint32 { return 5 }
+
+// NewOpMemoryModel creates a new codec for the OpMemoryModel instruction.
+func NewOpMemoryModel() Codec {
+	return Codec{
+		Decode: func(argv []uint32) (Instruction, error) {
 			if len(argv) < 2 {
 				return nil, ErrMissingInstructionArgs
 			}
@@ -23,8 +26,8 @@ func init() {
 				Memory:     MemoryMode(argv[1]),
 			}, nil
 		},
-		Encode: func(instr interface{}) ([]uint32, error) {
-			mm := instr.(*OpMemoryModel)
+		Encode: func(i Instruction) ([]uint32, error) {
+			mm := i.(*OpMemoryModel)
 			return []uint32{
 				uint32(mm.Addressing),
 				uint32(mm.Memory),

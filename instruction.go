@@ -3,6 +3,17 @@
 
 package spirv
 
+// InstructionFunc defines a constructor for an instruction codec.
+type InstructionFunc func() Codec
+
+// Instruction defines a generic instruction.
+type Instruction interface {
+	// Opcode returns the opcode for this instruction.
+	// It is used by the encoder to find the correct codec in the
+	// instruction set library.
+	Opcode() uint32
+}
+
 // Codec defines handlers used to encode or decode
 // a the operand list for a specific type of instruction
 type Codec struct {
@@ -13,41 +24,54 @@ type Codec struct {
 	// mean it is the amount actually expected by the instruction. So
 	// a size check on this slice is warrented. ErrMissingInstructionArgs
 	// should returned if this check fails.
-	Decode func(argv []uint32) (interface{}, error)
+	Decode func(argv []uint32) (Instruction, error)
 
 	// Encoder for an instruction's arguments.
 	//
 	// The word set being returned must not include the instruction's
 	// first word with opcode or word count. This will be generated
 	// by the module encoder.
-	Encode func(interface{}) ([]uint32, error)
+	Encode func(Instruction) ([]uint32, error)
 }
 
 // InstructionSet maps opcodes to an instruction encoder/decoder.
-type InstructionSet map[uint32]Codec
+type InstructionSet struct {
+	data map[uint32]Codec
+}
 
-// Known opcode values as defined in the specification.
-const (
-	opNop             = 0
-	opSource          = 1
-	opSourceExtension = 2
-	opExtension       = 3
-	opExtInstImport   = 4
-	opMemoryModel     = 5
-	opEntryPoint      = 6
-	opExecutionMode   = 7
-	opTypeVoid        = 8
-	opTypeBool        = 9
-	opTypeInt         = 10
-	opTypeFloat       = 11
-	opTypeVector      = 12
-	opExtInst         = 44
-	opCompileFlag     = 218
-)
+// Add adds a new codec to the instruction set.
+func (set *InstructionSet) Set(opcode uint32, codec Codec) {
+	if set.data == nil {
+		set.data = make(map[uint32]Codec)
+	}
+	set.data[opcode] = codec
+}
 
-// DefaultInstructionSet defines a map with the default instruction set.
-// It is filled with all known operations at init time and can be extended
-// with custom instructions if needed.
-//
-// It can be passed into an encoder or decoder.
-var DefaultInstructionSet = make(InstructionSet)
+// Get returns the codec for the given opcode.
+// Returns false if it is not in the set.
+func (set *InstructionSet) Get(opcode uint32) (Codec, bool) {
+	if set.data == nil {
+		return Codec{}, false
+	}
+
+	c, ok := set.data[opcode]
+	return c, ok
+}
+
+// BindDefault adds all default instruction codecs to the given set.
+func BindDefault(set *InstructionSet) {
+	set.Set(1, NewOpSource())
+	set.Set(2, NewOpSourceExtension())
+	set.Set(3, NewOpExtension())
+	set.Set(4, NewOpExtInstImport())
+	set.Set(5, NewOpMemoryModel())
+	set.Set(6, NewOpEntryPoint())
+	set.Set(7, NewOpExecutionMode())
+	set.Set(8, NewOpTypeVoid())
+	set.Set(9, NewOpTypeBool())
+	set.Set(10, NewOpTypeInt())
+	set.Set(11, NewOpTypeFloat())
+	set.Set(12, NewOpTypeVector())
+	set.Set(44, NewOpExtInst())
+	set.Set(218, NewOpCompileFlag())
+}

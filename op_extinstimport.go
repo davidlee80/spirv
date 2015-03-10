@@ -12,9 +12,12 @@ type OpExtInstImport struct {
 	ResultId uint32
 }
 
-func init() {
-	DefaultInstructionSet[opExtInstImport] = Codec{
-		Decode: func(argv []uint32) (interface{}, error) {
+func (c *OpExtInstImport) Opcode() uint32 { return 4 }
+
+// NewOpExtInstImport creates a new codec for the OpExtInstImport instruction.
+func NewOpExtInstImport() Codec {
+	return Codec{
+		Decode: func(argv []uint32) (Instruction, error) {
 			if len(argv) < 2 {
 				return nil, ErrMissingInstructionArgs
 			}
@@ -24,8 +27,8 @@ func init() {
 				Name:     DecodeString(argv[1:]),
 			}, nil
 		},
-		Encode: func(instr interface{}) ([]uint32, error) {
-			ext := instr.(*OpExtInstImport)
+		Encode: func(i Instruction) ([]uint32, error) {
+			ext := i.(*OpExtInstImport)
 			out := make([]uint32, 1+EncodedStringLen(ext.Name))
 			out[0] = ext.ResultId
 			EncodeString(ext.Name, out[1:])

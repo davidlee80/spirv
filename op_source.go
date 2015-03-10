@@ -12,9 +12,12 @@ type OpSource struct {
 	Version  uint32
 }
 
-func init() {
-	DefaultInstructionSet[opSource] = Codec{
-		Decode: func(argv []uint32) (interface{}, error) {
+func (c *OpSource) Opcode() uint32 { return 1 }
+
+// NewOpSource creates a new codec for the OpSource instruction.
+func NewOpSource() Codec {
+	return Codec{
+		Decode: func(argv []uint32) (Instruction, error) {
 			if len(argv) < 2 {
 				return nil, ErrMissingInstructionArgs
 			}
@@ -24,8 +27,8 @@ func init() {
 				Version:  argv[1],
 			}, nil
 		},
-		Encode: func(instr interface{}) ([]uint32, error) {
-			src := instr.(*OpSource)
+		Encode: func(i Instruction) ([]uint32, error) {
+			src := i.(*OpSource)
 			return []uint32{
 				uint32(src.Language),
 				src.Version,
