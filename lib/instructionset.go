@@ -15,6 +15,24 @@ type InstructionSet struct {
 	buf  [128]uint32      // Encoding scratch buffer.
 }
 
+// BindDefaults loads all default instruction codecs into the set.
+func (set *InstructionSet) BindDefaults() {
+	set.Set(1, NewOpSource())
+	set.Set(2, NewOpSourceExtension())
+	set.Set(3, NewOpExtension())
+	set.Set(4, NewOpExtInstImport())
+	set.Set(5, NewOpMemoryModel())
+	set.Set(6, NewOpEntryPoint())
+	set.Set(7, NewOpExecutionMode())
+	set.Set(8, NewOpTypeVoid())
+	set.Set(9, NewOpTypeBool())
+	set.Set(10, NewOpTypeInt())
+	set.Set(11, NewOpTypeFloat())
+	set.Set(12, NewOpTypeVector())
+	set.Set(44, NewOpExtInst())
+	set.Set(218, NewOpCompileFlag())
+}
+
 // Decode decodes the given sequence of words in an Instruction.
 // Returns an error if there is no matching instruction or the
 // loading failed.
@@ -84,22 +102,4 @@ func (set *InstructionSet) Get(opcode uint32) (Codec, bool) {
 
 	codec, ok := set.data[opcode]
 	return codec, ok
-}
-
-// BindDefaults loads all default instruction codecs into the set.
-func (set *InstructionSet) BindDefaults() {
-	set.Set(1, NewOpSource())
-	set.Set(2, NewOpSourceExtension())
-	set.Set(3, NewOpExtension())
-	set.Set(4, NewOpExtInstImport())
-	set.Set(5, NewOpMemoryModel())
-	set.Set(6, NewOpEntryPoint())
-	set.Set(7, NewOpExecutionMode())
-	set.Set(8, NewOpTypeVoid())
-	set.Set(9, NewOpTypeBool())
-	set.Set(10, NewOpTypeInt())
-	set.Set(11, NewOpTypeFloat())
-	set.Set(12, NewOpTypeVector())
-	set.Set(44, NewOpExtInst())
-	set.Set(218, NewOpCompileFlag())
 }
