@@ -33,11 +33,6 @@ func EncodedStringLen(v string) int {
 //
 // It returns the number of words written.
 func EncodeString(v string, out []uint32) int {
-	if len(v) == 0 {
-		out[0] = 0
-		return 1
-	}
-
 	var index int
 
 	// Write whole blocks from string.
