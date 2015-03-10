@@ -5,20 +5,27 @@ package lib
 
 import "fmt"
 
-// ExecutionModel defines a single execution model.
-// This is used in the EntryPoint instruction to determine what stage of the
-// pipeline a given set of instructions belongs to.
-type RoundingMode uint32
+// FPRoundingMode associates a rounding mode to a floating-point
+// conversion instruction.
+//
+// By default:
+//
+//    - Conversions from floating-point to integer types use the
+//      round-toward-zero rounding mode.
+//    - Conversions to floating-point types use the round-to-nearest-even
+//      rounding mode.
+//
+type FPRoundingMode uint32
 
 // Known execution models.
 const (
-	RTE RoundingMode = 0 // Round to nearest even.
-	RTZ RoundingMode = 1 // Round towards zero.
-	RTP RoundingMode = 2 // Round towards positive infinity.
-	RTN RoundingMode = 3 // Round towards negative infinity.
+	RTE FPRoundingMode = 0 // Round to nearest even.
+	RTZ FPRoundingMode = 1 // Round towards zero.
+	RTP FPRoundingMode = 2 // Round towards positive infinity.
+	RTN FPRoundingMode = 3 // Round towards negative infinity.
 )
 
-func (r RoundingMode) String() string {
+func (r FPRoundingMode) String() string {
 	switch r {
 	case RTE:
 		return "Nearest Even"
@@ -30,5 +37,5 @@ func (r RoundingMode) String() string {
 		return "Negative Infinity"
 	}
 
-	return fmt.Sprintf("RoundingMode(%d)", uint32(r))
+	return fmt.Sprintf("FPRoundingMode(%d)", uint32(r))
 }
