@@ -3,11 +3,6 @@
 
 package spirv
 
-import (
-	"fmt"
-	"strings"
-)
-
 // AccessQualifier defines the access permissions of OpTypeSampler
 // and OpTypePipe object. Used by OpTypePipe.
 type AccessQualifier uint32
@@ -19,19 +14,6 @@ const (
 	AQReadWrite AccessQualifier = 2 // A readable and writable object.
 )
 
-func (e AccessQualifier) String() string {
-	switch e {
-	case AQReadOnly:
-		return "Read Only"
-	case AQWriteOnly:
-		return "Write Only"
-	case AQReadWrite:
-		return "Read Write"
-	}
-
-	return fmt.Sprintf("AccessQualifier(%d)", uint32(e))
-}
-
 // AddressingMode defines an existing addressing mode.
 type AddressingMode uint32
 
@@ -41,19 +23,6 @@ const (
 	AMPhysical32 AddressingMode = 1
 	AMPhysical64 AddressingMode = 2
 )
-
-func (am AddressingMode) String() string {
-	switch am {
-	case AMLogical:
-		return "Logical"
-	case AMPhysical32:
-		return "Physical32"
-	case AMPhysical64:
-		return "Physical64"
-	}
-
-	return fmt.Sprintf("AddressingMode(%d)", uint32(am))
-}
 
 // Dim defines the dimensionality of a texture.
 //
@@ -69,25 +38,6 @@ const (
 	DRect   Dim = 4
 	DBuffer Dim = 5
 )
-
-func (d Dim) String() string {
-	switch d {
-	case D1D:
-		return "1D"
-	case D2D:
-		return "2D"
-	case D3D:
-		return "3D"
-	case DCube:
-		return "Cube"
-	case DRect:
-		return "Rect"
-	case DBuffer:
-		return "Buffer"
-	}
-
-	return fmt.Sprintf("Dim(%d)", uint32(d))
-}
 
 // ExecutionMode defines a mode a module’s stage will execute in.
 type ExecutionMode uint32
@@ -272,75 +222,6 @@ const (
 	EMContractionOff ExecutionMode = 30
 )
 
-func (em ExecutionMode) String() string {
-	switch em {
-	case EMInvocations:
-		return "Invocations"
-	case EMSpacingEqual:
-		return "Spacing Equal"
-	case EMSpacingFractionalEven:
-		return "Spacing Fractional Even"
-	case EMSpacingFractionalOdd:
-		return "Spacing Fractional Odd"
-	case EMVertexOrderCw:
-		return "Vertex Order Cw"
-	case EMVertexOrderCcw:
-		return "Vertex Order Ccw"
-	case EMPixelCenterInteger:
-		return "Pixel Center Integer"
-	case EMOriginUpperLeft:
-		return "Origin Upper Left"
-	case EMEarlyFragmentTests:
-		return "Early Fragment Tests"
-	case EMPointMode:
-		return "Point Mode"
-	case EMXFB:
-		return "XFB"
-	case EMDepthReplacing:
-		return "Depth Replacing"
-	case EMDepthAny:
-		return "Depth Any"
-	case EMDepthGreater:
-		return "Depth Greater"
-	case EMDepthLess:
-		return "Depth Less"
-	case EMDepthUnchanged:
-		return "Depth Unchanged"
-	case EMLocalSize:
-		return "Local Size"
-	case EMLocalSizeHint:
-		return "Local Size Hint"
-	case EMInputPoints:
-		return "Input: Points"
-	case EMInputLines:
-		return "Input: Lines"
-	case EMInputLinesAdjacency:
-		return "Input: Lines Adjacency"
-	case EMInputTriangles:
-		return "Input: Triangles"
-	case EMInputTrianglesAdjacency:
-		return "Input: Triangles Adjacency"
-	case EMInputQuads:
-		return "Input: Quads"
-	case EMInputIsolines:
-		return "Input: Isolines"
-	case EMOutputVertices:
-		return "Output: Vertices"
-	case EMOutputPoints:
-		return "Output: Points"
-	case EMOutputLinestrip:
-		return "Output: Linestrip"
-	case EMOutputTrianglestrip:
-		return "Output: Trianglestrip"
-	case EMVecTypeHint:
-		return "Vector type hint"
-	case EMContractionOff:
-		return "Contraction Off"
-	}
-
-	return fmt.Sprintf("ExecutionMode(%d)", uint32(em))
-}
-
 // ExecutionModel defines a single execution model.
 // This is used in the EntryPoint instruction to determine what stage of the
 // pipeline a given set of instructions belongs to.
@@ -356,27 +237,6 @@ const (
 	EMGLCompute              ExecutionModel = 5 // Graphical compute shading stage.
 	EMKernel                 ExecutionModel = 6 // Compute kernel.
 )
-
-func (e ExecutionModel) String() string {
-	switch e {
-	case EMVertex:
-		return "Vertex"
-	case EMTessellationControl:
-		return "Tessellation Control"
-	case EMTessellationEvaluation:
-		return "Tessellation Evaluation"
-	case EMGeometry:
-		return "Geometry"
-	case EMFragment:
-		return "Fragment"
-	case EMGLCompute:
-		return "GL Compute"
-	case EMKernel:
-		return "Kernel"
-	}
-
-	return fmt.Sprintf("ExecutionModel(%d)", uint32(e))
-}
 
 // FPFastMathMode defines bitflags which enable fast math operations
 // which are otherwise unsafe.
@@ -404,36 +264,6 @@ const (
 	FMMFast FPFastMathMode = 16
 )
 
-func (fm FPFastMathMode) String() string {
-	set := make([]string, 0, 5)
-
-	if fm&FMMNotNaN != 0 {
-		set = append(set, "Not NaN")
-	}
-
-	if fm&FMMNotInf != 0 {
-		set = append(set, "Not Inf")
-	}
-
-	if fm&FMMNSZ != 0 {
-		set = append(set, "Non-Significant Sign")
-	}
-
-	if fm&FMMAllowRecip != 0 {
-		set = append(set, "Allow Reciprocal")
-	}
-
-	if fm&FMMFast != 0 {
-		set = append(set, "Allow Reciprocal")
-	}
-
-	if len(set) == 0 {
-		return fmt.Sprintf("FPFastMathMode(%d)", uint32(fm))
-	}
-
-	return strings.Join(set, ", ")
-}
-
 // FPRoundingMode associates a rounding mode to a floating-point
 // conversion instruction.
 //
@@ -454,21 +284,6 @@ const (
 	FPRMRTN FPRoundingMode = 3 // Round towards negative infinity.
 )
 
-func (r FPRoundingMode) String() string {
-	switch r {
-	case FPRMRTE:
-		return "Nearest Even"
-	case FPRMRTZ:
-		return "Zero"
-	case FPRMRTP:
-		return "Positive Infinity"
-	case FPRMRTN:
-		return "Negative Infinity"
-	}
-
-	return fmt.Sprintf("FPRoundingMode(%d)", uint32(r))
-}
-
 // LinkageType associates a linkage type to functions or global
 // variables. By default, functions and global variables are private
 // to a module and cannot be accessed by other modules.
@@ -479,17 +294,6 @@ const (
 	LTExport LinkageType = 0 // Accessible by other modules as well.
 	LTImport LinkageType = 1 // Declaration for a global identifier that exists in another module.
 )
-
-func (e LinkageType) String() string {
-	switch e {
-	case LTExport:
-		return "Export"
-	case LTImport:
-		return "Import"
-	}
-
-	return fmt.Sprintf("LinkageType(%d)", uint32(e))
-}
 
 // MemoryMode defines an existing memory model.
 type MemoryMode uint32
@@ -502,23 +306,6 @@ const (
 	MMOpenCL20 MemoryMode = 3 // OpenCL 2.0 memory model.
 	MMOpenCL21 MemoryMode = 4 // OpenCL 2.1 memory model.
 )
-
-func (mm MemoryMode) String() string {
-	switch mm {
-	case MMSimple:
-		return "Simple"
-	case MMGLSL450:
-		return "GLSL450"
-	case MMOpenCL12:
-		return "OpenCL1.2"
-	case MMOpenCL20:
-		return "OpenCL2.0"
-	case MMOpenCL21:
-		return "OpenCL2.1"
-	}
-
-	return fmt.Sprintf("MemoryMode(%d)", uint32(mm))
-}
 
 // SamplerAddressingMode defines the addressing mode of read image
 // extended instructions.
@@ -545,23 +332,6 @@ const (
 	SAMRepeatMirrored SamplerAddressingMode = 8
 )
 
-func (sam SamplerAddressingMode) String() string {
-	switch sam {
-	case SAMNone:
-		return "None"
-	case SAMClampEdge:
-		return "Clamp: Edge"
-	case SAMClamp:
-		return "Clamp"
-	case SAMRepeat:
-		return "Repeat"
-	case SAMRepeatMirrored:
-		return "Repeat: Mirrored"
-	}
-
-	return fmt.Sprintf("SamplerAddressingMode(%d)", uint32(sam))
-}
-
 // SamplerAddressingMode defines the filter mode of read image
 // extended instructions.
 type SamplerFilterMode uint32
@@ -575,17 +345,6 @@ const (
 	SFMLinear SamplerFilterMode = 32
 )
 
-func (sfm SamplerFilterMode) String() string {
-	switch sfm {
-	case SFMNearest:
-		return "Nearest"
-	case SFMLinear:
-		return "Linear"
-	}
-
-	return fmt.Sprintf("SamplerFilterMode(%d)", uint32(sfm))
-}
-
 // SourceLanguage defines a source language constant.
 type SourceLanguage uint32
 
@@ -596,21 +355,6 @@ const (
 	SLGLSL    SourceLanguage = 2
 	SLOpenCL  SourceLanguage = 3
 )
-
-func (sl SourceLanguage) String() string {
-	switch sl {
-	case SLUnknown:
-		return "Unknown"
-	case SLESSL:
-		return "ESSL"
-	case SLGLSL:
-		return "GLSL"
-	case SLOpenCL:
-		return "OpenCL"
-	}
-
-	return fmt.Sprintf("SourceLanguage(%d)", uint32(sl))
-}
 
 // StorageClass defines a class of storage for declared variables
 // (does not include intermediate values).
@@ -660,35 +404,6 @@ const (
 	SCAtomicCounter StorageClass = 10
 )
 
-func (s StorageClass) String() string {
-	switch s {
-	case SCUniformConstant:
-		return "Uniform Constant"
-	case SCInput:
-		return "Input"
-	case SCUniform:
-		return "Uniform"
-	case SCOutput:
-		return "Output"
-	case SCWorkgroupLocal:
-		return "Workgroup: Local"
-	case SCWorkgroupGlobal:
-		return "Workgroup: Global"
-	case SCPrivateGlobal:
-		return "Private: Global"
-	case SCFunction:
-		return "Function"
-	case SCGeneric:
-		return "Generic"
-	case SCPrivate:
-		return "Private"
-	case SCAtomicCounter:
-		return "Atomic Counter"
-	}
-
-	return fmt.Sprintf("StorageClass(%d)", uint32(s))
-}
-
 // FunctionParamAttr adds additional information to the return type
 // and to each parameter of a function.
 type FunctionParamAttr uint32
@@ -734,27 +449,283 @@ const (
 	FPANoReadWrite = 8
 )
 
-func (fpa FunctionParamAttr) String() string {
-	switch fpa {
-	case FPAZext:
-		return "Zero Extend"
-	case FPASext:
-		return "Sign Extend"
-	case FPAByVal:
-		return "By Value"
-	case FPASret:
-		return "Struct Address"
-	case FPANoAlias:
-		return "No Alias"
-	case FPANoCapture:
-		return "No Capture"
-	case FPASVM:
-		return "SVM"
-	case FPANoWrite:
-		return "No Write"
-	case FPANoReadWrite:
-		return "No Read/Write"
-	}
+// Decoration is used by OpDecorate and OpMemberDecorate
+type Decoration uint32
 
-	return fmt.Sprintf("FunctionParamAttr(%d)", uint32(fpa))
-}
+// Known Decoration types
+const (
+	// Apply as described in the ES Precision section.
+	DPrecisionLow Decoration = 0
+
+	// Apply as described in the ES Precision section.
+	DPrecisionMedium Decoration = 1
+
+	// Apply as described in the ES Precision section.
+	DPrecisionHigh Decoration = 2
+
+	// Apply to a structure type to establish it is a non-SSBO-like
+	// shader-interface block.
+	//
+	// TODO: can this be removed? Probably doesn’t add anything over a
+	// nonwritable structure in the UniformConstant or Uniform storage class.
+	// With a Binding and DescriptorSet decoration.
+	DBlock Decoration = 3
+
+	// Apply to a structure type to establish it is an SSBO-like
+	// shader-interface block.
+	//
+	// TODO: can this be removed? Probably doesn’t add anything over a
+	// structure in the UniformConstant or Uniform storage class.
+	// With a Binding and DescriptorSet decoration.
+	DBufferBlock Decoration = 4
+
+	// Apply to a variable or a member of a structure. Must decorate an
+	// entity whose type is a matrix. Indicates that components within a
+	// row are contiguous in memory.
+	DRowMajor Decoration = 5
+
+	// Apply to a variable or a member of a structure. Must decorate an
+	// entity whose type is a matrix. Indicates that components within a
+	// column are contiguous in memory.
+	DColMajor Decoration = 6
+
+	// Apply to a structure type to get GLSL shared memory layout.
+	DGLSLShared Decoration = 7
+
+	// Apply to a structure type to get GLSL std140 memory layout.
+	DGLSLStd140 Decoration = 8
+
+	// Apply to a structure type to get GLSL std430 memory layout.
+	DGLSLStd430 Decoration = 9
+
+	// Apply to a structure type to get GLSL packed memory layout.
+	DGLSLPacked Decoration = 10
+
+	// Apply to a variable or a member of a structure. Indicates that
+	// perspective-correct interpolation must be used. Only valid for the
+	// Input and Output Storage Classes.
+	DSmooth Decoration = 11
+
+	// Apply to a variable or a member of a structure. Indicates that linear,
+	// non-perspective correct interpolation must be used. Only valid for
+	// the Input and Output Storage Classes.
+	DNoperspective Decoration = 12
+
+	// Apply to a variable or a member of a structure. Indicates no
+	// interpolation will be done. The non-interpolated value will come
+	// from a vertex, as described in the API specification. Only valid
+	// for the Input and Output Storage Classes.
+	DFlat Decoration = 13
+
+	// Apply to a variable or a member of a structure. Indicates a tessellation
+	// patch. Only valid for the Input and Output Storage Classes.
+	DPatch Decoration = 14
+
+	// Apply to a variable or a member of a structure. When used with
+	// multi-sampling rasterization, allows a single interpolation location
+	// for an entire pixel. The interpolation location must lie in both
+	// the pixel and in the primitive being rasterized. Only valid for the
+	// Input and Output Storage Classes.
+	DCentroid Decoration = 15
+
+	// Apply to a variable or a member of a structure. When used with
+	// multi-sampling rasterization, requires per-sample interpolation.
+	//
+	// The interpolation locations must be the locations of the samples
+	// lying in both the pixel and in the primitive being rasterized.
+	// Only valid for the Input and Output Storage Classes.
+	DSample Decoration = 16
+
+	// Apply to a variable, to indicate expressions computing its value
+	// be done invariant with respect to other modules computing the
+	// same expressions
+	DInvariant Decoration = 17
+
+	// Apply to a variable, to indicate the compiler may compile as if there
+	// is no aliasing. See the Aliasing section for more detail.
+	DRestrict Decoration = 18
+
+	// Apply to a variable, to indicate the compiler is to generate accesses
+	// to the variable that work correctly in the presence of aliasing.
+	// See the Aliasing section for more detail.
+	DAliased Decoration = 19
+
+	// Apply to a variable, to indicate the memory holding the variable is
+	// volatile. See the Memory Model section for more detail.
+	DVolatile Decoration = 20
+
+	// Indicates that a global variable is constant and will never be modified.
+	// Only allowed on global variables
+	DConstant Decoration = 21
+
+	// Apply to a variable, to indicate the memory holding the variable is
+	// coherent. See the Memory Model section for more detail.
+	DCoherent Decoration = 22
+
+	// Apply to a variable, to indicate the memory holding the variable is
+	// not writable, and that this module does not write to it.
+	DNonwritable Decoration = 23
+
+	// Apply to a variable, to indicate the memory holding the variable is
+	// not readable, and that this module does not read from it
+	DNonreadable Decoration = 24
+
+	// Apply to a variable or a member of a structure. Asserts that the
+	// value backing the decorated <id> is dynamically uniform across all
+	// instantiations that might run in parallel.
+	DUniform Decoration = 25
+
+	// Apply to a variable to indicate that it is known that this
+	// module does not read or write it. Useful for establishing
+	// interface.
+	//
+	// TODO: consider removing this?
+	DNoStaticUse Decoration = 26
+
+	// Marks a structure type as "packed", indicating that the alignment
+	// of the structure is one and that there is no padding between
+	// structure members.
+	DCPacked Decoration = 27
+
+	// Indicates that a conversion to an integer type is saturated.
+	// Only valid for conversion instructions to integer type.
+	DFPSaturatedConversion Decoration = 28
+
+	// Apply to a variable or a member of a structure. Indicates the stream
+	// number to put an output on. Only valid for the Output Storage
+	// Class and the Geometry Execution Model.
+	//
+	// Arguments:
+	//  - Stream number
+	//
+	DStream Decoration = 29
+
+	// Apply to a variable or a structure member. Forms the main
+	// linkage for Storage Class Input and Output variables:
+	//
+	//  - between the API and vertex-stage inputs,
+	//  - between consecutive programmable stages, or
+	//  - between fragment-stage outputs and the API.
+	//
+	// Only valid for the Input and Output Storage Classes.
+	//
+	// Arguments:
+	//  - Location
+	//
+	DLocation Decoration = 30
+
+	// Apply to a variable or a member of a structure. Indicates
+	// which component within a Location will be taken by the
+	// decorated entity. Only valid for the Input and Output
+	// Storage Classes.
+	//
+	// Arguments:
+	//  - Component within a vector
+	//
+	DComponent Decoration = 31
+
+	// Apply to a variable to identify a blend equation input index,
+	// used as described in the API specification. Only valid for the
+	// Output Storage Class and the Fragment Execution Model.
+	//
+	// Arguments:
+	//  - Index
+	//
+	DIndex Decoration = 32
+
+	// Apply to a variable. Part of the main linkage between the API
+	// and SPIR-V modules for memory buffers, textures, etc. See the
+	// API specification for more information.
+	//
+	// Arguments:
+	//  - Binding point
+	//
+	DBinding Decoration = 33
+
+	// Apply to a variable. Part of the main linkage between the API and
+	// SPIR-V modules for memory buffers, textures, etc. See the API
+	// specification for more information.
+	//
+	// Arguments:
+	//  - Descriptor set
+	//
+	DDescriptorSet Decoration = 34
+
+	// Apply to a structure member. This gives the byte offset of the
+	// member relative to the beginning of the structure. Can be used,
+	// for example, by both uniform and transform-feedback buffers.
+	//
+	// Arguments:
+	//  - Byte offset
+	//
+	DOffset Decoration = 35
+
+	// TODO: This can probably be removed.
+	//
+	// Arguments:
+	//  - Declared alignment
+	//
+	DAlignment Decoration = 36
+
+	// Apply to a variable or a member of a structure. Indicates which
+	// transform-feedback buffer an output is written to. Only valid for
+	// the Output Storage Classes of vertex processing Execution Models.
+	//
+	// Arguments:
+	//  - XFB Buffer number
+	//
+	DXfbBuffer Decoration = 37
+
+	// The stride, in bytes, of array elements or transform-feedback
+	// buffer vertices.
+	//
+	// Arguments:
+	//  - Stride
+	//
+	DStride Decoration = 38
+
+	// Apply to a variable or a member of a structure.
+	// Indicates which built-in variable the entity represents.
+	//
+	// Arguments:
+	//  - See Built-In
+	//
+	DBuiltIn Decoration = 39
+
+	// Indicates a function return value or parameter attribute.
+	//
+	// Arguments:
+	//  - function parameter attribute
+	//
+	DFuncParamAttr Decoration = 40
+
+	// Indicates a floating-point rounding mode
+	//
+	// Arguments:
+	//  - floating-point rounding mode
+	//
+	DFPRoundingMode Decoration = 41
+
+	// Indicates a floating-point fast math flag
+	//
+	// Arguments:
+	//  - fast-math mode
+	//
+	DFPFastMathMode Decoration = 42
+
+	// Indicate a linkage type. Only valid on an OpFunction or a
+	// module scope OpVariable.
+	//
+	// Arguments:
+	//  - linkage type
+	//
+	DLinkageType Decoration = 43
+
+	// Apply to a specialization constant. Forms the API linkage for
+	// setting a specialized value. See specialization.
+	//
+	// Arguments:
+	//  - Literal Number: Specialization Constant ID
+	//
+	DSpecId Decoration = 44
+)
