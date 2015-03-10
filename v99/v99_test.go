@@ -1,19 +1,21 @@
 // This file is subject to a 1-clause BSD license.
 // Its contents can be found in the enclosed LICENSE file.
 
-package spirv
+package v99
 
 import (
 	"bytes"
 	"math"
 	"reflect"
 	"testing"
+
+	"github.com/jteeuwen/spirv"
 )
 
-var lib InstructionSet
+var lib spirv.InstructionSet
 
 func init() {
-	BindDefault(&lib)
+	Bind(&lib)
 }
 
 type InstructionTest struct {
@@ -27,19 +29,19 @@ func TestCodecInstructions(t *testing.T) {
 		{
 			in:   nil,
 			want: nil,
-			err:  ErrUnexpectedEOF,
+			err:  spirv.ErrUnexpectedEOF,
 		},
 		{
 			in: []byte{
 				0x01, 0x00, 0x00, 0x00,
 			},
-			err: ErrInvalidInstructionSize,
+			err: spirv.ErrInvalidInstructionSize,
 		},
 		{
 			in: []byte{
 				0x01, 0x00, 0x01, 0x00,
 			},
-			err: ErrMissingInstructionArgs,
+			err: spirv.ErrMissingInstructionArgs,
 		},
 		{
 			in: []byte{
@@ -208,7 +210,7 @@ func TestCodecInstructions(t *testing.T) {
 	} {
 		// Test the decoder. Its output must match the structure
 		// defined in the test case.
-		dec := NewDecoder(bytes.NewBuffer(st.in), lib)
+		dec := spirv.NewDecoder(bytes.NewBuffer(st.in), lib)
 		have, err := dec.DecodeInstruction()
 
 		// We have a decoding error. This is only a test failure if
@@ -233,7 +235,7 @@ func TestCodecInstructions(t *testing.T) {
 		// Its output must match the test case input.
 		var buf bytes.Buffer
 
-		enc := NewEncoder(&buf, lib)
+		enc := spirv.NewEncoder(&buf, lib)
 		err = enc.EncodeInstruction(have)
 		if err != nil {
 			t.Fatalf("case %d: encode error: %T(%v)\n%v",
@@ -249,7 +251,7 @@ func TestCodecInstructions(t *testing.T) {
 
 type HeaderTest struct {
 	in   []byte
-	want Header
+	want spirv.Header
 	err  error
 }
 
@@ -257,20 +259,20 @@ func TestCodecHeaders(t *testing.T) {
 	for i, st := range []HeaderTest{
 		{
 			in:  nil,
-			err: ErrUnexpectedEOF,
+			err: spirv.ErrUnexpectedEOF,
 		},
 		{
 			in: []byte{
 				0x01, 0x02, 0x03, 0x04,
 			},
-			err: ErrInvalidMagicValue,
+			err: spirv.ErrInvalidMagicValue,
 		},
 		{
 			in: []byte{
 				0x03, 0x02, 0x23, 0x07,
 				0x00, 0x00, 0x00, 0x63,
 			},
-			err: ErrUnexpectedEOF,
+			err: spirv.ErrUnexpectedEOF,
 		},
 		{
 			in: []byte{
@@ -280,7 +282,7 @@ func TestCodecHeaders(t *testing.T) {
 				0x00, 0x00, 0x00, 0x00,
 				0x00, 0x00, 0x00, 0x00,
 			},
-			err: ErrUnsupportedModuleVersion,
+			err: spirv.ErrUnsupportedModuleVersion,
 		},
 		{
 			in: []byte{
@@ -290,8 +292,8 @@ func TestCodecHeaders(t *testing.T) {
 				0x10, 0x00, 0x00, 0x00,
 				0x00, 0x00, 0x00, 0x00,
 			},
-			want: Header{
-				Magic:          MagicLE,
+			want: spirv.Header{
+				Magic:          spirv.MagicLE,
 				Version:        99,
 				GeneratorMagic: 1,
 				Bound:          16,
@@ -306,8 +308,8 @@ func TestCodecHeaders(t *testing.T) {
 				0x00, 0x00, 0x00, 0x10,
 				0x00, 0x00, 0x00, 0x00,
 			},
-			want: Header{
-				Magic:          MagicBE,
+			want: spirv.Header{
+				Magic:          spirv.MagicBE,
 				Version:        99,
 				GeneratorMagic: 1,
 				Bound:          16,
@@ -315,9 +317,9 @@ func TestCodecHeaders(t *testing.T) {
 			},
 		},
 	} {
-		var have Header
+		var have spirv.Header
 
-		dec := NewDecoder(bytes.NewBuffer(st.in), lib)
+		dec := spirv.NewDecoder(bytes.NewBuffer(st.in), lib)
 		err := dec.DecodeHeader(&have)
 		if err != nil {
 			if !reflect.DeepEqual(err, st.err) {

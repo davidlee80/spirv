@@ -13,12 +13,6 @@ var (
 	ErrZeroLengthInstruction = errors.New("encoded instruction has zero length")
 )
 
-// EncodeOpcode returns the first word of an instruction from the
-// given word cound and opcode.
-func EncodeOpcode(wordCount, opcode int) uint32 {
-	return uint32(wordCount&0xffff)<<16 | uint32(opcode&0xffff)
-}
-
 // Encoder defines an encoder for the SPIR-V format.
 // It writes SPIR-V data structures into a binary stream.
 type Encoder struct {

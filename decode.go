@@ -127,9 +127,7 @@ func (d *Decoder) DecodeInstruction() (Instruction, error) {
 		return nil, err
 	}
 
-	wordCount := (d.ubuf[0] >> 16)
-	opcode := d.ubuf[0] & 0xffff
-
+	wordCount, opcode := DecodeOpcode(d.ubuf[0])
 	if wordCount < 1 {
 		return nil, ErrInvalidInstructionSize
 	}

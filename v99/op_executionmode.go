@@ -1,7 +1,9 @@
 // This file is subject to a 1-clause BSD license.
 // Its contents can be found in the enclosed LICENSE file.
 
-package spirv
+package v99
+
+import "github.com/jteeuwen/spirv"
 
 // OpExecutionMode represents the OpExecutionMode instruction.
 // It declares an execution mode for an entry point.
@@ -14,11 +16,11 @@ type OpExecutionMode struct {
 func (c *OpExecutionMode) Opcode() uint32 { return 7 }
 
 // NewOpExecutionMode creates a new codec for the OpExecutionMode instruction.
-func NewOpExecutionMode() Codec {
-	return Codec{
-		Decode: func(argv []uint32) (Instruction, error) {
+func NewOpExecutionMode() spirv.Codec {
+	return spirv.Codec{
+		Decode: func(argv []uint32) (spirv.Instruction, error) {
 			if len(argv) < 2 {
-				return nil, ErrMissingInstructionArgs
+				return nil, spirv.ErrMissingInstructionArgs
 			}
 
 			return &OpExecutionMode{
@@ -27,9 +29,9 @@ func NewOpExecutionMode() Codec {
 				Argv:       argv[2:],
 			}, nil
 		},
-		Encode: func(i Instruction, out []uint32) error {
+		Encode: func(i spirv.Instruction, out []uint32) error {
 			v := i.(*OpExecutionMode)
-			out[0] = EncodeOpcode(3+len(v.Argv), 7)
+			out[0] = spirv.EncodeOpcode(3+len(v.Argv), 7)
 			out[1] = v.EntryPoint
 			out[2] = uint32(v.Mode)
 			copy(out[3:], v.Argv)

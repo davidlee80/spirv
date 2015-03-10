@@ -1,7 +1,9 @@
 // This file is subject to a 1-clause BSD license.
 // Its contents can be found in the enclosed LICENSE file.
 
-package spirv
+package v99
+
+import "github.com/jteeuwen/spirv"
 
 // OpCompileFlag represents the OpCompileFlag instruction.
 type OpCompileFlag string
@@ -9,18 +11,18 @@ type OpCompileFlag string
 func (c OpCompileFlag) Opcode() uint32 { return 218 }
 
 // NewOpCompileFlag creates a new codec for the OpCompileFlag instruction.
-func NewOpCompileFlag() Codec {
-	return Codec{
-		Decode: func(argv []uint32) (Instruction, error) {
+func NewOpCompileFlag() spirv.Codec {
+	return spirv.Codec{
+		Decode: func(argv []uint32) (spirv.Instruction, error) {
 			return OpCompileFlag(
-				DecodeString(argv),
+				spirv.DecodeString(argv),
 			), nil
 		},
-		Encode: func(i Instruction, out []uint32) error {
+		Encode: func(i spirv.Instruction, out []uint32) error {
 			cf := i.(OpCompileFlag)
-			size := EncodedStringLen(string(cf))
-			out[0] = EncodeOpcode(size+1, 218)
-			EncodeString(string(cf), out[1:])
+			size := spirv.EncodedStringLen(string(cf))
+			out[0] = spirv.EncodeOpcode(size+1, 218)
+			spirv.EncodeString(string(cf), out[1:])
 			return nil
 		},
 	}

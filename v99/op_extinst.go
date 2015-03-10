@@ -1,7 +1,9 @@
 // This file is subject to a 1-clause BSD license.
 // Its contents can be found in the enclosed LICENSE file.
 
-package spirv
+package v99
+
+import "github.com/jteeuwen/spirv"
 
 // OpExtInst defines an instruction in an imported set of extended instructions.
 type OpExtInst struct {
@@ -15,11 +17,11 @@ type OpExtInst struct {
 func (c *OpExtInst) Opcode() uint32 { return 44 }
 
 // NewOpExtInst creates a new codec for the OpExtInst instruction.
-func NewOpExtInst() Codec {
-	return Codec{
-		Decode: func(argv []uint32) (Instruction, error) {
+func NewOpExtInst() spirv.Codec {
+	return spirv.Codec{
+		Decode: func(argv []uint32) (spirv.Instruction, error) {
 			if len(argv) < 4 {
-				return nil, ErrMissingInstructionArgs
+				return nil, spirv.ErrMissingInstructionArgs
 			}
 
 			operands := make([]uint32, len(argv)-4)
@@ -33,9 +35,9 @@ func NewOpExtInst() Codec {
 				Operands:    operands,
 			}, nil
 		},
-		Encode: func(i Instruction, out []uint32) error {
+		Encode: func(i spirv.Instruction, out []uint32) error {
 			v := i.(*OpExtInst)
-			out[0] = EncodeOpcode(5+len(v.Operands), 44)
+			out[0] = spirv.EncodeOpcode(5+len(v.Operands), 44)
 			out[1] = v.ResultType
 			out[2] = v.ResultId
 			out[3] = v.Set

@@ -66,7 +66,7 @@ Here is a quick sample on how to decode a module from a file.
 	// First we need to define the supported instruction set.
 	// We can call spirv.BindDefault to load up all default instructions.
 	var lib spirv.InstructionSet
-	spirv.BindDefault(&lib)
+	v99.Bind(&lib)
 
 	// Create a decoder.
 	dec := spirv.NewDecoder(fd, lib)
@@ -80,7 +80,7 @@ And the same to encode a module to a file:
 	...
 
 	var lib spirv.InstructionSet
-	spirv.BindDefault(&lib)
+	v99.Bind(&lib)
 
 	enc := spirv.NewEncoder(fd, lib)
 	err := enc.EncodeModule(&module)

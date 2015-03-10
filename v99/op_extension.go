@@ -1,7 +1,9 @@
 // This file is subject to a 1-clause BSD license.
 // Its contents can be found in the enclosed LICENSE file.
 
-package spirv
+package v99
+
+import "github.com/jteeuwen/spirv"
 
 // OpExtension defines the OpExtension instruction.
 //
@@ -12,22 +14,22 @@ type OpExtension string
 func (c OpExtension) Opcode() uint32 { return 3 }
 
 // NewOpExtension creates a new codec for the OpExtension instruction.
-func NewOpExtension() Codec {
-	return Codec{
-		Decode: func(argv []uint32) (Instruction, error) {
+func NewOpExtension() spirv.Codec {
+	return spirv.Codec{
+		Decode: func(argv []uint32) (spirv.Instruction, error) {
 			if len(argv) < 1 {
-				return nil, ErrMissingInstructionArgs
+				return nil, spirv.ErrMissingInstructionArgs
 			}
 
 			return OpExtension(
-				DecodeString(argv),
+				spirv.DecodeString(argv),
 			), nil
 		},
-		Encode: func(i Instruction, out []uint32) error {
+		Encode: func(i spirv.Instruction, out []uint32) error {
 			cf := i.(OpExtension)
-			size := EncodedStringLen(string(cf))
-			out[0] = EncodeOpcode(size+1, 3)
-			EncodeString(string(cf), out[1:])
+			size := spirv.EncodedStringLen(string(cf))
+			out[0] = spirv.EncodeOpcode(size+1, 3)
+			spirv.EncodeString(string(cf), out[1:])
 			return nil
 		},
 	}

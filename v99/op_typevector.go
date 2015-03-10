@@ -1,7 +1,9 @@
 // This file is subject to a 1-clause BSD license.
 // Its contents can be found in the enclosed LICENSE file.
 
-package spirv
+package v99
+
+import "github.com/jteeuwen/spirv"
 
 // OpTypeVector represents the OpTypeVector instruction.
 // It declares a new vector type.
@@ -20,11 +22,11 @@ type OpTypeVector struct {
 func (c *OpTypeVector) Opcode() uint32 { return 12 }
 
 // NewOpTypeVector creates a new codec for the OpTypeVector instruction.
-func NewOpTypeVector() Codec {
-	return Codec{
-		Decode: func(argv []uint32) (Instruction, error) {
+func NewOpTypeVector() spirv.Codec {
+	return spirv.Codec{
+		Decode: func(argv []uint32) (spirv.Instruction, error) {
 			if len(argv) < 3 {
-				return nil, ErrMissingInstructionArgs
+				return nil, spirv.ErrMissingInstructionArgs
 			}
 
 			return &OpTypeVector{
@@ -33,9 +35,9 @@ func NewOpTypeVector() Codec {
 				ComponentCount: argv[2],
 			}, nil
 		},
-		Encode: func(i Instruction, out []uint32) error {
+		Encode: func(i spirv.Instruction, out []uint32) error {
 			v := i.(*OpTypeVector)
-			out[0] = EncodeOpcode(4, 12)
+			out[0] = spirv.EncodeOpcode(4, 12)
 			out[1] = v.Result
 			out[2] = v.ComponentType
 			out[3] = v.ComponentCount
