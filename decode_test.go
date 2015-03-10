@@ -267,11 +267,11 @@ func TestDecodeHeaders(t *testing.T) {
 				0x00, 0x00, 0x00, 0x00,
 			},
 			want: Header{
-				Magic:     MagicLE,
-				Version:   99,
-				Generator: 1,
-				Bound:     16,
-				Reserved:  0,
+				Magic:          MagicLE,
+				Version:        99,
+				GeneratorMagic: 1,
+				Bound:          16,
+				Reserved:       0,
 			},
 		},
 		{
@@ -283,11 +283,11 @@ func TestDecodeHeaders(t *testing.T) {
 				0x00, 0x00, 0x00, 0x00,
 			},
 			want: Header{
-				Magic:     MagicBE,
-				Version:   99,
-				Generator: 1,
-				Bound:     16,
-				Reserved:  0,
+				Magic:          MagicBE,
+				Version:        99,
+				GeneratorMagic: 1,
+				Bound:          16,
+				Reserved:       0,
 			},
 		},
 	} {

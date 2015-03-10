@@ -96,7 +96,7 @@ func (d *Decoder) DecodeHeader(h *Header) error {
 		return ErrUnsupportedModuleVersion
 	}
 
-	h.Generator = d.buf[1]
+	h.GeneratorMagic = d.buf[1]
 	h.Bound = d.buf[2]
 	h.Reserved = d.buf[3]
 	return nil
