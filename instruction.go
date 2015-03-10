@@ -3,9 +3,6 @@
 
 package spirv
 
-// InstructionFunc defines a constructor for an instruction codec.
-type InstructionFunc func() Codec
-
 // Instruction defines a generic instruction.
 type Instruction interface {
 	// Opcode returns the opcode for this instruction.
