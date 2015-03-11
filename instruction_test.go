@@ -417,6 +417,13 @@ func TestCodecInstructions(t *testing.T) {
 				ResultId:   2,
 			},
 		},
+		{
+			in: []uint32{0x0030021, 1, 2},
+			want: &OpConstantNullObject{
+				ResultType: 1,
+				ResultId:   2,
+			},
+		},
 	} {
 		have, err := lib.Decode(st.in)
 
