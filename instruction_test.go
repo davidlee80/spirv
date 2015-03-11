@@ -4,6 +4,7 @@
 package spirv
 
 import (
+	"fmt"
 	"math"
 	"reflect"
 	"testing"
@@ -35,6 +36,10 @@ func TestCodecInstructions(t *testing.T) {
 		{
 			in:  []uint32{0x00010000},
 			err: ErrUnacceptable,
+		},
+		{
+			in:  []uint32{0x0001ffff},
+			err: fmt.Errorf("unknown instruction: 0000ffff"),
 		},
 		{
 			in: []uint32{0x0030001, uint32(SLGLSL), 450},

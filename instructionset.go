@@ -53,9 +53,12 @@ func NewInstructionSet() *InstructionSet {
 	return set
 }
 
-// Decode decodes the given sequence of words in an Instruction.
+// Decode decodes the given sequence of words into an Instruction.
+// This requires the given set of words to have the exact length needed
+// to hold the entire instruction, but no more.
+//
 // Returns an error if there is no matching instruction or the
-// loading failed.
+// decoding failed.
 func (set *InstructionSet) Decode(words []uint32) (Instruction, error) {
 	if len(words) == 0 {
 		return nil, ErrUnexpectedEOF
