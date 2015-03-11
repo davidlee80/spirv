@@ -99,6 +99,13 @@ func TestCodecInstructions(t *testing.T) {
 			},
 		},
 		{
+			in: []uint32{0x00050036, 1, 0x74736574, 0x6d616e5f, 0x00000065},
+			want: &OpName{
+				Target: 1,
+				Name:   "test_name",
+			},
+		},
+		{
 			in: []uint32{
 				0x00030005,
 				uint32(AMPhysical32),
