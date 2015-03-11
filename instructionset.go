@@ -51,6 +51,7 @@ func NewInstructionSet() *InstructionSet {
 	bindOpMemberDecorate(set)
 	bindOpGroupDecorate(set)
 	bindOpGroupMemberDecorate(set)
+	bindOpTypeSampler(set)
 	return set
 }
 

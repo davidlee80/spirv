@@ -251,6 +251,31 @@ func TestCodecInstructions(t *testing.T) {
 				Targets: []uint32{2, 3, 4, 5},
 			},
 		},
+		{
+			in: []uint32{0x008000e, 1, 2, uint32(D3D), 2, 1, 0, 1},
+			want: &OpTypeSampler{
+				Result:      1,
+				SampledType: 2,
+				Dim:         D3D,
+				Content:     2,
+				Arrayed:     1,
+				Compare:     0,
+				MS:          1,
+			},
+		},
+		{
+			in: []uint32{0x009000e, 1, 2, uint32(D3D), 2, 1, 0, 1, uint32(AQWriteOnly)},
+			want: &OpTypeSampler{
+				Result:      1,
+				SampledType: 2,
+				Dim:         D3D,
+				Content:     2,
+				Arrayed:     1,
+				Compare:     0,
+				MS:          1,
+				Qualifier:   AQWriteOnly,
+			},
+		},
 	} {
 		have, err := lib.Decode(st.in)
 
