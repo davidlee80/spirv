@@ -65,7 +65,7 @@ func EncodeString(v string, out []uint32) int {
 // DecodeString reads a Go string from the given slice of words.
 // Refer to fromGoString() documentation for details on the expected encoding.
 func DecodeString(words []uint32) string {
-	out := make([]byte, 0, len(words)/4)
+	out := make([]byte, 0, len(words)*4)
 
 	// Read words as bytes.
 	for _, w := range words {
