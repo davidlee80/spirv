@@ -925,3 +925,88 @@ const (
 	// the next operand.
 	MAAligned MemoryAccess = 2
 )
+
+// ExecutionScope defines the scope of execution.
+// It is used by:
+//
+//  - OpControlBarrier
+//  - OpMemoryBarrier
+//  - OpAtomicLoad
+//  - OpAtomicStore
+//  - OpAtomicExchange
+//  - OpAtomicCompareExchange
+//  - OpAtomicCompareExchangeWeak
+//  - OpAtomicIIncrement
+//  - OpAtomicIDecrement
+//  - OpAtomicIAdd
+//  - OpAtomicISub
+//  -  OpAtomicUMin
+//  - OpAtomicUMax
+//  - OpAtomicAnd
+//  - OpAtomicOr
+//  - OpAtomicXor
+//  - OpAsyncGroupCopy
+//  - OpWaitGroupEvents
+//  - OpGroupAll
+//  - OpGroupAny
+//  - OpGroupBroadcast
+//  - OpGroupIAdd
+//  - OpGroupFAdd
+//  - OpGroupFMin
+//  - OpGroupUMin
+//  - OpGroupSMin
+//  - OpGroupFMax
+//  - OpGroupUMax
+//  - OpGroupSMax
+//  - OpGroupReserveReadPipePackets
+//  - OpGroupReserveWritePipePackets
+//  - OpGroupCommitReadPipe
+//  - OpGroupCommitWritePipe
+//
+type ExecutionScope uint32
+
+// Known execution scopes.
+const (
+	// Everything executing on all the execution devices in the system.
+	ESCrossDevice ExecutionScope = 0
+
+	// Everything executing on the device executing this invocation
+	ESDevice ExecutionScope = 1
+
+	// All invocations for the invoking workgroup.
+	ESWorkgroup ExecutionScope = 2
+
+	// All invocations in the currently executing subgroup.
+	ESSubgroup ExecutionScope = 3
+)
+
+// GroupOperation defines the class of workgroup or subgroup operation.
+// It is used by:
+type GroupOperation uint32
+
+// Known group operations.
+//
+//  - OpGroupIAdd
+//  - OpGroupFAdd
+//  - OpGroupFMin
+//  - OpGroupUMin
+//  - OpGroupSMin
+//  - OpGroupFMax
+//  - OpGroupUMax
+//  - OpGroupSMax
+//
+const (
+	// Returns the result of a reduction operation for all values of a
+	// specific value X specified by workitems within a workgroup.
+	GOReduce GroupOperation = 0
+
+	// The inclusive scan performs a binary operation with an identity
+	// I and n (where n is the size of the workgroup) elements[a0, a1, . . . an-1]
+	// and returns [a0, (a0 op a1), . . . (a0 op a1 op . . . op an-1)]
+	GOInclusiveScan GroupOperation = 1
+
+	// The exclusive scan performs a binary operation with an identity
+	// I and n (where n is the size of the workgroup) elements[a0, a1, . . . an-1]
+	// and returns [I, a0, (a0 op a1), . . . (a0 op a1 op . . . op an-2)].
+	GOExclusiveScan GroupOperation = 2
+)
