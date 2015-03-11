@@ -12,6 +12,10 @@ func (c OpCompileFlag) Opcode() uint32 { return 218 }
 func NewOpCompileFlag() Codec {
 	return Codec{
 		Decode: func(argv []uint32) (Instruction, error) {
+			if len(argv) == 0 {
+				return nil, ErrMissingInstructionArgs
+			}
+
 			return OpCompileFlag(
 				DecodeString(argv),
 			), nil
