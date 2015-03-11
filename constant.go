@@ -1043,3 +1043,12 @@ const (
 	// work-group.
 	KEFWaitWorkGroup KernelEnqueueFlags = 2
 )
+
+// KernelProfilingInfo specifies the profiling information to be queried.
+// Used by OpCaptureEventProfilingInfo.
+type KernelProfilingInfo uint32
+
+// Known kernel profiling info values.
+const (
+	KPICmdExecTime KernelProfilingInfo = 1
+)
