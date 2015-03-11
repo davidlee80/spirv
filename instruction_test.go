@@ -340,6 +340,10 @@ func TestCodecInstructions(t *testing.T) {
 			in:   []uint32{0x0020017, 4321},
 			want: OpTypeDeviceEvent(4321),
 		},
+		{
+			in:   []uint32{0x0020018, 123},
+			want: OpTypeReserveId(123),
+		},
 	} {
 		have, err := lib.Decode(st.in)
 
