@@ -344,6 +344,10 @@ func TestCodecInstructions(t *testing.T) {
 			in:   []uint32{0x0020018, 123},
 			want: OpTypeReserveId(123),
 		},
+		{
+			in:   []uint32{0x0020019, 123},
+			want: OpTypeQueue(123),
+		},
 	} {
 		have, err := lib.Decode(st.in)
 

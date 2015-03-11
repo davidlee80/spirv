@@ -71,6 +71,7 @@ func NewInstructionSet() *InstructionSet {
 	bindOpTypeEvent(set)
 	bindOpTypeDeviceEvent(set)
 	bindOpTypeReserveId(set)
+	bindOpTypeQueue(set)
 	return set
 }
 
