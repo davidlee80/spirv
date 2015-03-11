@@ -209,6 +209,14 @@ func TestCodecInstructions(t *testing.T) {
 			},
 		},
 		{
+			in: []uint32{0x0004000d, 0x32, 0x12, 0x04},
+			want: &OpTypeMatrix{
+				Result:      0x32,
+				ColumnType:  0x12,
+				ColumnCount: 0x04,
+			},
+		},
+		{
 			in:   []uint32{0x00020031, 0xff},
 			want: OpDecorationGroup(0xff),
 		},

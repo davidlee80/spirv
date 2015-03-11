@@ -38,6 +38,7 @@ func NewInstructionSet() *InstructionSet {
 	bindOpTypeInt(set)
 	bindOpTypeFloat(set)
 	bindOpTypeVector(set)
+	bindOpTypeMatrix(set)
 	bindOpExtInst(set)
 	bindOpUndef(set)
 	bindOpName(set)
