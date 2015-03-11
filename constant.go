@@ -983,9 +983,6 @@ const (
 
 // GroupOperation defines the class of workgroup or subgroup operation.
 // It is used by:
-type GroupOperation uint32
-
-// Known group operations.
 //
 //  - OpGroupIAdd
 //  - OpGroupFAdd
@@ -996,6 +993,9 @@ type GroupOperation uint32
 //  - OpGroupUMax
 //  - OpGroupSMax
 //
+type GroupOperation uint32
+
+// Known group operations.
 const (
 	// Returns the result of a reduction operation for all values of a
 	// specific value X specified by workitems within a workgroup.
