@@ -35,6 +35,10 @@ func TestCodecInstructions(t *testing.T) {
 			err: ErrMissingInstructionArgs,
 		},
 		{
+			in:  []uint32{0x00010000},
+			err: ErrUnacceptable,
+		},
+		{
 			in: []uint32{0x0030001, uint32(SLGLSL), 450},
 			want: &OpSource{
 				Language: SLGLSL,

@@ -13,6 +13,7 @@ type InstructionSet struct {
 
 // BindDefaults loads all default instruction codecs into the set.
 func (set *InstructionSet) BindDefaults() {
+	set.Set(0, NewOpNop())
 	set.Set(1, NewOpSource())
 	set.Set(2, NewOpSourceExtension())
 	set.Set(3, NewOpExtension())
