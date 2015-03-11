@@ -75,6 +75,7 @@ func NewInstructionSet() *InstructionSet {
 	bindOpTypePipe(set)
 	bindOpConstantTrue(set)
 	bindOpConstantFalse(set)
+	bindOpConstant(set)
 	return set
 }
 
