@@ -68,6 +68,7 @@ func NewInstructionSet() *InstructionSet {
 	bindOpTypeOpaque(set)
 	bindOpTypePointer(set)
 	bindOpTypeFunction(set)
+	bindOpTypeEvent(set)
 	return set
 }
 

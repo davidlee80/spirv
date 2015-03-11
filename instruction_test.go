@@ -332,6 +332,10 @@ func TestCodecInstructions(t *testing.T) {
 				Parameters: []uint32{3, 4, 5},
 			},
 		},
+		{
+			in:   []uint32{0x0020016, 123},
+			want: OpTypeEvent(123),
+		},
 	} {
 		have, err := lib.Decode(st.in)
 
