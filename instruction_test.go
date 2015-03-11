@@ -400,6 +400,16 @@ func TestCodecInstructions(t *testing.T) {
 				Constituents: []uint32{3, 4, 5},
 			},
 		},
+		{
+			in: []uint32{0x006001f, 1, 2, uint32(AMPhysical64), 4, uint32(SFMNearest)},
+			want: &OpConstantSampler{
+				ResultType: 1,
+				ResultId:   2,
+				Addressing: AMPhysical64,
+				Param:      4,
+				Filter:     SFMNearest,
+			},
+		},
 	} {
 		have, err := lib.Decode(st.in)
 
