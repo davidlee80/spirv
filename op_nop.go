@@ -5,9 +5,9 @@ package spirv
 
 // OpNop represents the OpNop instruction.
 //
-// Its use is not allowed, but it is explicitely defined
-// in the specification. We will therefor have the decoder and encoder
-// return an appripriate error when it is being used.
+// Its use is not allowed, but it is explicitely defined in the specification.
+// We will therefor have the decoder and encoder return an appropriate error
+// when it is being used.
 type OpNop struct{}
 
 func (c OpNop) Opcode() uint32 { return 0 }
