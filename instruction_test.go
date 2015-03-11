@@ -207,6 +207,14 @@ func TestCodecInstructions(t *testing.T) {
 			in:   []uint32{0x00020031, 0xff},
 			want: OpDecorationGroup(0xff),
 		},
+		{
+			in: []uint32{0x00060032, 1, uint32(DNoStaticUse), 2, 3, 4},
+			want: &OpDecorate{
+				Target:     1,
+				Decoration: DNoStaticUse,
+				Argv:       []uint32{2, 3, 4},
+			},
+		},
 	} {
 		have, err := lib.Decode(st.in)
 

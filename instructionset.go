@@ -39,6 +39,7 @@ func NewInstructionSet() *InstructionSet {
 	bindOpLine(set)
 	bindOpCompileFlag(set)
 	bindOpDecorationGroup(set)
+	bindOpDecorate(set)
 	return set
 }
 
