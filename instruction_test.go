@@ -410,6 +410,13 @@ func TestCodecInstructions(t *testing.T) {
 				Filter:     SFMNearest,
 			},
 		},
+		{
+			in: []uint32{0x0030020, 1, 2},
+			want: &OpConstantNullPointer{
+				ResultType: 1,
+				ResultId:   2,
+			},
+		},
 	} {
 		have, err := lib.Decode(st.in)
 

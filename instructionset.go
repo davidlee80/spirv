@@ -78,6 +78,7 @@ func NewInstructionSet() *InstructionSet {
 	bindOpConstant(set)
 	bindOpConstantComposite(set)
 	bindOpConstantSampler(set)
+	bindOpConstantNullPointer(set)
 	return set
 }
 
