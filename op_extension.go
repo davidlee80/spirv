@@ -27,7 +27,7 @@ func bindOpExtension(set *InstructionSet) {
 			Encode: func(i Instruction, out []uint32) error {
 				v := i.(OpExtension)
 				size := String(v).EncodedLen()
-				out[0] = EncodeOpcode(uint32(size)+1, v.Opcode())
+				out[0] = EncodeOpcode(size+1, v.Opcode())
 				String(v).Encode(out[1:])
 				return nil
 			},
