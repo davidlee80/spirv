@@ -121,6 +121,15 @@ func TestCodecInstructions(t *testing.T) {
 			},
 		},
 		{
+			in: []uint32{0x00050039, 1, 2, 3, 4},
+			want: &OpLine{
+				Target: 1,
+				File:   2,
+				Line:   3,
+				Column: 4,
+			},
+		},
+		{
 			in: []uint32{
 				0x00030005,
 				uint32(AMPhysical32),
