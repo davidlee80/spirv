@@ -5,6 +5,13 @@ package spirv
 
 import "fmt"
 
+// Copy copies the given slice as-is.
+func Copy(v []uint32) []uint32 {
+	new := make([]uint32, len(v))
+	copy(new, v)
+	return v
+}
+
 // InstructionSet maps opcodes to an instruction encoder/decoder.
 type InstructionSet struct {
 	data map[uint32]Codec // List of registered instruction codecs.

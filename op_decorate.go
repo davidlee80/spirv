@@ -36,7 +36,7 @@ func bindOpDecorate(set *InstructionSet) {
 				return &OpDecorate{
 					Target:     argv[0],
 					Decoration: Decoration(argv[1]),
-					Argv:       argv[2:],
+					Argv:       Copy(argv[2:]),
 				}, nil
 			},
 			Encode: func(i Instruction, out []uint32) error {

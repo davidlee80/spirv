@@ -25,7 +25,7 @@ func bindOpExecutionMode(set *InstructionSet) {
 				return &OpExecutionMode{
 					EntryPoint: argv[0],
 					Mode:       ExecutionMode(argv[1]),
-					Argv:       argv[2:],
+					Argv:       Copy(argv[2:]),
 				}, nil
 			},
 			Encode: func(i Instruction, out []uint32) error {

@@ -26,7 +26,7 @@ func bindOpGroupDecorate(set *InstructionSet) {
 
 				return &OpGroupDecorate{
 					Group:   argv[0],
-					Targets: argv[1:],
+					Targets: Copy(argv[1:]),
 				}, nil
 			},
 			Encode: func(i Instruction, out []uint32) error {

@@ -38,7 +38,7 @@ func bindOpMemberDecorate(set *InstructionSet) {
 					StructType: argv[0],
 					Member:     argv[1],
 					Decoration: Decoration(argv[2]),
-					Argv:       argv[3:],
+					Argv:       Copy(argv[3:]),
 				}, nil
 			},
 			Encode: func(i Instruction, out []uint32) error {

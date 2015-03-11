@@ -23,15 +23,12 @@ func bindOpExtInst(set *InstructionSet) {
 					return nil, ErrMissingInstructionArgs
 				}
 
-				operands := make([]uint32, len(argv)-4)
-				copy(operands, argv[4:])
-
 				return &OpExtInst{
 					ResultType:  argv[0],
 					ResultId:    argv[1],
 					Set:         argv[2],
 					Instruction: argv[3],
-					Operands:    operands,
+					Operands:    Copy(argv[4:]),
 				}, nil
 			},
 			Encode: func(i Instruction, out []uint32) error {
