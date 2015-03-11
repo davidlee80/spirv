@@ -317,6 +317,21 @@ func TestCodecInstructions(t *testing.T) {
 				Type:    2,
 			},
 		},
+		{
+			in: []uint32{0x0030015, 1, 2},
+			want: &OpTypeFunction{
+				Result:     1,
+				ReturnType: 2,
+			},
+		},
+		{
+			in: []uint32{0x0060015, 1, 2, 3, 4, 5},
+			want: &OpTypeFunction{
+				Result:     1,
+				ReturnType: 2,
+				Parameters: []uint32{3, 4, 5},
+			},
+		},
 	} {
 		have, err := lib.Decode(st.in)
 
