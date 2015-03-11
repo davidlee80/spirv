@@ -288,6 +288,13 @@ func TestCodecInstructions(t *testing.T) {
 				Length:      3,
 			},
 		},
+		{
+			in: []uint32{0x0030011, 1, 2},
+			want: &OpTypeRuntimeArray{
+				Result:      1,
+				ElementType: 2,
+			},
+		},
 	} {
 		have, err := lib.Decode(st.in)
 
