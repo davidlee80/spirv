@@ -79,16 +79,9 @@ func DecodeString(words []uint32) string {
 	}
 
 	// Remove any trailing nul bytes.
-	sz := len(out) - 1
-	for ; sz >= 0; sz-- {
-		if out[sz] != 0 {
-			sz++
-			break
-		}
-	}
-
-	if sz <= 0 {
-		return ""
+	sz := len(out)
+	for sz > 0 && out[sz-1] == 0 {
+		sz--
 	}
 
 	return string(out[:sz])
