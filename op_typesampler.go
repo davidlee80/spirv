@@ -49,7 +49,7 @@ type OpTypeSampler struct {
 	//
 	MS uint32
 
-	// Qualifier is an image access qualifier.
+	// Qualifier is an image access qualifier and is optional.
 	Qualifier AccessQualifier
 }
 

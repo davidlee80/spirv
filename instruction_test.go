@@ -276,6 +276,10 @@ func TestCodecInstructions(t *testing.T) {
 				Qualifier:   AQWriteOnly,
 			},
 		},
+		{
+			in:   []uint32{0x002000f, 1},
+			want: OpTypeFilter(1),
+		},
 	} {
 		have, err := lib.Decode(st.in)
 

@@ -52,6 +52,7 @@ func NewInstructionSet() *InstructionSet {
 	bindOpGroupDecorate(set)
 	bindOpGroupMemberDecorate(set)
 	bindOpTypeSampler(set)
+	bindOpTypeFilter(set)
 	return set
 }
 
