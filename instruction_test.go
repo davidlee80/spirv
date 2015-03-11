@@ -348,6 +348,14 @@ func TestCodecInstructions(t *testing.T) {
 			in:   []uint32{0x0020019, 123},
 			want: OpTypeQueue(123),
 		},
+		{
+			in: []uint32{0x004001a, 1, 2, uint32(AQReadWrite)},
+			want: &OpTypePipe{
+				Result:    1,
+				Type:      2,
+				Qualifier: AQReadWrite,
+			},
+		},
 	} {
 		have, err := lib.Decode(st.in)
 

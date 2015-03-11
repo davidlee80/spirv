@@ -72,6 +72,7 @@ func NewInstructionSet() *InstructionSet {
 	bindOpTypeDeviceEvent(set)
 	bindOpTypeReserveId(set)
 	bindOpTypeQueue(set)
+	bindOpTypePipe(set)
 	return set
 }
 
