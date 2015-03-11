@@ -336,6 +336,10 @@ func TestCodecInstructions(t *testing.T) {
 			in:   []uint32{0x0020016, 123},
 			want: OpTypeEvent(123),
 		},
+		{
+			in:   []uint32{0x0020017, 4321},
+			want: OpTypeDeviceEvent(4321),
+		},
 	} {
 		have, err := lib.Decode(st.in)
 
@@ -353,8 +357,8 @@ func TestCodecInstructions(t *testing.T) {
 		}
 
 		if !reflect.DeepEqual(have, st.want) {
-			t.Fatalf("case %d: decode value mismatch: %v\nHave: %#v\nWant: %#v",
-				i, st.in, have, st.want)
+			t.Fatalf("case %d: decode value mismatch: %v\nHave: %T(%+v)\nWant: %T(%+v)",
+				i, st.in, have, have, st.want, st.want)
 		}
 
 		data, err := lib.Encode(have)

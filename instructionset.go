@@ -69,6 +69,7 @@ func NewInstructionSet() *InstructionSet {
 	bindOpTypePointer(set)
 	bindOpTypeFunction(set)
 	bindOpTypeEvent(set)
+	bindOpTypeDeviceEvent(set)
 	return set
 }
 
