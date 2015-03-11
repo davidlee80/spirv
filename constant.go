@@ -109,7 +109,7 @@ const (
 	// fragment’s depth. Only valid with the Fragment Execution Model.
 	EMDepthReplacing ExecutionMode = 11
 
-	// TBD: this should probably be removed. Depth testing will always be
+	// TODO: this should probably be removed. Depth testing will always be
 	// performed after the shader has executed. Only valid with the Fragment
 	// Execution Model.
 	EMDepthAny ExecutionMode = 12
@@ -732,13 +732,14 @@ const (
 
 // Builtin defines a builtin operation.
 //
-// It us when Decoration is Built-In. Apply to either:
+// Used when Decoration is Built-In. Apply to either:
 //   - The result <id> of the variable declaration of the built-in variable, or
 //   - A structure member, if the built-in is a member of a structure.
 //
 // These have the semantics described by their originating API and
-// high-level language environments. TBD: make these native to this
-// specification
+// high-level language environments.
+//
+// TODO: make these native to this specification
 type Builtin uint32
 
 // Known builtin operations.
