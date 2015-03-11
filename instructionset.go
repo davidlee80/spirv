@@ -40,6 +40,7 @@ func NewInstructionSet() *InstructionSet {
 	bindOpCompileFlag(set)
 	bindOpDecorationGroup(set)
 	bindOpDecorate(set)
+	bindOpMemberDecorate(set)
 	return set
 }
 
