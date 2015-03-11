@@ -11,28 +11,34 @@ type InstructionSet struct {
 	buf  [64]uint32       // Encoding scratch buffer.
 }
 
-// BindDefaults loads all default instruction codecs into the set.
-func (set *InstructionSet) BindDefaults() {
-	set.Set(0, NewOpNop())
-	set.Set(1, NewOpSource())
-	set.Set(2, NewOpSourceExtension())
-	set.Set(3, NewOpExtension())
-	set.Set(4, NewOpExtInstImport())
-	set.Set(5, NewOpMemoryModel())
-	set.Set(6, NewOpEntryPoint())
-	set.Set(7, NewOpExecutionMode())
-	set.Set(8, NewOpTypeVoid())
-	set.Set(9, NewOpTypeBool())
-	set.Set(10, NewOpTypeInt())
-	set.Set(11, NewOpTypeFloat())
-	set.Set(12, NewOpTypeVector())
-	set.Set(44, NewOpExtInst())
-	set.Set(45, NewOpUndef())
-	set.Set(54, NewOpName())
-	set.Set(55, NewOpMemberName())
-	set.Set(56, NewOpString())
-	set.Set(57, NewOpLine())
-	set.Set(218, NewOpCompileFlag())
+// NewInstructionSet creates a new instruction set with all default
+// instructions bound to it.
+func NewInstructionSet() *InstructionSet {
+	set := &InstructionSet{
+		data: make(map[uint32]Codec),
+	}
+
+	bindOpNop(set)
+	bindOpSource(set)
+	bindOpSourceExtension(set)
+	bindOpExtension(set)
+	bindOpExtInstImport(set)
+	bindOpMemoryModel(set)
+	bindOpEntryPoint(set)
+	bindOpExecutionMode(set)
+	bindOpTypeVoid(set)
+	bindOpTypeBool(set)
+	bindOpTypeInt(set)
+	bindOpTypeFloat(set)
+	bindOpTypeVector(set)
+	bindOpExtInst(set)
+	bindOpUndef(set)
+	bindOpName(set)
+	bindOpMemberName(set)
+	bindOpString(set)
+	bindOpLine(set)
+	bindOpCompileFlag(set)
+	return set
 }
 
 // Decode decodes the given sequence of words in an Instruction.
@@ -89,19 +95,17 @@ func (set *InstructionSet) Encode(i Instruction) ([]uint32, error) {
 
 // Add adds a new codec to the instruction set.
 func (set *InstructionSet) Set(opcode uint32, codec Codec) {
-	if set.data == nil {
-		set.data = make(map[uint32]Codec)
-	}
 	set.data[opcode] = codec
 }
 
 // Get returns the codec for the given opcode.
 // Returns false if it is not in the set.
 func (set *InstructionSet) Get(opcode uint32) (Codec, bool) {
-	if set.data == nil {
-		return Codec{}, false
-	}
-
 	codec, ok := set.data[opcode]
 	return codec, ok
+}
+
+// Clear unbinds all instructions.
+func (set *InstructionSet) Clear() {
+	set.data = make(map[uint32]Codec)
 }

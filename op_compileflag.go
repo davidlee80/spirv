@@ -8,24 +8,26 @@ type OpCompileFlag String
 
 func (c OpCompileFlag) Opcode() uint32 { return 218 }
 
-// NewOpCompileFlag creates a new codec for the OpCompileFlag instruction.
-func NewOpCompileFlag() Codec {
-	return Codec{
-		Decode: func(argv []uint32) (Instruction, error) {
-			if len(argv) == 0 {
-				return nil, ErrMissingInstructionArgs
-			}
+func bindOpCompileFlag(set *InstructionSet) {
+	set.Set(
+		OpCompileFlag("").Opcode(),
+		Codec{
+			Decode: func(argv []uint32) (Instruction, error) {
+				if len(argv) == 0 {
+					return nil, ErrMissingInstructionArgs
+				}
 
-			return OpCompileFlag(
-				DecodeString(argv),
-			), nil
+				return OpCompileFlag(
+					DecodeString(argv),
+				), nil
+			},
+			Encode: func(i Instruction, out []uint32) error {
+				v := i.(OpCompileFlag)
+				size := String(v).EncodedLen()
+				out[0] = EncodeOpcode(size+1, v.Opcode())
+				String(v).Encode(out[1:])
+				return nil
+			},
 		},
-		Encode: func(i Instruction, out []uint32) error {
-			v := i.(OpCompileFlag)
-			size := String(v).EncodedLen()
-			out[0] = EncodeOpcode(size+1, v.Opcode())
-			String(v).Encode(out[1:])
-			return nil
-		},
-	}
+	)
 }

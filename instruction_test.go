@@ -9,9 +9,7 @@ import (
 	"testing"
 )
 
-var lib InstructionSet
-
-func init() { lib.BindDefaults() }
+var lib = NewInstructionSet()
 
 type InstructionTest struct {
 	in   []uint32

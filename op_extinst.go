@@ -14,34 +14,36 @@ type OpExtInst struct {
 
 func (c *OpExtInst) Opcode() uint32 { return 44 }
 
-// NewOpExtInst creates a new codec for the OpExtInst instruction.
-func NewOpExtInst() Codec {
-	return Codec{
-		Decode: func(argv []uint32) (Instruction, error) {
-			if len(argv) < 4 {
-				return nil, ErrMissingInstructionArgs
-			}
+func bindOpExtInst(set *InstructionSet) {
+	set.Set(
+		(&OpExtInst{}).Opcode(),
+		Codec{
+			Decode: func(argv []uint32) (Instruction, error) {
+				if len(argv) < 4 {
+					return nil, ErrMissingInstructionArgs
+				}
 
-			operands := make([]uint32, len(argv)-4)
-			copy(operands, argv[4:])
+				operands := make([]uint32, len(argv)-4)
+				copy(operands, argv[4:])
 
-			return &OpExtInst{
-				ResultType:  argv[0],
-				ResultId:    argv[1],
-				Set:         argv[2],
-				Instruction: argv[3],
-				Operands:    operands,
-			}, nil
+				return &OpExtInst{
+					ResultType:  argv[0],
+					ResultId:    argv[1],
+					Set:         argv[2],
+					Instruction: argv[3],
+					Operands:    operands,
+				}, nil
+			},
+			Encode: func(i Instruction, out []uint32) error {
+				v := i.(*OpExtInst)
+				out[0] = EncodeOpcode(5+uint32(len(v.Operands)), v.Opcode())
+				out[1] = v.ResultType
+				out[2] = v.ResultId
+				out[3] = v.Set
+				out[4] = v.Instruction
+				copy(out[5:], v.Operands)
+				return nil
+			},
 		},
-		Encode: func(i Instruction, out []uint32) error {
-			v := i.(*OpExtInst)
-			out[0] = EncodeOpcode(5+uint32(len(v.Operands)), v.Opcode())
-			out[1] = v.ResultType
-			out[2] = v.ResultId
-			out[3] = v.Set
-			out[4] = v.Instruction
-			copy(out[5:], v.Operands)
-			return nil
-		},
-	}
+	)
 }

@@ -14,27 +14,29 @@ type OpExtInstImport struct {
 
 func (c *OpExtInstImport) Opcode() uint32 { return 4 }
 
-// NewOpExtInstImport creates a new codec for the OpExtInstImport instruction.
-func NewOpExtInstImport() Codec {
-	return Codec{
-		Decode: func(argv []uint32) (Instruction, error) {
-			if len(argv) < 2 {
-				return nil, ErrMissingInstructionArgs
-			}
+func bindOpExtInstImport(set *InstructionSet) {
+	set.Set(
+		(&OpExtInstImport{}).Opcode(),
+		Codec{
+			Decode: func(argv []uint32) (Instruction, error) {
+				if len(argv) < 2 {
+					return nil, ErrMissingInstructionArgs
+				}
 
-			return &OpExtInstImport{
-				ResultId: argv[0],
-				Name:     DecodeString(argv[1:]),
-			}, nil
-		},
-		Encode: func(i Instruction, out []uint32) error {
-			v := i.(*OpExtInstImport)
-			size := v.Name.EncodedLen()
+				return &OpExtInstImport{
+					ResultId: argv[0],
+					Name:     DecodeString(argv[1:]),
+				}, nil
+			},
+			Encode: func(i Instruction, out []uint32) error {
+				v := i.(*OpExtInstImport)
+				size := v.Name.EncodedLen()
 
-			out[0] = EncodeOpcode(2+size, v.Opcode())
-			out[1] = v.ResultId
-			v.Name.Encode(out[2:])
-			return nil
+				out[0] = EncodeOpcode(2+size, v.Opcode())
+				out[1] = v.ResultId
+				v.Name.Encode(out[2:])
+				return nil
+			},
 		},
-	}
+	)
 }

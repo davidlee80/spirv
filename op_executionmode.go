@@ -13,27 +13,29 @@ type OpExecutionMode struct {
 
 func (c *OpExecutionMode) Opcode() uint32 { return 7 }
 
-// NewOpExecutionMode creates a new codec for the OpExecutionMode instruction.
-func NewOpExecutionMode() Codec {
-	return Codec{
-		Decode: func(argv []uint32) (Instruction, error) {
-			if len(argv) < 2 {
-				return nil, ErrMissingInstructionArgs
-			}
+func bindOpExecutionMode(set *InstructionSet) {
+	set.Set(
+		(&OpExecutionMode{}).Opcode(),
+		Codec{
+			Decode: func(argv []uint32) (Instruction, error) {
+				if len(argv) < 2 {
+					return nil, ErrMissingInstructionArgs
+				}
 
-			return &OpExecutionMode{
-				EntryPoint: argv[0],
-				Mode:       ExecutionMode(argv[1]),
-				Argv:       argv[2:],
-			}, nil
+				return &OpExecutionMode{
+					EntryPoint: argv[0],
+					Mode:       ExecutionMode(argv[1]),
+					Argv:       argv[2:],
+				}, nil
+			},
+			Encode: func(i Instruction, out []uint32) error {
+				v := i.(*OpExecutionMode)
+				out[0] = EncodeOpcode(3+uint32(len(v.Argv)), v.Opcode())
+				out[1] = v.EntryPoint
+				out[2] = uint32(v.Mode)
+				copy(out[3:], v.Argv)
+				return nil
+			},
 		},
-		Encode: func(i Instruction, out []uint32) error {
-			v := i.(*OpExecutionMode)
-			out[0] = EncodeOpcode(3+uint32(len(v.Argv)), v.Opcode())
-			out[1] = v.EntryPoint
-			out[2] = uint32(v.Mode)
-			copy(out[3:], v.Argv)
-			return nil
-		},
-	}
+	)
 }

@@ -14,27 +14,29 @@ type OpName struct {
 
 func (c *OpName) Opcode() uint32 { return 54 }
 
-// NewOpName creates a new codec for the OpName instruction.
-func NewOpName() Codec {
-	return Codec{
-		Decode: func(argv []uint32) (Instruction, error) {
-			if len(argv) < 2 {
-				return nil, ErrMissingInstructionArgs
-			}
+func bindOpName(set *InstructionSet) {
+	set.Set(
+		(&OpName{}).Opcode(),
+		Codec{
+			Decode: func(argv []uint32) (Instruction, error) {
+				if len(argv) < 2 {
+					return nil, ErrMissingInstructionArgs
+				}
 
-			return &OpName{
-				Target: argv[0],
-				Name:   DecodeString(argv[1:]),
-			}, nil
-		},
-		Encode: func(i Instruction, out []uint32) error {
-			v := i.(*OpName)
-			nameSize := v.Name.EncodedLen()
+				return &OpName{
+					Target: argv[0],
+					Name:   DecodeString(argv[1:]),
+				}, nil
+			},
+			Encode: func(i Instruction, out []uint32) error {
+				v := i.(*OpName)
+				nameSize := v.Name.EncodedLen()
 
-			out[0] = EncodeOpcode(2+nameSize, v.Opcode())
-			out[1] = v.Target
-			v.Name.Encode(out[2:])
-			return nil
+				out[0] = EncodeOpcode(2+nameSize, v.Opcode())
+				out[1] = v.Target
+				v.Name.Encode(out[2:])
+				return nil
+			},
 		},
-	}
+	)
 }

@@ -25,27 +25,29 @@ type OpTypeInt struct {
 
 func (c *OpTypeInt) Opcode() uint32 { return 10 }
 
-// NewOpTypeInt creates a new codec for the OpTypeInt instruction.
-func NewOpTypeInt() Codec {
-	return Codec{
-		Decode: func(argv []uint32) (Instruction, error) {
-			if len(argv) < 3 {
-				return nil, ErrMissingInstructionArgs
-			}
+func bindOpTypeInt(set *InstructionSet) {
+	set.Set(
+		(&OpTypeInt{}).Opcode(),
+		Codec{
+			Decode: func(argv []uint32) (Instruction, error) {
+				if len(argv) < 3 {
+					return nil, ErrMissingInstructionArgs
+				}
 
-			return &OpTypeInt{
-				Result:     argv[0],
-				Width:      argv[1],
-				Signedness: argv[2],
-			}, nil
+				return &OpTypeInt{
+					Result:     argv[0],
+					Width:      argv[1],
+					Signedness: argv[2],
+				}, nil
+			},
+			Encode: func(i Instruction, out []uint32) error {
+				v := i.(*OpTypeInt)
+				out[0] = EncodeOpcode(4, v.Opcode())
+				out[1] = v.Result
+				out[2] = v.Width
+				out[3] = v.Signedness
+				return nil
+			},
 		},
-		Encode: func(i Instruction, out []uint32) error {
-			v := i.(*OpTypeInt)
-			out[0] = EncodeOpcode(4, v.Opcode())
-			out[1] = v.Result
-			out[2] = v.Width
-			out[3] = v.Signedness
-			return nil
-		},
-	}
+	)
 }

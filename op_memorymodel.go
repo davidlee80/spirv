@@ -13,25 +13,27 @@ type OpMemoryModel struct {
 
 func (c *OpMemoryModel) Opcode() uint32 { return 5 }
 
-// NewOpMemoryModel creates a new codec for the OpMemoryModel instruction.
-func NewOpMemoryModel() Codec {
-	return Codec{
-		Decode: func(argv []uint32) (Instruction, error) {
-			if len(argv) < 2 {
-				return nil, ErrMissingInstructionArgs
-			}
+func bindOpMemoryModel(set *InstructionSet) {
+	set.Set(
+		(&OpMemoryModel{}).Opcode(),
+		Codec{
+			Decode: func(argv []uint32) (Instruction, error) {
+				if len(argv) < 2 {
+					return nil, ErrMissingInstructionArgs
+				}
 
-			return &OpMemoryModel{
-				Addressing: AddressingMode(argv[0]),
-				Memory:     MemoryMode(argv[1]),
-			}, nil
+				return &OpMemoryModel{
+					Addressing: AddressingMode(argv[0]),
+					Memory:     MemoryMode(argv[1]),
+				}, nil
+			},
+			Encode: func(i Instruction, out []uint32) error {
+				v := i.(*OpMemoryModel)
+				out[0] = EncodeOpcode(3, v.Opcode())
+				out[1] = uint32(v.Addressing)
+				out[2] = uint32(v.Memory)
+				return nil
+			},
 		},
-		Encode: func(i Instruction, out []uint32) error {
-			v := i.(*OpMemoryModel)
-			out[0] = EncodeOpcode(3, v.Opcode())
-			out[1] = uint32(v.Addressing)
-			out[2] = uint32(v.Memory)
-			return nil
-		},
-	}
+	)
 }

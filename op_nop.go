@@ -12,14 +12,16 @@ type OpNop struct{}
 
 func (c OpNop) Opcode() uint32 { return 0 }
 
-// NewOpNop creates a new codec for the OpNop instruction.
-func NewOpNop() Codec {
-	return Codec{
-		Decode: func(argv []uint32) (Instruction, error) {
-			return nil, ErrUnacceptable
+func bindOpNop(set *InstructionSet) {
+	set.Set(
+		(&OpNop{}).Opcode(),
+		Codec{
+			Decode: func(argv []uint32) (Instruction, error) {
+				return nil, ErrUnacceptable
+			},
+			Encode: func(i Instruction, out []uint32) error {
+				return ErrUnacceptable
+			},
 		},
-		Encode: func(i Instruction, out []uint32) error {
-			return ErrUnacceptable
-		},
-	}
+	)
 }

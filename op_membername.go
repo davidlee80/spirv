@@ -15,29 +15,31 @@ type OpMemberName struct {
 
 func (c *OpMemberName) Opcode() uint32 { return 55 }
 
-// NewOpMemberName creates a new codec for the OpMemberName instruction.
-func NewOpMemberName() Codec {
-	return Codec{
-		Decode: func(argv []uint32) (Instruction, error) {
-			if len(argv) < 2 {
-				return nil, ErrMissingInstructionArgs
-			}
+func bindOpMemberName(set *InstructionSet) {
+	set.Set(
+		(&OpMemberName{}).Opcode(),
+		Codec{
+			Decode: func(argv []uint32) (Instruction, error) {
+				if len(argv) < 2 {
+					return nil, ErrMissingInstructionArgs
+				}
 
-			return &OpMemberName{
-				Type:   argv[0],
-				Member: argv[1],
-				Name:   DecodeString(argv[2:]),
-			}, nil
-		},
-		Encode: func(i Instruction, out []uint32) error {
-			v := i.(*OpMemberName)
-			nameSize := v.Name.EncodedLen()
+				return &OpMemberName{
+					Type:   argv[0],
+					Member: argv[1],
+					Name:   DecodeString(argv[2:]),
+				}, nil
+			},
+			Encode: func(i Instruction, out []uint32) error {
+				v := i.(*OpMemberName)
+				nameSize := v.Name.EncodedLen()
 
-			out[0] = EncodeOpcode(3+nameSize, v.Opcode())
-			out[1] = v.Type
-			out[2] = v.Member
-			v.Name.Encode(out[3:])
-			return nil
+				out[0] = EncodeOpcode(3+nameSize, v.Opcode())
+				out[1] = v.Type
+				out[2] = v.Member
+				v.Name.Encode(out[3:])
+				return nil
+			},
 		},
-	}
+	)
 }

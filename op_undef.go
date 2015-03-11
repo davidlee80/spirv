@@ -13,25 +13,27 @@ type OpUndef struct {
 
 func (c *OpUndef) Opcode() uint32 { return 45 }
 
-// NewOpUndef creates a new codec for the OpUndef instruction.
-func NewOpUndef() Codec {
-	return Codec{
-		Decode: func(argv []uint32) (Instruction, error) {
-			if len(argv) != 2 {
-				return nil, ErrInvalidInstructionSize
-			}
+func bindOpUndef(set *InstructionSet) {
+	set.Set(
+		(&OpUndef{}).Opcode(),
+		Codec{
+			Decode: func(argv []uint32) (Instruction, error) {
+				if len(argv) != 2 {
+					return nil, ErrInvalidInstructionSize
+				}
 
-			return &OpUndef{
-				ResultType: argv[0],
-				ResultId:   argv[1],
-			}, nil
+				return &OpUndef{
+					ResultType: argv[0],
+					ResultId:   argv[1],
+				}, nil
+			},
+			Encode: func(i Instruction, out []uint32) error {
+				v := i.(*OpUndef)
+				out[0] = EncodeOpcode(3, v.Opcode())
+				out[1] = v.ResultType
+				out[2] = v.ResultId
+				return nil
+			},
 		},
-		Encode: func(i Instruction, out []uint32) error {
-			v := i.(*OpUndef)
-			out[0] = EncodeOpcode(3, v.Opcode())
-			out[1] = v.ResultType
-			out[2] = v.ResultId
-			return nil
-		},
-	}
+	)
 }

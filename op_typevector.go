@@ -19,27 +19,29 @@ type OpTypeVector struct {
 
 func (c *OpTypeVector) Opcode() uint32 { return 12 }
 
-// NewOpTypeVector creates a new codec for the OpTypeVector instruction.
-func NewOpTypeVector() Codec {
-	return Codec{
-		Decode: func(argv []uint32) (Instruction, error) {
-			if len(argv) < 3 {
-				return nil, ErrMissingInstructionArgs
-			}
+func bindOpTypeVector(set *InstructionSet) {
+	set.Set(
+		(&OpTypeVector{}).Opcode(),
+		Codec{
+			Decode: func(argv []uint32) (Instruction, error) {
+				if len(argv) < 3 {
+					return nil, ErrMissingInstructionArgs
+				}
 
-			return &OpTypeVector{
-				Result:         argv[0],
-				ComponentType:  argv[1],
-				ComponentCount: argv[2],
-			}, nil
+				return &OpTypeVector{
+					Result:         argv[0],
+					ComponentType:  argv[1],
+					ComponentCount: argv[2],
+				}, nil
+			},
+			Encode: func(i Instruction, out []uint32) error {
+				v := i.(*OpTypeVector)
+				out[0] = EncodeOpcode(4, v.Opcode())
+				out[1] = v.Result
+				out[2] = v.ComponentType
+				out[3] = v.ComponentCount
+				return nil
+			},
 		},
-		Encode: func(i Instruction, out []uint32) error {
-			v := i.(*OpTypeVector)
-			out[0] = EncodeOpcode(4, v.Opcode())
-			out[1] = v.Result
-			out[2] = v.ComponentType
-			out[3] = v.ComponentCount
-			return nil
-		},
-	}
+	)
 }

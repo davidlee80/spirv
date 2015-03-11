@@ -16,25 +16,27 @@ type OpTypeFloat struct {
 
 func (c *OpTypeFloat) Opcode() uint32 { return 11 }
 
-// NewOpTypeFloat creates a new codec for the OpTypeFloat instruction.
-func NewOpTypeFloat() Codec {
-	return Codec{
-		Decode: func(argv []uint32) (Instruction, error) {
-			if len(argv) < 2 {
-				return nil, ErrMissingInstructionArgs
-			}
+func bindOpTypeFloat(set *InstructionSet) {
+	set.Set(
+		(&OpTypeFloat{}).Opcode(),
+		Codec{
+			Decode: func(argv []uint32) (Instruction, error) {
+				if len(argv) < 2 {
+					return nil, ErrMissingInstructionArgs
+				}
 
-			return &OpTypeFloat{
-				Result: argv[0],
-				Width:  argv[1],
-			}, nil
+				return &OpTypeFloat{
+					Result: argv[0],
+					Width:  argv[1],
+				}, nil
+			},
+			Encode: func(i Instruction, out []uint32) error {
+				v := i.(*OpTypeFloat)
+				out[0] = EncodeOpcode(3, v.Opcode())
+				out[1] = v.Result
+				out[2] = v.Width
+				return nil
+			},
 		},
-		Encode: func(i Instruction, out []uint32) error {
-			v := i.(*OpTypeFloat)
-			out[0] = EncodeOpcode(3, v.Opcode())
-			out[1] = v.Result
-			out[2] = v.Width
-			return nil
-		},
-	}
+	)
 }
