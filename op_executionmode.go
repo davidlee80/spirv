@@ -29,7 +29,7 @@ func NewOpExecutionMode() Codec {
 		},
 		Encode: func(i Instruction, out []uint32) error {
 			v := i.(*OpExecutionMode)
-			out[0] = EncodeOpcode(3+uint32(len(v.Argv)), 7)
+			out[0] = EncodeOpcode(3+uint32(len(v.Argv)), v.Opcode())
 			out[1] = v.EntryPoint
 			out[2] = uint32(v.Mode)
 			copy(out[3:], v.Argv)

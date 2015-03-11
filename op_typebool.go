@@ -20,7 +20,7 @@ func NewOpTypeBool() Codec {
 		},
 		Encode: func(i Instruction, out []uint32) error {
 			v := i.(OpTypeBool)
-			out[0] = EncodeOpcode(2, 9)
+			out[0] = EncodeOpcode(2, v.Opcode())
 			out[1] = uint32(v)
 			return nil
 		},

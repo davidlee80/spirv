@@ -35,7 +35,7 @@ func NewOpExtInst() Codec {
 		},
 		Encode: func(i Instruction, out []uint32) error {
 			v := i.(*OpExtInst)
-			out[0] = EncodeOpcode(5+uint32(len(v.Operands)), 44)
+			out[0] = EncodeOpcode(5+uint32(len(v.Operands)), v.Opcode())
 			out[1] = v.ResultType
 			out[2] = v.ResultId
 			out[3] = v.Set

@@ -35,7 +35,7 @@ func NewOpTypeVector() Codec {
 		},
 		Encode: func(i Instruction, out []uint32) error {
 			v := i.(*OpTypeVector)
-			out[0] = EncodeOpcode(4, 12)
+			out[0] = EncodeOpcode(4, v.Opcode())
 			out[1] = v.Result
 			out[2] = v.ComponentType
 			out[3] = v.ComponentCount

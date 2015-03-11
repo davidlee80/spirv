@@ -27,7 +27,7 @@ func NewOpEntryPoint() Codec {
 		},
 		Encode: func(i Instruction, out []uint32) error {
 			v := i.(*OpEntryPoint)
-			out[0] = EncodeOpcode(3, 6)
+			out[0] = EncodeOpcode(3, v.Opcode())
 			out[1] = uint32(v.Execution)
 			out[2] = v.Id
 			return nil

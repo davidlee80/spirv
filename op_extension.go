@@ -24,10 +24,10 @@ func NewOpExtension() Codec {
 			), nil
 		},
 		Encode: func(i Instruction, out []uint32) error {
-			cf := i.(OpExtension)
-			size := EncodedStringLen(string(cf))
-			out[0] = EncodeOpcode(uint32(size)+1, 3)
-			EncodeString(string(cf), out[1:])
+			v := i.(OpExtension)
+			size := EncodedStringLen(string(v))
+			out[0] = EncodeOpcode(uint32(size)+1, v.Opcode())
+			EncodeString(string(v), out[1:])
 			return nil
 		},
 	}

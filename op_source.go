@@ -29,7 +29,7 @@ func NewOpSource() Codec {
 		},
 		Encode: func(i Instruction, out []uint32) error {
 			v := i.(*OpSource)
-			out[0] = EncodeOpcode(3, 1)
+			out[0] = EncodeOpcode(3, v.Opcode())
 			out[1] = uint32(v.Language)
 			out[2] = uint32(v.Version)
 			return nil

@@ -31,7 +31,7 @@ func NewOpExtInstImport() Codec {
 			v := i.(*OpExtInstImport)
 			size := EncodedStringLen(v.Name)
 
-			out[0] = EncodeOpcode(2+uint32(size), 4)
+			out[0] = EncodeOpcode(2+uint32(size), v.Opcode())
 			out[1] = v.ResultId
 			EncodeString(v.Name, out[2:])
 			return nil

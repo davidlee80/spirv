@@ -20,7 +20,7 @@ func NewOpTypeVoid() Codec {
 		},
 		Encode: func(i Instruction, out []uint32) error {
 			v := i.(OpTypeVoid)
-			out[0] = EncodeOpcode(2, 8)
+			out[0] = EncodeOpcode(2, v.Opcode())
 			out[1] = uint32(v)
 			return nil
 		},

@@ -31,7 +31,7 @@ func NewOpTypeFloat() Codec {
 		},
 		Encode: func(i Instruction, out []uint32) error {
 			v := i.(*OpTypeFloat)
-			out[0] = EncodeOpcode(3, 11)
+			out[0] = EncodeOpcode(3, v.Opcode())
 			out[1] = v.Result
 			out[2] = v.Width
 			return nil
