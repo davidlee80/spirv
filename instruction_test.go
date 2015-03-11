@@ -114,6 +114,13 @@ func TestCodecInstructions(t *testing.T) {
 			},
 		},
 		{
+			in: []uint32{0x00050038, 1, 0x74736574, 0x72747320, 0x676e69},
+			want: &OpString{
+				ResultId: 1,
+				String:   "test string",
+			},
+		},
+		{
 			in: []uint32{
 				0x00030005,
 				uint32(AMPhysical32),

@@ -29,6 +29,7 @@ func (set *InstructionSet) BindDefaults() {
 	set.Set(45, NewOpUndef())
 	set.Set(54, NewOpName())
 	set.Set(55, NewOpMemberName())
+	set.Set(56, NewOpString())
 	set.Set(218, NewOpCompileFlag())
 }
 
