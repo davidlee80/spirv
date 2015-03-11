@@ -42,6 +42,7 @@ func NewInstructionSet() *InstructionSet {
 	bindOpDecorate(set)
 	bindOpMemberDecorate(set)
 	bindOpGroupDecorate(set)
+	bindOpGroupMemberDecorate(set)
 	return set
 }
 
