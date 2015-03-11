@@ -92,6 +92,13 @@ func TestCodecInstructions(t *testing.T) {
 			},
 		},
 		{
+			in: []uint32{0x0003002d, 1, 2},
+			want: &OpUndef{
+				ResultType: 1,
+				ResultId:   2,
+			},
+		},
+		{
 			in: []uint32{
 				0x00030005,
 				uint32(AMPhysical32),

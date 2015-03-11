@@ -26,6 +26,7 @@ func (set *InstructionSet) BindDefaults() {
 	set.Set(11, NewOpTypeFloat())
 	set.Set(12, NewOpTypeVector())
 	set.Set(44, NewOpExtInst())
+	set.Set(45, NewOpUndef())
 	set.Set(218, NewOpCompileFlag())
 }
 
