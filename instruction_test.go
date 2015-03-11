@@ -203,6 +203,10 @@ func TestCodecInstructions(t *testing.T) {
 				ComponentCount: 0x03,
 			},
 		},
+		{
+			in:   []uint32{0x00020031, 0xff},
+			want: OpDecorationGroup(0xff),
+		},
 	} {
 		have, err := lib.Decode(st.in)
 
