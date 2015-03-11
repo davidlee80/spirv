@@ -188,11 +188,11 @@ func TestCodecInstructions(t *testing.T) {
 		{
 			in: []uint32{
 				0x0003000b, 0x32,
-				reverse(math.Float32bits(123)),
+				math.Float32bits(123),
 			},
 			want: &OpTypeFloat{
 				Result: 0x32,
-				Width:  reverse(math.Float32bits(123)),
+				Width:  math.Float32bits(123),
 			},
 		},
 		{
@@ -242,13 +242,4 @@ func TestCodecInstructions(t *testing.T) {
 				i, have, have, data, st.in)
 		}
 	}
-}
-
-// reverse reverses the bytes in the given integer.
-func reverse(v uint32) uint32 {
-	a := v & 0xff
-	b := (v >> 8) & 0xff
-	c := (v >> 16) & 0xff
-	d := (v >> 24) & 0xff
-	return a<<24 | b<<16 | c<<8 | d
 }
