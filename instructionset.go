@@ -55,6 +55,7 @@ func NewInstructionSet() *InstructionSet {
 	bindOpTypeFilter(set)
 	bindOpTypeArray(set)
 	bindOpTypeRuntimeArray(set)
+	bindOpTypeStruct(set)
 	return set
 }
 

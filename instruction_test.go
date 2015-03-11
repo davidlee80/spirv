@@ -295,6 +295,13 @@ func TestCodecInstructions(t *testing.T) {
 				ElementType: 2,
 			},
 		},
+		{
+			in: []uint32{0x0060012, 1, 2, 3, 4, 5},
+			want: &OpTypeStruct{
+				Result:  1,
+				Members: []uint32{2, 3, 4, 5},
+			},
+		},
 	} {
 		have, err := lib.Decode(st.in)
 
