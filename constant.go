@@ -24,19 +24,19 @@ const (
 	AMPhysical64 AddressingMode = 2
 )
 
-// Dim defines the dimensionality of a texture.
+// Dimensionality defines the dimensionality of a texture.
 //
 // Used by OpTypeSampler.
-type Dim uint32
+type Dimensionality uint32
 
 // Known execution models.
 const (
-	D1D     Dim = 0
-	D2D     Dim = 1
-	D3D     Dim = 2
-	DCube   Dim = 3
-	DRect   Dim = 4
-	DBuffer Dim = 5
+	D1D     Dimensionality = 0
+	D2D     Dimensionality = 1
+	D3D     Dimensionality = 2
+	DCube   Dimensionality = 3
+	DRect   Dimensionality = 4
+	DBuffer Dimensionality = 5
 )
 
 // ExecutionMode defines a mode a module’s stage will execute in.
