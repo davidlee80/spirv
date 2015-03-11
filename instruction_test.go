@@ -92,6 +92,44 @@ func TestCodecInstructions(t *testing.T) {
 			},
 		},
 		{
+			in: []uint32{0x0003002d, 1, 2},
+			want: &OpUndef{
+				ResultType: 1,
+				ResultId:   2,
+			},
+		},
+		{
+			in: []uint32{0x00050036, 1, 0x74736574, 0x6d616e5f, 0x00000065},
+			want: &OpName{
+				Target: 1,
+				Name:   "test_name",
+			},
+		},
+		{
+			in: []uint32{0x00060037, 1, 2, 0x74736574, 0x6d616e5f, 0x00000065},
+			want: &OpMemberName{
+				Type:   1,
+				Member: 2,
+				Name:   "test_name",
+			},
+		},
+		{
+			in: []uint32{0x00050038, 1, 0x74736574, 0x72747320, 0x676e69},
+			want: &OpString{
+				ResultId: 1,
+				String:   "test string",
+			},
+		},
+		{
+			in: []uint32{0x00050039, 1, 2, 3, 4},
+			want: &OpLine{
+				Target: 1,
+				File:   2,
+				Line:   3,
+				Column: 4,
+			},
+		},
+		{
 			in: []uint32{
 				0x00030005,
 				uint32(AMPhysical32),

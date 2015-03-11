@@ -26,6 +26,11 @@ func (set *InstructionSet) BindDefaults() {
 	set.Set(11, NewOpTypeFloat())
 	set.Set(12, NewOpTypeVector())
 	set.Set(44, NewOpExtInst())
+	set.Set(45, NewOpUndef())
+	set.Set(54, NewOpName())
+	set.Set(55, NewOpMemberName())
+	set.Set(56, NewOpString())
+	set.Set(57, NewOpLine())
 	set.Set(218, NewOpCompileFlag())
 }
 
