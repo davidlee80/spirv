@@ -309,6 +309,14 @@ func TestCodecInstructions(t *testing.T) {
 				Name:   "test string",
 			},
 		},
+		{
+			in: []uint32{0x0040014, 1, uint32(SCAtomicCounter), 2},
+			want: &OpTypePointer{
+				Result:  1,
+				Storage: SCAtomicCounter,
+				Type:    2,
+			},
+		},
 	} {
 		have, err := lib.Decode(st.in)
 
