@@ -224,6 +224,13 @@ func TestCodecInstructions(t *testing.T) {
 				Argv:       []uint32{3, 4, 5},
 			},
 		},
+		{
+			in: []uint32{0x00060034, 1, 2, 3, 4, 5},
+			want: &OpGroupDecorate{
+				Group:   1,
+				Targets: []uint32{2, 3, 4, 5},
+			},
+		},
 	} {
 		have, err := lib.Decode(st.in)
 
