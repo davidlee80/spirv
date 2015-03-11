@@ -356,6 +356,13 @@ func TestCodecInstructions(t *testing.T) {
 				Qualifier: AQReadWrite,
 			},
 		},
+		{
+			in: []uint32{0x003001b, 1, 2},
+			want: &OpConstantTrue{
+				ResultType: 1,
+				ResultId:   2,
+			},
+		},
 	} {
 		have, err := lib.Decode(st.in)
 

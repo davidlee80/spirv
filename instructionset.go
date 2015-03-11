@@ -73,6 +73,7 @@ func NewInstructionSet() *InstructionSet {
 	bindOpTypeReserveId(set)
 	bindOpTypeQueue(set)
 	bindOpTypePipe(set)
+	bindOpConstantTrue(set)
 	return set
 }
 
