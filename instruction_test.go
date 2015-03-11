@@ -302,6 +302,13 @@ func TestCodecInstructions(t *testing.T) {
 				Members: []uint32{2, 3, 4, 5},
 			},
 		},
+		{
+			in: []uint32{0x0050013, 1, 0x74736574, 0x72747320, 0x676e69},
+			want: &OpTypeOpaque{
+				Result: 1,
+				Name:   "test string",
+			},
+		},
 	} {
 		have, err := lib.Decode(st.in)
 

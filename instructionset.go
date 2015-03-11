@@ -56,6 +56,7 @@ func NewInstructionSet() *InstructionSet {
 	bindOpTypeArray(set)
 	bindOpTypeRuntimeArray(set)
 	bindOpTypeStruct(set)
+	bindOpTypeOpaque(set)
 	return set
 }
 
