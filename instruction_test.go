@@ -280,6 +280,14 @@ func TestCodecInstructions(t *testing.T) {
 			in:   []uint32{0x002000f, 1},
 			want: OpTypeFilter(1),
 		},
+		{
+			in: []uint32{0x0040010, 1, 2, 3},
+			want: &OpTypeArray{
+				Result:      1,
+				ElementType: 2,
+				Length:      3,
+			},
+		},
 	} {
 		have, err := lib.Decode(st.in)
 
