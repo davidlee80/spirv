@@ -7,7 +7,7 @@ package spirv
 //
 // It declares use of an extension to SPIR-V. This allows validation of
 // additional instructions, tokens, semantics, etc
-type OpExtension string
+type OpExtension String
 
 func (c OpExtension) Opcode() uint32 { return 3 }
 
@@ -25,9 +25,9 @@ func NewOpExtension() Codec {
 		},
 		Encode: func(i Instruction, out []uint32) error {
 			v := i.(OpExtension)
-			size := EncodedStringLen(string(v))
+			size := String(v).EncodedLen()
 			out[0] = EncodeOpcode(uint32(size)+1, v.Opcode())
-			EncodeString(string(v), out[1:])
+			String(v).Encode(out[1:])
 			return nil
 		},
 	}

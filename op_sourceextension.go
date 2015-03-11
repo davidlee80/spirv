@@ -7,7 +7,7 @@ package spirv
 //
 // It documents an extension to the source language. This has no semantic
 // impact and can safely be removed from a module.
-type OpSourceExtension string
+type OpSourceExtension String
 
 func (c OpSourceExtension) Opcode() uint32 { return 2 }
 
@@ -21,9 +21,9 @@ func NewOpSourceExtension() Codec {
 		},
 		Encode: func(i Instruction, out []uint32) error {
 			v := i.(OpSourceExtension)
-			size := EncodedStringLen(string(v))
-			out[0] = EncodeOpcode(uint32(size)+1, v.Opcode())
-			EncodeString(string(v), out[1:])
+			size := String(v).EncodedLen()
+			out[0] = EncodeOpcode(size+1, v.Opcode())
+			String(v).Encode(out[1:])
 			return nil
 		},
 	}

@@ -4,7 +4,7 @@
 package spirv
 
 // OpCompileFlag represents the OpCompileFlag instruction.
-type OpCompileFlag string
+type OpCompileFlag String
 
 func (c OpCompileFlag) Opcode() uint32 { return 218 }
 
@@ -22,9 +22,9 @@ func NewOpCompileFlag() Codec {
 		},
 		Encode: func(i Instruction, out []uint32) error {
 			v := i.(OpCompileFlag)
-			size := EncodedStringLen(string(v))
-			out[0] = EncodeOpcode(uint32(size+1), v.Opcode())
-			EncodeString(string(v), out[1:])
+			size := String(v).EncodedLen()
+			out[0] = EncodeOpcode(size+1, v.Opcode())
+			String(v).Encode(out[1:])
 			return nil
 		},
 	}

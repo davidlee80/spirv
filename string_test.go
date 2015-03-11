@@ -9,9 +9,9 @@ import (
 )
 
 type StringTest struct {
-	in      string
+	in      String
 	want    []uint32
-	wantLen int
+	wantLen uint32
 }
 
 func TestString(t *testing.T) {
@@ -25,14 +25,14 @@ func TestString(t *testing.T) {
 		{"世界", []uint32{0xe796b8e4, 0x00008c95}, 2},
 		{"\nsomenewline", []uint32{0x6d6f730a, 0x77656e65, 0x656e696c, 0}, 4},
 	} {
-		haveLen := EncodedStringLen(st.in)
+		haveLen := st.in.EncodedLen()
 		if st.wantLen != haveLen {
 			t.Fatalf("case %d: string length mismatch: %q\nHave: %d\nWant: %d",
 				i, st.in, st.wantLen, haveLen)
 		}
 
 		have := make([]uint32, haveLen)
-		n := EncodeString(st.in, have)
+		n := st.in.Encode(have)
 		if n != len(have) {
 			t.Fatalf("case %d: string length mismatch: %q\nHave: %d\nWant: %d",
 				i, st.in, n, len(have))

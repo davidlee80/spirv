@@ -8,7 +8,7 @@ package spirv
 // It defines an import of an extended set of instructions.
 // It can later be referenced by the Result <id>
 type OpExtInstImport struct {
-	Name     string
+	Name     String
 	ResultId uint32
 }
 
@@ -29,11 +29,11 @@ func NewOpExtInstImport() Codec {
 		},
 		Encode: func(i Instruction, out []uint32) error {
 			v := i.(*OpExtInstImport)
-			size := EncodedStringLen(v.Name)
+			size := v.Name.EncodedLen()
 
-			out[0] = EncodeOpcode(2+uint32(size), v.Opcode())
+			out[0] = EncodeOpcode(2+size, v.Opcode())
 			out[1] = v.ResultId
-			EncodeString(v.Name, out[2:])
+			v.Name.Encode(out[2:])
 			return nil
 		},
 	}

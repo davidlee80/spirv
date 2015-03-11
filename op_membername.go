@@ -10,7 +10,7 @@ package spirv
 type OpMemberName struct {
 	Type   uint32
 	Member uint32
-	Name   string
+	Name   String
 }
 
 func (c *OpMemberName) Opcode() uint32 { return 55 }
@@ -31,12 +31,12 @@ func NewOpMemberName() Codec {
 		},
 		Encode: func(i Instruction, out []uint32) error {
 			v := i.(*OpMemberName)
-			name_size := EncodedStringLen(v.Name)
+			nameSize := v.Name.EncodedLen()
 
-			out[0] = EncodeOpcode(3+uint32(name_size), v.Opcode())
+			out[0] = EncodeOpcode(3+nameSize, v.Opcode())
 			out[1] = v.Type
 			out[2] = v.Member
-			EncodeString(v.Name, out[3:])
+			v.Name.Encode(out[3:])
 			return nil
 		},
 	}

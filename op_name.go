@@ -8,8 +8,8 @@ package spirv
 // It names a result ID.
 // This has no semantic impact and can safely be removed from a module.
 type OpName struct {
+	Name   String
 	Target uint32
-	Name   string
 }
 
 func (c *OpName) Opcode() uint32 { return 54 }
@@ -29,11 +29,11 @@ func NewOpName() Codec {
 		},
 		Encode: func(i Instruction, out []uint32) error {
 			v := i.(*OpName)
-			name_size := EncodedStringLen(v.Name)
+			nameSize := v.Name.EncodedLen()
 
-			out[0] = EncodeOpcode(2+uint32(name_size), v.Opcode())
+			out[0] = EncodeOpcode(2+nameSize, v.Opcode())
 			out[1] = v.Target
-			EncodeString(v.Name, out[2:])
+			v.Name.Encode(out[2:])
 			return nil
 		},
 	}

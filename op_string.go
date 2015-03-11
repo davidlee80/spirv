@@ -9,7 +9,7 @@ package spirv
 // This has no semantic impact and can safely be removed from a module.
 type OpString struct {
 	ResultId uint32
-	String   string
+	String   String
 }
 
 func (c *OpString) Opcode() uint32 { return 56 }
@@ -29,11 +29,11 @@ func NewOpString() Codec {
 		},
 		Encode: func(i Instruction, out []uint32) error {
 			v := i.(*OpString)
-			name_size := EncodedStringLen(v.String)
+			nameSize := v.String.EncodedLen()
 
-			out[0] = EncodeOpcode(2+uint32(name_size), v.Opcode())
+			out[0] = EncodeOpcode(2+nameSize, v.Opcode())
 			out[1] = v.ResultId
-			EncodeString(v.String, out[2:])
+			v.String.Encode(out[2:])
 			return nil
 		},
 	}
