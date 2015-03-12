@@ -158,6 +158,14 @@ func TestMemory(t *testing.T) {
 				Sample:     5,
 			},
 		},
+		{
+			in: []uint32{0x00400e9, 1, 2, 3},
+			want: &OpGenericPtrMemSemantics{
+				ResultType: 1,
+				ResultId:   2,
+				Ptr:        3,
+			},
+		},
 	} {
 		testInstruction(t, st)
 	}

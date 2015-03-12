@@ -94,6 +94,7 @@ func NewInstructionSet() *InstructionSet {
 	bindOpInboundsAccessChain(set)
 	bindOpArraylength(set)
 	bindOpImagePointer(set)
+	bindOpGenericPtrMemSemantics(set)
 	return set
 }
 
