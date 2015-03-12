@@ -88,6 +88,7 @@ func NewInstructionSet() *InstructionSet {
 	bindOpVariableArray(set)
 	bindOpLoad(set)
 	bindOpStore(set)
+	bindOpCopyMemory(set)
 	return set
 }
 
