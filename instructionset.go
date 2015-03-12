@@ -93,6 +93,7 @@ func NewInstructionSet() *InstructionSet {
 	bindOpAccessChain(set)
 	bindOpInboundsAccessChain(set)
 	bindOpArraylength(set)
+	bindOpImagePointer(set)
 	return set
 }
 
