@@ -81,6 +81,8 @@ func NewInstructionSet() *InstructionSet {
 	bindOpConstantNullPointer(set)
 	bindOpConstantNullObject(set)
 	bindOpSpecConstantTrue(set)
+	bindOpSpecConstantFalse(set)
+	bindOpSpecConstant(set)
 	return set
 }
 

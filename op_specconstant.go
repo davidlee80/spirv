@@ -3,41 +3,43 @@
 
 package spirv
 
-// OpConstant declares a new Integer-type or Floating-point-type
-// scalar constant.
-type OpConstant struct {
+// OpSpecConstant declares a new Integer-type or Floating-point-type
+// scalar specialization constant.
+//
+// This instruction can be specialized to become either an OpConstantTrue
+// or OpConstantFalse instruction.
+type OpSpecConstant struct {
 	// Result Type must be a scalar Integer type or Floating-point type.
 	ResultType uint32
 
 	// The <id> of the new constant type.
 	ResultId uint32
 
-	// Value is the bit pattern for the constant.
-	//
-	// Types 32 bits wide or smaller take one word. Larger types take
-	// multiple words, with low-order words appearing first.
+	// Value is the bit pattern for the default value of the constant.
+	// Types 32 bits wide or smaller take one word. Larger types take multiple
+	// words, with low-order words appearing first.
 	Value []uint32
 }
 
-func (c *OpConstant) Opcode() uint32 { return 29 }
+func (c *OpSpecConstant) Opcode() uint32 { return 36 }
 
-func bindOpConstant(set *InstructionSet) {
+func bindOpSpecConstant(set *InstructionSet) {
 	set.Set(
-		(&OpConstant{}).Opcode(),
+		(&OpSpecConstant{}).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {
 				if len(argv) < 2 {
 					return nil, ErrMissingInstructionArgs
 				}
 
-				return &OpConstant{
+				return &OpSpecConstant{
 					ResultType: argv[0],
 					ResultId:   argv[1],
 					Value:      Copy(argv[2:]),
 				}, nil
 			},
 			Encode: func(i Instruction, out []uint32) error {
-				v := i.(*OpConstant)
+				v := i.(*OpSpecConstant)
 				size := uint32(len(v.Value))
 				out[0] = EncodeOpcode(3+size, v.Opcode())
 				out[1] = v.ResultType

@@ -378,11 +378,18 @@ func TestCodecInstructions(t *testing.T) {
 			},
 		},
 		{
+			in: []uint32{0x003001d, 1, 2},
+			want: &OpConstant{
+				ResultType: 1,
+				ResultId:   2,
+			},
+		},
+		{
 			in: []uint32{0x006001d, 1, 2, 3, 4, 5},
 			want: &OpConstant{
 				ResultType: 1,
 				ResultId:   2,
-				Values:     []uint32{3, 4, 5},
+				Value:      []uint32{3, 4, 5},
 			},
 		},
 		{
@@ -429,6 +436,28 @@ func TestCodecInstructions(t *testing.T) {
 			want: &OpSpecConstantTrue{
 				ResultType: 1,
 				ResultId:   2,
+			},
+		},
+		{
+			in: []uint32{0x0030023, 1, 2},
+			want: &OpSpecConstantFalse{
+				ResultType: 1,
+				ResultId:   2,
+			},
+		},
+		{
+			in: []uint32{0x0030024, 1, 2},
+			want: &OpSpecConstant{
+				ResultType: 1,
+				ResultId:   2,
+			},
+		},
+		{
+			in: []uint32{0x0060024, 1, 2, 3, 4, 5},
+			want: &OpSpecConstant{
+				ResultType: 1,
+				ResultId:   2,
+				Value:      []uint32{3, 4, 5},
 			},
 		},
 	} {
