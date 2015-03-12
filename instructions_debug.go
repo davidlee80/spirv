@@ -16,17 +16,9 @@ func (c *OpSource) Opcode() uint32 { return 1 }
 
 func init() {
 	Bind(
-		(&OpSource{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 2 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return &OpSource{
-					SourceLanguage: argv[0],
-					Version:        argv[1],
-				}, nil
+			New: func() Instruction {
+				return &OpSource{}
 			},
 		},
 	)
@@ -36,22 +28,17 @@ func init() {
 //
 // It documents an extension to the source language. This has no semantic
 // impact and can safely be removed from a module.
-type OpSourceExtension String
+type OpSourceExtension struct {
+	Extension String
+}
 
 func (c OpSourceExtension) Opcode() uint32 { return 2 }
 
 func init() {
 	Bind(
-		OpSourceExtension("").Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) == 0 {
-					return nil, ErrInvalidInstructionSize
-				}
-
-				return OpSourceExtension(
-					DecodeString(argv),
-				), nil
+			New: func() Instruction {
+				return &OpSourceExtension{}
 			},
 		},
 	)
@@ -70,17 +57,9 @@ func (c *OpName) Opcode() uint32 { return 54 }
 
 func init() {
 	Bind(
-		(&OpName{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 2 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return &OpName{
-					Target: argv[0],
-					Name:   DecodeString(argv[1:]),
-				}, nil
+			New: func() Instruction {
+				return &OpName{}
 			},
 		},
 	)
@@ -100,18 +79,9 @@ func (c *OpMemberName) Opcode() uint32 { return 55 }
 
 func init() {
 	Bind(
-		(&OpMemberName{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 2 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return &OpMemberName{
-					Type:   argv[0],
-					Member: argv[1],
-					Name:   DecodeString(argv[2:]),
-				}, nil
+			New: func() Instruction {
+				return &OpMemberName{}
 			},
 		},
 	)
@@ -130,17 +100,9 @@ func (c *OpString) Opcode() uint32 { return 56 }
 
 func init() {
 	Bind(
-		(&OpString{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 2 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return &OpString{
-					ResultId: argv[0],
-					String:   DecodeString(argv[1:]),
-				}, nil
+			New: func() Instruction {
+				return &OpString{}
 			},
 		},
 	)
@@ -161,19 +123,9 @@ func (c *OpLine) Opcode() uint32 { return 57 }
 
 func init() {
 	Bind(
-		(&OpLine{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) != 4 {
-					return nil, ErrInvalidInstructionSize
-				}
-
-				return &OpLine{
-					Target: argv[0],
-					File:   argv[1],
-					Line:   argv[2],
-					Column: argv[3],
-				}, nil
+			New: func() Instruction {
+				return &OpLine{}
 			},
 		},
 	)

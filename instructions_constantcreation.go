@@ -16,17 +16,9 @@ func (c *OpConstantTrue) Opcode() uint32 { return 27 }
 
 func init() {
 	Bind(
-		(&OpConstantTrue{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 2 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return &OpConstantTrue{
-					ResultType: argv[0],
-					ResultId:   argv[1],
-				}, nil
+			New: func() Instruction {
+				return &OpConstantTrue{}
 			},
 		},
 	)
@@ -45,17 +37,9 @@ func (c *OpConstantFalse) Opcode() uint32 { return 28 }
 
 func init() {
 	Bind(
-		(&OpConstantFalse{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 2 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return &OpConstantFalse{
-					ResultType: argv[0],
-					ResultId:   argv[1],
-				}, nil
+			New: func() Instruction {
+				return &OpConstantFalse{}
 			},
 		},
 	)
@@ -81,18 +65,9 @@ func (c *OpConstant) Opcode() uint32 { return 29 }
 
 func init() {
 	Bind(
-		(&OpConstant{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 2 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return &OpConstant{
-					ResultType: argv[0],
-					ResultId:   argv[1],
-					Value:      Copy(argv[2:]),
-				}, nil
+			New: func() Instruction {
+				return &OpConstant{}
 			},
 		},
 	)
@@ -123,18 +98,9 @@ func (c *OpConstantComposite) Opcode() uint32 { return 30 }
 
 func init() {
 	Bind(
-		(&OpConstantComposite{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 2 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return &OpConstantComposite{
-					ResultType:   argv[0],
-					ResultId:     argv[1],
-					Constituents: Copy(argv[2:]),
-				}, nil
+			New: func() Instruction {
+				return &OpConstantComposite{}
 			},
 		},
 	)
@@ -163,20 +129,9 @@ func (c *OpConstantSampler) Opcode() uint32 { return 31 }
 
 func init() {
 	Bind(
-		(&OpConstantSampler{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 5 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return &OpConstantSampler{
-					ResultType: argv[0],
-					ResultId:   argv[1],
-					Addressing: argv[2],
-					Param:      argv[3],
-					Filter:     argv[4],
-				}, nil
+			New: func() Instruction {
+				return &OpConstantSampler{}
 			},
 		},
 	)
@@ -195,17 +150,9 @@ func (c *OpConstantNullPointer) Opcode() uint32 { return 32 }
 
 func init() {
 	Bind(
-		(&OpConstantNullPointer{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) != 2 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return &OpConstantNullPointer{
-					ResultType: argv[0],
-					ResultId:   argv[1],
-				}, nil
+			New: func() Instruction {
+				return &OpConstantNullPointer{}
 			},
 		},
 	)
@@ -225,17 +172,9 @@ func (c *OpConstantNullObject) Opcode() uint32 { return 33 }
 
 func init() {
 	Bind(
-		(&OpConstantNullObject{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 2 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return &OpConstantNullObject{
-					ResultType: argv[0],
-					ResultId:   argv[1],
-				}, nil
+			New: func() Instruction {
+				return &OpConstantNullObject{}
 			},
 		},
 	)
@@ -258,17 +197,9 @@ func (c *OpSpecConstantTrue) Opcode() uint32 { return 34 }
 
 func init() {
 	Bind(
-		(&OpSpecConstantTrue{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 2 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return &OpSpecConstantTrue{
-					ResultType: argv[0],
-					ResultId:   argv[1],
-				}, nil
+			New: func() Instruction {
+				return &OpSpecConstantTrue{}
 			},
 		},
 	)
@@ -291,17 +222,9 @@ func (c *OpSpecConstantFalse) Opcode() uint32 { return 35 }
 
 func init() {
 	Bind(
-		(&OpSpecConstantFalse{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 2 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return &OpSpecConstantFalse{
-					ResultType: argv[0],
-					ResultId:   argv[1],
-				}, nil
+			New: func() Instruction {
+				return &OpSpecConstantFalse{}
 			},
 		},
 	)
@@ -329,18 +252,9 @@ func (c *OpSpecConstant) Opcode() uint32 { return 36 }
 
 func init() {
 	Bind(
-		(&OpSpecConstant{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 2 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return &OpSpecConstant{
-					ResultType: argv[0],
-					ResultId:   argv[1],
-					Value:      Copy(argv[2:]),
-				}, nil
+			New: func() Instruction {
+				return &OpSpecConstant{}
 			},
 		},
 	)
@@ -373,18 +287,9 @@ func (c *OpSpecConstantComposite) Opcode() uint32 { return 37 }
 
 func init() {
 	Bind(
-		(&OpSpecConstantComposite{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 2 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return &OpSpecConstantComposite{
-					ResultType:   argv[0],
-					ResultId:     argv[1],
-					Constituents: Copy(argv[2:]),
-				}, nil
+			New: func() Instruction {
+				return &OpSpecConstantComposite{}
 			},
 		},
 	)

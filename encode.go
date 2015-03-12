@@ -209,15 +209,15 @@ func encodeStruct(rv reflect.Value, out []uint32) (uint32, error) {
 
 	rt := rv.Type()
 	for i := 0; i < rv.NumField(); i++ {
-		fldv := rv.Field(i)
-		fldt := rt.Field(i)
+		fv := rv.Field(i)
+		ft := rt.Field(i)
 
-		tag := fldt.Tag.Get("spirv")
-		if hasFieldOption(tag, "optional") && valueIsNil(fldv) {
+		tag := ft.Tag.Get("spirv")
+		if hasFieldOption(tag, "optional") && valueIsNil(fv) {
 			continue
 		}
 
-		argc, err := encodeValue(fldv, out[index:])
+		argc, err := encodeValue(fv, out[index:])
 		if err != nil {
 			return 0, err
 		}

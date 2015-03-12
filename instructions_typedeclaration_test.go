@@ -11,12 +11,16 @@ import (
 func TestTypeDeclaration(t *testing.T) {
 	for _, st := range []InstructionTest{
 		{
-			in:   []uint32{0x00020008, 0x32},
-			want: OpTypeVoid(0x32),
+			in: []uint32{0x00020008, 1},
+			want: &OpTypeVoid{
+				ResultId: 1,
+			},
 		},
 		{
-			in:   []uint32{0x00020009, 0x32},
-			want: OpTypeBool(0x32),
+			in: []uint32{0x00020009, 1},
+			want: &OpTypeBool{
+				ResultId: 1,
+			},
 		},
 		{
 			in: []uint32{0x0004000a, 0x32, 64, 1},
@@ -78,8 +82,10 @@ func TestTypeDeclaration(t *testing.T) {
 			},
 		},
 		{
-			in:   []uint32{0x002000f, 1},
-			want: OpTypeFilter(1),
+			in: []uint32{0x002000f, 1},
+			want: &OpTypeFilter{
+				ResultId: 1,
+			},
 		},
 		{
 			in: []uint32{0x0040010, 1, 2, 3},
@@ -134,20 +140,28 @@ func TestTypeDeclaration(t *testing.T) {
 			},
 		},
 		{
-			in:   []uint32{0x0020016, 123},
-			want: OpTypeEvent(123),
+			in: []uint32{0x0020016, 123},
+			want: &OpTypeEvent{
+				ResultId: 123,
+			},
 		},
 		{
-			in:   []uint32{0x0020017, 4321},
-			want: OpTypeDeviceEvent(4321),
+			in: []uint32{0x0020017, 123},
+			want: &OpTypeDeviceEvent{
+				ResultId: 123,
+			},
 		},
 		{
-			in:   []uint32{0x0020018, 123},
-			want: OpTypeReserveId(123),
+			in: []uint32{0x0020018, 123},
+			want: &OpTypeReserveId{
+				ResultId: 123,
+			},
 		},
 		{
-			in:   []uint32{0x0020019, 123},
-			want: OpTypeQueue(123),
+			in: []uint32{0x0020019, 123},
+			want: &OpTypeQueue{
+				ResultId: 123,
+			},
 		},
 		{
 			in: []uint32{0x004001a, 1, 2, AccessQualifierReadWrite},

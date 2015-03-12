@@ -8,8 +8,10 @@ import "testing"
 func TestAnnotations(t *testing.T) {
 	for _, st := range []InstructionTest{
 		{
-			in:   []uint32{0x00020031, 0xff},
-			want: OpDecorationGroup(0xff),
+			in: []uint32{0x00020031, 0xff},
+			want: &OpDecorationGroup{
+				ResultId: 0xff,
+			},
 		},
 		{
 			in: []uint32{0x00060032, 1, DecorationNoStaticUse, 2, 3, 4},

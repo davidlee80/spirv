@@ -43,7 +43,9 @@ func TestModeSetting(t *testing.T) {
 				0x6f69736e,
 				0x0000006e,
 			},
-			want: OpCompileFlag("test source extension"),
+			want: &OpCompileFlag{
+				Flag: "test source extension",
+			},
 		},
 	} {
 		testInstruction(t, st)

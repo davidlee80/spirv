@@ -6,13 +6,7 @@ package spirv
 // Codec defines handlers used to encode or decode
 // a specific type of instruction
 type Codec struct {
-	// Decoder for an instruction's arguments.
-	//
-	// The provided set of arguments is guaranteed to have the size
-	// defined in the instruction's word count. However, this does not
-	// mean it is the amount actually expected as per the specification.
-	// So a size check on this slice is warrented.
-	//
-	// ErrMissingInstructionArgs should be returned if this check fails.
-	Decode func(argv []uint32) (Instruction, error)
+	// New should return a new, default version of the instruction.
+	// The value returned by this must be a pointer to a struct.
+	New func() Instruction
 }

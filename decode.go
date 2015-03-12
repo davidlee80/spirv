@@ -6,6 +6,7 @@ package spirv
 import (
 	"fmt"
 	"io"
+	"reflect"
 )
 
 // Decoder defines a decoder for the SPIR-V format.
@@ -122,14 +123,23 @@ func (d *Decoder) DecodeInstruction() (Instruction, error) {
 		return nil, err
 	}
 
-	if len(words) == 0 {
-		return nil, io.EOF
-	}
+	return DecodeInstruction(words)
+}
 
+// DecodeInstructionFromWords decodes an insrtuction from the given
+// set of words.
+//
+// Returns an error if there is no matching instruction or the
+// decoding failed.
+func DecodeInstruction(words []uint32) (Instruction, error) {
 	wordCount := words[0] >> 16
 	opcode := words[0] & 0xffff
 
 	if wordCount == 0 {
+		return nil, ErrInvalidInstructionSize
+	}
+
+	if len(words) < int(wordCount) {
 		return nil, ErrInvalidInstructionSize
 	}
 
@@ -141,7 +151,23 @@ func (d *Decoder) DecodeInstruction() (Instruction, error) {
 		return nil, fmt.Errorf("unknown instruction: %08x", opcode)
 	}
 
-	return codec.Decode(words[1:])
+	instr := codec.New()
+
+	// This instruction is illegal.
+	// FIXME Remove this once instruction validation code is in.
+	switch instr.(type) {
+	case *OpNop:
+		return nil, ErrUnacceptable
+	}
+
+	rv := reflect.ValueOf(instr)
+
+	_, err := decodeValue(rv, words[1:])
+	if err != nil {
+		return nil, err
+	}
+
+	return instr, nil
 }
 
 // Next reads exactly len(p) words from the stream.
@@ -169,4 +195,59 @@ func (d *Decoder) read(p []uint32) error {
 	}
 
 	return nil
+}
+
+// decodeValue decodes the given words into the specified instruction.
+func decodeValue(rv reflect.Value, argv []uint32) ([]uint32, error) {
+	var err error
+
+	rv = reflect.Indirect(rv)
+
+	switch rv.Kind() {
+	case reflect.Struct:
+		rt := rv.Type()
+
+		for i := 0; i < rv.NumField(); i++ {
+			fv := rv.Field(i)
+			ft := rt.Field(i)
+
+			tag := ft.Tag.Get("spirv")
+			if hasFieldOption(tag, "optional") && len(argv) == 0 {
+				continue
+			}
+
+			argv, err = decodeValue(fv, argv)
+			if err != nil {
+				return nil, err
+			}
+		}
+
+		return argv, nil
+
+	case reflect.Slice, reflect.Array:
+		if len(argv) > 0 {
+			new := Copy(argv)
+			rv.Set(reflect.ValueOf(new))
+		}
+
+		return nil, nil
+	}
+
+	if len(argv) == 0 {
+		return nil, ErrMissingInstructionArgs
+	}
+
+	switch rv.Kind() {
+	case reflect.Uint32:
+		rv.SetUint(uint64(argv[0]))
+		return argv[1:], nil
+
+	case reflect.String:
+		str := DecodeString(argv)
+		size := str.EncodedLen()
+		rv.SetString(string(str))
+		return argv[size:], nil
+	}
+
+	return argv, fmt.Errorf("unsupported type: %v", rv.Kind())
 }

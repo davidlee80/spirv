@@ -15,17 +15,9 @@ func (c *OpMemoryModel) Opcode() uint32 { return 5 }
 
 func init() {
 	Bind(
-		(&OpMemoryModel{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 2 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return &OpMemoryModel{
-					AddressingMode: argv[0],
-					MemoryMode:     argv[1],
-				}, nil
+			New: func() Instruction {
+				return &OpMemoryModel{}
 			},
 		},
 	)
@@ -42,17 +34,9 @@ func (c *OpEntryPoint) Opcode() uint32 { return 6 }
 
 func init() {
 	Bind(
-		(&OpEntryPoint{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 2 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return &OpEntryPoint{
-					ExecutionModel: argv[0],
-					ResultId:       argv[1],
-				}, nil
+			New: func() Instruction {
+				return &OpEntryPoint{}
 			},
 		},
 	)
@@ -70,40 +54,26 @@ func (c *OpExecutionMode) Opcode() uint32 { return 7 }
 
 func init() {
 	Bind(
-		(&OpExecutionMode{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 2 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return &OpExecutionMode{
-					EntryPoint:    argv[0],
-					ExecutionMode: argv[1],
-					Argv:          Copy(argv[2:]),
-				}, nil
+			New: func() Instruction {
+				return &OpExecutionMode{}
 			},
 		},
 	)
 }
 
 // OpCompileFlag represents the OpCompileFlag instruction.
-type OpCompileFlag String
+type OpCompileFlag struct {
+	Flag String
+}
 
-func (c OpCompileFlag) Opcode() uint32 { return 218 }
+func (c *OpCompileFlag) Opcode() uint32 { return 218 }
 
 func init() {
 	Bind(
-		OpCompileFlag("").Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) == 0 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return OpCompileFlag(
-					DecodeString(argv),
-				), nil
+			New: func() Instruction {
+				return &OpCompileFlag{}
 			},
 		},
 	)

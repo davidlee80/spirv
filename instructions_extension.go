@@ -7,22 +7,17 @@ package spirv
 //
 // It declares use of an extension to SPIR-V. This allows validation of
 // additional instructions, tokens, semantics, etc
-type OpExtension String
+type OpExtension struct {
+	Name String
+}
 
-func (c OpExtension) Opcode() uint32 { return 3 }
+func (c *OpExtension) Opcode() uint32 { return 3 }
 
 func init() {
 	Bind(
-		OpExtension("").Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) == 0 {
-					return nil, ErrInvalidInstructionSize
-				}
-
-				return OpExtension(
-					DecodeString(argv),
-				), nil
+			New: func() Instruction {
+				return &OpExtension{}
 			},
 		},
 	)
@@ -41,17 +36,9 @@ func (c *OpExtInstImport) Opcode() uint32 { return 4 }
 
 func init() {
 	Bind(
-		(&OpExtInstImport{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 2 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return &OpExtInstImport{
-					ResultId: argv[0],
-					Name:     DecodeString(argv[1:]),
-				}, nil
+			New: func() Instruction {
+				return &OpExtInstImport{}
 			},
 		},
 	)
@@ -70,20 +57,9 @@ func (c *OpExtInst) Opcode() uint32 { return 44 }
 
 func init() {
 	Bind(
-		(&OpExtInst{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 4 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return &OpExtInst{
-					ResultType:  argv[0],
-					ResultId:    argv[1],
-					Set:         argv[2],
-					Instruction: argv[3],
-					Operands:    Copy(argv[4:]),
-				}, nil
+			New: func() Instruction {
+				return &OpExtInst{}
 			},
 		},
 	)

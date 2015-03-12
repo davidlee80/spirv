@@ -14,10 +14,9 @@ func (c OpNop) Opcode() uint32 { return 0 }
 
 func init() {
 	Bind(
-		(&OpNop{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				return nil, ErrUnacceptable
+			New: func() Instruction {
+				return &OpNop{}
 			},
 		},
 	)
@@ -33,17 +32,9 @@ func (c *OpUndef) Opcode() uint32 { return 45 }
 
 func init() {
 	Bind(
-		(&OpUndef{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) != 2 {
-					return nil, ErrInvalidInstructionSize
-				}
-
-				return &OpUndef{
-					ResultType: argv[0],
-					ResultId:   argv[1],
-				}, nil
+			New: func() Instruction {
+				return &OpUndef{}
 			},
 		},
 	)

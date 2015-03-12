@@ -3,7 +3,10 @@
 
 package spirv
 
-import "sync"
+import (
+	"reflect"
+	"sync"
+)
 
 // InstructionSet maps opcodes to an instruction encoder/decoder.
 type InstructionSet struct {
@@ -17,10 +20,20 @@ var instructions = InstructionSet{
 	data: make(map[uint32]Codec),
 }
 
-// Bind registers the given codec for the specified opcode.
-func Bind(opcode uint32, codec Codec) {
+// Bind registers the given codec.
+//
+// This call panics if the instruction type defined by the codec
+// is not a pointer type.
+func Bind(codec Codec) {
+	obj := codec.New()
+	rv := reflect.ValueOf(obj)
+
+	if rv.Kind() != reflect.Ptr {
+		panic(ErrInstructionNotPointer)
+	}
+
 	instructions.Lock()
-	instructions.data[opcode] = codec
+	instructions.data[obj.Opcode()] = codec
 	instructions.Unlock()
 }
 

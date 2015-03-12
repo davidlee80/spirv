@@ -10,20 +10,17 @@ package spirv
 // and OpGroupMemberDecorate instructions can consume the Result <id> to apply
 // multiple decorations to multiple target <id>s. Those are the only
 // instructions allowed to consume the Result <id>.
-type OpDecorationGroup uint32
+type OpDecorationGroup struct {
+	ResultId uint32
+}
 
-func (c OpDecorationGroup) Opcode() uint32 { return 49 }
+func (c *OpDecorationGroup) Opcode() uint32 { return 49 }
 
 func init() {
 	Bind(
-		OpDecorationGroup(0).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 1 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return OpDecorationGroup(argv[0]), nil
+			New: func() Instruction {
+				return &OpDecorationGroup{}
 			},
 		},
 	)
@@ -52,18 +49,9 @@ func (c *OpDecorate) Opcode() uint32 { return 50 }
 
 func init() {
 	Bind(
-		(&OpDecorate{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 2 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return &OpDecorate{
-					Target:     argv[0],
-					Decoration: argv[1],
-					Argv:       Copy(argv[2:]),
-				}, nil
+			New: func() Instruction {
+				return &OpDecorate{}
 			},
 		},
 	)
@@ -93,19 +81,9 @@ func (c *OpMemberDecorate) Opcode() uint32 { return 51 }
 
 func init() {
 	Bind(
-		(&OpMemberDecorate{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 3 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return &OpMemberDecorate{
-					StructType: argv[0],
-					Member:     argv[1],
-					Decoration: argv[2],
-					Argv:       Copy(argv[3:]),
-				}, nil
+			New: func() Instruction {
+				return &OpMemberDecorate{}
 			},
 		},
 	)
@@ -125,17 +103,9 @@ func (c *OpGroupDecorate) Opcode() uint32 { return 52 }
 
 func init() {
 	Bind(
-		(&OpGroupDecorate{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 1 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return &OpGroupDecorate{
-					Group:   argv[0],
-					Targets: Copy(argv[1:]),
-				}, nil
+			New: func() Instruction {
+				return &OpGroupDecorate{}
 			},
 		},
 	)
@@ -155,17 +125,9 @@ func (c *OpGroupMemberDecorate) Opcode() uint32 { return 53 }
 
 func init() {
 	Bind(
-		(&OpGroupMemberDecorate{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 1 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return &OpGroupMemberDecorate{
-					Group:   argv[0],
-					Targets: Copy(argv[1:]),
-				}, nil
+			New: func() Instruction {
+				return &OpGroupMemberDecorate{}
 			},
 		},
 	)

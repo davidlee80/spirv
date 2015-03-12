@@ -26,24 +26,11 @@ func (c *OpVariable) Opcode() uint32 { return 38 }
 
 func init() {
 	Bind(
-		(&OpVariable{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 3 {
-					return nil, ErrMissingInstructionArgs
+			New: func() Instruction {
+				return &OpVariable{
+					Initializer: 0,
 				}
-
-				op := &OpVariable{
-					ResultType:   argv[0],
-					ResultId:     argv[1],
-					StorageClass: argv[2],
-				}
-
-				if len(argv) > 3 {
-					op.Initializer = argv[3]
-				}
-
-				return op, nil
 			},
 		},
 	)
@@ -71,19 +58,9 @@ func (c *OpVariableArray) Opcode() uint32 { return 39 }
 
 func init() {
 	Bind(
-		(&OpVariableArray{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 4 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return &OpVariableArray{
-					ResultType:   argv[0],
-					ResultId:     argv[1],
-					StorageClass: argv[2],
-					N:            argv[3],
-				}, nil
+			New: func() Instruction {
+				return &OpVariableArray{}
 			},
 		},
 	)
@@ -109,19 +86,9 @@ func (c *OpLoad) Opcode() uint32 { return 46 }
 
 func init() {
 	Bind(
-		(&OpLoad{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 3 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return &OpLoad{
-					ResultType:   argv[0],
-					ResultId:     argv[1],
-					Pointer:      argv[2],
-					MemoryAccess: Copy(argv[3:]),
-				}, nil
+			New: func() Instruction {
+				return &OpLoad{}
 			},
 		},
 	)
@@ -144,18 +111,9 @@ func (c *OpStore) Opcode() uint32 { return 47 }
 
 func init() {
 	Bind(
-		(&OpStore{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 2 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return &OpStore{
-					Pointer:      argv[0],
-					Object:       argv[1],
-					MemoryAccess: Copy(argv[2:]),
-				}, nil
+			New: func() Instruction {
+				return &OpStore{}
 			},
 		},
 	)
@@ -182,18 +140,9 @@ func (c *OpCopyMemory) Opcode() uint32 { return 65 }
 
 func init() {
 	Bind(
-		(&OpCopyMemory{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 2 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return &OpCopyMemory{
-					Target:       argv[0],
-					Source:       argv[1],
-					MemoryAccess: Copy(argv[2:]),
-				}, nil
+			New: func() Instruction {
+				return &OpCopyMemory{}
 			},
 		},
 	)
@@ -222,19 +171,9 @@ func (c *OpCopyMemorySized) Opcode() uint32 { return 66 }
 
 func init() {
 	Bind(
-		(&OpCopyMemorySized{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 3 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return &OpCopyMemorySized{
-					Target:       argv[0],
-					Source:       argv[1],
-					Size:         argv[2],
-					MemoryAccess: Copy(argv[3:]),
-				}, nil
+			New: func() Instruction {
+				return &OpCopyMemorySized{}
 			},
 		},
 	)
@@ -263,19 +202,9 @@ func (c *OpAccessChain) Opcode() uint32 { return 93 }
 
 func init() {
 	Bind(
-		(&OpAccessChain{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 3 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return &OpAccessChain{
-					ResultType: argv[0],
-					ResultId:   argv[1],
-					Base:       argv[2],
-					Indices:    Copy(argv[3:]),
-				}, nil
+			New: func() Instruction {
+				return &OpAccessChain{}
 			},
 		},
 	)
@@ -301,19 +230,9 @@ func (c *OpInboundsAccessChain) Opcode() uint32 { return 94 }
 
 func init() {
 	Bind(
-		(&OpInboundsAccessChain{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 3 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return &OpInboundsAccessChain{
-					ResultType: argv[0],
-					ResultId:   argv[1],
-					Base:       argv[2],
-					Indices:    Copy(argv[3:]),
-				}, nil
+			New: func() Instruction {
+				return &OpInboundsAccessChain{}
 			},
 		},
 	)
@@ -337,19 +256,9 @@ func (c *OpArraylength) Opcode() uint32 { return 121 }
 
 func init() {
 	Bind(
-		(&OpArraylength{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 4 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return &OpArraylength{
-					ResultType: argv[0],
-					ResultId:   argv[1],
-					Structure:  argv[2],
-					Member:     argv[3],
-				}, nil
+			New: func() Instruction {
+				return &OpArraylength{}
 			},
 		},
 	)
@@ -376,20 +285,9 @@ func (c *OpImagePointer) Opcode() uint32 { return 190 }
 
 func init() {
 	Bind(
-		(&OpImagePointer{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 5 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return &OpImagePointer{
-					ResultType: argv[0],
-					ResultId:   argv[1],
-					Image:      argv[2],
-					Coordinate: argv[3],
-					Sample:     argv[4],
-				}, nil
+			New: func() Instruction {
+				return &OpImagePointer{}
 			},
 		},
 	)
@@ -407,18 +305,9 @@ func (c *OpGenericPtrMemSemantics) Opcode() uint32 { return 233 }
 
 func init() {
 	Bind(
-		(&OpGenericPtrMemSemantics{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 3 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return &OpGenericPtrMemSemantics{
-					ResultType: argv[0],
-					ResultId:   argv[1],
-					Ptr:        argv[2],
-				}, nil
+			New: func() Instruction {
+				return &OpGenericPtrMemSemantics{}
 			},
 		},
 	)

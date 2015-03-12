@@ -17,7 +17,9 @@ func TestExtensions(t *testing.T) {
 				0x6f69736e,
 				0x0000006e,
 			},
-			want: OpExtension("test source extension"),
+			want: &OpExtension{
+				Name: "test source extension",
+			},
 		},
 		{
 			in: []uint32{

@@ -24,7 +24,9 @@ func TestDebug(t *testing.T) {
 				0x6f69736e,
 				0x0000006e,
 			},
-			want: OpSourceExtension("test source extension"),
+			want: &OpSourceExtension{
+				Extension: "test source extension",
+			},
 		},
 		{
 			in: []uint32{0x00050036, 1, 0x74736574, 0x6d616e5f, 0x00000065},

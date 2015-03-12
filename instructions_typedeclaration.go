@@ -4,40 +4,34 @@
 package spirv
 
 // OpTypeVoid represents the OpTypeVoid instruction.
-type OpTypeVoid uint32
+type OpTypeVoid struct {
+	ResultId uint32
+}
 
-func (c OpTypeVoid) Opcode() uint32 { return 8 }
+func (c *OpTypeVoid) Opcode() uint32 { return 8 }
 
 func init() {
 	Bind(
-		OpTypeVoid(0).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 1 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return OpTypeVoid(argv[0]), nil
+			New: func() Instruction {
+				return &OpTypeVoid{}
 			},
 		},
 	)
 }
 
 // OpTypeBool represents the OpTypeBool instruction.
-type OpTypeBool uint32
+type OpTypeBool struct {
+	ResultId uint32
+}
 
-func (c OpTypeBool) Opcode() uint32 { return 9 }
+func (c *OpTypeBool) Opcode() uint32 { return 9 }
 
 func init() {
 	Bind(
-		OpTypeBool(0).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 1 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return OpTypeBool(argv[0]), nil
+			New: func() Instruction {
+				return &OpTypeBool{}
 			},
 		},
 	)
@@ -67,18 +61,9 @@ func (c *OpTypeInt) Opcode() uint32 { return 10 }
 
 func init() {
 	Bind(
-		(&OpTypeInt{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 3 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return &OpTypeInt{
-					ResultId:   argv[0],
-					Width:      argv[1],
-					Signedness: argv[2],
-				}, nil
+			New: func() Instruction {
+				return &OpTypeInt{}
 			},
 		},
 	)
@@ -99,17 +84,9 @@ func (c *OpTypeFloat) Opcode() uint32 { return 11 }
 
 func init() {
 	Bind(
-		(&OpTypeFloat{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 2 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return &OpTypeFloat{
-					ResultId: argv[0],
-					Width:    argv[1],
-				}, nil
+			New: func() Instruction {
+				return &OpTypeFloat{}
 			},
 		},
 	)
@@ -133,18 +110,9 @@ func (c *OpTypeVector) Opcode() uint32 { return 12 }
 
 func init() {
 	Bind(
-		(&OpTypeVector{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 3 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return &OpTypeVector{
-					ResultId:       argv[0],
-					ComponentType:  argv[1],
-					ComponentCount: argv[2],
-				}, nil
+			New: func() Instruction {
+				return &OpTypeVector{}
 			},
 		},
 	)
@@ -166,18 +134,9 @@ func (c *OpTypeMatrix) Opcode() uint32 { return 13 }
 
 func init() {
 	Bind(
-		(&OpTypeMatrix{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 3 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return &OpTypeMatrix{
-					ResultId:    argv[0],
-					ColumnType:  argv[1],
-					ColumnCount: argv[2],
-				}, nil
+			New: func() Instruction {
+				return &OpTypeMatrix{}
 			},
 		},
 	)
@@ -237,29 +196,9 @@ func (c *OpTypeSampler) Opcode() uint32 { return 14 }
 
 func init() {
 	Bind(
-		(&OpTypeSampler{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 7 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				op := &OpTypeSampler{
-					ResultId:       argv[0],
-					SampledType:    argv[1],
-					Dimensionality: argv[2],
-					Content:        argv[3],
-					Arrayed:        argv[4],
-					Compare:        argv[5],
-					MS:             argv[6],
-				}
-
-				// The qualifier is optional.
-				if len(argv) > 7 {
-					op.AccessQualifier = argv[7]
-				}
-
-				return op, nil
+			New: func() Instruction {
+				return &OpTypeSampler{}
 			},
 		},
 	)
@@ -268,20 +207,17 @@ func init() {
 // OpTypeFilter declares a filter type. It is consumed by OpSampler.
 // This type is opaque: values of this type have no defined
 // physical size or bit pattern.
-type OpTypeFilter uint32
+type OpTypeFilter struct {
+	ResultId uint32
+}
 
-func (c OpTypeFilter) Opcode() uint32 { return 15 }
+func (c *OpTypeFilter) Opcode() uint32 { return 15 }
 
 func init() {
 	Bind(
-		OpTypeFilter(0).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 1 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return OpTypeFilter(argv[0]), nil
+			New: func() Instruction {
+				return &OpTypeFilter{}
 			},
 		},
 	)
@@ -307,18 +243,9 @@ func (c *OpTypeArray) Opcode() uint32 { return 16 }
 
 func init() {
 	Bind(
-		(&OpTypeArray{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 3 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return &OpTypeArray{
-					ResultId:    argv[0],
-					ElementType: argv[1],
-					Length:      argv[2],
-				}, nil
+			New: func() Instruction {
+				return &OpTypeArray{}
 			},
 		},
 	)
@@ -342,17 +269,9 @@ func (c *OpTypeRuntimeArray) Opcode() uint32 { return 17 }
 
 func init() {
 	Bind(
-		(&OpTypeRuntimeArray{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 2 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return &OpTypeRuntimeArray{
-					ResultId:    argv[0],
-					ElementType: argv[1],
-				}, nil
+			New: func() Instruction {
+				return &OpTypeRuntimeArray{}
 			},
 		},
 	)
@@ -373,17 +292,9 @@ func (c *OpTypeStruct) Opcode() uint32 { return 18 }
 
 func init() {
 	Bind(
-		(&OpTypeStruct{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 1 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return &OpTypeStruct{
-					ResultId: argv[0],
-					Members:  Copy(argv[1:]),
-				}, nil
+			New: func() Instruction {
+				return &OpTypeStruct{}
 			},
 		},
 	)
@@ -402,17 +313,9 @@ func (c *OpTypeOpaque) Opcode() uint32 { return 19 }
 
 func init() {
 	Bind(
-		(&OpTypeOpaque{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 1 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return &OpTypeOpaque{
-					ResultId: argv[0],
-					Name:     DecodeString(argv[1:]),
-				}, nil
+			New: func() Instruction {
+				return &OpTypeOpaque{}
 			},
 		},
 	)
@@ -434,18 +337,9 @@ func (c *OpTypePointer) Opcode() uint32 { return 20 }
 
 func init() {
 	Bind(
-		(&OpTypePointer{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) != 3 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return &OpTypePointer{
-					ResultId:     argv[0],
-					StorageClass: argv[1],
-					Type:         argv[2],
-				}, nil
+			New: func() Instruction {
+				return &OpTypePointer{}
 			},
 		},
 	)
@@ -472,38 +366,26 @@ func (c *OpTypeFunction) Opcode() uint32 { return 21 }
 
 func init() {
 	Bind(
-		(&OpTypeFunction{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 2 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return &OpTypeFunction{
-					ResultId:   argv[0],
-					ReturnType: argv[1],
-					Parameters: Copy(argv[2:]),
-				}, nil
+			New: func() Instruction {
+				return &OpTypeFunction{}
 			},
 		},
 	)
 }
 
 // OpTypeEvent declares an OpenCL event object.
-type OpTypeEvent uint32
+type OpTypeEvent struct {
+	ResultId uint32
+}
 
-func (c OpTypeEvent) Opcode() uint32 { return 22 }
+func (c *OpTypeEvent) Opcode() uint32 { return 22 }
 
 func init() {
 	Bind(
-		OpTypeEvent(0).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) != 1 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return OpTypeEvent(argv[0]), nil
+			New: func() Instruction {
+				return &OpTypeEvent{}
 			},
 		},
 	)
@@ -512,20 +394,17 @@ func init() {
 // OpTypeDeviceEvent declares an OpenCL device-side event object.
 //
 // It defines the <id> of the new device-side-event type.
-type OpTypeDeviceEvent uint32
+type OpTypeDeviceEvent struct {
+	ResultId uint32
+}
 
-func (c OpTypeDeviceEvent) Opcode() uint32 { return 23 }
+func (c *OpTypeDeviceEvent) Opcode() uint32 { return 23 }
 
 func init() {
 	Bind(
-		OpTypeDeviceEvent(0).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) != 1 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return OpTypeDeviceEvent(argv[0]), nil
+			New: func() Instruction {
+				return &OpTypeDeviceEvent{}
 			},
 		},
 	)
@@ -534,20 +413,17 @@ func init() {
 // OpTypeReserveId declares an OpenCL reservation id object.
 //
 // It defines the <id> of the new reservation type.
-type OpTypeReserveId uint32
+type OpTypeReserveId struct {
+	ResultId uint32
+}
 
-func (c OpTypeReserveId) Opcode() uint32 { return 24 }
+func (c *OpTypeReserveId) Opcode() uint32 { return 24 }
 
 func init() {
 	Bind(
-		OpTypeReserveId(0).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) != 1 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return OpTypeReserveId(argv[0]), nil
+			New: func() Instruction {
+				return &OpTypeReserveId{}
 			},
 		},
 	)
@@ -556,20 +432,17 @@ func init() {
 // OpTypeQueue declares an OpenCL queue object.
 //
 // It defines the <id> of the new queue type.
-type OpTypeQueue uint32
+type OpTypeQueue struct {
+	ResultId uint32
+}
 
-func (c OpTypeQueue) Opcode() uint32 { return 25 }
+func (c *OpTypeQueue) Opcode() uint32 { return 25 }
 
 func init() {
 	Bind(
-		OpTypeQueue(0).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) != 1 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return OpTypeQueue(argv[0]), nil
+			New: func() Instruction {
+				return &OpTypeQueue{}
 			},
 		},
 	)
@@ -591,18 +464,9 @@ func (c *OpTypePipe) Opcode() uint32 { return 26 }
 
 func init() {
 	Bind(
-		(&OpTypePipe{}).Opcode(),
 		Codec{
-			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 3 {
-					return nil, ErrMissingInstructionArgs
-				}
-
-				return &OpTypePipe{
-					ResultId:        argv[0],
-					Type:            argv[1],
-					AccessQualifier: argv[2],
-				}, nil
+			New: func() Instruction {
+				return &OpTypePipe{}
 			},
 		},
 	)
