@@ -30,13 +30,6 @@ func TestConstantCreation(t *testing.T) {
 			},
 		},
 		{
-			in: []uint32{0x003001d, 1, 2},
-			want: &OpConstant{
-				ResultType: 1,
-				ResultId:   2,
-			},
-		},
-		{
 			in: []uint32{0x006001d, 1, 2, 3, 4, 5},
 			want: &OpConstant{
 				ResultType: 1,
