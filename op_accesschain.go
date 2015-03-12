@@ -15,7 +15,7 @@ type OpAccessChain struct {
 	// Base must be a pointer type, pointing to the base of the object.
 	Base uint32
 
-	// Indexes walk the type hierarchy to the desired depth, potentially
+	// Indices walk the type hierarchy to the desired depth, potentially
 	// down to scalar granularity. The type of the pointer created will be to
 	// the type reached by walking the type hierarchy down to the last
 	// provided index.
