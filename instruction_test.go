@@ -565,6 +565,23 @@ func TestCodecInstructions(t *testing.T) {
 				MemoryAccess: []uint32{MAAligned, MAVolatile},
 			},
 		},
+		{
+			in: []uint32{0x004005d, 1, 2, 3},
+			want: &OpAccessChain{
+				ResultType: 1,
+				ResultId:   2,
+				Base:       3,
+			},
+		},
+		{
+			in: []uint32{0x006005d, 1, 2, 3, 4, 5},
+			want: &OpAccessChain{
+				ResultType: 1,
+				ResultId:   2,
+				Base:       3,
+				Indices:    []uint32{4, 5},
+			},
+		},
 	} {
 		have, err := lib.Decode(st.in)
 

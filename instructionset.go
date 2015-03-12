@@ -90,6 +90,7 @@ func NewInstructionSet() *InstructionSet {
 	bindOpStore(set)
 	bindOpCopyMemory(set)
 	bindOpCopyMemorySized(set)
+	bindOpAccessChain(set)
 	return set
 }
 
