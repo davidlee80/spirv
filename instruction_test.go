@@ -501,6 +501,23 @@ func TestCodecInstructions(t *testing.T) {
 				N:          10,
 			},
 		},
+		{
+			in: []uint32{0x004002e, 1, 2, 3},
+			want: &OpLoad{
+				ResultType: 1,
+				ResultId:   2,
+				Pointer:    3,
+			},
+		},
+		{
+			in: []uint32{0x006002e, 1, 2, 3, uint32(MAAligned), uint32(MAVolatile)},
+			want: &OpLoad{
+				ResultType:   1,
+				ResultId:     2,
+				Pointer:      3,
+				MemoryAccess: []MemoryAccess{MAAligned, MAVolatile},
+			},
+		},
 	} {
 		have, err := lib.Decode(st.in)
 
