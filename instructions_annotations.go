@@ -25,11 +25,10 @@ func init() {
 
 				return OpDecorationGroup(argv[0]), nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(OpDecorationGroup)
-				out[0] = EncodeOpcode(2, v.Opcode())
-				out[1] = uint32(v)
-				return nil
+				out[0] = uint32(v)
+				return 1, nil
 			},
 		},
 	)
@@ -71,15 +70,14 @@ func init() {
 					Argv:       Copy(argv[2:]),
 				}, nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(*OpDecorate)
 				size := uint32(len(v.Argv))
 
-				out[0] = EncodeOpcode(3+size, v.Opcode())
-				out[1] = v.Target
-				out[2] = v.Decoration
-				copy(out[3:], v.Argv)
-				return nil
+				out[0] = v.Target
+				out[1] = v.Decoration
+				copy(out[2:], v.Argv)
+				return 2 + size, nil
 			},
 		},
 	)
@@ -123,16 +121,15 @@ func init() {
 					Argv:       Copy(argv[3:]),
 				}, nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(*OpMemberDecorate)
 				size := uint32(len(v.Argv))
 
-				out[0] = EncodeOpcode(4+size, v.Opcode())
-				out[1] = v.StructType
-				out[2] = v.Member
-				out[3] = v.Decoration
-				copy(out[4:], v.Argv)
-				return nil
+				out[0] = v.StructType
+				out[1] = v.Member
+				out[2] = v.Decoration
+				copy(out[3:], v.Argv)
+				return 3 + size, nil
 			},
 		},
 	)
@@ -164,14 +161,13 @@ func init() {
 					Targets: Copy(argv[1:]),
 				}, nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(*OpGroupDecorate)
 				size := uint32(len(v.Targets))
 
-				out[0] = EncodeOpcode(2+size, v.Opcode())
-				out[1] = v.Group
-				copy(out[2:], v.Targets)
-				return nil
+				out[0] = v.Group
+				copy(out[1:], v.Targets)
+				return 1 + size, nil
 			},
 		},
 	)
@@ -203,14 +199,13 @@ func init() {
 					Targets: Copy(argv[1:]),
 				}, nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(*OpGroupMemberDecorate)
 				size := uint32(len(v.Targets))
 
-				out[0] = EncodeOpcode(2+size, v.Opcode())
-				out[1] = v.Group
-				copy(out[2:], v.Targets)
-				return nil
+				out[0] = v.Group
+				copy(out[1:], v.Targets)
+				return 1 + size, nil
 			},
 		},
 	)

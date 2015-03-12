@@ -19,11 +19,10 @@ func init() {
 
 				return OpTypeVoid(argv[0]), nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(OpTypeVoid)
-				out[0] = EncodeOpcode(2, v.Opcode())
-				out[1] = uint32(v)
-				return nil
+				out[0] = uint32(v)
+				return 1, nil
 			},
 		},
 	)
@@ -45,11 +44,10 @@ func init() {
 
 				return OpTypeBool(argv[0]), nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(OpTypeBool)
-				out[0] = EncodeOpcode(2, v.Opcode())
-				out[1] = uint32(v)
-				return nil
+				out[0] = uint32(v)
+				return 1, nil
 			},
 		},
 	)
@@ -92,13 +90,12 @@ func init() {
 					Signedness: argv[2],
 				}, nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(*OpTypeInt)
-				out[0] = EncodeOpcode(4, v.Opcode())
-				out[1] = v.ResultId
-				out[2] = v.Width
-				out[3] = v.Signedness
-				return nil
+				out[0] = v.ResultId
+				out[1] = v.Width
+				out[2] = v.Signedness
+				return 3, nil
 			},
 		},
 	)
@@ -131,12 +128,11 @@ func init() {
 					Width:    argv[1],
 				}, nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(*OpTypeFloat)
-				out[0] = EncodeOpcode(3, v.Opcode())
-				out[1] = v.ResultId
-				out[2] = v.Width
-				return nil
+				out[0] = v.ResultId
+				out[1] = v.Width
+				return 2, nil
 			},
 		},
 	)
@@ -173,13 +169,12 @@ func init() {
 					ComponentCount: argv[2],
 				}, nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(*OpTypeVector)
-				out[0] = EncodeOpcode(4, v.Opcode())
-				out[1] = v.ResultId
-				out[2] = v.ComponentType
-				out[3] = v.ComponentCount
-				return nil
+				out[0] = v.ResultId
+				out[1] = v.ComponentType
+				out[2] = v.ComponentCount
+				return 3, nil
 			},
 		},
 	)
@@ -214,13 +209,12 @@ func init() {
 					ColumnCount: argv[2],
 				}, nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(*OpTypeMatrix)
-				out[0] = EncodeOpcode(4, v.Opcode())
-				out[1] = v.ResultId
-				out[2] = v.ColumnType
-				out[3] = v.ColumnCount
-				return nil
+				out[0] = v.ResultId
+				out[1] = v.ColumnType
+				out[2] = v.ColumnCount
+				return 3, nil
 			},
 		},
 	)
@@ -304,28 +298,27 @@ func init() {
 
 				return op, nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(*OpTypeSampler)
-				size := uint32(8)
+				size := uint32(7)
 
 				if v.AccessQualifier != 0 {
 					size++
 				}
 
-				out[0] = EncodeOpcode(size, v.Opcode())
-				out[1] = v.ResultId
-				out[2] = v.SampledType
-				out[3] = v.Dimensionality
-				out[4] = v.Content
-				out[5] = v.Arrayed
-				out[6] = v.Compare
-				out[7] = v.MS
+				out[0] = v.ResultId
+				out[1] = v.SampledType
+				out[2] = v.Dimensionality
+				out[3] = v.Content
+				out[4] = v.Arrayed
+				out[5] = v.Compare
+				out[6] = v.MS
 
 				if v.AccessQualifier != 0 {
-					out[8] = v.AccessQualifier
+					out[7] = v.AccessQualifier
 				}
 
-				return nil
+				return size, nil
 			},
 		},
 	)
@@ -349,11 +342,10 @@ func init() {
 
 				return OpTypeFilter(argv[0]), nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(OpTypeFilter)
-				out[0] = EncodeOpcode(2, v.Opcode())
-				out[1] = uint32(v)
-				return nil
+				out[0] = uint32(v)
+				return 1, nil
 			},
 		},
 	)
@@ -392,13 +384,12 @@ func init() {
 					Length:      argv[2],
 				}, nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(*OpTypeArray)
-				out[0] = EncodeOpcode(4, v.Opcode())
-				out[1] = v.ResultId
-				out[2] = v.ElementType
-				out[3] = v.Length
-				return nil
+				out[0] = v.ResultId
+				out[1] = v.ElementType
+				out[2] = v.Length
+				return 3, nil
 			},
 		},
 	)
@@ -434,12 +425,11 @@ func init() {
 					ElementType: argv[1],
 				}, nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(*OpTypeRuntimeArray)
-				out[0] = EncodeOpcode(3, v.Opcode())
-				out[1] = v.ResultId
-				out[2] = v.ElementType
-				return nil
+				out[0] = v.ResultId
+				out[1] = v.ElementType
+				return 2, nil
 			},
 		},
 	)
@@ -472,13 +462,13 @@ func init() {
 					Members:  Copy(argv[1:]),
 				}, nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(*OpTypeStruct)
 				size := uint32(len(v.Members))
-				out[0] = EncodeOpcode(2+size, v.Opcode())
-				out[1] = v.ResultId
-				copy(out[2:], v.Members)
-				return nil
+
+				out[0] = v.ResultId
+				copy(out[1:], v.Members)
+				return 1 + size, nil
 			},
 		},
 	)
@@ -509,14 +499,13 @@ func init() {
 					Name:     DecodeString(argv[1:]),
 				}, nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(*OpTypeOpaque)
 				size := v.Name.EncodedLen()
 
-				out[0] = EncodeOpcode(2+size, v.Opcode())
-				out[1] = v.ResultId
-				v.Name.Encode(out[2:])
-				return nil
+				out[0] = v.ResultId
+				v.Name.Encode(out[1:])
+				return 1 + size, nil
 			},
 		},
 	)
@@ -541,7 +530,7 @@ func init() {
 		(&OpTypePointer{}).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 3 {
+				if len(argv) != 3 {
 					return nil, ErrMissingInstructionArgs
 				}
 
@@ -551,13 +540,12 @@ func init() {
 					Type:         argv[2],
 				}, nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(*OpTypePointer)
-				out[0] = EncodeOpcode(4, v.Opcode())
-				out[1] = v.ResultId
-				out[2] = v.StorageClass
-				out[3] = v.Type
-				return nil
+				out[0] = v.ResultId
+				out[1] = v.StorageClass
+				out[2] = v.Type
+				return 3, nil
 			},
 		},
 	)
@@ -597,15 +585,14 @@ func init() {
 					Parameters: Copy(argv[2:]),
 				}, nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(*OpTypeFunction)
 				size := uint32(len(v.Parameters))
 
-				out[0] = EncodeOpcode(3+size, v.Opcode())
-				out[1] = v.ResultId
-				out[2] = v.ReturnType
-				copy(out[3:], v.Parameters)
-				return nil
+				out[0] = v.ResultId
+				out[1] = v.ReturnType
+				copy(out[2:], v.Parameters)
+				return 2 + size, nil
 			},
 		},
 	)
@@ -621,17 +608,16 @@ func init() {
 		OpTypeEvent(0).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 1 {
+				if len(argv) != 1 {
 					return nil, ErrMissingInstructionArgs
 				}
 
 				return OpTypeEvent(argv[0]), nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(OpTypeEvent)
-				out[0] = EncodeOpcode(2, v.Opcode())
-				out[1] = uint32(v)
-				return nil
+				out[0] = uint32(v)
+				return 1, nil
 			},
 		},
 	)
@@ -649,17 +635,16 @@ func init() {
 		OpTypeDeviceEvent(0).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 1 {
+				if len(argv) != 1 {
 					return nil, ErrMissingInstructionArgs
 				}
 
 				return OpTypeDeviceEvent(argv[0]), nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(OpTypeDeviceEvent)
-				out[0] = EncodeOpcode(2, v.Opcode())
-				out[1] = uint32(v)
-				return nil
+				out[0] = uint32(v)
+				return 1, nil
 			},
 		},
 	)
@@ -677,17 +662,16 @@ func init() {
 		OpTypeReserveId(0).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 1 {
+				if len(argv) != 1 {
 					return nil, ErrMissingInstructionArgs
 				}
 
 				return OpTypeReserveId(argv[0]), nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(OpTypeReserveId)
-				out[0] = EncodeOpcode(2, v.Opcode())
-				out[1] = uint32(v)
-				return nil
+				out[0] = uint32(v)
+				return 1, nil
 			},
 		},
 	)
@@ -705,17 +689,16 @@ func init() {
 		OpTypeQueue(0).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {
-				if len(argv) < 1 {
+				if len(argv) != 1 {
 					return nil, ErrMissingInstructionArgs
 				}
 
 				return OpTypeQueue(argv[0]), nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(OpTypeQueue)
-				out[0] = EncodeOpcode(2, v.Opcode())
-				out[1] = uint32(v)
-				return nil
+				out[0] = uint32(v)
+				return 1, nil
 			},
 		},
 	)
@@ -750,13 +733,12 @@ func init() {
 					AccessQualifier: argv[2],
 				}, nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(*OpTypePipe)
-				out[0] = EncodeOpcode(4, v.Opcode())
-				out[1] = v.ResultId
-				out[2] = v.Type
-				out[3] = v.AccessQualifier
-				return nil
+				out[0] = v.ResultId
+				out[1] = v.Type
+				out[2] = v.AccessQualifier
+				return 3, nil
 			},
 		},
 	)

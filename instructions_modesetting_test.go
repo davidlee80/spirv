@@ -22,7 +22,7 @@ func TestModeSetting(t *testing.T) {
 			in: []uint32{0x00030006, ExecutionModelFragment, 0x7f},
 			want: &OpEntryPoint{
 				ExecutionModel: ExecutionModelFragment,
-				Id:             0x7f,
+				ResultId:       0x7f,
 			},
 		},
 		{

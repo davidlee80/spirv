@@ -16,11 +16,11 @@ type Codec struct {
 	// ErrMissingInstructionArgs should be returned if this check fails.
 	Decode func(argv []uint32) (Instruction, error)
 
-	// Encoder for an instruction.
+	// Encoder for instruction arguments.
 	//
-	// The word set must define the FULL instruction. This includes the first
-	// word with the word count and opcode.
+	// The provided word set must encode all arguments. It can be assumed
+	// to be large enough to hold a full instruction.
 	//
-	// The provided word buffer is large enough to hold a full instruction.
-	Encode func(Instruction, []uint32) error
+	// The function must return the number of words it has written.
+	Encode func(Instruction, []uint32) (uint32, error)
 }

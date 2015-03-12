@@ -45,24 +45,23 @@ func init() {
 
 				return op, nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(*OpVariable)
-				size := uint32(4)
+				size := uint32(3)
 
 				if v.Initializer != 0 {
 					size++
 				}
 
-				out[0] = EncodeOpcode(size, v.Opcode())
-				out[1] = v.ResultType
-				out[2] = v.ResultId
-				out[3] = v.StorageClass
+				out[0] = v.ResultType
+				out[1] = v.ResultId
+				out[2] = v.StorageClass
 
 				if v.Initializer != 0 {
-					out[4] = v.Initializer
+					out[3] = v.Initializer
 				}
 
-				return nil
+				return size, nil
 			},
 		},
 	)
@@ -104,14 +103,13 @@ func init() {
 					N:            argv[3],
 				}, nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(*OpVariableArray)
-				out[0] = EncodeOpcode(5, v.Opcode())
-				out[1] = v.ResultType
-				out[2] = v.ResultId
-				out[3] = v.StorageClass
-				out[4] = v.N
-				return nil
+				out[0] = v.ResultType
+				out[1] = v.ResultId
+				out[2] = v.StorageClass
+				out[3] = v.N
+				return 4, nil
 			},
 		},
 	)
@@ -151,16 +149,15 @@ func init() {
 					MemoryAccess: Copy(argv[3:]),
 				}, nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(*OpLoad)
 				size := uint32(len(v.MemoryAccess))
 
-				out[0] = EncodeOpcode(4+size, v.Opcode())
-				out[1] = v.ResultType
-				out[2] = v.ResultId
-				out[3] = v.Pointer
-				copy(out[4:], v.MemoryAccess)
-				return nil
+				out[0] = v.ResultType
+				out[1] = v.ResultId
+				out[2] = v.Pointer
+				copy(out[3:], v.MemoryAccess)
+				return 3 + size, nil
 			},
 		},
 	)
@@ -196,15 +193,14 @@ func init() {
 					MemoryAccess: Copy(argv[2:]),
 				}, nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(*OpStore)
 				size := uint32(len(v.MemoryAccess))
 
-				out[0] = EncodeOpcode(3+size, v.Opcode())
-				out[1] = v.Pointer
-				out[2] = v.Object
-				copy(out[3:], v.MemoryAccess)
-				return nil
+				out[0] = v.Pointer
+				out[1] = v.Object
+				copy(out[2:], v.MemoryAccess)
+				return 2 + size, nil
 			},
 		},
 	)
@@ -244,15 +240,14 @@ func init() {
 					MemoryAccess: Copy(argv[2:]),
 				}, nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(*OpCopyMemory)
 				size := uint32(len(v.MemoryAccess))
 
-				out[0] = EncodeOpcode(3+size, v.Opcode())
-				out[1] = v.Target
-				out[2] = v.Source
-				copy(out[3:], v.MemoryAccess)
-				return nil
+				out[0] = v.Target
+				out[1] = v.Source
+				copy(out[2:], v.MemoryAccess)
+				return 2 + size, nil
 			},
 		},
 	)
@@ -295,16 +290,15 @@ func init() {
 					MemoryAccess: Copy(argv[3:]),
 				}, nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(*OpCopyMemorySized)
 				size := uint32(len(v.MemoryAccess))
 
-				out[0] = EncodeOpcode(4+size, v.Opcode())
-				out[1] = v.Target
-				out[2] = v.Source
-				out[3] = v.Size
-				copy(out[4:], v.MemoryAccess)
-				return nil
+				out[0] = v.Target
+				out[1] = v.Source
+				out[2] = v.Size
+				copy(out[3:], v.MemoryAccess)
+				return 3 + size, nil
 			},
 		},
 	)
@@ -347,16 +341,15 @@ func init() {
 					Indices:    Copy(argv[3:]),
 				}, nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(*OpAccessChain)
 				size := uint32(len(v.Indices))
 
-				out[0] = EncodeOpcode(4+size, v.Opcode())
-				out[1] = v.ResultType
-				out[2] = v.ResultId
-				out[3] = v.Base
-				copy(out[4:], v.Indices)
-				return nil
+				out[0] = v.ResultType
+				out[1] = v.ResultId
+				out[2] = v.Base
+				copy(out[3:], v.Indices)
+				return 3 + size, nil
 			},
 		},
 	)
@@ -396,16 +389,15 @@ func init() {
 					Indices:    Copy(argv[3:]),
 				}, nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(*OpInboundsAccessChain)
 				size := uint32(len(v.Indices))
 
-				out[0] = EncodeOpcode(4+size, v.Opcode())
-				out[1] = v.ResultType
-				out[2] = v.ResultId
-				out[3] = v.Base
-				copy(out[4:], v.Indices)
-				return nil
+				out[0] = v.ResultType
+				out[1] = v.ResultId
+				out[2] = v.Base
+				copy(out[3:], v.Indices)
+				return 3 + size, nil
 			},
 		},
 	)
@@ -443,14 +435,13 @@ func init() {
 					Member:     argv[3],
 				}, nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(*OpArraylength)
-				out[0] = EncodeOpcode(5, v.Opcode())
-				out[1] = v.ResultType
-				out[2] = v.ResultId
-				out[3] = v.Structure
-				out[4] = v.Member
-				return nil
+				out[0] = v.ResultType
+				out[1] = v.ResultId
+				out[2] = v.Structure
+				out[3] = v.Member
+				return 4, nil
 			},
 		},
 	)
@@ -492,15 +483,14 @@ func init() {
 					Sample:     argv[4],
 				}, nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(*OpImagePointer)
-				out[0] = EncodeOpcode(6, v.Opcode())
-				out[1] = v.ResultType
-				out[2] = v.ResultId
-				out[3] = v.Image
-				out[4] = v.Coordinate
-				out[5] = v.Sample
-				return nil
+				out[0] = v.ResultType
+				out[1] = v.ResultId
+				out[2] = v.Image
+				out[3] = v.Coordinate
+				out[4] = v.Sample
+				return 5, nil
 			},
 		},
 	)
@@ -531,13 +521,12 @@ func init() {
 					Ptr:        argv[2],
 				}, nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(*OpGenericPtrMemSemantics)
-				out[0] = EncodeOpcode(4, v.Opcode())
-				out[1] = v.ResultType
-				out[2] = v.ResultId
-				out[3] = v.Ptr
-				return nil
+				out[0] = v.ResultType
+				out[1] = v.ResultId
+				out[2] = v.Ptr
+				return 3, nil
 			},
 		},
 	)

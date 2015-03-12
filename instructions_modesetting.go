@@ -27,12 +27,11 @@ func init() {
 					MemoryMode:     argv[1],
 				}, nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(*OpMemoryModel)
-				out[0] = EncodeOpcode(3, v.Opcode())
-				out[1] = v.AddressingMode
-				out[2] = v.MemoryMode
-				return nil
+				out[0] = v.AddressingMode
+				out[1] = v.MemoryMode
+				return 2, nil
 			},
 		},
 	)
@@ -42,7 +41,7 @@ func init() {
 // It declares an entry point and its execution model.
 type OpEntryPoint struct {
 	ExecutionModel uint32 // Execution model for the entry point and its static call tree.
-	Id             uint32 // Must the Result <id> of an OpFunction instruction.
+	ResultId       uint32 // Must the Result <id> of an OpFunction instruction.
 }
 
 func (c *OpEntryPoint) Opcode() uint32 { return 6 }
@@ -58,15 +57,14 @@ func init() {
 
 				return &OpEntryPoint{
 					ExecutionModel: argv[0],
-					Id:             argv[1],
+					ResultId:       argv[1],
 				}, nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(*OpEntryPoint)
-				out[0] = EncodeOpcode(3, v.Opcode())
-				out[1] = v.ExecutionModel
-				out[2] = v.Id
-				return nil
+				out[0] = v.ExecutionModel
+				out[1] = v.ResultId
+				return 2, nil
 			},
 		},
 	)
@@ -97,13 +95,14 @@ func init() {
 					Argv:          Copy(argv[2:]),
 				}, nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(*OpExecutionMode)
-				out[0] = EncodeOpcode(3+uint32(len(v.Argv)), v.Opcode())
-				out[1] = v.EntryPoint
-				out[2] = v.ExecutionMode
-				copy(out[3:], v.Argv)
-				return nil
+				size := uint32(len(v.Argv))
+
+				out[0] = v.EntryPoint
+				out[1] = v.ExecutionMode
+				copy(out[2:], v.Argv)
+				return 2 + size, nil
 			},
 		},
 	)
@@ -127,12 +126,12 @@ func init() {
 					DecodeString(argv),
 				), nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(OpCompileFlag)
 				size := String(v).EncodedLen()
-				out[0] = EncodeOpcode(size+1, v.Opcode())
-				String(v).Encode(out[1:])
-				return nil
+
+				String(v).Encode(out)
+				return size, nil
 			},
 		},
 	)

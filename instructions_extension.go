@@ -24,12 +24,12 @@ func init() {
 					DecodeString(argv),
 				), nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(OpExtension)
 				size := String(v).EncodedLen()
-				out[0] = EncodeOpcode(size+1, v.Opcode())
-				String(v).Encode(out[1:])
-				return nil
+
+				String(v).Encode(out)
+				return size, nil
 			},
 		},
 	)
@@ -60,14 +60,13 @@ func init() {
 					Name:     DecodeString(argv[1:]),
 				}, nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(*OpExtInstImport)
 				size := v.Name.EncodedLen()
 
-				out[0] = EncodeOpcode(2+size, v.Opcode())
-				out[1] = v.ResultId
-				v.Name.Encode(out[2:])
-				return nil
+				out[0] = v.ResultId
+				v.Name.Encode(out[1:])
+				return 1 + size, nil
 			},
 		},
 	)
@@ -101,15 +100,16 @@ func init() {
 					Operands:    Copy(argv[4:]),
 				}, nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(*OpExtInst)
-				out[0] = EncodeOpcode(5+uint32(len(v.Operands)), v.Opcode())
-				out[1] = v.ResultType
-				out[2] = v.ResultId
-				out[3] = v.Set
-				out[4] = v.Instruction
-				copy(out[5:], v.Operands)
-				return nil
+				size := uint32(len(v.Operands))
+
+				out[0] = v.ResultType
+				out[1] = v.ResultId
+				out[2] = v.Set
+				out[3] = v.Instruction
+				copy(out[4:], v.Operands)
+				return 4 + size, nil
 			},
 		},
 	)

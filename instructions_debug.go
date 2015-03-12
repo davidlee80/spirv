@@ -28,12 +28,11 @@ func init() {
 					Version:        argv[1],
 				}, nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(*OpSource)
-				out[0] = EncodeOpcode(3, v.Opcode())
-				out[1] = v.SourceLanguage
-				out[2] = v.Version
-				return nil
+				out[0] = v.SourceLanguage
+				out[1] = v.Version
+				return 2, nil
 			},
 		},
 	)
@@ -60,12 +59,12 @@ func init() {
 					DecodeString(argv),
 				), nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(OpSourceExtension)
 				size := String(v).EncodedLen()
-				out[0] = EncodeOpcode(size+1, v.Opcode())
-				String(v).Encode(out[1:])
-				return nil
+
+				String(v).Encode(out)
+				return size, nil
 			},
 		},
 	)
@@ -96,14 +95,13 @@ func init() {
 					Name:   DecodeString(argv[1:]),
 				}, nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(*OpName)
-				nameSize := v.Name.EncodedLen()
+				size := v.Name.EncodedLen()
 
-				out[0] = EncodeOpcode(2+nameSize, v.Opcode())
-				out[1] = v.Target
-				v.Name.Encode(out[2:])
-				return nil
+				out[0] = v.Target
+				v.Name.Encode(out[1:])
+				return 1 + size, nil
 			},
 		},
 	)
@@ -136,15 +134,14 @@ func init() {
 					Name:   DecodeString(argv[2:]),
 				}, nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(*OpMemberName)
-				nameSize := v.Name.EncodedLen()
+				size := v.Name.EncodedLen()
 
-				out[0] = EncodeOpcode(3+nameSize, v.Opcode())
-				out[1] = v.Type
-				out[2] = v.Member
-				v.Name.Encode(out[3:])
-				return nil
+				out[0] = v.Type
+				out[1] = v.Member
+				v.Name.Encode(out[2:])
+				return 2 + size, nil
 			},
 		},
 	)
@@ -175,14 +172,13 @@ func init() {
 					String:   DecodeString(argv[1:]),
 				}, nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(*OpString)
-				nameSize := v.String.EncodedLen()
+				size := v.String.EncodedLen()
 
-				out[0] = EncodeOpcode(2+nameSize, v.Opcode())
-				out[1] = v.ResultId
-				v.String.Encode(out[2:])
-				return nil
+				out[0] = v.ResultId
+				v.String.Encode(out[1:])
+				return 1 + size, nil
 			},
 		},
 	)
@@ -217,14 +213,13 @@ func init() {
 					Column: argv[3],
 				}, nil
 			},
-			Encode: func(i Instruction, out []uint32) error {
+			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(*OpLine)
-				out[0] = EncodeOpcode(5, v.Opcode())
-				out[1] = v.Target
-				out[2] = v.File
-				out[3] = v.Line
-				out[4] = v.Column
-				return nil
+				out[0] = v.Target
+				out[1] = v.File
+				out[2] = v.Line
+				out[3] = v.Column
+				return 4, nil
 			},
 		},
 	)
