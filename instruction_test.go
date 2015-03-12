@@ -475,6 +475,32 @@ func TestCodecInstructions(t *testing.T) {
 				Constituents: []uint32{3, 4, 5},
 			},
 		},
+		{
+			in: []uint32{0x0040026, 1, 2, uint32(SCPrivate)},
+			want: &OpVariable{
+				ResultType: 1,
+				ResultId:   2,
+				Storage:    SCPrivate,
+			},
+		},
+		{
+			in: []uint32{0x0050026, 1, 2, uint32(SCPrivate), 3},
+			want: &OpVariable{
+				ResultType:  1,
+				ResultId:    2,
+				Storage:     SCPrivate,
+				Initializer: 3,
+			},
+		},
+		{
+			in: []uint32{0x0050027, 1, 2, uint32(SCPrivate), 10},
+			want: &OpVariableArray{
+				ResultType: 1,
+				ResultId:   2,
+				Storage:    SCPrivate,
+				N:          10,
+			},
+		},
 	} {
 		have, err := lib.Decode(st.in)
 
