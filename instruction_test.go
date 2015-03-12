@@ -608,6 +608,15 @@ func TestCodecInstructions(t *testing.T) {
 				Indices:    []uint32{4, 5},
 			},
 		},
+		{
+			in: []uint32{0x0050079, 1, 2, 3, 4},
+			want: &OpArraylength{
+				ResultType: 1,
+				ResultId:   2,
+				Structure:  3,
+				Member:     4,
+			},
+		},
 	} {
 		have, err := lib.Decode(st.in)
 
