@@ -7,7 +7,7 @@ package spirv
 // It declares a new floating point type.
 type OpTypeFloat struct {
 	// The <id> of the new floating-point type.
-	Result uint32
+	ResultId uint32
 
 	// Specifies how many bits wide the type is. The bit pattern of a
 	// floating-point value is as described by the IEEE 754 standard.
@@ -26,14 +26,14 @@ func bindOpTypeFloat(set *InstructionSet) {
 				}
 
 				return &OpTypeFloat{
-					Result: argv[0],
-					Width:  argv[1],
+					ResultId: argv[0],
+					Width:    argv[1],
 				}, nil
 			},
 			Encode: func(i Instruction, out []uint32) error {
 				v := i.(*OpTypeFloat)
 				out[0] = EncodeOpcode(3, v.Opcode())
-				out[1] = v.Result
+				out[1] = v.ResultId
 				out[2] = v.Width
 				return nil
 			},

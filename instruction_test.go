@@ -185,7 +185,7 @@ func TestCodecInstructions(t *testing.T) {
 		{
 			in: []uint32{0x0004000a, 0x32, 64, 1},
 			want: &OpTypeInt{
-				Result:     0x32,
+				ResultId:   0x32,
 				Width:      64,
 				Signedness: 1,
 			},
@@ -196,14 +196,14 @@ func TestCodecInstructions(t *testing.T) {
 				math.Float32bits(123),
 			},
 			want: &OpTypeFloat{
-				Result: 0x32,
-				Width:  math.Float32bits(123),
+				ResultId: 0x32,
+				Width:    math.Float32bits(123),
 			},
 		},
 		{
 			in: []uint32{0x0004000c, 0x32, 0x12, 0x03},
 			want: &OpTypeVector{
-				Result:         0x32,
+				ResultId:       0x32,
 				ComponentType:  0x12,
 				ComponentCount: 0x03,
 			},
@@ -211,7 +211,7 @@ func TestCodecInstructions(t *testing.T) {
 		{
 			in: []uint32{0x0004000d, 0x32, 0x12, 0x04},
 			want: &OpTypeMatrix{
-				Result:      0x32,
+				ResultId:    0x32,
 				ColumnType:  0x12,
 				ColumnCount: 0x04,
 			},
@@ -254,7 +254,7 @@ func TestCodecInstructions(t *testing.T) {
 		{
 			in: []uint32{0x008000e, 1, 2, Dim3D, 2, 1, 0, 1},
 			want: &OpTypeSampler{
-				Result:         1,
+				ResultId:       1,
 				SampledType:    2,
 				Dimensionality: Dim3D,
 				Content:        2,
@@ -266,7 +266,7 @@ func TestCodecInstructions(t *testing.T) {
 		{
 			in: []uint32{0x009000e, 1, 2, Dim3D, 2, 1, 0, 1, AccessQualifierWriteOnly},
 			want: &OpTypeSampler{
-				Result:          1,
+				ResultId:        1,
 				SampledType:     2,
 				Dimensionality:  Dim3D,
 				Content:         2,
@@ -283,7 +283,7 @@ func TestCodecInstructions(t *testing.T) {
 		{
 			in: []uint32{0x0040010, 1, 2, 3},
 			want: &OpTypeArray{
-				Result:      1,
+				ResultId:    1,
 				ElementType: 2,
 				Length:      3,
 			},
@@ -291,28 +291,28 @@ func TestCodecInstructions(t *testing.T) {
 		{
 			in: []uint32{0x0030011, 1, 2},
 			want: &OpTypeRuntimeArray{
-				Result:      1,
+				ResultId:    1,
 				ElementType: 2,
 			},
 		},
 		{
 			in: []uint32{0x0060012, 1, 2, 3, 4, 5},
 			want: &OpTypeStruct{
-				Result:  1,
-				Members: []uint32{2, 3, 4, 5},
+				ResultId: 1,
+				Members:  []uint32{2, 3, 4, 5},
 			},
 		},
 		{
 			in: []uint32{0x0050013, 1, 0x74736574, 0x72747320, 0x676e69},
 			want: &OpTypeOpaque{
-				Result: 1,
-				Name:   "test string",
+				ResultId: 1,
+				Name:     "test string",
 			},
 		},
 		{
 			in: []uint32{0x0040014, 1, StorageClassAtomicCounter, 2},
 			want: &OpTypePointer{
-				Result:       1,
+				ResultId:     1,
 				StorageClass: StorageClassAtomicCounter,
 				Type:         2,
 			},
@@ -320,14 +320,14 @@ func TestCodecInstructions(t *testing.T) {
 		{
 			in: []uint32{0x0030015, 1, 2},
 			want: &OpTypeFunction{
-				Result:     1,
+				ResultId:   1,
 				ReturnType: 2,
 			},
 		},
 		{
 			in: []uint32{0x0060015, 1, 2, 3, 4, 5},
 			want: &OpTypeFunction{
-				Result:     1,
+				ResultId:   1,
 				ReturnType: 2,
 				Parameters: []uint32{3, 4, 5},
 			},
@@ -351,7 +351,7 @@ func TestCodecInstructions(t *testing.T) {
 		{
 			in: []uint32{0x004001a, 1, 2, AccessQualifierReadWrite},
 			want: &OpTypePipe{
-				Result:          1,
+				ResultId:        1,
 				Type:            2,
 				AccessQualifier: AccessQualifierReadWrite,
 			},

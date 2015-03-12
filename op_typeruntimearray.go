@@ -10,7 +10,7 @@ package spirv
 // using the Uniform Storage Class.
 type OpTypeRuntimeArray struct {
 	// The <id> of the new run-time array type.
-	Result uint32
+	ResultId uint32
 
 	// The type of each element in the array.
 	// See OpArrayLength for getting the Length of an array of this type.
@@ -29,14 +29,14 @@ func bindOpTypeRuntimeArray(set *InstructionSet) {
 				}
 
 				return &OpTypeRuntimeArray{
-					Result:      argv[0],
+					ResultId:    argv[0],
 					ElementType: argv[1],
 				}, nil
 			},
 			Encode: func(i Instruction, out []uint32) error {
 				v := i.(*OpTypeRuntimeArray)
 				out[0] = EncodeOpcode(3, v.Opcode())
-				out[1] = v.Result
+				out[1] = v.ResultId
 				out[2] = v.ElementType
 				return nil
 			},

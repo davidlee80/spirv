@@ -6,7 +6,7 @@ package spirv
 // OpTypePipe declares an OpenCL pipe object type.
 type OpTypePipe struct {
 	// The <id> of the new pipe type.
-	Result uint32
+	ResultId uint32
 
 	// Type is the data type of the pipe.
 	Type uint32
@@ -27,7 +27,7 @@ func bindOpTypePipe(set *InstructionSet) {
 				}
 
 				return &OpTypePipe{
-					Result:          argv[0],
+					ResultId:        argv[0],
 					Type:            argv[1],
 					AccessQualifier: argv[2],
 				}, nil
@@ -35,7 +35,7 @@ func bindOpTypePipe(set *InstructionSet) {
 			Encode: func(i Instruction, out []uint32) error {
 				v := i.(*OpTypePipe)
 				out[0] = EncodeOpcode(4, v.Opcode())
-				out[1] = v.Result
+				out[1] = v.ResultId
 				out[2] = v.Type
 				out[3] = v.AccessQualifier
 				return nil

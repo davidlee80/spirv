@@ -6,7 +6,7 @@ package spirv
 // OpTypeMatrix declares a new matrix type.
 type OpTypeMatrix struct {
 	// The <id> of the new matrix type
-	Result uint32
+	ResultId uint32
 
 	// The type of each column in the matrix. It must be vector type.
 	ColumnType uint32
@@ -27,7 +27,7 @@ func bindOpTypeMatrix(set *InstructionSet) {
 				}
 
 				return &OpTypeMatrix{
-					Result:      argv[0],
+					ResultId:    argv[0],
 					ColumnType:  argv[1],
 					ColumnCount: argv[2],
 				}, nil
@@ -35,7 +35,7 @@ func bindOpTypeMatrix(set *InstructionSet) {
 			Encode: func(i Instruction, out []uint32) error {
 				v := i.(*OpTypeMatrix)
 				out[0] = EncodeOpcode(4, v.Opcode())
-				out[1] = v.Result
+				out[1] = v.ResultId
 				out[2] = v.ColumnType
 				out[3] = v.ColumnCount
 				return nil

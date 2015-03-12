@@ -7,7 +7,7 @@ package spirv
 // of heteregeneous members
 type OpTypeStruct struct {
 	// The <id> of the new array type.
-	Result uint32
+	ResultId uint32
 
 	// Member N type is the type of member N of the structure. The first
 	// member is member 0, the next is member 1, . . .
@@ -26,15 +26,15 @@ func bindOpTypeStruct(set *InstructionSet) {
 				}
 
 				return &OpTypeStruct{
-					Result:  argv[0],
-					Members: Copy(argv[1:]),
+					ResultId: argv[0],
+					Members:  Copy(argv[1:]),
 				}, nil
 			},
 			Encode: func(i Instruction, out []uint32) error {
 				v := i.(*OpTypeStruct)
 				size := uint32(len(v.Members))
 				out[0] = EncodeOpcode(2+size, v.Opcode())
-				out[1] = v.Result
+				out[1] = v.ResultId
 				copy(out[2:], v.Members)
 				return nil
 			},

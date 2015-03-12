@@ -9,7 +9,7 @@ package spirv
 // parameter types of a function
 type OpTypeFunction struct {
 	// The <id> of the new function type.
-	Result uint32
+	ResultId uint32
 
 	// The type of the return value of functions of this type.
 	// If the function has no return value, Return Type should
@@ -32,7 +32,7 @@ func bindOpTypeFunction(set *InstructionSet) {
 				}
 
 				return &OpTypeFunction{
-					Result:     argv[0],
+					ResultId:   argv[0],
 					ReturnType: argv[1],
 					Parameters: Copy(argv[2:]),
 				}, nil
@@ -42,7 +42,7 @@ func bindOpTypeFunction(set *InstructionSet) {
 				size := uint32(len(v.Parameters))
 
 				out[0] = EncodeOpcode(3+size, v.Opcode())
-				out[1] = v.Result
+				out[1] = v.ResultId
 				out[2] = v.ReturnType
 				copy(out[3:], v.Parameters)
 				return nil

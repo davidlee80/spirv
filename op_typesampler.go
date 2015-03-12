@@ -10,7 +10,7 @@ package spirv
 // size or bit pattern..
 type OpTypeSampler struct {
 	// The <id> of the new sampler type.
-	Result uint32
+	ResultId uint32
 
 	// A scalar type, of the type of the components resulting from
 	// sampling or loading through this sampler
@@ -65,7 +65,7 @@ func bindOpTypeSampler(set *InstructionSet) {
 				}
 
 				op := &OpTypeSampler{
-					Result:         argv[0],
+					ResultId:       argv[0],
 					SampledType:    argv[1],
 					Dimensionality: argv[2],
 					Content:        argv[3],
@@ -90,7 +90,7 @@ func bindOpTypeSampler(set *InstructionSet) {
 				}
 
 				out[0] = EncodeOpcode(size, v.Opcode())
-				out[1] = v.Result
+				out[1] = v.ResultId
 				out[2] = v.SampledType
 				out[3] = v.Dimensionality
 				out[4] = v.Content

@@ -6,7 +6,7 @@ package spirv
 // OpTypeOpaque declares a named structure type with no body specified.
 type OpTypeOpaque struct {
 	// The <id> of the new array type.
-	Result uint32
+	ResultId uint32
 
 	// The name of the opaque type.
 	Name String
@@ -24,8 +24,8 @@ func bindOpTypeOpaque(set *InstructionSet) {
 				}
 
 				return &OpTypeOpaque{
-					Result: argv[0],
-					Name:   DecodeString(argv[1:]),
+					ResultId: argv[0],
+					Name:     DecodeString(argv[1:]),
 				}, nil
 			},
 			Encode: func(i Instruction, out []uint32) error {
@@ -33,7 +33,7 @@ func bindOpTypeOpaque(set *InstructionSet) {
 				size := v.Name.EncodedLen()
 
 				out[0] = EncodeOpcode(2+size, v.Opcode())
-				out[1] = v.Result
+				out[1] = v.ResultId
 				v.Name.Encode(out[2:])
 				return nil
 			},

@@ -7,7 +7,7 @@ package spirv
 // aggregate of elements all having the same type.
 type OpTypeArray struct {
 	// The <id> of the new array type.
-	Result uint32
+	ResultId uint32
 
 	// The type of each element in the array
 	ElementType uint32
@@ -31,7 +31,7 @@ func bindOpTypeArray(set *InstructionSet) {
 				}
 
 				return &OpTypeArray{
-					Result:      argv[0],
+					ResultId:    argv[0],
 					ElementType: argv[1],
 					Length:      argv[2],
 				}, nil
@@ -39,7 +39,7 @@ func bindOpTypeArray(set *InstructionSet) {
 			Encode: func(i Instruction, out []uint32) error {
 				v := i.(*OpTypeArray)
 				out[0] = EncodeOpcode(4, v.Opcode())
-				out[1] = v.Result
+				out[1] = v.ResultId
 				out[2] = v.ElementType
 				out[3] = v.Length
 				return nil

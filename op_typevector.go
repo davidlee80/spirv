@@ -7,7 +7,7 @@ package spirv
 // It declares a new vector type.
 type OpTypeVector struct {
 	// The <id> of the new vector type.
-	Result uint32
+	ResultId uint32
 
 	// Specifies the type of each component in the resulting type.
 	ComponentType uint32
@@ -29,7 +29,7 @@ func bindOpTypeVector(set *InstructionSet) {
 				}
 
 				return &OpTypeVector{
-					Result:         argv[0],
+					ResultId:       argv[0],
 					ComponentType:  argv[1],
 					ComponentCount: argv[2],
 				}, nil
@@ -37,7 +37,7 @@ func bindOpTypeVector(set *InstructionSet) {
 			Encode: func(i Instruction, out []uint32) error {
 				v := i.(*OpTypeVector)
 				out[0] = EncodeOpcode(4, v.Opcode())
-				out[1] = v.Result
+				out[1] = v.ResultId
 				out[2] = v.ComponentType
 				out[3] = v.ComponentCount
 				return nil

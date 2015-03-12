@@ -6,7 +6,7 @@ package spirv
 // OpTypePointer declares a new pointer type.
 type OpTypePointer struct {
 	// The <id> of the new integer type.
-	Result uint32
+	ResultId uint32
 
 	// The storage class of the memory holding the object pointed to.
 	StorageClass uint32
@@ -27,7 +27,7 @@ func bindOpTypePointer(set *InstructionSet) {
 				}
 
 				return &OpTypePointer{
-					Result:       argv[0],
+					ResultId:     argv[0],
 					StorageClass: argv[1],
 					Type:         argv[2],
 				}, nil
@@ -35,7 +35,7 @@ func bindOpTypePointer(set *InstructionSet) {
 			Encode: func(i Instruction, out []uint32) error {
 				v := i.(*OpTypePointer)
 				out[0] = EncodeOpcode(4, v.Opcode())
-				out[1] = v.Result
+				out[1] = v.ResultId
 				out[2] = v.StorageClass
 				out[3] = v.Type
 				return nil
