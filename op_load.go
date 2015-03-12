@@ -15,7 +15,7 @@ type OpLoad struct {
 	// OpTypePointer whose operand is the same as Result Type.
 	Pointer uint32
 
-	// MemoryAccess must be a Memory Access literal.
+	// MemoryAccess must be one or more Memory Access literals.
 	MemoryAccess []MemoryAccess
 }
 
