@@ -19,9 +19,6 @@ func init() {
 			Decode: func(argv []uint32) (Instruction, error) {
 				return nil, ErrUnacceptable
 			},
-			Encode: func(i Instruction, out []uint32) (uint32, error) {
-				return 0, ErrUnacceptable
-			},
 		},
 	)
 }
@@ -47,12 +44,6 @@ func init() {
 					ResultType: argv[0],
 					ResultId:   argv[1],
 				}, nil
-			},
-			Encode: func(i Instruction, out []uint32) (uint32, error) {
-				v := i.(*OpUndef)
-				out[0] = v.ResultType
-				out[1] = v.ResultId
-				return 2, nil
 			},
 		},
 	)

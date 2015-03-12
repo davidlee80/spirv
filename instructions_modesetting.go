@@ -27,12 +27,6 @@ func init() {
 					MemoryMode:     argv[1],
 				}, nil
 			},
-			Encode: func(i Instruction, out []uint32) (uint32, error) {
-				v := i.(*OpMemoryModel)
-				out[0] = v.AddressingMode
-				out[1] = v.MemoryMode
-				return 2, nil
-			},
 		},
 	)
 }
@@ -59,12 +53,6 @@ func init() {
 					ExecutionModel: argv[0],
 					ResultId:       argv[1],
 				}, nil
-			},
-			Encode: func(i Instruction, out []uint32) (uint32, error) {
-				v := i.(*OpEntryPoint)
-				out[0] = v.ExecutionModel
-				out[1] = v.ResultId
-				return 2, nil
 			},
 		},
 	)
@@ -95,15 +83,6 @@ func init() {
 					Argv:          Copy(argv[2:]),
 				}, nil
 			},
-			Encode: func(i Instruction, out []uint32) (uint32, error) {
-				v := i.(*OpExecutionMode)
-				size := uint32(len(v.Argv))
-
-				out[0] = v.EntryPoint
-				out[1] = v.ExecutionMode
-				copy(out[2:], v.Argv)
-				return 2 + size, nil
-			},
 		},
 	)
 }
@@ -125,13 +104,6 @@ func init() {
 				return OpCompileFlag(
 					DecodeString(argv),
 				), nil
-			},
-			Encode: func(i Instruction, out []uint32) (uint32, error) {
-				v := i.(OpCompileFlag)
-				size := String(v).EncodedLen()
-
-				String(v).Encode(out)
-				return size, nil
 			},
 		},
 	)

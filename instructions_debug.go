@@ -28,12 +28,6 @@ func init() {
 					Version:        argv[1],
 				}, nil
 			},
-			Encode: func(i Instruction, out []uint32) (uint32, error) {
-				v := i.(*OpSource)
-				out[0] = v.SourceLanguage
-				out[1] = v.Version
-				return 2, nil
-			},
 		},
 	)
 }
@@ -58,13 +52,6 @@ func init() {
 				return OpSourceExtension(
 					DecodeString(argv),
 				), nil
-			},
-			Encode: func(i Instruction, out []uint32) (uint32, error) {
-				v := i.(OpSourceExtension)
-				size := String(v).EncodedLen()
-
-				String(v).Encode(out)
-				return size, nil
 			},
 		},
 	)
@@ -94,14 +81,6 @@ func init() {
 					Target: argv[0],
 					Name:   DecodeString(argv[1:]),
 				}, nil
-			},
-			Encode: func(i Instruction, out []uint32) (uint32, error) {
-				v := i.(*OpName)
-				size := v.Name.EncodedLen()
-
-				out[0] = v.Target
-				v.Name.Encode(out[1:])
-				return 1 + size, nil
 			},
 		},
 	)
@@ -134,15 +113,6 @@ func init() {
 					Name:   DecodeString(argv[2:]),
 				}, nil
 			},
-			Encode: func(i Instruction, out []uint32) (uint32, error) {
-				v := i.(*OpMemberName)
-				size := v.Name.EncodedLen()
-
-				out[0] = v.Type
-				out[1] = v.Member
-				v.Name.Encode(out[2:])
-				return 2 + size, nil
-			},
 		},
 	)
 }
@@ -171,14 +141,6 @@ func init() {
 					ResultId: argv[0],
 					String:   DecodeString(argv[1:]),
 				}, nil
-			},
-			Encode: func(i Instruction, out []uint32) (uint32, error) {
-				v := i.(*OpString)
-				size := v.String.EncodedLen()
-
-				out[0] = v.ResultId
-				v.String.Encode(out[1:])
-				return 1 + size, nil
 			},
 		},
 	)
@@ -212,14 +174,6 @@ func init() {
 					Line:   argv[2],
 					Column: argv[3],
 				}, nil
-			},
-			Encode: func(i Instruction, out []uint32) (uint32, error) {
-				v := i.(*OpLine)
-				out[0] = v.Target
-				out[1] = v.File
-				out[2] = v.Line
-				out[3] = v.Column
-				return 4, nil
 			},
 		},
 	)

@@ -28,12 +28,6 @@ func init() {
 					ResultId:   argv[1],
 				}, nil
 			},
-			Encode: func(i Instruction, out []uint32) (uint32, error) {
-				v := i.(*OpConstantTrue)
-				out[0] = v.ResultType
-				out[1] = v.ResultId
-				return 2, nil
-			},
 		},
 	)
 }
@@ -62,12 +56,6 @@ func init() {
 					ResultType: argv[0],
 					ResultId:   argv[1],
 				}, nil
-			},
-			Encode: func(i Instruction, out []uint32) (uint32, error) {
-				v := i.(*OpConstantFalse)
-				out[0] = v.ResultType
-				out[1] = v.ResultId
-				return 2, nil
 			},
 		},
 	)
@@ -105,15 +93,6 @@ func init() {
 					ResultId:   argv[1],
 					Value:      Copy(argv[2:]),
 				}, nil
-			},
-			Encode: func(i Instruction, out []uint32) (uint32, error) {
-				v := i.(*OpConstant)
-				size := uint32(len(v.Value))
-
-				out[0] = v.ResultType
-				out[1] = v.ResultId
-				copy(out[2:], v.Value)
-				return 2 + size, nil
 			},
 		},
 	)
@@ -157,15 +136,6 @@ func init() {
 					Constituents: Copy(argv[2:]),
 				}, nil
 			},
-			Encode: func(i Instruction, out []uint32) (uint32, error) {
-				v := i.(*OpConstantComposite)
-				size := uint32(len(v.Constituents))
-
-				out[0] = v.ResultType
-				out[1] = v.ResultId
-				copy(out[2:], v.Constituents)
-				return 2 + size, nil
-			},
 		},
 	)
 }
@@ -208,15 +178,6 @@ func init() {
 					Filter:     argv[4],
 				}, nil
 			},
-			Encode: func(i Instruction, out []uint32) (uint32, error) {
-				v := i.(*OpConstantSampler)
-				out[0] = v.ResultType
-				out[1] = v.ResultId
-				out[2] = v.Addressing
-				out[3] = v.Param
-				out[4] = v.Filter
-				return 5, nil
-			},
 		},
 	)
 }
@@ -245,12 +206,6 @@ func init() {
 					ResultType: argv[0],
 					ResultId:   argv[1],
 				}, nil
-			},
-			Encode: func(i Instruction, out []uint32) (uint32, error) {
-				v := i.(*OpConstantNullPointer)
-				out[0] = v.ResultType
-				out[1] = v.ResultId
-				return 2, nil
 			},
 		},
 	)
@@ -281,12 +236,6 @@ func init() {
 					ResultType: argv[0],
 					ResultId:   argv[1],
 				}, nil
-			},
-			Encode: func(i Instruction, out []uint32) (uint32, error) {
-				v := i.(*OpConstantNullObject)
-				out[0] = v.ResultType
-				out[1] = v.ResultId
-				return 2, nil
 			},
 		},
 	)
@@ -321,12 +270,6 @@ func init() {
 					ResultId:   argv[1],
 				}, nil
 			},
-			Encode: func(i Instruction, out []uint32) (uint32, error) {
-				v := i.(*OpSpecConstantTrue)
-				out[0] = v.ResultType
-				out[1] = v.ResultId
-				return 2, nil
-			},
 		},
 	)
 }
@@ -359,12 +302,6 @@ func init() {
 					ResultType: argv[0],
 					ResultId:   argv[1],
 				}, nil
-			},
-			Encode: func(i Instruction, out []uint32) (uint32, error) {
-				v := i.(*OpSpecConstantFalse)
-				out[0] = v.ResultType
-				out[1] = v.ResultId
-				return 2, nil
 			},
 		},
 	)
@@ -404,15 +341,6 @@ func init() {
 					ResultId:   argv[1],
 					Value:      Copy(argv[2:]),
 				}, nil
-			},
-			Encode: func(i Instruction, out []uint32) (uint32, error) {
-				v := i.(*OpSpecConstant)
-				size := uint32(len(v.Value))
-
-				out[0] = v.ResultType
-				out[1] = v.ResultId
-				copy(out[2:], v.Value)
-				return 2 + size, nil
 			},
 		},
 	)
@@ -457,15 +385,6 @@ func init() {
 					ResultId:     argv[1],
 					Constituents: Copy(argv[2:]),
 				}, nil
-			},
-			Encode: func(i Instruction, out []uint32) (uint32, error) {
-				v := i.(*OpSpecConstantComposite)
-				size := uint32(len(v.Constituents))
-
-				out[0] = v.ResultType
-				out[1] = v.ResultId
-				copy(out[2:], v.Constituents)
-				return 2 + size, nil
 			},
 		},
 	)

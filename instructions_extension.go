@@ -24,13 +24,6 @@ func init() {
 					DecodeString(argv),
 				), nil
 			},
-			Encode: func(i Instruction, out []uint32) (uint32, error) {
-				v := i.(OpExtension)
-				size := String(v).EncodedLen()
-
-				String(v).Encode(out)
-				return size, nil
-			},
 		},
 	)
 }
@@ -59,14 +52,6 @@ func init() {
 					ResultId: argv[0],
 					Name:     DecodeString(argv[1:]),
 				}, nil
-			},
-			Encode: func(i Instruction, out []uint32) (uint32, error) {
-				v := i.(*OpExtInstImport)
-				size := v.Name.EncodedLen()
-
-				out[0] = v.ResultId
-				v.Name.Encode(out[1:])
-				return 1 + size, nil
 			},
 		},
 	)
@@ -99,17 +84,6 @@ func init() {
 					Instruction: argv[3],
 					Operands:    Copy(argv[4:]),
 				}, nil
-			},
-			Encode: func(i Instruction, out []uint32) (uint32, error) {
-				v := i.(*OpExtInst)
-				size := uint32(len(v.Operands))
-
-				out[0] = v.ResultType
-				out[1] = v.ResultId
-				out[2] = v.Set
-				out[3] = v.Instruction
-				copy(out[4:], v.Operands)
-				return 4 + size, nil
 			},
 		},
 	)
