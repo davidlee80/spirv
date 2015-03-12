@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io"
 	"reflect"
+	"strings"
 )
 
 // Encoder defines an encoder for the SPIR-V format.
@@ -87,24 +88,17 @@ func (e *Encoder) EncodeInstructionWords(data []uint32) error {
 // Encode encodes the given instruction into a list of words and
 // writes them to the underlying stream.
 func (e *Encoder) EncodeInstruction(i Instruction) error {
-	opcode := i.Opcode()
-
-	instructions.RLock()
-	codec, ok := instructions.data[opcode]
-	instructions.RUnlock()
-
-	if !ok {
-		return fmt.Errorf("unknown instruction: %08x", opcode)
-	}
-
-	// Make sure the word buffer has the correct size.
+	// Make sure the scratch buffer has sufficient space.
 	size := EncodedLen(i)
 	if size > len(e.buf) {
 		e.buf = make([]uint32, size)
 	}
 
 	// Encode the instruction arguments.
-	argc, err := codec.Encode(i, e.buf[1:])
+	rv := reflect.ValueOf(i)
+	rv = reflect.Indirect(rv)
+
+	argc, err := encodeValue(rv, e.buf[1:])
 	if err != nil {
 		return err
 	}
@@ -113,6 +107,8 @@ func (e *Encoder) EncodeInstruction(i Instruction) error {
 
 	// Set the first instruction word.
 	e.buf[0] = EncodeOpcode(argc, i.Opcode())
+
+	// Write the words to the underlying stream.
 	return e.EncodeInstructionWords(e.buf[:argc])
 }
 
@@ -185,24 +181,23 @@ func encodedSliceLen(rv reflect.Value) int {
 	return len
 }
 
-// encode uses reflection to encode the given instruction into
-// a sequence of words.
-func encode(i Instruction, out []uint32) (uint32, error) {
-	rv := reflect.ValueOf(i)
-	rv = reflect.Indirect(rv)
-	return encodeValue(rv, out)
-}
-
 func encodeValue(rv reflect.Value, out []uint32) (uint32, error) {
 	switch rv.Kind() {
 	case reflect.Struct:
 		return encodeStruct(rv, out)
-	case reflect.Uint32:
-		return encodeUint32(rv, out)
-	case reflect.String:
-		return encodeString(rv, out)
+
 	case reflect.Slice, reflect.Array:
 		return encodeSlice(rv, out)
+
+	case reflect.Uint32:
+		out[0] = uint32(rv.Uint())
+		return 1, nil
+
+	case reflect.String:
+		str := String(rv.String())
+		size := str.EncodedLen()
+		str.Encode(out)
+		return size, nil
 	}
 
 	return 0, fmt.Errorf("unsupported type: %v", rv.Kind())
@@ -212,10 +207,17 @@ func encodeValue(rv reflect.Value, out []uint32) (uint32, error) {
 func encodeStruct(rv reflect.Value, out []uint32) (uint32, error) {
 	var index uint32
 
+	rt := rv.Type()
 	for i := 0; i < rv.NumField(); i++ {
-		fld := rv.Field(i)
+		fldv := rv.Field(i)
+		fldt := rt.Field(i)
 
-		argc, err := encodeValue(fld, out[index:])
+		tag := fldt.Tag.Get("spirv")
+		if hasFieldOption(tag, "optional") && valueIsNil(fldv) {
+			continue
+		}
+
+		argc, err := encodeValue(fldv, out[index:])
 		if err != nil {
 			return 0, err
 		}
@@ -226,18 +228,32 @@ func encodeStruct(rv reflect.Value, out []uint32) (uint32, error) {
 	return index, nil
 }
 
-// encodeUint32 encodes the given uint32.
-func encodeUint32(rv reflect.Value, out []uint32) (uint32, error) {
-	out[0] = uint32(rv.Uint())
-	return 1, nil
+// valueIsNil returns true if the given value is considered empty.
+// This depends on the underlying type.
+func valueIsNil(rv reflect.Value) bool {
+	switch rv.Kind() {
+	case reflect.Slice, reflect.Array:
+		return rv.Len() == 0
+
+	case reflect.Uint32:
+		return rv.Uint() == 0
+	}
+
+	return false
 }
 
-// encodeString encodes the given string.
-func encodeString(rv reflect.Value, out []uint32) (uint32, error) {
-	str := String(rv.String())
-	size := str.EncodedLen()
-	str.Encode(out)
-	return size, nil
+// hasFieldOption returns true if the given struct field tag
+// contains the specified option.
+func hasFieldOption(tag, option string) bool {
+	fields := strings.Split(tag, ",")
+
+	for _, fld := range fields {
+		if len(fld) > 0 && strings.EqualFold(fld, option) {
+			return true
+		}
+	}
+
+	return false
 }
 
 // encodeSlice encodes the given slice

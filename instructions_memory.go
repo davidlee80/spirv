@@ -19,7 +19,7 @@ type OpVariable struct {
 	// initial value of the variable’s memory content. Initializer must
 	// be an <id> from a constant instruction. Initializer must have the same
 	// type as the type pointed to by Result Type.
-	Initializer uint32
+	Initializer uint32 `spirv:"optional"`
 }
 
 func (c *OpVariable) Opcode() uint32 { return 38 }

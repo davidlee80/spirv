@@ -40,8 +40,8 @@ func init() {
 // It defines an import of an extended set of instructions.
 // It can later be referenced by the Result <id>
 type OpExtInstImport struct {
-	Name     String
 	ResultId uint32
+	Name     String
 }
 
 func (c *OpExtInstImport) Opcode() uint32 { return 4 }

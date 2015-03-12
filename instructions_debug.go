@@ -75,8 +75,8 @@ func init() {
 // It names a result ID.
 // This has no semantic impact and can safely be removed from a module.
 type OpName struct {
-	Name   String
 	Target uint32
+	Name   String
 }
 
 func (c *OpName) Opcode() uint32 { return 54 }

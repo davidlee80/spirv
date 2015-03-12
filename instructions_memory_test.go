@@ -13,6 +13,7 @@ func TestMemory(t *testing.T) {
 				ResultType:   1,
 				ResultId:     2,
 				StorageClass: StorageClassPrivate,
+				Initializer:  0,
 			},
 		},
 		{

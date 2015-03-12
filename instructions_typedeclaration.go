@@ -267,7 +267,7 @@ type OpTypeSampler struct {
 	MS uint32
 
 	// AccessQualifier is an image access qualifier and is optional.
-	AccessQualifier uint32
+	AccessQualifier uint32 `spirv:"optional"`
 }
 
 func (c *OpTypeSampler) Opcode() uint32 { return 14 }

@@ -138,11 +138,11 @@ func init() {
 // OpGroupDecorate represents the OpGroupDecorate instruction.
 // It adds a group of decorations to another <id>.
 type OpGroupDecorate struct {
-	// Targets are the target <id>s to decorate with the groups of decorations.
-	Targets []uint32
-
 	// Decoration group is the <id> of an OpDecorationGroup instruction.
 	Group uint32
+
+	// Targets are the target <id>s to decorate with the groups of decorations.
+	Targets []uint32
 }
 
 func (c *OpGroupDecorate) Opcode() uint32 { return 52 }
@@ -176,11 +176,11 @@ func init() {
 // OpGroupMemberDecorate represents the OpGroupMemberDecorate instruction.
 // It adds a decoration to a member of a structure type
 type OpGroupMemberDecorate struct {
-	// Targets are the target <id>s to decorate with the groups of decorations.
-	Targets []uint32
-
 	// The <id> of a OpDecorationGroup instruction.
 	Group uint32
+
+	// Targets are the target <id>s to decorate with the groups of decorations.
+	Targets []uint32
 }
 
 func (c *OpGroupMemberDecorate) Opcode() uint32 { return 53 }
