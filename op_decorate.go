@@ -13,7 +13,7 @@ type OpDecorate struct {
 	Target uint32
 
 	// The decoration type to apply.
-	Decoration Decoration
+	Decoration uint32
 
 	// Optional list of decoration arguments.
 	//
@@ -35,7 +35,7 @@ func bindOpDecorate(set *InstructionSet) {
 
 				return &OpDecorate{
 					Target:     argv[0],
-					Decoration: Decoration(argv[1]),
+					Decoration: argv[1],
 					Argv:       Copy(argv[2:]),
 				}, nil
 			},
@@ -45,7 +45,7 @@ func bindOpDecorate(set *InstructionSet) {
 
 				out[0] = EncodeOpcode(3+size, v.Opcode())
 				out[1] = v.Target
-				out[2] = uint32(v.Decoration)
+				out[2] = v.Decoration
 				copy(out[3:], v.Argv)
 				return nil
 			},

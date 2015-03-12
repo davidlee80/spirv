@@ -9,7 +9,7 @@ type OpTypePointer struct {
 	Result uint32
 
 	// The storage class of the memory holding the object pointed to.
-	Storage StorageClass
+	StorageClass uint32
 
 	// The type of the object pointed to.
 	Type uint32
@@ -27,16 +27,16 @@ func bindOpTypePointer(set *InstructionSet) {
 				}
 
 				return &OpTypePointer{
-					Result:  argv[0],
-					Storage: StorageClass(argv[1]),
-					Type:    argv[2],
+					Result:       argv[0],
+					StorageClass: argv[1],
+					Type:         argv[2],
 				}, nil
 			},
 			Encode: func(i Instruction, out []uint32) error {
 				v := i.(*OpTypePointer)
 				out[0] = EncodeOpcode(4, v.Opcode())
 				out[1] = v.Result
-				out[2] = uint32(v.Storage)
+				out[2] = v.StorageClass
 				out[3] = v.Type
 				return nil
 			},

@@ -16,7 +16,7 @@ type OpLoad struct {
 	Pointer uint32
 
 	// MemoryAccess must be one or more Memory Access literals.
-	MemoryAccess []MemoryAccess
+	MemoryAccess []uint32
 }
 
 func (c *OpLoad) Opcode() uint32 { return 46 }
@@ -30,20 +30,12 @@ func bindOpLoad(set *InstructionSet) {
 					return nil, ErrMissingInstructionArgs
 				}
 
-				op := &OpLoad{
-					ResultType: argv[0],
-					ResultId:   argv[1],
-					Pointer:    argv[2],
-				}
-
-				if len(argv) > 3 {
-					op.MemoryAccess = make([]MemoryAccess, len(argv[3:]))
-					for i := range op.MemoryAccess {
-						op.MemoryAccess[i] = MemoryAccess(argv[3+i])
-					}
-				}
-
-				return op, nil
+				return &OpLoad{
+					ResultType:   argv[0],
+					ResultId:     argv[1],
+					Pointer:      argv[2],
+					MemoryAccess: Copy(argv[3:]),
+				}, nil
 			},
 			Encode: func(i Instruction, out []uint32) error {
 				v := i.(*OpLoad)
@@ -53,11 +45,7 @@ func bindOpLoad(set *InstructionSet) {
 				out[1] = v.ResultType
 				out[2] = v.ResultId
 				out[3] = v.Pointer
-
-				for i, ma := range v.MemoryAccess {
-					out[4+i] = uint32(ma)
-				}
-
+				copy(out[4:], v.MemoryAccess)
 				return nil
 			},
 		},

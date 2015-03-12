@@ -12,7 +12,7 @@ type OpTypePipe struct {
 	Type uint32
 
 	// Qualifier is the pipe access qualifier.
-	Qualifier AccessQualifier
+	AccessQualifier uint32
 }
 
 func (c *OpTypePipe) Opcode() uint32 { return 26 }
@@ -27,9 +27,9 @@ func bindOpTypePipe(set *InstructionSet) {
 				}
 
 				return &OpTypePipe{
-					Result:    argv[0],
-					Type:      argv[1],
-					Qualifier: AccessQualifier(argv[2]),
+					Result:          argv[0],
+					Type:            argv[1],
+					AccessQualifier: argv[2],
 				}, nil
 			},
 			Encode: func(i Instruction, out []uint32) error {
@@ -37,7 +37,7 @@ func bindOpTypePipe(set *InstructionSet) {
 				out[0] = EncodeOpcode(4, v.Opcode())
 				out[1] = v.Result
 				out[2] = v.Type
-				out[3] = uint32(v.Qualifier)
+				out[3] = v.AccessQualifier
 				return nil
 			},
 		},

@@ -19,7 +19,7 @@ type OpCopyMemorySized struct {
 	Size uint32
 
 	// MemoryAccess must be one or more Memory Access literals.
-	MemoryAccess []MemoryAccess
+	MemoryAccess []uint32
 }
 
 func (c *OpCopyMemorySized) Opcode() uint32 { return 66 }
@@ -33,20 +33,12 @@ func bindOpCopyMemorySized(set *InstructionSet) {
 					return nil, ErrMissingInstructionArgs
 				}
 
-				op := &OpCopyMemorySized{
-					Target: argv[0],
-					Source: argv[1],
-					Size:   argv[2],
-				}
-
-				if len(argv) > 3 {
-					op.MemoryAccess = make([]MemoryAccess, len(argv[3:]))
-					for i := range op.MemoryAccess {
-						op.MemoryAccess[i] = MemoryAccess(argv[3+i])
-					}
-				}
-
-				return op, nil
+				return &OpCopyMemorySized{
+					Target:       argv[0],
+					Source:       argv[1],
+					Size:         argv[2],
+					MemoryAccess: Copy(argv[3:]),
+				}, nil
 			},
 			Encode: func(i Instruction, out []uint32) error {
 				v := i.(*OpCopyMemorySized)
@@ -56,11 +48,7 @@ func bindOpCopyMemorySized(set *InstructionSet) {
 				out[1] = v.Target
 				out[2] = v.Source
 				out[3] = v.Size
-
-				for i, ma := range v.MemoryAccess {
-					out[4+i] = uint32(ma)
-				}
-
+				copy(out[4:], v.MemoryAccess)
 				return nil
 			},
 		},

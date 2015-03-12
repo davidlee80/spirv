@@ -14,7 +14,7 @@ type OpMemberDecorate struct {
 	Member uint32
 
 	// The decoration type to apply.
-	Decoration Decoration
+	Decoration uint32
 
 	// Optional list of decoration arguments.
 	//
@@ -37,7 +37,7 @@ func bindOpMemberDecorate(set *InstructionSet) {
 				return &OpMemberDecorate{
 					StructType: argv[0],
 					Member:     argv[1],
-					Decoration: Decoration(argv[2]),
+					Decoration: argv[2],
 					Argv:       Copy(argv[3:]),
 				}, nil
 			},
@@ -48,7 +48,7 @@ func bindOpMemberDecorate(set *InstructionSet) {
 				out[0] = EncodeOpcode(4+size, v.Opcode())
 				out[1] = v.StructType
 				out[2] = v.Member
-				out[3] = uint32(v.Decoration)
+				out[3] = v.Decoration
 				copy(out[4:], v.Argv)
 				return nil
 			},

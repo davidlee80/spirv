@@ -6,9 +6,9 @@ package spirv
 // OpExecutionMode represents the OpExecutionMode instruction.
 // It declares an execution mode for an entry point.
 type OpExecutionMode struct {
-	EntryPoint uint32        // Must be the Entry Point <id> operand of an OpEntryPoint instruction.
-	Mode       ExecutionMode // The execution mode.
-	Argv       []uint32      // Literal arguments.
+	EntryPoint    uint32   // Must be the Entry Point <id> operand of an OpEntryPoint instruction.
+	ExecutionMode uint32   // The execution mode.
+	Argv          []uint32 // Literal arguments.
 }
 
 func (c *OpExecutionMode) Opcode() uint32 { return 7 }
@@ -23,16 +23,16 @@ func bindOpExecutionMode(set *InstructionSet) {
 				}
 
 				return &OpExecutionMode{
-					EntryPoint: argv[0],
-					Mode:       ExecutionMode(argv[1]),
-					Argv:       Copy(argv[2:]),
+					EntryPoint:    argv[0],
+					ExecutionMode: argv[1],
+					Argv:          Copy(argv[2:]),
 				}, nil
 			},
 			Encode: func(i Instruction, out []uint32) error {
 				v := i.(*OpExecutionMode)
 				out[0] = EncodeOpcode(3+uint32(len(v.Argv)), v.Opcode())
 				out[1] = v.EntryPoint
-				out[2] = uint32(v.Mode)
+				out[2] = v.ExecutionMode
 				copy(out[3:], v.Argv)
 				return nil
 			},

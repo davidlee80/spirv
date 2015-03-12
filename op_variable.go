@@ -13,7 +13,7 @@ type OpVariable struct {
 	ResultId uint32
 
 	// Storage Class is the kind of memory holding the object.
-	Storage StorageClass
+	StorageClass uint32
 
 	// Initializer is optional. If Initializer is present, it will be the
 	// initial value of the variable’s memory content. Initializer must
@@ -34,9 +34,9 @@ func bindOpVariable(set *InstructionSet) {
 				}
 
 				op := &OpVariable{
-					ResultType: argv[0],
-					ResultId:   argv[1],
-					Storage:    StorageClass(argv[2]),
+					ResultType:   argv[0],
+					ResultId:     argv[1],
+					StorageClass: argv[2],
 				}
 
 				if len(argv) > 3 {
@@ -56,7 +56,7 @@ func bindOpVariable(set *InstructionSet) {
 				out[0] = EncodeOpcode(size, v.Opcode())
 				out[1] = v.ResultType
 				out[2] = v.ResultId
-				out[3] = uint32(v.Storage)
+				out[3] = v.StorageClass
 
 				if v.Initializer != 0 {
 					out[4] = v.Initializer

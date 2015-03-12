@@ -42,10 +42,10 @@ func TestCodecInstructions(t *testing.T) {
 			err: fmt.Errorf("unknown instruction: 0000ffff"),
 		},
 		{
-			in: []uint32{0x0030001, uint32(SLGLSL), 450},
+			in: []uint32{0x0030001, SLGLSL, 450},
 			want: &OpSource{
-				Language: SLGLSL,
-				Version:  450,
+				SourceLanguage: SLGLSL,
+				Version:        450,
 			},
 		},
 		{
@@ -143,23 +143,23 @@ func TestCodecInstructions(t *testing.T) {
 				uint32(MMGLSL450),
 			},
 			want: &OpMemoryModel{
-				Addressing: AMPhysical32,
-				Memory:     MMGLSL450,
+				AddressingMode: AMPhysical32,
+				MemoryMode:     MMGLSL450,
 			},
 		},
 		{
-			in: []uint32{0x00030006, uint32(EMFragment), 0x7f},
+			in: []uint32{0x00030006, EMFragment, 0x7f},
 			want: &OpEntryPoint{
-				Execution: EMFragment,
-				Id:        0x7f,
+				ExecutionModel: EMFragment,
+				Id:             0x7f,
 			},
 		},
 		{
-			in: []uint32{0x00060007, 0x7f, uint32(EMSpacingEqual), 1, 2, 3},
+			in: []uint32{0x00060007, 0x7f, EMSpacingEqual, 1, 2, 3},
 			want: &OpExecutionMode{
-				EntryPoint: 0x7f,
-				Mode:       EMSpacingEqual,
-				Argv:       []uint32{1, 2, 3},
+				EntryPoint:    0x7f,
+				ExecutionMode: EMSpacingEqual,
+				Argv:          []uint32{1, 2, 3},
 			},
 		},
 		{
@@ -221,7 +221,7 @@ func TestCodecInstructions(t *testing.T) {
 			want: OpDecorationGroup(0xff),
 		},
 		{
-			in: []uint32{0x00060032, 1, uint32(DNoStaticUse), 2, 3, 4},
+			in: []uint32{0x00060032, 1, DNoStaticUse, 2, 3, 4},
 			want: &OpDecorate{
 				Target:     1,
 				Decoration: DNoStaticUse,
@@ -229,7 +229,7 @@ func TestCodecInstructions(t *testing.T) {
 			},
 		},
 		{
-			in: []uint32{0x00070033, 1, 2, uint32(DNoStaticUse), 3, 4, 5},
+			in: []uint32{0x00070033, 1, 2, DNoStaticUse, 3, 4, 5},
 			want: &OpMemberDecorate{
 				StructType: 1,
 				Member:     2,
@@ -252,28 +252,28 @@ func TestCodecInstructions(t *testing.T) {
 			},
 		},
 		{
-			in: []uint32{0x008000e, 1, 2, uint32(D3D), 2, 1, 0, 1},
+			in: []uint32{0x008000e, 1, 2, D3D, 2, 1, 0, 1},
 			want: &OpTypeSampler{
-				Result:      1,
-				SampledType: 2,
-				Dim:         D3D,
-				Content:     2,
-				Arrayed:     1,
-				Compare:     0,
-				MS:          1,
+				Result:         1,
+				SampledType:    2,
+				Dimensionality: D3D,
+				Content:        2,
+				Arrayed:        1,
+				Compare:        0,
+				MS:             1,
 			},
 		},
 		{
-			in: []uint32{0x009000e, 1, 2, uint32(D3D), 2, 1, 0, 1, uint32(AQWriteOnly)},
+			in: []uint32{0x009000e, 1, 2, D3D, 2, 1, 0, 1, AQWriteOnly},
 			want: &OpTypeSampler{
-				Result:      1,
-				SampledType: 2,
-				Dim:         D3D,
-				Content:     2,
-				Arrayed:     1,
-				Compare:     0,
-				MS:          1,
-				Qualifier:   AQWriteOnly,
+				Result:          1,
+				SampledType:     2,
+				Dimensionality:  D3D,
+				Content:         2,
+				Arrayed:         1,
+				Compare:         0,
+				MS:              1,
+				AccessQualifier: AQWriteOnly,
 			},
 		},
 		{
@@ -310,11 +310,11 @@ func TestCodecInstructions(t *testing.T) {
 			},
 		},
 		{
-			in: []uint32{0x0040014, 1, uint32(SCAtomicCounter), 2},
+			in: []uint32{0x0040014, 1, SCAtomicCounter, 2},
 			want: &OpTypePointer{
-				Result:  1,
-				Storage: SCAtomicCounter,
-				Type:    2,
+				Result:       1,
+				StorageClass: SCAtomicCounter,
+				Type:         2,
 			},
 		},
 		{
@@ -349,11 +349,11 @@ func TestCodecInstructions(t *testing.T) {
 			want: OpTypeQueue(123),
 		},
 		{
-			in: []uint32{0x004001a, 1, 2, uint32(AQReadWrite)},
+			in: []uint32{0x004001a, 1, 2, AQReadWrite},
 			want: &OpTypePipe{
-				Result:    1,
-				Type:      2,
-				Qualifier: AQReadWrite,
+				Result:          1,
+				Type:            2,
+				AccessQualifier: AQReadWrite,
 			},
 		},
 		{
@@ -408,7 +408,7 @@ func TestCodecInstructions(t *testing.T) {
 			},
 		},
 		{
-			in: []uint32{0x006001f, 1, 2, uint32(AMPhysical64), 4, uint32(SFMNearest)},
+			in: []uint32{0x006001f, 1, 2, AMPhysical64, 4, SFMNearest},
 			want: &OpConstantSampler{
 				ResultType: 1,
 				ResultId:   2,
@@ -476,29 +476,29 @@ func TestCodecInstructions(t *testing.T) {
 			},
 		},
 		{
-			in: []uint32{0x0040026, 1, 2, uint32(SCPrivate)},
+			in: []uint32{0x0040026, 1, 2, SCPrivate},
 			want: &OpVariable{
-				ResultType: 1,
-				ResultId:   2,
-				Storage:    SCPrivate,
+				ResultType:   1,
+				ResultId:     2,
+				StorageClass: SCPrivate,
 			},
 		},
 		{
-			in: []uint32{0x0050026, 1, 2, uint32(SCPrivate), 3},
+			in: []uint32{0x0050026, 1, 2, SCPrivate, 3},
 			want: &OpVariable{
-				ResultType:  1,
-				ResultId:    2,
-				Storage:     SCPrivate,
-				Initializer: 3,
+				ResultType:   1,
+				ResultId:     2,
+				StorageClass: SCPrivate,
+				Initializer:  3,
 			},
 		},
 		{
-			in: []uint32{0x0050027, 1, 2, uint32(SCPrivate), 10},
+			in: []uint32{0x0050027, 1, 2, SCPrivate, 10},
 			want: &OpVariableArray{
-				ResultType: 1,
-				ResultId:   2,
-				Storage:    SCPrivate,
-				N:          10,
+				ResultType:   1,
+				ResultId:     2,
+				StorageClass: SCPrivate,
+				N:            10,
 			},
 		},
 		{
@@ -510,12 +510,12 @@ func TestCodecInstructions(t *testing.T) {
 			},
 		},
 		{
-			in: []uint32{0x006002e, 1, 2, 3, uint32(MAAligned), uint32(MAVolatile)},
+			in: []uint32{0x006002e, 1, 2, 3, MAAligned, MAVolatile},
 			want: &OpLoad{
 				ResultType:   1,
 				ResultId:     2,
 				Pointer:      3,
-				MemoryAccess: []MemoryAccess{MAAligned, MAVolatile},
+				MemoryAccess: []uint32{MAAligned, MAVolatile},
 			},
 		},
 		{
@@ -526,11 +526,11 @@ func TestCodecInstructions(t *testing.T) {
 			},
 		},
 		{
-			in: []uint32{0x005002f, 1, 2, uint32(MAAligned), uint32(MAVolatile)},
+			in: []uint32{0x005002f, 1, 2, MAAligned, MAVolatile},
 			want: &OpStore{
 				Pointer:      1,
 				Object:       2,
-				MemoryAccess: []MemoryAccess{MAAligned, MAVolatile},
+				MemoryAccess: []uint32{MAAligned, MAVolatile},
 			},
 		},
 		{
@@ -541,11 +541,11 @@ func TestCodecInstructions(t *testing.T) {
 			},
 		},
 		{
-			in: []uint32{0x0050041, 1, 2, uint32(MAAligned), uint32(MAVolatile)},
+			in: []uint32{0x0050041, 1, 2, MAAligned, MAVolatile},
 			want: &OpCopyMemory{
 				Target:       1,
 				Source:       2,
-				MemoryAccess: []MemoryAccess{MAAligned, MAVolatile},
+				MemoryAccess: []uint32{MAAligned, MAVolatile},
 			},
 		},
 		{
@@ -557,12 +557,12 @@ func TestCodecInstructions(t *testing.T) {
 			},
 		},
 		{
-			in: []uint32{0x0060042, 1, 2, 3, uint32(MAAligned), uint32(MAVolatile)},
+			in: []uint32{0x0060042, 1, 2, 3, MAAligned, MAVolatile},
 			want: &OpCopyMemorySized{
 				Target:       1,
 				Source:       2,
 				Size:         3,
-				MemoryAccess: []MemoryAccess{MAAligned, MAVolatile},
+				MemoryAccess: []uint32{MAAligned, MAVolatile},
 			},
 		},
 	} {

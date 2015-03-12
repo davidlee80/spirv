@@ -9,7 +9,7 @@ type OpConstantSampler struct {
 	ResultId   uint32
 
 	// Addressing is the addressing Mode.
-	Addressing AddressingMode
+	Addressing uint32
 
 	// Param is one of:
 	//
@@ -19,7 +19,7 @@ type OpConstantSampler struct {
 	Param uint32
 
 	// Filter is the filter mode.
-	Filter SamplerFilterMode
+	Filter uint32
 }
 
 func (c *OpConstantSampler) Opcode() uint32 { return 31 }
@@ -36,9 +36,9 @@ func bindOpConstantSampler(set *InstructionSet) {
 				return &OpConstantSampler{
 					ResultType: argv[0],
 					ResultId:   argv[1],
-					Addressing: AddressingMode(argv[2]),
+					Addressing: argv[2],
 					Param:      argv[3],
-					Filter:     SamplerFilterMode(argv[4]),
+					Filter:     argv[4],
 				}, nil
 			},
 			Encode: func(i Instruction, out []uint32) error {
@@ -46,9 +46,9 @@ func bindOpConstantSampler(set *InstructionSet) {
 				out[0] = EncodeOpcode(6, v.Opcode())
 				out[1] = v.ResultType
 				out[2] = v.ResultId
-				out[3] = uint32(v.Addressing)
+				out[3] = v.Addressing
 				out[4] = v.Param
-				out[5] = uint32(v.Filter)
+				out[5] = v.Filter
 				return nil
 			},
 		},

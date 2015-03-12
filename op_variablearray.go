@@ -15,7 +15,7 @@ type OpVariableArray struct {
 	ResultId uint32
 
 	// Storage Class is the kind of memory holding the object.
-	Storage StorageClass
+	StorageClass uint32
 
 	// N is the number of objects to allocate.
 	N uint32
@@ -33,10 +33,10 @@ func bindOpVariableArray(set *InstructionSet) {
 				}
 
 				return &OpVariableArray{
-					ResultType: argv[0],
-					ResultId:   argv[1],
-					Storage:    StorageClass(argv[2]),
-					N:          argv[3],
+					ResultType:   argv[0],
+					ResultId:     argv[1],
+					StorageClass: argv[2],
+					N:            argv[3],
 				}, nil
 			},
 			Encode: func(i Instruction, out []uint32) error {
@@ -44,7 +44,7 @@ func bindOpVariableArray(set *InstructionSet) {
 				out[0] = EncodeOpcode(5, v.Opcode())
 				out[1] = v.ResultType
 				out[2] = v.ResultId
-				out[3] = uint32(v.Storage)
+				out[3] = v.StorageClass
 				out[4] = v.N
 				return nil
 			},

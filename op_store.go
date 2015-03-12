@@ -13,7 +13,7 @@ type OpStore struct {
 	Object uint32
 
 	// MemoryAccess must be one or more Memory Access literals.
-	MemoryAccess []MemoryAccess
+	MemoryAccess []uint32
 }
 
 func (c *OpStore) Opcode() uint32 { return 47 }
@@ -27,19 +27,11 @@ func bindOpStore(set *InstructionSet) {
 					return nil, ErrMissingInstructionArgs
 				}
 
-				op := &OpStore{
-					Pointer: argv[0],
-					Object:  argv[1],
-				}
-
-				if len(argv) > 2 {
-					op.MemoryAccess = make([]MemoryAccess, len(argv[2:]))
-					for i := range op.MemoryAccess {
-						op.MemoryAccess[i] = MemoryAccess(argv[2+i])
-					}
-				}
-
-				return op, nil
+				return &OpStore{
+					Pointer:      argv[0],
+					Object:       argv[1],
+					MemoryAccess: Copy(argv[2:]),
+				}, nil
 			},
 			Encode: func(i Instruction, out []uint32) error {
 				v := i.(*OpStore)
@@ -48,11 +40,7 @@ func bindOpStore(set *InstructionSet) {
 				out[0] = EncodeOpcode(3+size, v.Opcode())
 				out[1] = v.Pointer
 				out[2] = v.Object
-
-				for i, ma := range v.MemoryAccess {
-					out[3+i] = uint32(ma)
-				}
-
+				copy(out[3:], v.MemoryAccess)
 				return nil
 			},
 		},

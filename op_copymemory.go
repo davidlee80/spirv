@@ -17,7 +17,7 @@ type OpCopyMemory struct {
 	Source uint32
 
 	// MemoryAccess must be one or more Memory Access literals.
-	MemoryAccess []MemoryAccess
+	MemoryAccess []uint32
 }
 
 func (c *OpCopyMemory) Opcode() uint32 { return 65 }
@@ -31,19 +31,11 @@ func bindOpCopyMemory(set *InstructionSet) {
 					return nil, ErrMissingInstructionArgs
 				}
 
-				op := &OpCopyMemory{
-					Target: argv[0],
-					Source: argv[1],
-				}
-
-				if len(argv) > 2 {
-					op.MemoryAccess = make([]MemoryAccess, len(argv[2:]))
-					for i := range op.MemoryAccess {
-						op.MemoryAccess[i] = MemoryAccess(argv[2+i])
-					}
-				}
-
-				return op, nil
+				return &OpCopyMemory{
+					Target:       argv[0],
+					Source:       argv[1],
+					MemoryAccess: Copy(argv[2:]),
+				}, nil
 			},
 			Encode: func(i Instruction, out []uint32) error {
 				v := i.(*OpCopyMemory)
@@ -52,11 +44,7 @@ func bindOpCopyMemory(set *InstructionSet) {
 				out[0] = EncodeOpcode(3+size, v.Opcode())
 				out[1] = v.Target
 				out[2] = v.Source
-
-				for i, ma := range v.MemoryAccess {
-					out[3+i] = uint32(ma)
-				}
-
+				copy(out[3:], v.MemoryAccess)
 				return nil
 			},
 		},

@@ -17,7 +17,7 @@ type OpTypeSampler struct {
 	SampledType uint32
 
 	// The texture dimensionality.
-	Dim Dimensionality
+	Dimensionality uint32
 
 	// Content must be one of the following indicated values:
 	//
@@ -49,8 +49,8 @@ type OpTypeSampler struct {
 	//
 	MS uint32
 
-	// Qualifier is an image access qualifier and is optional.
-	Qualifier AccessQualifier
+	// AccessQualifier is an image access qualifier and is optional.
+	AccessQualifier uint32
 }
 
 func (c *OpTypeSampler) Opcode() uint32 { return 14 }
@@ -65,18 +65,18 @@ func bindOpTypeSampler(set *InstructionSet) {
 				}
 
 				op := &OpTypeSampler{
-					Result:      argv[0],
-					SampledType: argv[1],
-					Dim:         Dimensionality(argv[2]),
-					Content:     argv[3],
-					Arrayed:     argv[4],
-					Compare:     argv[5],
-					MS:          argv[6],
+					Result:         argv[0],
+					SampledType:    argv[1],
+					Dimensionality: argv[2],
+					Content:        argv[3],
+					Arrayed:        argv[4],
+					Compare:        argv[5],
+					MS:             argv[6],
 				}
 
 				// The qualifier is optional.
 				if len(argv) > 7 {
-					op.Qualifier = AccessQualifier(argv[7])
+					op.AccessQualifier = argv[7]
 				}
 
 				return op, nil
@@ -85,21 +85,21 @@ func bindOpTypeSampler(set *InstructionSet) {
 				v := i.(*OpTypeSampler)
 				size := uint32(8)
 
-				if v.Qualifier != 0 {
+				if v.AccessQualifier != 0 {
 					size++
 				}
 
 				out[0] = EncodeOpcode(size, v.Opcode())
 				out[1] = v.Result
 				out[2] = v.SampledType
-				out[3] = uint32(v.Dim)
+				out[3] = v.Dimensionality
 				out[4] = v.Content
 				out[5] = v.Arrayed
 				out[6] = v.Compare
 				out[7] = v.MS
 
-				if v.Qualifier != 0 {
-					out[8] = uint32(v.Qualifier)
+				if v.AccessQualifier != 0 {
+					out[8] = v.AccessQualifier
 				}
 
 				return nil
