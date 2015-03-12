@@ -19,8 +19,8 @@ type OpTypeVector struct {
 
 func (c *OpTypeVector) Opcode() uint32 { return 12 }
 
-func bindOpTypeVector(set *InstructionSet) {
-	set.Set(
+func init() {
+	Bind(
 		(&OpTypeVector{}).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {

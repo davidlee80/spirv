@@ -15,8 +15,8 @@ type OpMemberName struct {
 
 func (c *OpMemberName) Opcode() uint32 { return 55 }
 
-func bindOpMemberName(set *InstructionSet) {
-	set.Set(
+func init() {
+	Bind(
 		(&OpMemberName{}).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {

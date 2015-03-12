@@ -11,8 +11,8 @@ type OpExtension String
 
 func (c OpExtension) Opcode() uint32 { return 3 }
 
-func bindOpExtension(set *InstructionSet) {
-	set.Set(
+func init() {
+	Bind(
 		OpExtension("").Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {

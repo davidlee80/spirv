@@ -13,8 +13,8 @@ type OpUndef struct {
 
 func (c *OpUndef) Opcode() uint32 { return 45 }
 
-func bindOpUndef(set *InstructionSet) {
-	set.Set(
+func init() {
+	Bind(
 		(&OpUndef{}).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {

@@ -14,8 +14,8 @@ type OpConstantTrue struct {
 
 func (c *OpConstantTrue) Opcode() uint32 { return 27 }
 
-func bindOpConstantTrue(set *InstructionSet) {
-	set.Set(
+func init() {
+	Bind(
 		(&OpConstantTrue{}).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {

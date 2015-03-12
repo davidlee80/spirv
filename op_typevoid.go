@@ -8,8 +8,8 @@ type OpTypeVoid uint32
 
 func (c OpTypeVoid) Opcode() uint32 { return 8 }
 
-func bindOpTypeVoid(set *InstructionSet) {
-	set.Set(
+func init() {
+	Bind(
 		OpTypeVoid(0).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {

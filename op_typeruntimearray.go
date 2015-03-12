@@ -19,8 +19,8 @@ type OpTypeRuntimeArray struct {
 
 func (c *OpTypeRuntimeArray) Opcode() uint32 { return 17 }
 
-func bindOpTypeRuntimeArray(set *InstructionSet) {
-	set.Set(
+func init() {
+	Bind(
 		(&OpTypeRuntimeArray{}).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {

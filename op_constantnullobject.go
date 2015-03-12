@@ -15,8 +15,8 @@ type OpConstantNullObject struct {
 
 func (c *OpConstantNullObject) Opcode() uint32 { return 33 }
 
-func bindOpConstantNullObject(set *InstructionSet) {
-	set.Set(
+func init() {
+	Bind(
 		(&OpConstantNullObject{}).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {

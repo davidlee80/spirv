@@ -13,8 +13,8 @@ type OpExecutionMode struct {
 
 func (c *OpExecutionMode) Opcode() uint32 { return 7 }
 
-func bindOpExecutionMode(set *InstructionSet) {
-	set.Set(
+func init() {
+	Bind(
 		(&OpExecutionMode{}).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {

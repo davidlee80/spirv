@@ -23,8 +23,8 @@ type OpVariableArray struct {
 
 func (c *OpVariableArray) Opcode() uint32 { return 39 }
 
-func bindOpVariableArray(set *InstructionSet) {
-	set.Set(
+func init() {
+	Bind(
 		(&OpVariableArray{}).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {

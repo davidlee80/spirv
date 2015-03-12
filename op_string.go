@@ -14,8 +14,8 @@ type OpString struct {
 
 func (c *OpString) Opcode() uint32 { return 56 }
 
-func bindOpString(set *InstructionSet) {
-	set.Set(
+func init() {
+	Bind(
 		(&OpString{}).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {

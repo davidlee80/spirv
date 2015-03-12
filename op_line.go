@@ -16,8 +16,8 @@ type OpLine struct {
 
 func (c *OpLine) Opcode() uint32 { return 57 }
 
-func bindOpLine(set *InstructionSet) {
-	set.Set(
+func init() {
+	Bind(
 		(&OpLine{}).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {

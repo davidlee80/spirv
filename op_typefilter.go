@@ -10,8 +10,8 @@ type OpTypeFilter uint32
 
 func (c OpTypeFilter) Opcode() uint32 { return 15 }
 
-func bindOpTypeFilter(set *InstructionSet) {
-	set.Set(
+func init() {
+	Bind(
 		OpTypeFilter(0).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {

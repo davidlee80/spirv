@@ -17,8 +17,8 @@ type OpTypePipe struct {
 
 func (c *OpTypePipe) Opcode() uint32 { return 26 }
 
-func bindOpTypePipe(set *InstructionSet) {
-	set.Set(
+func init() {
+	Bind(
 		(&OpTypePipe{}).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {

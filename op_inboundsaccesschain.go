@@ -21,8 +21,8 @@ type OpInboundsAccessChain struct {
 
 func (c *OpInboundsAccessChain) Opcode() uint32 { return 94 }
 
-func bindOpInboundsAccessChain(set *InstructionSet) {
-	set.Set(
+func init() {
+	Bind(
 		(&OpInboundsAccessChain{}).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {

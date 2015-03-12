@@ -14,8 +14,8 @@ type OpSource struct {
 
 func (c *OpSource) Opcode() uint32 { return 1 }
 
-func bindOpSource(set *InstructionSet) {
-	set.Set(
+func init() {
+	Bind(
 		(&OpSource{}).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {

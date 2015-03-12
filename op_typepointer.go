@@ -17,8 +17,8 @@ type OpTypePointer struct {
 
 func (c *OpTypePointer) Opcode() uint32 { return 20 }
 
-func bindOpTypePointer(set *InstructionSet) {
-	set.Set(
+func init() {
+	Bind(
 		(&OpTypePointer{}).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {

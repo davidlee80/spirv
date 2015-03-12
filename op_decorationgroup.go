@@ -14,8 +14,8 @@ type OpDecorationGroup uint32
 
 func (c OpDecorationGroup) Opcode() uint32 { return 49 }
 
-func bindOpDecorationGroup(set *InstructionSet) {
-	set.Set(
+func init() {
+	Bind(
 		OpDecorationGroup(0).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {

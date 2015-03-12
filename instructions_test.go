@@ -9,8 +9,6 @@ import (
 	"testing"
 )
 
-var lib = NewInstructionSet()
-
 type InstructionTest struct {
 	in   []uint32
 	want Instruction
@@ -18,7 +16,7 @@ type InstructionTest struct {
 }
 
 func testInstruction(t *testing.T, st InstructionTest) {
-	have, err := lib.Decode(st.in)
+	have, err := Decode(st.in)
 
 	// We have a decoding error. This is only a test failure if
 	// we were not expecting an error.
@@ -38,7 +36,7 @@ func testInstruction(t *testing.T, st InstructionTest) {
 			st.in, have, have, st.want, st.want)
 	}
 
-	data, err := lib.Encode(have)
+	data, err := Encode(have)
 	if !reflect.DeepEqual(data, st.in) {
 		t.Fatalf("encode mismatch: %T(%v)\nHave: %v\nWant: %v",
 			have, have, data, st.in)

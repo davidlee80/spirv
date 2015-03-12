@@ -25,8 +25,8 @@ type OpTypeInt struct {
 
 func (c *OpTypeInt) Opcode() uint32 { return 10 }
 
-func bindOpTypeInt(set *InstructionSet) {
-	set.Set(
+func init() {
+	Bind(
 		(&OpTypeInt{}).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {

@@ -8,8 +8,8 @@ type OpCompileFlag String
 
 func (c OpCompileFlag) Opcode() uint32 { return 218 }
 
-func bindOpCompileFlag(set *InstructionSet) {
-	set.Set(
+func init() {
+	Bind(
 		OpCompileFlag("").Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {

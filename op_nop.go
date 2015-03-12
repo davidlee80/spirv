@@ -12,8 +12,8 @@ type OpNop struct{}
 
 func (c OpNop) Opcode() uint32 { return 0 }
 
-func bindOpNop(set *InstructionSet) {
-	set.Set(
+func init() {
+	Bind(
 		(&OpNop{}).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {

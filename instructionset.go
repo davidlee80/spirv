@@ -3,7 +3,10 @@
 
 package spirv
 
-import "fmt"
+import (
+	"fmt"
+	"sync"
+)
 
 // Copy copies the given slice as-is.
 func Copy(v []uint32) []uint32 {
@@ -23,79 +26,21 @@ func Copy(v []uint32) []uint32 {
 
 // InstructionSet maps opcodes to an instruction encoder/decoder.
 type InstructionSet struct {
+	sync.RWMutex
 	data map[uint32]Codec // List of registered instruction codecs.
-	buf  [64]uint32       // Encoding scratch buffer.
 }
 
-// NewInstructionSet creates a new instruction set with all default
-// instructions bound to it.
-func NewInstructionSet() *InstructionSet {
-	set := &InstructionSet{
-		data: make(map[uint32]Codec),
-	}
+// Global, internal instruction set.
+// This has instructions registered atomically during init.
+var instructions = InstructionSet{
+	data: make(map[uint32]Codec),
+}
 
-	bindOpNop(set)
-	bindOpSource(set)
-	bindOpSourceExtension(set)
-	bindOpExtension(set)
-	bindOpExtInstImport(set)
-	bindOpMemoryModel(set)
-	bindOpEntryPoint(set)
-	bindOpExecutionMode(set)
-	bindOpTypeVoid(set)
-	bindOpTypeBool(set)
-	bindOpTypeInt(set)
-	bindOpTypeFloat(set)
-	bindOpTypeVector(set)
-	bindOpTypeMatrix(set)
-	bindOpExtInst(set)
-	bindOpUndef(set)
-	bindOpName(set)
-	bindOpMemberName(set)
-	bindOpString(set)
-	bindOpLine(set)
-	bindOpCompileFlag(set)
-	bindOpDecorationGroup(set)
-	bindOpDecorate(set)
-	bindOpMemberDecorate(set)
-	bindOpGroupDecorate(set)
-	bindOpGroupMemberDecorate(set)
-	bindOpTypeSampler(set)
-	bindOpTypeFilter(set)
-	bindOpTypeArray(set)
-	bindOpTypeRuntimeArray(set)
-	bindOpTypeStruct(set)
-	bindOpTypeOpaque(set)
-	bindOpTypePointer(set)
-	bindOpTypeFunction(set)
-	bindOpTypeEvent(set)
-	bindOpTypeDeviceEvent(set)
-	bindOpTypeReserveId(set)
-	bindOpTypeQueue(set)
-	bindOpTypePipe(set)
-	bindOpConstantTrue(set)
-	bindOpConstantFalse(set)
-	bindOpConstant(set)
-	bindOpConstantComposite(set)
-	bindOpConstantSampler(set)
-	bindOpConstantNullPointer(set)
-	bindOpConstantNullObject(set)
-	bindOpSpecConstantTrue(set)
-	bindOpSpecConstantFalse(set)
-	bindOpSpecConstant(set)
-	bindOpSpecConstantComposite(set)
-	bindOpVariable(set)
-	bindOpVariableArray(set)
-	bindOpLoad(set)
-	bindOpStore(set)
-	bindOpCopyMemory(set)
-	bindOpCopyMemorySized(set)
-	bindOpAccessChain(set)
-	bindOpInboundsAccessChain(set)
-	bindOpArraylength(set)
-	bindOpImagePointer(set)
-	bindOpGenericPtrMemSemantics(set)
-	return set
+// Bind registers the given codec for the specified opcode.
+func Bind(opcode uint32, codec Codec) {
+	instructions.Lock()
+	instructions.data[opcode] = codec
+	instructions.Unlock()
 }
 
 // Decode decodes the given sequence of words into an Instruction.
@@ -104,7 +49,7 @@ func NewInstructionSet() *InstructionSet {
 //
 // Returns an error if there is no matching instruction or the
 // decoding failed.
-func (set *InstructionSet) Decode(words []uint32) (Instruction, error) {
+func Decode(words []uint32) (Instruction, error) {
 	if len(words) == 0 {
 		return nil, ErrUnexpectedEOF
 	}
@@ -116,7 +61,10 @@ func (set *InstructionSet) Decode(words []uint32) (Instruction, error) {
 		return nil, ErrInvalidInstructionSize
 	}
 
-	codec, ok := set.data[opcode]
+	instructions.RLock()
+	defer instructions.RUnlock()
+
+	codec, ok := instructions.data[opcode]
 	if !ok {
 		return nil, fmt.Errorf("unknown instruction: %08x", opcode)
 	}
@@ -127,35 +75,29 @@ func (set *InstructionSet) Decode(words []uint32) (Instruction, error) {
 // Encode encodes the given instruction into a list of words.
 // Returns an error if there is no matching encoder for the
 // instruction.
-//
-// The returned slice is valid until the next call to Encode.
-func (set *InstructionSet) Encode(i Instruction) ([]uint32, error) {
+func Encode(i Instruction) ([]uint32, error) {
+	instructions.RLock()
+	defer instructions.RUnlock()
+
 	opcode := i.Opcode()
-	codec, ok := set.data[opcode]
+	codec, ok := instructions.data[opcode]
 	if !ok {
 		return nil, fmt.Errorf("unknown instruction: %08x", opcode)
 	}
 
-	// If the encoder fails to write the first word,
-	// we want to know about it.
-	set.buf[0] = 0
+	var buf [64]uint32
 
-	err := codec.Encode(i, set.buf[:])
+	err := codec.Encode(i, buf[:])
 	if err != nil {
 		return nil, err
 	}
 
-	words := (set.buf[0] >> 16) & 0xffff
+	words := (buf[0] >> 16) & 0xffff
 	if words <= 0 {
 		return nil, ErrInvalidInstructionSize
 	}
 
-	return set.buf[:words], nil
-}
-
-// Add adds a new codec to the instruction set.
-func (set *InstructionSet) Set(opcode uint32, codec Codec) {
-	set.data[opcode] = codec
+	return buf[:words], nil
 }
 
 // Get returns the codec for the given opcode.

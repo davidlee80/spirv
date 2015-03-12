@@ -13,8 +13,8 @@ type OpGenericPtrMemSemantics struct {
 
 func (c *OpGenericPtrMemSemantics) Opcode() uint32 { return 233 }
 
-func bindOpGenericPtrMemSemantics(set *InstructionSet) {
-	set.Set(
+func init() {
+	Bind(
 		(&OpGenericPtrMemSemantics{}).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {

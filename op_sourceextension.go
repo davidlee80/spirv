@@ -11,8 +11,8 @@ type OpSourceExtension String
 
 func (c OpSourceExtension) Opcode() uint32 { return 2 }
 
-func bindOpSourceExtension(set *InstructionSet) {
-	set.Set(
+func init() {
+	Bind(
 		OpSourceExtension("").Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {

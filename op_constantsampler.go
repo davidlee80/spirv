@@ -24,8 +24,8 @@ type OpConstantSampler struct {
 
 func (c *OpConstantSampler) Opcode() uint32 { return 31 }
 
-func bindOpConstantSampler(set *InstructionSet) {
-	set.Set(
+func init() {
+	Bind(
 		(&OpConstantSampler{}).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {

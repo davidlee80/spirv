@@ -24,8 +24,8 @@ type OpVariable struct {
 
 func (c *OpVariable) Opcode() uint32 { return 38 }
 
-func bindOpVariable(set *InstructionSet) {
-	set.Set(
+func init() {
+	Bind(
 		(&OpVariable{}).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {

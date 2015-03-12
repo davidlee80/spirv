@@ -26,8 +26,8 @@ type OpConstantComposite struct {
 
 func (c *OpConstantComposite) Opcode() uint32 { return 30 }
 
-func bindOpConstantComposite(set *InstructionSet) {
-	set.Set(
+func init() {
+	Bind(
 		(&OpConstantComposite{}).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {

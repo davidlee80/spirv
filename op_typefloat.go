@@ -16,8 +16,8 @@ type OpTypeFloat struct {
 
 func (c *OpTypeFloat) Opcode() uint32 { return 11 }
 
-func bindOpTypeFloat(set *InstructionSet) {
-	set.Set(
+func init() {
+	Bind(
 		(&OpTypeFloat{}).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {

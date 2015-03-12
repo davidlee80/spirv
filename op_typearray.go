@@ -21,8 +21,8 @@ type OpTypeArray struct {
 
 func (c *OpTypeArray) Opcode() uint32 { return 16 }
 
-func bindOpTypeArray(set *InstructionSet) {
-	set.Set(
+func init() {
+	Bind(
 		(&OpTypeArray{}).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {

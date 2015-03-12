@@ -18,8 +18,8 @@ type OpStore struct {
 
 func (c *OpStore) Opcode() uint32 { return 47 }
 
-func bindOpStore(set *InstructionSet) {
-	set.Set(
+func init() {
+	Bind(
 		(&OpStore{}).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {

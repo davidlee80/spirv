@@ -10,8 +10,8 @@ type OpTypeReserveId uint32
 
 func (c OpTypeReserveId) Opcode() uint32 { return 24 }
 
-func bindOpTypeReserveId(set *InstructionSet) {
-	set.Set(
+func init() {
+	Bind(
 		OpTypeReserveId(0).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {

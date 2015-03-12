@@ -15,8 +15,8 @@ type OpGroupMemberDecorate struct {
 
 func (c *OpGroupMemberDecorate) Opcode() uint32 { return 53 }
 
-func bindOpGroupMemberDecorate(set *InstructionSet) {
-	set.Set(
+func init() {
+	Bind(
 		(&OpGroupMemberDecorate{}).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {

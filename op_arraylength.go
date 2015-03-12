@@ -19,8 +19,8 @@ type OpArraylength struct {
 
 func (c *OpArraylength) Opcode() uint32 { return 121 }
 
-func bindOpArraylength(set *InstructionSet) {
-	set.Set(
+func init() {
+	Bind(
 		(&OpArraylength{}).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {

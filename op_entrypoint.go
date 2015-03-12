@@ -12,8 +12,8 @@ type OpEntryPoint struct {
 
 func (c *OpEntryPoint) Opcode() uint32 { return 6 }
 
-func bindOpEntryPoint(set *InstructionSet) {
-	set.Set(
+func init() {
+	Bind(
 		(&OpEntryPoint{}).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {

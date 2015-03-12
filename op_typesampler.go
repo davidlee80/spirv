@@ -55,8 +55,8 @@ type OpTypeSampler struct {
 
 func (c *OpTypeSampler) Opcode() uint32 { return 14 }
 
-func bindOpTypeSampler(set *InstructionSet) {
-	set.Set(
+func init() {
+	Bind(
 		(&OpTypeSampler{}).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {

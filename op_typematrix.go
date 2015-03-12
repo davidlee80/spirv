@@ -17,8 +17,8 @@ type OpTypeMatrix struct {
 
 func (c *OpTypeMatrix) Opcode() uint32 { return 13 }
 
-func bindOpTypeMatrix(set *InstructionSet) {
-	set.Set(
+func init() {
+	Bind(
 		(&OpTypeMatrix{}).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {

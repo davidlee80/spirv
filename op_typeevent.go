@@ -8,8 +8,8 @@ type OpTypeEvent uint32
 
 func (c OpTypeEvent) Opcode() uint32 { return 22 }
 
-func bindOpTypeEvent(set *InstructionSet) {
-	set.Set(
+func init() {
+	Bind(
 		OpTypeEvent(0).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {

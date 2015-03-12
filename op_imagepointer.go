@@ -22,8 +22,8 @@ type OpImagePointer struct {
 
 func (c *OpImagePointer) Opcode() uint32 { return 190 }
 
-func bindOpImagePointer(set *InstructionSet) {
-	set.Set(
+func init() {
+	Bind(
 		(&OpImagePointer{}).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {

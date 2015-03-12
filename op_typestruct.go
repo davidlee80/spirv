@@ -16,8 +16,8 @@ type OpTypeStruct struct {
 
 func (c *OpTypeStruct) Opcode() uint32 { return 18 }
 
-func bindOpTypeStruct(set *InstructionSet) {
-	set.Set(
+func init() {
+	Bind(
 		(&OpTypeStruct{}).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {

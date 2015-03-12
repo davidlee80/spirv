@@ -23,8 +23,8 @@ type OpSpecConstant struct {
 
 func (c *OpSpecConstant) Opcode() uint32 { return 36 }
 
-func bindOpSpecConstant(set *InstructionSet) {
-	set.Set(
+func init() {
+	Bind(
 		(&OpSpecConstant{}).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {

@@ -14,8 +14,8 @@ type OpExtInst struct {
 
 func (c *OpExtInst) Opcode() uint32 { return 44 }
 
-func bindOpExtInst(set *InstructionSet) {
-	set.Set(
+func init() {
+	Bind(
 		(&OpExtInst{}).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {

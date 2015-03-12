@@ -14,8 +14,8 @@ type OpTypeOpaque struct {
 
 func (c *OpTypeOpaque) Opcode() uint32 { return 19 }
 
-func bindOpTypeOpaque(set *InstructionSet) {
-	set.Set(
+func init() {
+	Bind(
 		(&OpTypeOpaque{}).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {

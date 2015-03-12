@@ -10,8 +10,8 @@ type OpTypeQueue uint32
 
 func (c OpTypeQueue) Opcode() uint32 { return 25 }
 
-func bindOpTypeQueue(set *InstructionSet) {
-	set.Set(
+func init() {
+	Bind(
 		OpTypeQueue(0).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {

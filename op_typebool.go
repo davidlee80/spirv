@@ -8,8 +8,8 @@ type OpTypeBool uint32
 
 func (c OpTypeBool) Opcode() uint32 { return 9 }
 
-func bindOpTypeBool(set *InstructionSet) {
-	set.Set(
+func init() {
+	Bind(
 		OpTypeBool(0).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {

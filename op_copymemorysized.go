@@ -24,8 +24,8 @@ type OpCopyMemorySized struct {
 
 func (c *OpCopyMemorySized) Opcode() uint32 { return 66 }
 
-func bindOpCopyMemorySized(set *InstructionSet) {
-	set.Set(
+func init() {
+	Bind(
 		(&OpCopyMemorySized{}).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {

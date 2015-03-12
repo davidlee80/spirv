@@ -13,8 +13,8 @@ type OpMemoryModel struct {
 
 func (c *OpMemoryModel) Opcode() uint32 { return 5 }
 
-func bindOpMemoryModel(set *InstructionSet) {
-	set.Set(
+func init() {
+	Bind(
 		(&OpMemoryModel{}).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {

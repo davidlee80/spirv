@@ -21,8 +21,8 @@ type OpLoad struct {
 
 func (c *OpLoad) Opcode() uint32 { return 46 }
 
-func bindOpLoad(set *InstructionSet) {
-	set.Set(
+func init() {
+	Bind(
 		(&OpLoad{}).Opcode(),
 		Codec{
 			Decode: func(argv []uint32) (Instruction, error) {
