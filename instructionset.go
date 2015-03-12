@@ -83,6 +83,7 @@ func NewInstructionSet() *InstructionSet {
 	bindOpSpecConstantTrue(set)
 	bindOpSpecConstantFalse(set)
 	bindOpSpecConstant(set)
+	bindOpSpecConstantComposite(set)
 	return set
 }
 

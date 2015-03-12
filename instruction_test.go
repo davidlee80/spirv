@@ -460,6 +460,21 @@ func TestCodecInstructions(t *testing.T) {
 				Value:      []uint32{3, 4, 5},
 			},
 		},
+		{
+			in: []uint32{0x0030025, 1, 2},
+			want: &OpSpecConstantComposite{
+				ResultType: 1,
+				ResultId:   2,
+			},
+		},
+		{
+			in: []uint32{0x0060025, 1, 2, 3, 4, 5},
+			want: &OpSpecConstantComposite{
+				ResultType:   1,
+				ResultId:     2,
+				Constituents: []uint32{3, 4, 5},
+			},
+		},
 	} {
 		have, err := lib.Decode(st.in)
 
