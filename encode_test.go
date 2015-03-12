@@ -15,7 +15,7 @@ type EncodeInstructionTest struct {
 	err  error
 }
 
-func TestEncodeInstruction(t *testing.T) {
+func TestEncodeWords(t *testing.T) {
 	for i, st := range []EncodeInstructionTest{
 		{
 			in:   nil,
@@ -48,7 +48,7 @@ func TestEncodeInstruction(t *testing.T) {
 	} {
 		var have bytes.Buffer
 		enc := NewEncoder(&have)
-		err := enc.EncodeInstruction(st.in)
+		err := enc.EncodeInstructionWords(st.in)
 
 		if err != nil {
 			if !reflect.DeepEqual(err, st.err) {

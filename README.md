@@ -73,13 +73,21 @@ as a tool to facilitate the creation of SPIR-V debugging tools, compilers,
 and whatever else you may require.
 
 Here is an sample on how to decode a module from a file.
-The `Decode` methods return either a `Header` or a `[]uint32` slice,
-representing an individual instruction.
+The `Decoder` methods return either a `Header`, `[]uint32` or `Instruction`.
 
 	// Create a decoder.
 	dec := spirv.NewDecoder(fd)
-	header, err := dec.DecodeHeader()
+	hdr, err := dec.DecodeHeader()
 	...
+
+	for {
+		instructionWords, err := dec.DecodeInstructionWords()
+		...
+	}
+
+Or to get a higher level abstraction of the instruction data.
+This performs some copying and allocations, but gives a typed instruction
+one can work with:
 
 	for {
 		instruction, err := dec.DecodeInstruction()
@@ -91,30 +99,22 @@ And the same to encode a module to a file:
 
 	var hdr spirv.Header
 	...
-	
+
 	enc := spirv.NewEncoder(fd)
 	err := enc.EncodeHeader(hdr)
 	...
-	
-	for _, data := instructions {
-		err := enc.EncodeInstruction(data)
+
+	for _, data := [][]uint32{...} {
+		err := enc.EncodeInstructionWords(data)
 		...
 	}
 
+or:
 
-
-This package also defines a higher level abstraction for all the
-supported instructions in the specification. They can be created by
-passing in the decoded words from a Decoder:
-
-	// Decode a slice of words.
-	instr, err := spirv.Decode(words)
-
-Similarly, to encode data:
-
-	// Encode an instruction into a set of words.
-	words, err := spirv.Encode(instr)
-
+	for _, data := []Instruction{...} {
+		err := enc.EncodeInstruction(words)
+		...
+	}
 
 
 ### License

@@ -3,7 +3,10 @@
 
 package spirv
 
-import "io"
+import (
+	"fmt"
+	"io"
+)
 
 // Decoder defines a decoder for the SPIR-V format.
 // It reads binary data from a stream and yields sequences
@@ -70,12 +73,12 @@ func (d *Decoder) DecodeHeader() (Header, error) {
 	return hdr, nil
 }
 
-// DecodeInstruction decodes the next instruction from the underlying stream.
-// The returned slice of words contains all data for the entire instruction.
+// DecodeInstructionWords decodes the next instruction from the underlying
+// stream. The returned slice of words contains all data for the entire
+// instruction.
 //
-// The data remains valid until the next call to DecodeHeader or
-// DecodeInstruction.
-func (d *Decoder) DecodeInstruction() ([]uint32, error) {
+// The data remains valid until the next call to any of the decoder methods.
+func (d *Decoder) DecodeInstructionWords() ([]uint32, error) {
 	// Read the first word: word count + opcode.
 	err := d.read(d.ubuf[:1])
 	if err != nil {
@@ -88,8 +91,8 @@ func (d *Decoder) DecodeInstruction() ([]uint32, error) {
 	}
 
 	if words > 1 {
+		// Resize read buffer if necessary.
 		if words >= len(d.ubuf) {
-			// Resize read buffer if necessary.
 			tmp := d.ubuf[0]
 			d.ubuf = make([]uint32, words)
 			d.ubuf[0] = tmp
@@ -105,6 +108,40 @@ func (d *Decoder) DecodeInstruction() ([]uint32, error) {
 	}
 
 	return d.ubuf[:words:words], nil
+}
+
+// DecodeInstruction decodes the next instruction from the underlying stream.
+// The returned structure defines a copy of the stream data and will
+// remain valid as long as you need it to be.
+//
+// Returns an error if there is no matching instruction or the
+// decoding failed.
+func (d *Decoder) DecodeInstruction() (Instruction, error) {
+	words, err := d.DecodeInstructionWords()
+	if err != nil {
+		return nil, err
+	}
+
+	if len(words) == 0 {
+		return nil, io.EOF
+	}
+
+	wordCount := words[0] >> 16
+	opcode := words[0] & 0xffff
+
+	if wordCount == 0 {
+		return nil, ErrInvalidInstructionSize
+	}
+
+	instructions.RLock()
+	codec, ok := instructions.data[opcode]
+	instructions.RUnlock()
+
+	if !ok {
+		return nil, fmt.Errorf("unknown instruction: %08x", opcode)
+	}
+
+	return codec.Decode(words[1:])
 }
 
 // Next reads exactly len(p) words from the stream.

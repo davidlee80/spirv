@@ -3,13 +3,16 @@
 
 package spirv
 
-import "io"
+import (
+	"fmt"
+	"io"
+)
 
 // Encoder defines an encoder for the SPIR-V format.
 // It writes SPIR-V sequences of words into a binary stream.
 type Encoder struct {
 	w      io.Writer
-	buf    [4]byte
+	buf    []uint32
 	endian Endian
 }
 
@@ -62,10 +65,10 @@ func (e *Encoder) EncodeHeader(h Header) error {
 	})
 }
 
-// EncodeInstruction writes the SPIR-V encoding of the given instruction
+// EncodeInstructionWords writes the SPIR-V encoding of the given instruction
 // to the underlying stream. The first word in the set defines the opcode
 // and word count. The word count must be <= len(data).
-func (e *Encoder) EncodeInstruction(data []uint32) error {
+func (e *Encoder) EncodeInstructionWords(data []uint32) error {
 	if len(data) == 0 {
 		return nil
 	}
@@ -78,23 +81,56 @@ func (e *Encoder) EncodeInstruction(data []uint32) error {
 	return e.write(data[:size])
 }
 
+// Encode encodes the given instruction into a list of words and
+// writes them to the underlying stream.
+func (e *Encoder) EncodeInstruction(i Instruction) error {
+	instructions.RLock()
+	defer instructions.RUnlock()
+
+	opcode := i.Opcode()
+	codec, ok := instructions.data[opcode]
+	if !ok {
+		return fmt.Errorf("unknown instruction: %08x", opcode)
+	}
+
+	// Make sure the word buffer has the correct size.
+	size := EncodedLen(i)
+	if size > len(e.buf) {
+		e.buf = make([]uint32, size)
+	}
+
+	// Encode the instruction arguments.
+	argc, err := codec.Encode(i, e.buf[1:])
+	if err != nil {
+		return err
+	}
+
+	argc++
+
+	// Set the first instruction word.
+	e.buf[0] = EncodeOpcode(argc, i.Opcode())
+	return e.EncodeInstructionWords(e.buf[:argc])
+}
+
 // Write writes exactly len(p) words to the underlying stream.
 // It returns an error if this failed.
 func (e *Encoder) write(p []uint32) error {
+	var buf [4]byte
+
 	for _, word := range p {
 		if e.endian == LittleEndian {
-			e.buf[0] = byte(word)
-			e.buf[1] = byte(word >> 8)
-			e.buf[2] = byte(word >> 16)
-			e.buf[3] = byte(word >> 24)
+			buf[0] = byte(word)
+			buf[1] = byte(word >> 8)
+			buf[2] = byte(word >> 16)
+			buf[3] = byte(word >> 24)
 		} else {
-			e.buf[0] = byte(word >> 24)
-			e.buf[1] = byte(word >> 16)
-			e.buf[2] = byte(word >> 8)
-			e.buf[3] = byte(word)
+			buf[0] = byte(word >> 24)
+			buf[1] = byte(word >> 16)
+			buf[2] = byte(word >> 8)
+			buf[3] = byte(word)
 		}
 
-		_, err := e.w.Write(e.buf[:])
+		_, err := e.w.Write(buf[:])
 		if err != nil {
 			return err
 		}

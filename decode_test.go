@@ -15,7 +15,7 @@ type DecodeInstructionTest struct {
 	err  error
 }
 
-func TestDecodeInstruction(t *testing.T) {
+func TestDecodeWords(t *testing.T) {
 	for i, st := range []DecodeInstructionTest{
 		{
 			in:   nil,
@@ -50,7 +50,7 @@ func TestDecodeInstruction(t *testing.T) {
 		},
 	} {
 		dec := NewDecoder(bytes.NewBuffer(st.in))
-		have, err := dec.DecodeInstruction()
+		have, err := dec.DecodeInstructionWords()
 
 		if err != nil {
 			if !reflect.DeepEqual(err, st.err) {

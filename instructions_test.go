@@ -4,6 +4,7 @@
 package spirv
 
 import (
+	"bytes"
 	"fmt"
 	"reflect"
 	"testing"
@@ -16,7 +17,8 @@ type InstructionTest struct {
 }
 
 func testInstruction(t *testing.T, st InstructionTest) {
-	have, err := Decode(st.in)
+	dec := NewDecoder(testWordReader(st.in))
+	have, err := dec.DecodeInstruction()
 
 	// We have a decoding error. This is only a test failure if
 	// we were not expecting an error.
@@ -36,10 +38,21 @@ func testInstruction(t *testing.T, st InstructionTest) {
 			st.in, have, have, st.want, st.want)
 	}
 
-	data, err := Encode(have)
-	if !reflect.DeepEqual(data, st.in) {
+	// Encode the instruction again and compare the output to the
+	// original input. We can only encode to bytes, so we need to
+	// jump through some hoops to compare to the []uint32 input slice.
+
+	var outa bytes.Buffer
+	enc := NewEncoder(&outa)
+	err = enc.EncodeInstruction(have)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	outb := testWordReader(st.in)
+	if !bytes.Equal(outa.Bytes(), outb.Bytes()) {
 		t.Fatalf("encode mismatch: %T(%v)\nHave: %v\nWant: %v",
-			have, have, data, st.in)
+			have, have, outa.Bytes(), outb.Bytes())
 	}
 }
 
@@ -69,4 +82,19 @@ func TestCodec(t *testing.T) {
 	} {
 		testInstruction(t, st)
 	}
+}
+
+// testWordReader returns a type which reads the given set of words
+// as a sequence of bytes.
+func testWordReader(data []uint32) *bytes.Buffer {
+	var buf bytes.Buffer
+
+	for _, word := range data {
+		buf.WriteByte(byte(word))
+		buf.WriteByte(byte(word >> 8))
+		buf.WriteByte(byte(word >> 16))
+		buf.WriteByte(byte(word >> 24))
+	}
+
+	return &buf
 }
