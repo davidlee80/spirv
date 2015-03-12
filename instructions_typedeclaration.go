@@ -300,11 +300,6 @@ func init() {
 			},
 			Encode: func(i Instruction, out []uint32) (uint32, error) {
 				v := i.(*OpTypeSampler)
-				size := uint32(7)
-
-				if v.AccessQualifier != 0 {
-					size++
-				}
 
 				out[0] = v.ResultId
 				out[1] = v.SampledType
@@ -316,9 +311,10 @@ func init() {
 
 				if v.AccessQualifier != 0 {
 					out[7] = v.AccessQualifier
+					return 8, nil
 				}
 
-				return size, nil
+				return 7, nil
 			},
 		},
 	)
