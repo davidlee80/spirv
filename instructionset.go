@@ -28,13 +28,14 @@ func Copy(v []uint32) []uint32 {
 type InstructionSet struct {
 	sync.RWMutex
 	data map[uint32]Codec // List of registered instruction codecs.
-	buf  [64]uint32
+	buf  []uint32
 }
 
 // Global, internal instruction set.
 // This has instructions registered atomically during init.
 var instructions = InstructionSet{
 	data: make(map[uint32]Codec),
+	buf:  make([]uint32, 16),
 }
 
 // Bind registers the given codec for the specified opcode.
@@ -86,12 +87,21 @@ func Encode(i Instruction) ([]uint32, error) {
 		return nil, fmt.Errorf("unknown instruction: %08x", opcode)
 	}
 
+	// Make sure the word buffer has the correct size.
+	size := EncodedLen(i)
+	if size > len(instructions.buf) {
+		instructions.buf = make([]uint32, size)
+	}
+
+	// Encode the instruction arguments.
 	argc, err := codec.Encode(i, instructions.buf[1:])
 	if err != nil {
 		return nil, err
 	}
 
 	argc++
+
+	// Set the first instruction word.
 	instructions.buf[0] = EncodeOpcode(argc, i.Opcode())
 	return instructions.buf[:argc], nil
 }
