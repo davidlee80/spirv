@@ -74,8 +74,10 @@ func (e *Encoder) EncodeInstructionWords(data []uint32) error {
 		return nil
 	}
 
+	// Make sure that the size of the instruction, as defined in
+	// its first word, actually matches the data we are receiving.
 	size := int(data[0] >> 16)
-	if len(data) < size {
+	if len(data) != size {
 		return ErrInvalidInstructionSize
 	}
 
@@ -85,11 +87,12 @@ func (e *Encoder) EncodeInstructionWords(data []uint32) error {
 // Encode encodes the given instruction into a list of words and
 // writes them to the underlying stream.
 func (e *Encoder) EncodeInstruction(i Instruction) error {
-	instructions.RLock()
-	defer instructions.RUnlock()
-
 	opcode := i.Opcode()
+
+	instructions.RLock()
 	codec, ok := instructions.data[opcode]
+	instructions.RUnlock()
+
 	if !ok {
 		return fmt.Errorf("unknown instruction: %08x", opcode)
 	}
