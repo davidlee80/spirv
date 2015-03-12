@@ -548,6 +548,23 @@ func TestCodecInstructions(t *testing.T) {
 				MemoryAccess: []MemoryAccess{MAAligned, MAVolatile},
 			},
 		},
+		{
+			in: []uint32{0x0040042, 1, 2, 3},
+			want: &OpCopyMemorySized{
+				Target: 1,
+				Source: 2,
+				Size:   3,
+			},
+		},
+		{
+			in: []uint32{0x0060042, 1, 2, 3, uint32(MAAligned), uint32(MAVolatile)},
+			want: &OpCopyMemorySized{
+				Target:       1,
+				Source:       2,
+				Size:         3,
+				MemoryAccess: []MemoryAccess{MAAligned, MAVolatile},
+			},
+		},
 	} {
 		have, err := lib.Decode(st.in)
 
