@@ -9,4 +9,9 @@ type Instruction interface {
 	// It is used by the encoder to find the correct codec in the
 	// instruction set library.
 	Opcode() uint32
+
+	// Verify checks the instruction contents and validates its values.
+	// Some instructions have constraints on the values which are allowed in
+	// a given field.
+	Verify() error
 }

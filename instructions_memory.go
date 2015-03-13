@@ -23,17 +23,14 @@ type OpVariable struct {
 }
 
 func (c *OpVariable) Opcode() uint32 { return 38 }
+func (c *OpVariable) Verify() error  { return nil }
 
 func init() {
-	Bind(
-		Codec{
-			New: func() Instruction {
-				return &OpVariable{
-					Initializer: 0,
-				}
-			},
-		},
-	)
+	Bind(func() Instruction {
+		return &OpVariable{
+			Initializer: 0,
+		}
+	})
 }
 
 // OpVariableArray allocates N objects sequentially in memory,
@@ -55,15 +52,12 @@ type OpVariableArray struct {
 }
 
 func (c *OpVariableArray) Opcode() uint32 { return 39 }
+func (c *OpVariableArray) Verify() error  { return nil }
 
 func init() {
-	Bind(
-		Codec{
-			New: func() Instruction {
-				return &OpVariableArray{}
-			},
-		},
-	)
+	Bind(func() Instruction {
+		return &OpVariableArray{}
+	})
 }
 
 // OpLoad loads data through a pointer.
@@ -83,15 +77,12 @@ type OpLoad struct {
 }
 
 func (c *OpLoad) Opcode() uint32 { return 46 }
+func (c *OpLoad) Verify() error  { return nil }
 
 func init() {
-	Bind(
-		Codec{
-			New: func() Instruction {
-				return &OpLoad{}
-			},
-		},
-	)
+	Bind(func() Instruction {
+		return &OpLoad{}
+	})
 }
 
 // OpStore stores data through a pointer.
@@ -108,15 +99,12 @@ type OpStore struct {
 }
 
 func (c *OpStore) Opcode() uint32 { return 47 }
+func (c *OpStore) Verify() error  { return nil }
 
 func init() {
-	Bind(
-		Codec{
-			New: func() Instruction {
-				return &OpStore{}
-			},
-		},
-	)
+	Bind(func() Instruction {
+		return &OpStore{}
+	})
 }
 
 // OpCopyMemory copies from the memory pointed to by Source to the
@@ -137,15 +125,12 @@ type OpCopyMemory struct {
 }
 
 func (c *OpCopyMemory) Opcode() uint32 { return 65 }
+func (c *OpCopyMemory) Verify() error  { return nil }
 
 func init() {
-	Bind(
-		Codec{
-			New: func() Instruction {
-				return &OpCopyMemory{}
-			},
-		},
-	)
+	Bind(func() Instruction {
+		return &OpCopyMemory{}
+	})
 }
 
 // OpCopyMemorySized copies from the memory pointed to by Source to the
@@ -168,15 +153,12 @@ type OpCopyMemorySized struct {
 }
 
 func (c *OpCopyMemorySized) Opcode() uint32 { return 66 }
+func (c *OpCopyMemorySized) Verify() error  { return nil }
 
 func init() {
-	Bind(
-		Codec{
-			New: func() Instruction {
-				return &OpCopyMemorySized{}
-			},
-		},
-	)
+	Bind(func() Instruction {
+		return &OpCopyMemorySized{}
+	})
 }
 
 // OpAccessChain creates a pointer into a composite object that can be
@@ -199,15 +181,12 @@ type OpAccessChain struct {
 }
 
 func (c *OpAccessChain) Opcode() uint32 { return 93 }
+func (c *OpAccessChain) Verify() error  { return nil }
 
 func init() {
-	Bind(
-		Codec{
-			New: func() Instruction {
-				return &OpAccessChain{}
-			},
-		},
-	)
+	Bind(func() Instruction {
+		return &OpAccessChain{}
+	})
 }
 
 // OpInboundsAccessChain has the same semantics as OpAccessChain, with the
@@ -227,15 +206,12 @@ type OpInboundsAccessChain struct {
 }
 
 func (c *OpInboundsAccessChain) Opcode() uint32 { return 94 }
+func (c *OpInboundsAccessChain) Verify() error  { return nil }
 
 func init() {
-	Bind(
-		Codec{
-			New: func() Instruction {
-				return &OpInboundsAccessChain{}
-			},
-		},
-	)
+	Bind(func() Instruction {
+		return &OpInboundsAccessChain{}
+	})
 }
 
 // OpArraylength results in the length of a run-time array.
@@ -253,15 +229,12 @@ type OpArraylength struct {
 }
 
 func (c *OpArraylength) Opcode() uint32 { return 121 }
+func (c *OpArraylength) Verify() error  { return nil }
 
 func init() {
-	Bind(
-		Codec{
-			New: func() Instruction {
-				return &OpArraylength{}
-			},
-		},
-	)
+	Bind(func() Instruction {
+		return &OpArraylength{}
+	})
 }
 
 // OpImagePointer forms a pointer to a texel of an image.
@@ -282,15 +255,12 @@ type OpImagePointer struct {
 }
 
 func (c *OpImagePointer) Opcode() uint32 { return 190 }
+func (c *OpImagePointer) Verify() error  { return nil }
 
 func init() {
-	Bind(
-		Codec{
-			New: func() Instruction {
-				return &OpImagePointer{}
-			},
-		},
-	)
+	Bind(func() Instruction {
+		return &OpImagePointer{}
+	})
 }
 
 // OpGenericPtrMemSemantics returns a valid Memory Semantics
@@ -302,13 +272,10 @@ type OpGenericPtrMemSemantics struct {
 }
 
 func (c *OpGenericPtrMemSemantics) Opcode() uint32 { return 233 }
+func (c *OpGenericPtrMemSemantics) Verify() error  { return nil }
 
 func init() {
-	Bind(
-		Codec{
-			New: func() Instruction {
-				return &OpGenericPtrMemSemantics{}
-			},
-		},
-	)
+	Bind(func() Instruction {
+		return &OpGenericPtrMemSemantics{}
+	})
 }

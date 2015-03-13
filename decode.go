@@ -126,8 +126,9 @@ func (d *Decoder) DecodeInstruction() (Instruction, error) {
 	return DecodeInstruction(words)
 }
 
-// DecodeInstructionFromWords decodes an insrtuction from the given
-// set of words.
+// DecodeInstructionFromWords decodes an instruction from the given
+// set of words. Additionally, it verifies that the values for each
+// instruction field meet the requirements as defined in the specification.
 //
 // Returns an error if there is no matching instruction or the
 // decoding failed.
@@ -144,14 +145,14 @@ func DecodeInstruction(words []uint32) (Instruction, error) {
 	}
 
 	instructions.RLock()
-	codec, ok := instructions.data[opcode]
+	constructor, ok := instructions.data[opcode]
 	instructions.RUnlock()
 
 	if !ok {
 		return nil, fmt.Errorf("unknown instruction: %08x", opcode)
 	}
 
-	instr := codec.New()
+	instr := constructor()
 
 	// This instruction is illegal.
 	// FIXME Remove this once instruction validation code is in.
@@ -167,7 +168,8 @@ func DecodeInstruction(words []uint32) (Instruction, error) {
 		return nil, err
 	}
 
-	return instr, nil
+	err = instr.Verify()
+	return instr, err
 }
 
 // Next reads exactly len(p) words from the stream.

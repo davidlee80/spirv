@@ -12,15 +12,12 @@ type OpMemoryModel struct {
 }
 
 func (c *OpMemoryModel) Opcode() uint32 { return 5 }
+func (c *OpMemoryModel) Verify() error  { return nil }
 
 func init() {
-	Bind(
-		Codec{
-			New: func() Instruction {
-				return &OpMemoryModel{}
-			},
-		},
-	)
+	Bind(func() Instruction {
+		return &OpMemoryModel{}
+	})
 }
 
 // OpEntryPoint represents the OpEntryPoint instruction.
@@ -31,15 +28,12 @@ type OpEntryPoint struct {
 }
 
 func (c *OpEntryPoint) Opcode() uint32 { return 6 }
+func (c *OpEntryPoint) Verify() error  { return nil }
 
 func init() {
-	Bind(
-		Codec{
-			New: func() Instruction {
-				return &OpEntryPoint{}
-			},
-		},
-	)
+	Bind(func() Instruction {
+		return &OpEntryPoint{}
+	})
 }
 
 // OpExecutionMode represents the OpExecutionMode instruction.
@@ -51,15 +45,12 @@ type OpExecutionMode struct {
 }
 
 func (c *OpExecutionMode) Opcode() uint32 { return 7 }
+func (c *OpExecutionMode) Verify() error  { return nil }
 
 func init() {
-	Bind(
-		Codec{
-			New: func() Instruction {
-				return &OpExecutionMode{}
-			},
-		},
-	)
+	Bind(func() Instruction {
+		return &OpExecutionMode{}
+	})
 }
 
 // OpCompileFlag represents the OpCompileFlag instruction.
@@ -68,13 +59,10 @@ type OpCompileFlag struct {
 }
 
 func (c *OpCompileFlag) Opcode() uint32 { return 218 }
+func (c *OpCompileFlag) Verify() error  { return nil }
 
 func init() {
-	Bind(
-		Codec{
-			New: func() Instruction {
-				return &OpCompileFlag{}
-			},
-		},
-	)
+	Bind(func() Instruction {
+		return &OpCompileFlag{}
+	})
 }

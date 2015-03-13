@@ -86,8 +86,14 @@ func (e *Encoder) EncodeInstructionWords(data []uint32) error {
 }
 
 // Encode encodes the given instruction into a list of words and
-// writes them to the underlying stream.
+// writes them to the underlying stream. It calls Instruction.Verify
+// first to ensure the data is within specifications.
 func (e *Encoder) EncodeInstruction(i Instruction) error {
+	err := i.Verify()
+	if err != nil {
+		return err
+	}
+
 	// Make sure the scratch buffer has sufficient space.
 	size := EncodedLen(i)
 	if size > len(e.buf) {

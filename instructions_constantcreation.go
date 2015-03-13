@@ -13,15 +13,12 @@ type OpConstantTrue struct {
 }
 
 func (c *OpConstantTrue) Opcode() uint32 { return 27 }
+func (c *OpConstantTrue) Verify() error  { return nil }
 
 func init() {
-	Bind(
-		Codec{
-			New: func() Instruction {
-				return &OpConstantTrue{}
-			},
-		},
-	)
+	Bind(func() Instruction {
+		return &OpConstantTrue{}
+	})
 }
 
 // OpConstantFalse declares a true Boolean-type scalar constant.
@@ -34,15 +31,12 @@ type OpConstantFalse struct {
 }
 
 func (c *OpConstantFalse) Opcode() uint32 { return 28 }
+func (c *OpConstantFalse) Verify() error  { return nil }
 
 func init() {
-	Bind(
-		Codec{
-			New: func() Instruction {
-				return &OpConstantFalse{}
-			},
-		},
-	)
+	Bind(func() Instruction {
+		return &OpConstantFalse{}
+	})
 }
 
 // OpConstant declares a new Integer-type or Floating-point-type
@@ -62,15 +56,12 @@ type OpConstant struct {
 }
 
 func (c *OpConstant) Opcode() uint32 { return 29 }
+func (c *OpConstant) Verify() error  { return nil }
 
 func init() {
-	Bind(
-		Codec{
-			New: func() Instruction {
-				return &OpConstant{}
-			},
-		},
-	)
+	Bind(func() Instruction {
+		return &OpConstant{}
+	})
 }
 
 // OpConstantComposite declares a new composite constant.
@@ -95,15 +86,12 @@ type OpConstantComposite struct {
 }
 
 func (c *OpConstantComposite) Opcode() uint32 { return 30 }
+func (c *OpConstantComposite) Verify() error  { return nil }
 
 func init() {
-	Bind(
-		Codec{
-			New: func() Instruction {
-				return &OpConstantComposite{}
-			},
-		},
-	)
+	Bind(func() Instruction {
+		return &OpConstantComposite{}
+	})
 }
 
 // OpConstantSampler declares a new null sampler constant.
@@ -126,15 +114,12 @@ type OpConstantSampler struct {
 }
 
 func (c *OpConstantSampler) Opcode() uint32 { return 31 }
+func (c *OpConstantSampler) Verify() error  { return nil }
 
 func init() {
-	Bind(
-		Codec{
-			New: func() Instruction {
-				return &OpConstantSampler{}
-			},
-		},
-	)
+	Bind(func() Instruction {
+		return &OpConstantSampler{}
+	})
 }
 
 // OpConstantNullPointer declares a new null pointer constant.
@@ -147,15 +132,12 @@ type OpConstantNullPointer struct {
 }
 
 func (c *OpConstantNullPointer) Opcode() uint32 { return 32 }
+func (c *OpConstantNullPointer) Verify() error  { return nil }
 
 func init() {
-	Bind(
-		Codec{
-			New: func() Instruction {
-				return &OpConstantNullPointer{}
-			},
-		},
-	)
+	Bind(func() Instruction {
+		return &OpConstantNullPointer{}
+	})
 }
 
 // OpConstantNullObject declares a new null object constant.
@@ -169,15 +151,12 @@ type OpConstantNullObject struct {
 }
 
 func (c *OpConstantNullObject) Opcode() uint32 { return 33 }
+func (c *OpConstantNullObject) Verify() error  { return nil }
 
 func init() {
-	Bind(
-		Codec{
-			New: func() Instruction {
-				return &OpConstantNullObject{}
-			},
-		},
-	)
+	Bind(func() Instruction {
+		return &OpConstantNullObject{}
+	})
 }
 
 // OpSpecConstantTrue declares a Boolean-type scalar specialization
@@ -194,15 +173,12 @@ type OpSpecConstantTrue struct {
 }
 
 func (c *OpSpecConstantTrue) Opcode() uint32 { return 34 }
+func (c *OpSpecConstantTrue) Verify() error  { return nil }
 
 func init() {
-	Bind(
-		Codec{
-			New: func() Instruction {
-				return &OpSpecConstantTrue{}
-			},
-		},
-	)
+	Bind(func() Instruction {
+		return &OpSpecConstantTrue{}
+	})
 }
 
 // OpSpecConstantFalse declares a Boolean-type scalar specialization
@@ -219,15 +195,12 @@ type OpSpecConstantFalse struct {
 }
 
 func (c *OpSpecConstantFalse) Opcode() uint32 { return 35 }
+func (c *OpSpecConstantFalse) Verify() error  { return nil }
 
 func init() {
-	Bind(
-		Codec{
-			New: func() Instruction {
-				return &OpSpecConstantFalse{}
-			},
-		},
-	)
+	Bind(func() Instruction {
+		return &OpSpecConstantFalse{}
+	})
 }
 
 // OpSpecConstant declares a new Integer-type or Floating-point-type
@@ -249,15 +222,12 @@ type OpSpecConstant struct {
 }
 
 func (c *OpSpecConstant) Opcode() uint32 { return 36 }
+func (c *OpSpecConstant) Verify() error  { return nil }
 
 func init() {
-	Bind(
-		Codec{
-			New: func() Instruction {
-				return &OpSpecConstant{}
-			},
-		},
-	)
+	Bind(func() Instruction {
+		return &OpSpecConstant{}
+	})
 }
 
 // OpSpecConstantComposite declares a new composite specialization constant.
@@ -284,13 +254,10 @@ type OpSpecConstantComposite struct {
 }
 
 func (c *OpSpecConstantComposite) Opcode() uint32 { return 37 }
+func (c *OpSpecConstantComposite) Verify() error  { return nil }
 
 func init() {
-	Bind(
-		Codec{
-			New: func() Instruction {
-				return &OpSpecConstantComposite{}
-			},
-		},
-	)
+	Bind(func() Instruction {
+		return &OpSpecConstantComposite{}
+	})
 }

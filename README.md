@@ -8,10 +8,13 @@ Package SPIR-V is a Go encoder/decoder for the Vulkan SPIR-V format.
 This is based on the [preliminary specificationn][1] (pdf) and is subject to
 change as the specification matures.
 
-Additional SPIR-V information can be found [here][2] (pdf).
+Additional SPIR-V information can be found [here][2] (pdf) and [here][3].
+A video lecture on Vulkan and SPIR can be seen [here][4].
 
 [1]: https://www.khronos.org/registry/spir-v/specs/1.0/SPIRV.pdf
 [2]: https://www.khronos.org/registry/spir-v/
+[3]: https://www.khronos.org/spir/
+[4]: https://www.youtube.com/watch?v=qKbtrVEhaw8
 
 SPIR-V is a binary intermediate language for representing graphical-shader
 stages and compute kernels for multiple Khronos APIs. Each function in a SPIR-V

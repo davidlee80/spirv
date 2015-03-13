@@ -13,15 +13,12 @@ type OpSource struct {
 }
 
 func (c *OpSource) Opcode() uint32 { return 1 }
+func (c *OpSource) Verify() error  { return nil }
 
 func init() {
-	Bind(
-		Codec{
-			New: func() Instruction {
-				return &OpSource{}
-			},
-		},
-	)
+	Bind(func() Instruction {
+		return &OpSource{}
+	})
 }
 
 // OpSourceExtension defines optional extensions used within the source language.
@@ -32,16 +29,13 @@ type OpSourceExtension struct {
 	Extension String
 }
 
-func (c OpSourceExtension) Opcode() uint32 { return 2 }
+func (c *OpSourceExtension) Opcode() uint32 { return 2 }
+func (c *OpSourceExtension) Verify() error  { return nil }
 
 func init() {
-	Bind(
-		Codec{
-			New: func() Instruction {
-				return &OpSourceExtension{}
-			},
-		},
-	)
+	Bind(func() Instruction {
+		return &OpSourceExtension{}
+	})
 }
 
 // OpName defines the OpName instruction.
@@ -54,15 +48,12 @@ type OpName struct {
 }
 
 func (c *OpName) Opcode() uint32 { return 54 }
+func (c *OpName) Verify() error  { return nil }
 
 func init() {
-	Bind(
-		Codec{
-			New: func() Instruction {
-				return &OpName{}
-			},
-		},
-	)
+	Bind(func() Instruction {
+		return &OpName{}
+	})
 }
 
 // OpMemberName defines the OpMemberName instruction.
@@ -76,15 +67,12 @@ type OpMemberName struct {
 }
 
 func (c *OpMemberName) Opcode() uint32 { return 55 }
+func (c *OpMemberName) Verify() error  { return nil }
 
 func init() {
-	Bind(
-		Codec{
-			New: func() Instruction {
-				return &OpMemberName{}
-			},
-		},
-	)
+	Bind(func() Instruction {
+		return &OpMemberName{}
+	})
 }
 
 // OpString defines the OpString instruction.
@@ -97,15 +85,12 @@ type OpString struct {
 }
 
 func (c *OpString) Opcode() uint32 { return 56 }
+func (c *OpString) Verify() error  { return nil }
 
 func init() {
-	Bind(
-		Codec{
-			New: func() Instruction {
-				return &OpString{}
-			},
-		},
-	)
+	Bind(func() Instruction {
+		return &OpString{}
+	})
 }
 
 // OpLine defines the OpLine instruction.
@@ -120,13 +105,10 @@ type OpLine struct {
 }
 
 func (c *OpLine) Opcode() uint32 { return 57 }
+func (c *OpLine) Verify() error  { return nil }
 
 func init() {
-	Bind(
-		Codec{
-			New: func() Instruction {
-				return &OpLine{}
-			},
-		},
-	)
+	Bind(func() Instruction {
+		return &OpLine{}
+	})
 }
