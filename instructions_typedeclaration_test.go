@@ -4,6 +4,7 @@
 package spirv
 
 import (
+	"errors"
 	"math"
 	"testing"
 )
@@ -21,6 +22,10 @@ func TestTypeDeclaration(t *testing.T) {
 			want: &OpTypeBool{
 				ResultId: 1,
 			},
+		},
+		{
+			in:  []uint32{0x0004000a, 0x32, 64, 0xff},
+			err: errors.New("OpTypeInt.Signedness: expected: 0, 1"),
 		},
 		{
 			in: []uint32{0x0004000a, 0x32, 64, 1},

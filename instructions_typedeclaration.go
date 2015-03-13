@@ -3,7 +3,10 @@
 
 package spirv
 
-import "errors"
+import (
+	"errors"
+	"fmt"
+)
 
 // OpTypeVoid represents the OpTypeVoid instruction.
 type OpTypeVoid struct {
@@ -54,7 +57,15 @@ type OpTypeInt struct {
 }
 
 func (c *OpTypeInt) Opcode() uint32 { return 10 }
-func (c *OpTypeInt) Verify() error  { return nil }
+func (c *OpTypeInt) Verify() error {
+	switch c.Signedness {
+	case 0, 1:
+	default:
+		return fmt.Errorf("OpTypeInt.Signedness: expected: 0, 1")
+	}
+
+	return nil
+}
 
 func init() {
 	Bind(func() Instruction {

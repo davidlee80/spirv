@@ -3,6 +3,8 @@
 
 package spirv
 
+import "fmt"
+
 // OpConstantTrue declares a true Boolean-type scalar constant.
 type OpConstantTrue struct {
 	// Result Type must be the scalar Boolean type.
@@ -114,7 +116,15 @@ type OpConstantSampler struct {
 }
 
 func (c *OpConstantSampler) Opcode() uint32 { return 31 }
-func (c *OpConstantSampler) Verify() error  { return nil }
+func (c *OpConstantSampler) Verify() error {
+	switch c.Param {
+	case 0, 1:
+	default:
+		return fmt.Errorf("OpConstantSampler.Param: expected: 0, 1")
+	}
+
+	return nil
+}
 
 func init() {
 	Bind(func() Instruction {

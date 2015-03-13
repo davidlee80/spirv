@@ -3,7 +3,10 @@
 
 package spirv
 
-import "testing"
+import (
+	"errors"
+	"testing"
+)
 
 func TestConstantCreation(t *testing.T) {
 	for _, st := range []InstructionTest{
@@ -55,11 +58,16 @@ func TestConstantCreation(t *testing.T) {
 		{
 			in: []uint32{0x006001f, 1, 2,
 				AddressingModePhysical64, 4, SamplerFilterModeNearest},
+			err: errors.New("OpConstantSampler.Param: expected: 0, 1"),
+		},
+		{
+			in: []uint32{0x006001f, 1, 2,
+				AddressingModePhysical64, 1, SamplerFilterModeNearest},
 			want: &OpConstantSampler{
 				ResultType: 1,
 				ResultId:   2,
 				Addressing: AddressingModePhysical64,
-				Param:      4,
+				Param:      1,
 				Filter:     SamplerFilterModeNearest,
 			},
 		},
