@@ -108,6 +108,15 @@ func TestRelational(t *testing.T) {
 			},
 		},
 		{
+			in: []uint32{0x0050094, 1, 2, 3, 4},
+			want: &OpLogicalAnd{
+				ResultType: 1,
+				ResultId:   2,
+				Operand1:   3,
+				Operand2:   4,
+			},
+		},
+		{
 			in: []uint32{0x0060098, 1, 2, 3, 4, 5},
 			want: &OpSelect{
 				ResultType: 1,
