@@ -43,8 +43,10 @@ func Bind(fun InstructionFunc) {
 // Get returns the codec for the given opcode.
 // Returns false if it is not in the set.
 func (set *InstructionSet) Get(opcode uint32) (InstructionFunc, bool) {
-	codec, ok := set.data[opcode]
-	return codec, ok
+	instructions.RLock()
+	constructor, ok := set.data[opcode]
+	instructions.RUnlock()
+	return constructor, ok
 }
 
 // Clear unbinds all instructions.
