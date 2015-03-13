@@ -144,10 +144,7 @@ func DecodeInstruction(words []uint32) (Instruction, error) {
 		return nil, ErrInvalidInstructionSize
 	}
 
-	instructions.RLock()
-	constructor, ok := instructions.data[opcode]
-	instructions.RUnlock()
-
+	constructor, ok := instructions.Get(opcode)
 	if !ok {
 		return nil, fmt.Errorf("unknown instruction: %08x", opcode)
 	}
