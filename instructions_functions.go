@@ -19,12 +19,6 @@ type OpFunction struct {
 func (c *OpFunction) Opcode() uint32 { return 40 }
 func (c *OpFunction) Verify() error  { return nil }
 
-func init() {
-	Bind(func() Instruction {
-		return &OpFunction{}
-	})
-}
-
 // OpFunctionParameter declares the <id> for a formal parameter belonging
 // to the current function.
 //
@@ -42,23 +36,11 @@ type OpFunctionParameter struct {
 func (c *OpFunctionParameter) Opcode() uint32 { return 41 }
 func (c *OpFunctionParameter) Verify() error  { return nil }
 
-func init() {
-	Bind(func() Instruction {
-		return &OpFunctionParameter{}
-	})
-}
-
 // OpFunctionParameter is the last instruction of a function definition.
 type OpFunctionEnd struct{}
 
 func (c *OpFunctionEnd) Opcode() uint32 { return 42 }
 func (c *OpFunctionEnd) Verify() error  { return nil }
-
-func init() {
-	Bind(func() Instruction {
-		return &OpFunctionEnd{}
-	})
-}
 
 // OpFunctionCall defines a function call.
 //
@@ -76,7 +58,8 @@ func (c *OpFunctionCall) Opcode() uint32 { return 43 }
 func (c *OpFunctionCall) Verify() error  { return nil }
 
 func init() {
-	Bind(func() Instruction {
-		return &OpFunctionCall{}
-	})
+	Bind(func() Instruction { return &OpFunction{} })
+	Bind(func() Instruction { return &OpFunctionParameter{} })
+	Bind(func() Instruction { return &OpFunctionEnd{} })
+	Bind(func() Instruction { return &OpFunctionCall{} })
 }
