@@ -193,7 +193,7 @@ func (c *OpTypeSampler) Verify() error {
 	switch c.Content {
 	case 0, 1, 2:
 	default:
-		return errors.New("OpTypeSampler.Compare: expected: 0, 1, 2")
+		return errors.New("OpTypeSampler.Content: expected: 0, 1, 2")
 	}
 
 	switch c.Arrayed {

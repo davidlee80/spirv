@@ -62,6 +62,22 @@ func TestTypeDeclaration(t *testing.T) {
 			},
 		},
 		{
+			in:  []uint32{0x008000e, 1, 2, Dim3D, 4, 1, 0, 1},
+			err: errors.New("OpTypeSampler.Content: expected: 0, 1, 2"),
+		},
+		{
+			in:  []uint32{0x008000e, 1, 2, Dim3D, 2, 4, 0, 1},
+			err: errors.New("OpTypeSampler.Arrayed: expected: 0, 1"),
+		},
+		{
+			in:  []uint32{0x008000e, 1, 2, Dim3D, 2, 1, 4, 1},
+			err: errors.New("OpTypeSampler.Compare: expected: 0, 1"),
+		},
+		{
+			in:  []uint32{0x008000e, 1, 2, Dim3D, 2, 1, 1, 4},
+			err: errors.New("OpTypeSampler.MS: expected: 0, 1"),
+		},
+		{
 			in: []uint32{0x008000e, 1, 2, Dim3D, 2, 1, 0, 1},
 			want: &OpTypeSampler{
 				ResultId:       1,
