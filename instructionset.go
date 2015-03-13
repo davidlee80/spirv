@@ -23,10 +23,13 @@ var instructions = InstructionSet{
 	data: make(map[uint32]InstructionFunc),
 }
 
-// Bind registers the given codec.
+// Bind registers the given instruction.
 //
-// This call panics if the instruction type defined by the codec
-// is not a pointer type.
+// This call panics if the instruction type defined by the constructor
+// is not a pointer type. Additionally, this panics if there is already an
+// entry for the instruction's opcode.
+//
+// All instructions are meant to be registered during package initialisation
 func Bind(fun InstructionFunc) {
 	obj := fun()
 	rv := reflect.ValueOf(obj)
@@ -35,8 +38,15 @@ func Bind(fun InstructionFunc) {
 		panic(ErrInstructionNotPointer)
 	}
 
+	opcode := obj.Opcode()
+
 	instructions.Lock()
-	instructions.data[obj.Opcode()] = fun
+	_, ok := instructions.data[opcode]
+	if ok {
+		panic(ErrDuplicateInstruction)
+	}
+
+	instructions.data[opcode] = fun
 	instructions.Unlock()
 }
 
