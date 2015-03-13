@@ -24,6 +24,7 @@ func NewEncoder(w io.Writer) *Encoder {
 	return &Encoder{
 		w:      w,
 		endian: LittleEndian,
+		buf:    make([]uint32, 12),
 	}
 }
 
