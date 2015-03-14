@@ -16,12 +16,6 @@ type OpTypeVoid struct {
 func (c *OpTypeVoid) Opcode() uint32 { return 8 }
 func (c *OpTypeVoid) Verify() error  { return nil }
 
-func init() {
-	Bind(func() Instruction {
-		return &OpTypeVoid{}
-	})
-}
-
 // OpTypeBool represents the OpTypeBool instruction.
 type OpTypeBool struct {
 	ResultId Id
@@ -29,12 +23,6 @@ type OpTypeBool struct {
 
 func (c *OpTypeBool) Opcode() uint32 { return 9 }
 func (c *OpTypeBool) Verify() error  { return nil }
-
-func init() {
-	Bind(func() Instruction {
-		return &OpTypeBool{}
-	})
-}
 
 // OpTypeInt represents the OpTypeInt instruction.
 type OpTypeInt struct {
@@ -67,12 +55,6 @@ func (c *OpTypeInt) Verify() error {
 	return nil
 }
 
-func init() {
-	Bind(func() Instruction {
-		return &OpTypeInt{}
-	})
-}
-
 // OpTypeFloat represents the OpTypeFloat instruction.
 // It declares a new floating point type.
 type OpTypeFloat struct {
@@ -86,12 +68,6 @@ type OpTypeFloat struct {
 
 func (c *OpTypeFloat) Opcode() uint32 { return 11 }
 func (c *OpTypeFloat) Verify() error  { return nil }
-
-func init() {
-	Bind(func() Instruction {
-		return &OpTypeFloat{}
-	})
-}
 
 // OpTypeVector represents the OpTypeVector instruction.
 // It declares a new vector type.
@@ -110,12 +86,6 @@ type OpTypeVector struct {
 func (c *OpTypeVector) Opcode() uint32 { return 12 }
 func (c *OpTypeVector) Verify() error  { return nil }
 
-func init() {
-	Bind(func() Instruction {
-		return &OpTypeVector{}
-	})
-}
-
 // OpTypeMatrix declares a new matrix type.
 type OpTypeMatrix struct {
 	// The <id> of the new matrix type
@@ -130,12 +100,6 @@ type OpTypeMatrix struct {
 
 func (c *OpTypeMatrix) Opcode() uint32 { return 13 }
 func (c *OpTypeMatrix) Verify() error  { return nil }
-
-func init() {
-	Bind(func() Instruction {
-		return &OpTypeMatrix{}
-	})
-}
 
 // OpTypeSampler declares a new sampler type.
 //
@@ -217,12 +181,6 @@ func (c *OpTypeSampler) Verify() error {
 	return nil
 }
 
-func init() {
-	Bind(func() Instruction {
-		return &OpTypeSampler{}
-	})
-}
-
 // OpTypeFilter declares a filter type. It is consumed by OpSampler.
 // This type is opaque: values of this type have no defined
 // physical size or bit pattern.
@@ -232,12 +190,6 @@ type OpTypeFilter struct {
 
 func (c *OpTypeFilter) Opcode() uint32 { return 15 }
 func (c *OpTypeFilter) Verify() error  { return nil }
-
-func init() {
-	Bind(func() Instruction {
-		return &OpTypeFilter{}
-	})
-}
 
 // OpTypeArray declares a new array type: a dynamically-indexable ordered
 // aggregate of elements all having the same type.
@@ -258,12 +210,6 @@ type OpTypeArray struct {
 func (c *OpTypeArray) Opcode() uint32 { return 16 }
 func (c *OpTypeArray) Verify() error  { return nil }
 
-func init() {
-	Bind(func() Instruction {
-		return &OpTypeArray{}
-	})
-}
-
 // OpTypeRuntimeArray declares a new run-time array type.
 // Its length is not known at compile time.
 //
@@ -281,12 +227,6 @@ type OpTypeRuntimeArray struct {
 func (c *OpTypeRuntimeArray) Opcode() uint32 { return 17 }
 func (c *OpTypeRuntimeArray) Verify() error  { return nil }
 
-func init() {
-	Bind(func() Instruction {
-		return &OpTypeRuntimeArray{}
-	})
-}
-
 // OpTypeStruct declares a new structure type: an aggregate
 // of heteregeneous members
 type OpTypeStruct struct {
@@ -301,12 +241,6 @@ type OpTypeStruct struct {
 func (c *OpTypeStruct) Opcode() uint32 { return 18 }
 func (c *OpTypeStruct) Verify() error  { return nil }
 
-func init() {
-	Bind(func() Instruction {
-		return &OpTypeStruct{}
-	})
-}
-
 // OpTypeOpaque declares a named structure type with no body specified.
 type OpTypeOpaque struct {
 	// The <id> of the new array type.
@@ -318,12 +252,6 @@ type OpTypeOpaque struct {
 
 func (c *OpTypeOpaque) Opcode() uint32 { return 19 }
 func (c *OpTypeOpaque) Verify() error  { return nil }
-
-func init() {
-	Bind(func() Instruction {
-		return &OpTypeOpaque{}
-	})
-}
 
 // OpTypePointer declares a new pointer type.
 type OpTypePointer struct {
@@ -339,12 +267,6 @@ type OpTypePointer struct {
 
 func (c *OpTypePointer) Opcode() uint32 { return 20 }
 func (c *OpTypePointer) Verify() error  { return nil }
-
-func init() {
-	Bind(func() Instruction {
-		return &OpTypePointer{}
-	})
-}
 
 // OpTypeFunction declares a new function type.
 //
@@ -366,12 +288,6 @@ type OpTypeFunction struct {
 func (c *OpTypeFunction) Opcode() uint32 { return 21 }
 func (c *OpTypeFunction) Verify() error  { return nil }
 
-func init() {
-	Bind(func() Instruction {
-		return &OpTypeFunction{}
-	})
-}
-
 // OpTypeEvent declares an OpenCL event object.
 type OpTypeEvent struct {
 	ResultId Id
@@ -379,12 +295,6 @@ type OpTypeEvent struct {
 
 func (c *OpTypeEvent) Opcode() uint32 { return 22 }
 func (c *OpTypeEvent) Verify() error  { return nil }
-
-func init() {
-	Bind(func() Instruction {
-		return &OpTypeEvent{}
-	})
-}
 
 // OpTypeDeviceEvent declares an OpenCL device-side event object.
 //
@@ -396,12 +306,6 @@ type OpTypeDeviceEvent struct {
 func (c *OpTypeDeviceEvent) Opcode() uint32 { return 23 }
 func (c *OpTypeDeviceEvent) Verify() error  { return nil }
 
-func init() {
-	Bind(func() Instruction {
-		return &OpTypeDeviceEvent{}
-	})
-}
-
 // OpTypeReserveId declares an OpenCL reservation id object.
 //
 // It defines the <id> of the new reservation type.
@@ -412,12 +316,6 @@ type OpTypeReserveId struct {
 func (c *OpTypeReserveId) Opcode() uint32 { return 24 }
 func (c *OpTypeReserveId) Verify() error  { return nil }
 
-func init() {
-	Bind(func() Instruction {
-		return &OpTypeReserveId{}
-	})
-}
-
 // OpTypeQueue declares an OpenCL queue object.
 //
 // It defines the <id> of the new queue type.
@@ -427,12 +325,6 @@ type OpTypeQueue struct {
 
 func (c *OpTypeQueue) Opcode() uint32 { return 25 }
 func (c *OpTypeQueue) Verify() error  { return nil }
-
-func init() {
-	Bind(func() Instruction {
-		return &OpTypeQueue{}
-	})
-}
 
 // OpTypePipe declares an OpenCL pipe object type.
 type OpTypePipe struct {
@@ -450,7 +342,23 @@ func (c *OpTypePipe) Opcode() uint32 { return 26 }
 func (c *OpTypePipe) Verify() error  { return nil }
 
 func init() {
-	Bind(func() Instruction {
-		return &OpTypePipe{}
-	})
+	Bind(func() Instruction { return &OpTypeVoid{} })
+	Bind(func() Instruction { return &OpTypeBool{} })
+	Bind(func() Instruction { return &OpTypeInt{} })
+	Bind(func() Instruction { return &OpTypeFloat{} })
+	Bind(func() Instruction { return &OpTypeVector{} })
+	Bind(func() Instruction { return &OpTypeMatrix{} })
+	Bind(func() Instruction { return &OpTypeSampler{} })
+	Bind(func() Instruction { return &OpTypeFilter{} })
+	Bind(func() Instruction { return &OpTypeArray{} })
+	Bind(func() Instruction { return &OpTypeRuntimeArray{} })
+	Bind(func() Instruction { return &OpTypeStruct{} })
+	Bind(func() Instruction { return &OpTypeOpaque{} })
+	Bind(func() Instruction { return &OpTypePointer{} })
+	Bind(func() Instruction { return &OpTypeFunction{} })
+	Bind(func() Instruction { return &OpTypeEvent{} })
+	Bind(func() Instruction { return &OpTypeDeviceEvent{} })
+	Bind(func() Instruction { return &OpTypeReserveId{} })
+	Bind(func() Instruction { return &OpTypeQueue{} })
+	Bind(func() Instruction { return &OpTypePipe{} })
 }

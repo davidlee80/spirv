@@ -5,6 +5,7 @@ package spirv
 
 import (
 	"bytes"
+	"errors"
 	"reflect"
 	"testing"
 )
@@ -81,7 +82,7 @@ func TestDecodeHeader(t *testing.T) {
 		},
 		{
 			in:  []byte{0x01, 0x02, 0x03, 0x04},
-			err: ErrInvalidMagicValue,
+			err: errors.New("Header.Magic: invalid value"),
 		},
 		{
 			in: []byte{

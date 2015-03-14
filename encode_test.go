@@ -5,6 +5,7 @@ package spirv
 
 import (
 	"bytes"
+	"errors"
 	"reflect"
 	"testing"
 )
@@ -76,17 +77,17 @@ func TestEncodeHeader(t *testing.T) {
 		{
 			in:   Header{},
 			want: nil,
-			err:  ErrInvalidMagicValue,
+			err:  errors.New("Header.Magic: invalid value"),
 		},
 		{
 			in:   Header{123, 99, 1, 255, 0},
 			want: nil,
-			err:  ErrInvalidMagicValue,
+			err:  errors.New("Header.Magic: invalid value"),
 		},
 		{
 			in:   Header{MagicLE, 100, 1, 255, 0},
 			want: nil,
-			err:  ErrInvalidVersion,
+			err:  errors.New("Header.Version: invalid version number"),
 		},
 		{
 			in: Header{MagicLE, 99, 1, 255, 0},
@@ -109,10 +110,18 @@ func TestEncodeHeader(t *testing.T) {
 			},
 		},
 	} {
+		err := st.in.Verify()
+		if err != nil {
+			if !reflect.DeepEqual(err, st.err) {
+				t.Fatalf("case %d: error mismatch:\nHave: %v\nWant: %v",
+					i, err, st.err)
+			}
+			continue // Expected error -- Just move on.
+		}
+
 		var have bytes.Buffer
 		enc := NewEncoder(&have)
-		err := enc.EncodeHeader(st.in)
-
+		err = enc.EncodeHeader(st.in)
 		if err != nil {
 			if !reflect.DeepEqual(err, st.err) {
 				t.Fatalf("case %d: error mismatch:\nHave: %v\nWant: %v",

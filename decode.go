@@ -4,6 +4,7 @@
 package spirv
 
 import (
+	"errors"
 	"fmt"
 	"io"
 	"reflect"
@@ -58,7 +59,7 @@ func (d *Decoder) DecodeHeader() (Header, error) {
 	case MagicBE:
 		d.endian = BigEndian
 	default:
-		return hdr, ErrInvalidMagicValue
+		return hdr, errors.New("Header.Magic: invalid value")
 	}
 
 	// Read remaining header.
@@ -159,13 +160,8 @@ func DecodeInstruction(words []uint32) (Instruction, error) {
 	}
 
 	rv := reflect.ValueOf(instr)
-
 	_, err := decodeValue(rv, words[1:])
-	if err != nil {
-		return nil, err
-	}
 
-	err = instr.Verify()
 	return instr, err
 }
 

@@ -32,17 +32,16 @@ func NewEncoder(w io.Writer) *Encoder {
 // underlying stream. The magic value (first element in the set), determines
 // the byte order for all remaining data being written in this- and subsequent
 // calls to the Encoder.
+//
+// This assumes the header has been validated and is correct.
 func (e *Encoder) EncodeHeader(h Header) error {
 	// The magic value should be written byte-for-byte, regardless
 	// of the endianess. Infact, its byte order defines the byte order
 	// for the remaining stream.
-	switch h.Magic {
-	case MagicLE:
+	if h.Magic == MagicLE {
 		e.endian = LittleEndian
-	case MagicBE:
+	} else {
 		e.endian = BigEndian
-	default:
-		return ErrInvalidMagicValue
 	}
 
 	_, err := e.w.Write([]byte{
@@ -54,10 +53,6 @@ func (e *Encoder) EncodeHeader(h Header) error {
 
 	if err != nil {
 		return err
-	}
-
-	if h.Version != 99 {
-		return ErrInvalidVersion
 	}
 
 	return e.write([]uint32{
@@ -89,12 +84,9 @@ func (e *Encoder) EncodeInstructionWords(data []uint32) error {
 // Encode encodes the given instruction into a list of words and
 // writes them to the underlying stream. It calls Instruction.Verify
 // first to ensure the data is within specifications.
+//
+// This assumes the instruction has been validated and is correct.
 func (e *Encoder) EncodeInstruction(i Instruction) error {
-	err := i.Verify()
-	if err != nil {
-		return err
-	}
-
 	// Make sure the scratch buffer has sufficient space.
 	size := EncodedLen(i)
 	if size > len(e.buf) {
