@@ -18,17 +18,14 @@ type OpPhi struct {
 func (c *OpPhi) Opcode() uint32 { return 48 }
 func (c *OpPhi) Verify() error {
 	if len(c.Operands) == 0 {
-		return fmt.Errorf("OpPhi.Operands: expected operands")
-	} else if len(c.Operands)%2 != 0 {
-		return fmt.Errorf("OpPhi.Operands: expected array of (Variable, ParentBlock) pairs")
+		return fmt.Errorf("OpPhi: expected operands")
 	}
-	return nil
-}
 
-func init() {
-	Bind(func() Instruction {
-		return &OpPhi{}
-	})
+	if len(c.Operands)%2 != 0 {
+		return fmt.Errorf("OpPhi: expected array of (Variable, ParentBlock) operand pairs")
+	}
+
+	return nil
 }
 
 // OpLoopMerge declares and controls a structured control-flow loop construct.
@@ -47,12 +44,6 @@ func (c *OpLoopMerge) Verify() error {
 		return fmt.Errorf("OpLoopMerge.LoopControl: expected a Loop Control constant")
 	}
 	return nil
-}
-
-func init() {
-	Bind(func() Instruction {
-		return &OpLoopMerge{}
-	})
 }
 
 // OpSelectionMerge declares and controls a structured control-flow selection
@@ -74,12 +65,6 @@ func (c *OpSelectionMerge) Verify() error {
 	return nil
 }
 
-func init() {
-	Bind(func() Instruction {
-		return &OpSelectionMerge{}
-	})
-}
-
 // OpLabel defines a block label.
 type OpLabel struct {
 	ResultId Id
@@ -88,12 +73,6 @@ type OpLabel struct {
 func (c *OpLabel) Opcode() uint32 { return 208 }
 func (c *OpLabel) Verify() error  { return nil }
 
-func init() {
-	Bind(func() Instruction {
-		return &OpLabel{}
-	})
-}
-
 // OpBranch is an unconditional branch to TargetLabel.
 type OpBranch struct {
 	TargetLabel Id
@@ -101,12 +80,6 @@ type OpBranch struct {
 
 func (c *OpBranch) Opcode() uint32 { return 209 }
 func (c *OpBranch) Verify() error  { return nil }
-
-func init() {
-	Bind(func() Instruction {
-		return &OpBranch{}
-	})
-}
 
 // OpBranchConditional branches to TrueLabel if Condition is true, or to
 // False Label if Condition is false.
@@ -123,14 +96,6 @@ func (c *OpBranchConditional) Verify() error {
 		return fmt.Errorf("OpBranchConditional.BranchWeights: expected 0 or 2 elements")
 	}
 	return nil
-}
-
-func init() {
-	Bind(func() Instruction {
-		return &OpBranchConditional{
-			BranchWeights: []uint32{},
-		}
-	})
 }
 
 // OpSwitch branches to a matching operand label.
@@ -156,14 +121,6 @@ func (c *OpSwitch) Verify() error {
 	return nil
 }
 
-func init() {
-	Bind(func() Instruction {
-		return &OpSwitch{
-			Target: []uint32{},
-		}
-	})
-}
-
 // OpKill discards the fragment shader.
 type OpKill struct{}
 
@@ -182,12 +139,6 @@ type OpReturn struct{}
 func (c *OpReturn) Opcode() uint32 { return 213 }
 func (c *OpReturn) Verify() error  { return nil }
 
-func init() {
-	Bind(func() Instruction {
-		return &OpReturn{}
-	})
-}
-
 // OpReturnValue returns with a value from a function.
 type OpReturnValue struct {
 	Value Id
@@ -196,24 +147,12 @@ type OpReturnValue struct {
 func (c *OpReturnValue) Opcode() uint32 { return 214 }
 func (c *OpReturnValue) Verify() error  { return nil }
 
-func init() {
-	Bind(func() Instruction {
-		return &OpReturnValue{}
-	})
-}
-
 // OpUnreachable declares that this block is not reachable in the Control
 // Flow Graph.
 type OpUnreachable struct{}
 
 func (c *OpUnreachable) Opcode() uint32 { return 215 }
 func (c *OpUnreachable) Verify() error  { return nil }
-
-func init() {
-	Bind(func() Instruction {
-		return &OpUnreachable{}
-	})
-}
 
 // OpLifetimeStart declares that the content of the object pointed to was
 // not defined before this instruction.
@@ -224,12 +163,6 @@ type OpLifetimeStart struct {
 
 func (c *OpLifetimeStart) Opcode() uint32 { return 216 }
 func (c *OpLifetimeStart) Verify() error  { return nil }
-
-func init() {
-	Bind(func() Instruction {
-		return &OpLifetimeStart{}
-	})
-}
 
 // OpLifetimeStop declares that the content of the object pointed to is
 // dead after this instruction.
@@ -242,7 +175,16 @@ func (c *OpLifetimeStop) Opcode() uint32 { return 217 }
 func (c *OpLifetimeStop) Verify() error  { return nil }
 
 func init() {
-	Bind(func() Instruction {
-		return &OpLifetimeStop{}
-	})
+	Bind(func() Instruction { return &OpPhi{} })
+	Bind(func() Instruction { return &OpLoopMerge{} })
+	Bind(func() Instruction { return &OpSelectionMerge{} })
+	Bind(func() Instruction { return &OpLabel{} })
+	Bind(func() Instruction { return &OpBranch{} })
+	Bind(func() Instruction { return &OpBranchConditional{} })
+	Bind(func() Instruction { return &OpSwitch{} })
+	Bind(func() Instruction { return &OpReturn{} })
+	Bind(func() Instruction { return &OpReturnValue{} })
+	Bind(func() Instruction { return &OpUnreachable{} })
+	Bind(func() Instruction { return &OpLifetimeStart{} })
+	Bind(func() Instruction { return &OpLifetimeStop{} })
 }

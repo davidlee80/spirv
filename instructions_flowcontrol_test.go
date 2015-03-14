@@ -44,10 +44,9 @@ func TestFlowControl(t *testing.T) {
 		{
 			in: []uint32{0x000400d2, 1, 2, 3},
 			want: &OpBranchConditional{
-				Condition:     1,
-				TrueLabel:     2,
-				FalseLabel:    3,
-				BranchWeights: []uint32{},
+				Condition:  1,
+				TrueLabel:  2,
+				FalseLabel: 3,
 			},
 		},
 		{
@@ -64,7 +63,6 @@ func TestFlowControl(t *testing.T) {
 			want: &OpSwitch{
 				Selector: 1,
 				Default:  2,
-				Target:   []uint32{},
 			},
 		},
 		{
