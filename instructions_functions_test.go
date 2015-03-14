@@ -10,10 +10,10 @@ func TestFunctions(t *testing.T) {
 		{
 			in: []uint32{0x00050028, 1, 2, 3, 4},
 			want: &OpFunction{
-				ResultType:  1,
-				ResultId:    2,
-				ControlMask: 3,
-				Type:        4,
+				ResultType:   1,
+				ResultId:     2,
+				ControlMask:  3,
+				FunctionType: 4,
 			},
 		},
 		{
