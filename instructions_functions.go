@@ -10,10 +10,10 @@ package spirv
 // This function’s body will terminate with the next OpFunctionEnd
 // instruction.
 type OpFunction struct {
-	ResultType  Id
-	ResultId    Id
-	ControlMask FunctionControlMask
-	Type        Id
+	ResultType   Id
+	ResultId     Id
+	ControlMask  FunctionControlMask
+	FunctionType Id
 }
 
 func (c *OpFunction) Opcode() uint32 { return 40 }
