@@ -198,38 +198,13 @@ func (d *Decoder) read(p []uint32) error {
 
 // decodeValue decodes the given words into the specified instruction.
 func decodeValue(rv reflect.Value, argv []uint32) ([]uint32, error) {
-	var err error
-
 	rv = reflect.Indirect(rv)
 
 	switch rv.Kind() {
 	case reflect.Struct:
-		rt := rv.Type()
-
-		for i := 0; i < rv.NumField(); i++ {
-			fv := rv.Field(i)
-			ft := rt.Field(i)
-
-			tag := ft.Tag.Get("spirv")
-			if hasFieldOption(tag, "optional") && len(argv) == 0 {
-				continue
-			}
-
-			argv, err = decodeValue(fv, argv)
-			if err != nil {
-				return nil, err
-			}
-		}
-
-		return argv, nil
-
-	case reflect.Slice, reflect.Array:
-		if len(argv) > 0 {
-			new := Copy(argv)
-			rv.Set(reflect.ValueOf(new))
-		}
-
-		return nil, nil
+		return decodeStruct(rv, argv)
+	case reflect.Slice:
+		return decodeSlice(rv, argv)
 	}
 
 	if len(argv) == 0 {
@@ -240,13 +215,77 @@ func decodeValue(rv reflect.Value, argv []uint32) ([]uint32, error) {
 	case reflect.Uint32:
 		rv.SetUint(uint64(argv[0]))
 		return argv[1:], nil
-
 	case reflect.String:
-		str := DecodeString(argv)
-		size := str.EncodedLen()
-		rv.SetString(string(str))
-		return argv[size:], nil
+		return decodeString(rv, argv)
 	}
 
 	return argv, fmt.Errorf("unsupported type: %v", rv.Kind())
+}
+
+// decodeSlice decodes data into a slice field.
+func decodeSlice(rv reflect.Value, argv []uint32) ([]uint32, error) {
+	if len(argv) == 0 {
+		return nil, nil
+	}
+
+	rt := rv.Type()
+	et := rt.Elem()
+
+	// Ensure that the slice elements are either uint32, or an alias thereof.
+	if et.Kind() != reflect.Uint32 {
+		return nil, fmt.Errorf("slice elements must resolve to uint32")
+	}
+
+	// if this is a straight-up uint32 slice, just copy the input.
+	// Any other value is an alias and implements at least the Verifiable
+	// interface. Which means it has at least 1 method attached to it.
+	if rt.Elem().NumMethod() == 0 {
+		copy := Copy(argv)
+		rv.Set(reflect.ValueOf(copy))
+		return nil, nil
+	}
+
+	// Otherwise we have to do some manualy copying magic.
+	new := reflect.MakeSlice(rt, 0, len(argv))
+
+	for _, word := range argv {
+		elem := reflect.New(et)
+		elem = reflect.Indirect(elem)
+		elem.SetUint(uint64(word))
+		new = reflect.Append(new, elem)
+	}
+
+	rv.Set(new)
+	return nil, nil
+}
+
+// decodeStruct decodes input data into a struct.
+func decodeStruct(rv reflect.Value, argv []uint32) ([]uint32, error) {
+	var err error
+
+	rt := rv.Type()
+	for i := 0; i < rv.NumField(); i++ {
+		fv := rv.Field(i)
+		ft := rt.Field(i)
+
+		tag := ft.Tag.Get("spirv")
+		if hasFieldOption(tag, "optional") && len(argv) == 0 {
+			continue
+		}
+
+		argv, err = decodeValue(fv, argv)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return argv, nil
+}
+
+// decodeString decodes input data into a string value.
+func decodeString(rv reflect.Value, argv []uint32) ([]uint32, error) {
+	str := DecodeString(argv)
+	size := str.EncodedLen()
+	rv.SetString(string(str))
+	return argv[size:], nil
 }
