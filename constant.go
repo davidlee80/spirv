@@ -1049,11 +1049,7 @@ const (
 type MemoryAccess uint32
 
 func (v MemoryAccess) Verify() error {
-	if verifyBitFlag(
-		uint32(v),
-		MemoryAccessVolatile,
-		MemoryAccessAligned,
-	) {
+	if v >= MemoryAccessVolatile && v <= MemoryAccessAligned {
 		return nil
 	}
 	return errors.New("invalid MemoryAccess value")
