@@ -16,12 +16,6 @@ type OpReadPipe struct {
 func (c *OpReadPipe) Opcode() uint32 { return 234 }
 func (c *OpReadPipe) Verify() error  { return nil }
 
-func init() {
-	Bind(func() Instruction {
-		return &OpReadPipe{}
-	})
-}
-
 // OpWritePipe writes a packet from Ptr to P.
 type OpWritePipe struct {
 	ResultType Id
@@ -32,12 +26,6 @@ type OpWritePipe struct {
 
 func (c *OpWritePipe) Opcode() uint32 { return 235 }
 func (c *OpWritePipe) Verify() error  { return nil }
-
-func init() {
-	Bind(func() Instruction {
-		return &OpWritePipe{}
-	})
-}
 
 // OpReservedReadPipe reads a packet from the reserved area specified by
 // ReserveId and Index from P into Ptr.
@@ -53,12 +41,6 @@ type OpReservedReadPipe struct {
 func (c *OpReservedReadPipe) Opcode() uint32 { return 236 }
 func (c *OpReservedReadPipe) Verify() error  { return nil }
 
-func init() {
-	Bind(func() Instruction {
-		return &OpReservedReadPipe{}
-	})
-}
-
 // OpReservedWritePipe writes a packet from Ptr into the reserved area
 // specified by ReserveId and Index into P.
 type OpReservedWritePipe struct {
@@ -73,12 +55,6 @@ type OpReservedWritePipe struct {
 func (c *OpReservedWritePipe) Opcode() uint32 { return 237 }
 func (c *OpReservedWritePipe) Verify() error  { return nil }
 
-func init() {
-	Bind(func() Instruction {
-		return &OpReservedWritePipe{}
-	})
-}
-
 // OpReserveReadPipePackets reserves NumPackets entries for reading from P.
 type OpReserveReadPipePackets struct {
 	ResultType Id
@@ -89,12 +65,6 @@ type OpReserveReadPipePackets struct {
 
 func (c *OpReserveReadPipePackets) Opcode() uint32 { return 238 }
 func (c *OpReserveReadPipePackets) Verify() error  { return nil }
-
-func init() {
-	Bind(func() Instruction {
-		return &OpReserveReadPipePackets{}
-	})
-}
 
 // OpReserveWritePipePackets reserves NumPackets entries for writing to P.
 type OpReserveWritePipePackets struct {
@@ -107,12 +77,6 @@ type OpReserveWritePipePackets struct {
 func (c *OpReserveWritePipePackets) Opcode() uint32 { return 239 }
 func (c *OpReserveWritePipePackets) Verify() error  { return nil }
 
-func init() {
-	Bind(func() Instruction {
-		return &OpReserveWritePipePackets{}
-	})
-}
-
 // OpCommitReadPipe indicates that all reads to NumPackets associated with
 // ReserveId in P are completed.
 type OpCommitReadPipe struct {
@@ -123,12 +87,6 @@ type OpCommitReadPipe struct {
 func (c *OpCommitReadPipe) Opcode() uint32 { return 240 }
 func (c *OpCommitReadPipe) Verify() error  { return nil }
 
-func init() {
-	Bind(func() Instruction {
-		return &OpCommitReadPipe{}
-	})
-}
-
 // OpCommitWritePipe indicates that all writes to NumPackets associated
 // with ReserveId in P are completed.
 type OpCommitWritePipe struct {
@@ -138,12 +96,6 @@ type OpCommitWritePipe struct {
 
 func (c *OpCommitWritePipe) Opcode() uint32 { return 241 }
 func (c *OpCommitWritePipe) Verify() error  { return nil }
-
-func init() {
-	Bind(func() Instruction {
-		return &OpCommitWritePipe{}
-	})
-}
 
 // OpIsValidReserveId returns true if ReserveId is a valid reservation ID
 // and false otherwise.
@@ -156,12 +108,6 @@ type OpIsValidReserveId struct {
 func (c *OpIsValidReserveId) Opcode() uint32 { return 242 }
 func (c *OpIsValidReserveId) Verify() error  { return nil }
 
-func init() {
-	Bind(func() Instruction {
-		return &OpIsValidReserveId{}
-	})
-}
-
 // OpGetNumPipePackets returns the number of available entries in P.
 type OpGetNumPipePackets struct {
 	ResultType Id
@@ -171,12 +117,6 @@ type OpGetNumPipePackets struct {
 
 func (c *OpGetNumPipePackets) Opcode() uint32 { return 243 }
 func (c *OpGetNumPipePackets) Verify() error  { return nil }
-
-func init() {
-	Bind(func() Instruction {
-		return &OpGetNumPipePackets{}
-	})
-}
 
 // OpGetMaxPipePackets returns the maximum number of packets specified when
 // P was created.
@@ -188,12 +128,6 @@ type OpGetMaxPipePackets struct {
 
 func (c *OpGetMaxPipePackets) Opcode() uint32 { return 244 }
 func (c *OpGetMaxPipePackets) Verify() error  { return nil }
-
-func init() {
-	Bind(func() Instruction {
-		return &OpGetMaxPipePackets{}
-	})
-}
 
 // OpGroupReserveReadPipePackets reserves NumPackets entries for reading
 // from P at group level.
@@ -216,12 +150,6 @@ func (c *OpGroupReserveReadPipePackets) Verify() error {
 		return fmt.Errorf("OpGroupReserveReadPipePackets.Scope: expected an Execution Scope constant")
 	}
 	return nil
-}
-
-func init() {
-	Bind(func() Instruction {
-		return &OpGroupReserveReadPipePackets{}
-	})
 }
 
 // OpGroupReserveWritePipePackets reserves NumPackets entries for writing
@@ -247,12 +175,6 @@ func (c *OpGroupReserveWritePipePackets) Verify() error {
 	return nil
 }
 
-func init() {
-	Bind(func() Instruction {
-		return &OpGroupReserveWritePipePackets{}
-	})
-}
-
 // OpGroupCommitReadPipe is a group level indication that all reads to
 // NumPackets associated with ReserveId to P are completed.
 type OpGroupCommitReadPipe struct {
@@ -272,12 +194,6 @@ func (c *OpGroupCommitReadPipe) Verify() error {
 		return fmt.Errorf("OpGroupCommitReadPipe.Scope: expected an Execution Scope constant")
 	}
 	return nil
-}
-
-func init() {
-	Bind(func() Instruction {
-		return &OpGroupCommitReadPipe{}
-	})
 }
 
 // OpGroupCommitWritePipe is a group level indication that all writes to
@@ -302,7 +218,19 @@ func (c *OpGroupCommitWritePipe) Verify() error {
 }
 
 func init() {
-	Bind(func() Instruction {
-		return &OpGroupCommitWritePipe{}
-	})
+	Bind(func() Instruction { return &OpReadPipe{} })
+	Bind(func() Instruction { return &OpWritePipe{} })
+	Bind(func() Instruction { return &OpReservedReadPipe{} })
+	Bind(func() Instruction { return &OpReservedWritePipe{} })
+	Bind(func() Instruction { return &OpReserveReadPipePackets{} })
+	Bind(func() Instruction { return &OpReserveWritePipePackets{} })
+	Bind(func() Instruction { return &OpCommitReadPipe{} })
+	Bind(func() Instruction { return &OpCommitWritePipe{} })
+	Bind(func() Instruction { return &OpIsValidReserveId{} })
+	Bind(func() Instruction { return &OpGetNumPipePackets{} })
+	Bind(func() Instruction { return &OpGetMaxPipePackets{} })
+	Bind(func() Instruction { return &OpGroupReserveReadPipePackets{} })
+	Bind(func() Instruction { return &OpGroupReserveWritePipePackets{} })
+	Bind(func() Instruction { return &OpGroupCommitReadPipe{} })
+	Bind(func() Instruction { return &OpGroupCommitWritePipe{} })
 }
