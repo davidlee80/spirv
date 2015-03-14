@@ -13,12 +13,6 @@ type OpNop struct{}
 func (c *OpNop) Opcode() uint32 { return 0 }
 func (c *OpNop) Verify() error  { return ErrUnacceptable }
 
-func init() {
-	Bind(func() Instruction {
-		return &OpNop{}
-	})
-}
-
 // OpUndef makes an intermediate object with no initialization.
 type OpUndef struct {
 	ResultType Id
@@ -29,7 +23,6 @@ func (c *OpUndef) Opcode() uint32 { return 45 }
 func (c *OpUndef) Verify() error  { return nil }
 
 func init() {
-	Bind(func() Instruction {
-		return &OpUndef{}
-	})
+	Bind(func() Instruction { return &OpNop{} })
+	Bind(func() Instruction { return &OpUndef{} })
 }

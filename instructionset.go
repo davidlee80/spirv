@@ -50,6 +50,14 @@ func Bind(fun InstructionFunc) {
 	instructions.Unlock()
 }
 
+// Len returns the number of registered instructions.
+func (set *InstructionSet) Len() int {
+	set.RLock()
+	v := len(set.data)
+	set.RUnlock()
+	return v
+}
+
 // Get returns the codec for the given opcode.
 // Returns false if it is not in the set.
 func (set *InstructionSet) Get(opcode uint32) (InstructionFunc, bool) {

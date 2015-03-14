@@ -66,7 +66,8 @@ func testInstruction(t *testing.T, st InstructionTest) {
 	}
 }
 
-func TestCodec(t *testing.T) {
+// Test the decoding behaviour of a few edge cases.
+func TestFaultyInstructions(t *testing.T) {
 	for _, st := range []InstructionTest{
 		{
 			in:   nil,
