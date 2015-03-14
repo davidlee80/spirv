@@ -4,3 +4,8 @@
 package spirv
 
 type Id uint32
+
+// Verify returns an error if this is not a valid Id.
+func (i Id) Verify() error {
+	return nil
+}
