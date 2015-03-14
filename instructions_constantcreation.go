@@ -8,10 +8,10 @@ import "fmt"
 // OpConstantTrue declares a true Boolean-type scalar constant.
 type OpConstantTrue struct {
 	// Result Type must be the scalar Boolean type.
-	ResultType uint32
+	ResultType Id
 
 	// The <id> of the new constant type.
-	ResultId uint32
+	ResultId Id
 }
 
 func (c *OpConstantTrue) Opcode() uint32 { return 27 }
@@ -26,10 +26,10 @@ func init() {
 // OpConstantFalse declares a true Boolean-type scalar constant.
 type OpConstantFalse struct {
 	// Result Type must be the scalar Boolean type.
-	ResultType uint32
+	ResultType Id
 
 	// The <id> of the new constant type.
-	ResultId uint32
+	ResultId Id
 }
 
 func (c *OpConstantFalse) Opcode() uint32 { return 28 }
@@ -45,10 +45,10 @@ func init() {
 // scalar constant.
 type OpConstant struct {
 	// Result Type must be a scalar Integer type or Floating-point type.
-	ResultType uint32
+	ResultType Id
 
 	// The <id> of the new constant type.
-	ResultId uint32
+	ResultId Id
 
 	// Value is the bit pattern for the constant.
 	//
@@ -71,10 +71,10 @@ type OpConstantComposite struct {
 	// Result Type must be a composite type, whose top-level
 	// members/elements/components/columns have the same type as the
 	// types of the operands
-	ResultType uint32
+	ResultType Id
 
 	// The <id> of the new composite type.
-	ResultId uint32
+	ResultId Id
 
 	// Constituents will become members of a structure, or elements of an
 	// array, or components of a vector, or columns of a matrix. There must
@@ -84,7 +84,7 @@ type OpConstantComposite struct {
 	// The Constituents must appear in the order needed by the definition of
 	// the type of the result. The Constituents must be the <id> of other
 	// constant declarations.
-	Constituents []uint32
+	Constituents []Id
 }
 
 func (c *OpConstantComposite) Opcode() uint32 { return 30 }
@@ -96,13 +96,17 @@ func init() {
 	})
 }
 
+// FIXME: Specification uses a Literal Number for Mode and Filter, not
+// SamplerAddressingMode and SamplerFilterMode, respectively. Probably
+// in error.
+
 // OpConstantSampler declares a new null sampler constant.
 type OpConstantSampler struct {
-	ResultType uint32
-	ResultId   uint32
+	ResultType Id
+	ResultId   Id
 
-	// Addressing is the addressing Mode.
-	Addressing uint32
+	// Mode is the addressing Mode.
+	Mode SamplerAddressingMode
 
 	// Param is one of:
 	//
@@ -112,7 +116,7 @@ type OpConstantSampler struct {
 	Param uint32
 
 	// Filter is the filter mode.
-	Filter uint32
+	Filter SamplerFilterMode
 }
 
 func (c *OpConstantSampler) Opcode() uint32 { return 31 }
@@ -135,10 +139,10 @@ func init() {
 // OpConstantNullPointer declares a new null pointer constant.
 type OpConstantNullPointer struct {
 	// Result Type must be the scalar Boolean type.
-	ResultType uint32
+	ResultType Id
 
 	// The <id> of the new constant type.
-	ResultId uint32
+	ResultId Id
 }
 
 func (c *OpConstantNullPointer) Opcode() uint32 { return 32 }
@@ -154,10 +158,10 @@ func init() {
 // The objerct can be a queue, event or reservation id.
 type OpConstantNullObject struct {
 	// Result Type must be the scalar Boolean type.
-	ResultType uint32
+	ResultType Id
 
 	// The <id> of the new constant type.
-	ResultId uint32
+	ResultId Id
 }
 
 func (c *OpConstantNullObject) Opcode() uint32 { return 33 }
@@ -176,10 +180,10 @@ func init() {
 // or OpConstantFalse instruction.
 type OpSpecConstantTrue struct {
 	// Result Type must be the scalar Boolean type.
-	ResultType uint32
+	ResultType Id
 
 	// The <id> of the new constant type.
-	ResultId uint32
+	ResultId Id
 }
 
 func (c *OpSpecConstantTrue) Opcode() uint32 { return 34 }
@@ -198,10 +202,10 @@ func init() {
 // or OpConstantFalse instruction.
 type OpSpecConstantFalse struct {
 	// Result Type must be the scalar Boolean type.
-	ResultType uint32
+	ResultType Id
 
 	// The <id> of the new constant type.
-	ResultId uint32
+	ResultId Id
 }
 
 func (c *OpSpecConstantFalse) Opcode() uint32 { return 35 }
@@ -220,10 +224,10 @@ func init() {
 // or OpConstantFalse instruction.
 type OpSpecConstant struct {
 	// Result Type must be a scalar Integer type or Floating-point type.
-	ResultType uint32
+	ResultType Id
 
 	// The <id> of the new constant type.
-	ResultId uint32
+	ResultId Id
 
 	// Value is the bit pattern for the default value of the constant.
 	// Types 32 bits wide or smaller take one word. Larger types take multiple
@@ -247,10 +251,10 @@ type OpSpecConstantComposite struct {
 	// Result Type must be a composite type, whose top-level
 	// members/elements/components/columns have the same type as the types
 	// of the operands.
-	ResultType uint32
+	ResultType Id
 
 	// The <id> of the new constant type.
-	ResultId uint32
+	ResultId Id
 
 	// Constituents will become members of a structure, or elements of an
 	// array, or components of a vector, or columns of a matrix. There must be
@@ -260,7 +264,7 @@ type OpSpecConstantComposite struct {
 	// The Constituents must appear in the order needed by the definition of
 	// the type of the result. The Constituents must be the <id> of other
 	// specialization constant or constant declarations
-	Constituents []uint32
+	Constituents []Id
 }
 
 func (c *OpSpecConstantComposite) Opcode() uint32 { return 37 }

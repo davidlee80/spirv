@@ -7,10 +7,10 @@ import "fmt"
 
 // OpReadPipe reads a packet from P into Ptr.
 type OpReadPipe struct {
-	ResultType uint32
-	ResultId   uint32
-	P          uint32
-	Ptr        uint32
+	ResultType Id
+	ResultId   Id
+	P          Id
+	Ptr        Id
 }
 
 func (c *OpReadPipe) Opcode() uint32 { return 234 }
@@ -24,10 +24,10 @@ func init() {
 
 // OpWritePipe writes a packet from Ptr to P.
 type OpWritePipe struct {
-	ResultType uint32
-	ResultId   uint32
-	P          uint32
-	Ptr        uint32
+	ResultType Id
+	ResultId   Id
+	P          Id
+	Ptr        Id
 }
 
 func (c *OpWritePipe) Opcode() uint32 { return 235 }
@@ -42,12 +42,12 @@ func init() {
 // OpReservedReadPipe reads a packet from the reserved area specified by
 // ReserveId and Index from P into Ptr.
 type OpReservedReadPipe struct {
-	ResultType uint32
-	ResultId   uint32
-	P          uint32
-	ReserveId  uint32
-	Index      uint32
-	Ptr        uint32
+	ResultType Id
+	ResultId   Id
+	P          Id
+	ReserveId  Id
+	Index      Id
+	Ptr        Id
 }
 
 func (c *OpReservedReadPipe) Opcode() uint32 { return 236 }
@@ -62,12 +62,12 @@ func init() {
 // OpReservedWritePipe writes a packet from Ptr into the reserved area
 // specified by ReserveId and Index into P.
 type OpReservedWritePipe struct {
-	ResultType uint32
-	ResultId   uint32
-	P          uint32
-	ReserveId  uint32
-	Index      uint32
-	Ptr        uint32
+	ResultType Id
+	ResultId   Id
+	P          Id
+	ReserveId  Id
+	Index      Id
+	Ptr        Id
 }
 
 func (c *OpReservedWritePipe) Opcode() uint32 { return 237 }
@@ -81,10 +81,10 @@ func init() {
 
 // OpReserveReadPipePackets reserves NumPackets entries for reading from P.
 type OpReserveReadPipePackets struct {
-	ResultType uint32
-	ResultId   uint32
-	P          uint32
-	NumPackets uint32
+	ResultType Id
+	ResultId   Id
+	P          Id
+	NumPackets Id
 }
 
 func (c *OpReserveReadPipePackets) Opcode() uint32 { return 238 }
@@ -98,10 +98,10 @@ func init() {
 
 // OpReserveWritePipePackets reserves NumPackets entries for writing to P.
 type OpReserveWritePipePackets struct {
-	ResultType uint32
-	ResultId   uint32
-	P          uint32
-	NumPackets uint32
+	ResultType Id
+	ResultId   Id
+	P          Id
+	NumPackets Id
 }
 
 func (c *OpReserveWritePipePackets) Opcode() uint32 { return 239 }
@@ -116,8 +116,8 @@ func init() {
 // OpCommitReadPipe indicates that all reads to NumPackets associated with
 // ReserveId in P are completed.
 type OpCommitReadPipe struct {
-	P         uint32
-	ReserveId uint32
+	P         Id
+	ReserveId Id
 }
 
 func (c *OpCommitReadPipe) Opcode() uint32 { return 240 }
@@ -132,8 +132,8 @@ func init() {
 // OpCommitWritePipe indicates that all writes to NumPackets associated
 // with ReserveId in P are completed.
 type OpCommitWritePipe struct {
-	P         uint32
-	ReserveId uint32
+	P         Id
+	ReserveId Id
 }
 
 func (c *OpCommitWritePipe) Opcode() uint32 { return 241 }
@@ -148,9 +148,9 @@ func init() {
 // OpIsValidReserveId returns true if ReserveId is a valid reservation ID
 // and false otherwise.
 type OpIsValidReserveId struct {
-	ResultType uint32
-	ResultId   uint32
-	ReserveId  uint32
+	ResultType Id
+	ResultId   Id
+	ReserveId  Id
 }
 
 func (c *OpIsValidReserveId) Opcode() uint32 { return 242 }
@@ -164,9 +164,9 @@ func init() {
 
 // OpGetNumPipePackets returns the number of available entries in P.
 type OpGetNumPipePackets struct {
-	ResultType uint32
-	ResultId   uint32
-	P          uint32
+	ResultType Id
+	ResultId   Id
+	P          Id
 }
 
 func (c *OpGetNumPipePackets) Opcode() uint32 { return 243 }
@@ -181,9 +181,9 @@ func init() {
 // OpGetMaxPipePackets returns the maximum number of packets specified when
 // P was created.
 type OpGetMaxPipePackets struct {
-	ResultType uint32
-	ResultId   uint32
-	P          uint32
+	ResultType Id
+	ResultId   Id
+	P          Id
 }
 
 func (c *OpGetMaxPipePackets) Opcode() uint32 { return 244 }
@@ -198,11 +198,11 @@ func init() {
 // OpGroupReserveReadPipePackets reserves NumPackets entries for reading
 // from P at group level.
 type OpGroupReserveReadPipePackets struct {
-	ResultType uint32
-	ResultId   uint32
-	Scope      uint32
-	P          uint32
-	NumPackets uint32
+	ResultType Id
+	ResultId   Id
+	Scope      ExecutionScope
+	P          Id
+	NumPackets Id
 }
 
 func (c *OpGroupReserveReadPipePackets) Opcode() uint32 { return 245 }
@@ -227,11 +227,11 @@ func init() {
 // OpGroupReserveWritePipePackets reserves NumPackets entries for writing
 // to P at group level.
 type OpGroupReserveWritePipePackets struct {
-	ResultType uint32
-	ResultId   uint32
-	Scope      uint32
-	P          uint32
-	NumPackets uint32
+	ResultType Id
+	ResultId   Id
+	Scope      ExecutionScope
+	P          Id
+	NumPackets Id
 }
 
 func (c *OpGroupReserveWritePipePackets) Opcode() uint32 { return 246 }
@@ -256,9 +256,9 @@ func init() {
 // OpGroupCommitReadPipe is a group level indication that all reads to
 // NumPackets associated with ReserveId to P are completed.
 type OpGroupCommitReadPipe struct {
-	Scope     uint32
-	P         uint32
-	ReserveId uint32
+	Scope     ExecutionScope
+	P         Id
+	ReserveId Id
 }
 
 func (c *OpGroupCommitReadPipe) Opcode() uint32 { return 247 }
@@ -283,9 +283,9 @@ func init() {
 // OpGroupCommitWritePipe is a group level indication that all writes to
 // NumPackets associated with ReserveId to P are completed.
 type OpGroupCommitWritePipe struct {
-	Scope     uint32
-	P         uint32
-	ReserveId uint32
+	Scope     ExecutionScope
+	P         Id
+	ReserveId Id
 }
 
 func (c *OpGroupCommitWritePipe) Opcode() uint32 { return 248 }

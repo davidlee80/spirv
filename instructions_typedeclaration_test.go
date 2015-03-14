@@ -127,7 +127,7 @@ func TestTypeDeclaration(t *testing.T) {
 			in: []uint32{0x0060012, 1, 2, 3, 4, 5},
 			want: &OpTypeStruct{
 				ResultId: 1,
-				Members:  []uint32{2, 3, 4, 5},
+				Members:  []Id{2, 3, 4, 5},
 			},
 		},
 		{
@@ -157,7 +157,7 @@ func TestTypeDeclaration(t *testing.T) {
 			want: &OpTypeFunction{
 				ResultId:   1,
 				ReturnType: 2,
-				Parameters: []uint32{3, 4, 5},
+				Parameters: []Id{3, 4, 5},
 			},
 		},
 		{

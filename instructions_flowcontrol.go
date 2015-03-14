@@ -10,9 +10,9 @@ import "fmt"
 
 // OpPhi is the SSA phi function.
 type OpPhi struct {
-	ResultType uint32
-	ResultId   uint32
-	Operands   []uint32
+	ResultType Id
+	ResultId   Id
+	Operands   []Id
 }
 
 func (c *OpPhi) Opcode() uint32 { return 48 }
@@ -33,8 +33,8 @@ func init() {
 
 // OpLoopMerge declares and controls a structured control-flow loop construct.
 type OpLoopMerge struct {
-	Label       uint32
-	LoopControl uint32
+	Label       Id
+	LoopControl LoopControl
 }
 
 func (c *OpLoopMerge) Opcode() uint32 { return 206 }
@@ -58,8 +58,8 @@ func init() {
 // OpSelectionMerge declares and controls a structured control-flow selection
 // construct, used with OpBranchConditional or OpSwitch.
 type OpSelectionMerge struct {
-	Label            uint32
-	SelectionControl uint32
+	Label            Id
+	SelectionControl SelectionControl
 }
 
 func (c *OpSelectionMerge) Opcode() uint32 { return 207 }
@@ -82,7 +82,7 @@ func init() {
 
 // OpLabel defines a block label.
 type OpLabel struct {
-	ResultId uint32
+	ResultId Id
 }
 
 func (c *OpLabel) Opcode() uint32 { return 208 }
@@ -96,7 +96,7 @@ func init() {
 
 // OpBranch is an unconditional branch to TargetLabel.
 type OpBranch struct {
-	TargetLabel uint32
+	TargetLabel Id
 }
 
 func (c *OpBranch) Opcode() uint32 { return 209 }
@@ -111,9 +111,9 @@ func init() {
 // OpBranchConditional branches to TrueLabel if Condition is true, or to
 // False Label if Condition is false.
 type OpBranchConditional struct {
-	Condition     uint32
-	TrueLabel     uint32
-	FalseLabel    uint32
+	Condition     Id
+	TrueLabel     Id
+	FalseLabel    Id
 	BranchWeights []uint32 `spirv:"optional"`
 }
 
@@ -135,9 +135,10 @@ func init() {
 
 // OpSwitch branches to a matching operand label.
 type OpSwitch struct {
-	Selector uint32
-	Default  uint32
-	Target   []uint32 `spirv:"optional"`
+	Selector Id
+	Default  Id
+	// TODO: struct for pair (Value, LabelId)
+	Target []uint32 `spirv:"optional"`
 }
 
 func (c *OpSwitch) Opcode() uint32 { return 211 }
@@ -189,7 +190,7 @@ func init() {
 
 // OpReturnValue returns with a value from a function.
 type OpReturnValue struct {
-	Value uint32
+	Value Id
 }
 
 func (c *OpReturnValue) Opcode() uint32 { return 214 }
@@ -217,7 +218,7 @@ func init() {
 // OpLifetimeStart declares that the content of the object pointed to was
 // not defined before this instruction.
 type OpLifetimeStart struct {
-	Object       uint32
+	Object       Id
 	MemoryAmount uint32
 }
 
@@ -233,7 +234,7 @@ func init() {
 // OpLifetimeStop declares that the content of the object pointed to is
 // dead after this instruction.
 type OpLifetimeStop struct {
-	Object       uint32
+	Object       Id
 	MemoryAmount uint32
 }
 

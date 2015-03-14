@@ -5,10 +5,10 @@ package spirv
 
 // OpSampler creates a sampler containing both a filter and texture.
 type OpSampler struct {
-	ResultType uint32
-	ResultId   uint32
-	Sampler    uint32
-	Filter     uint32
+	ResultType Id
+	ResultId   Id
+	Sampler    Id
+	Filter     Id
 }
 
 func (c *OpSampler) Opcode() uint32 { return 67 }
@@ -22,11 +22,11 @@ func init() {
 
 // OpTextureSample samples a texture with an implicit level of detail.
 type OpTextureSample struct {
-	ResultType uint32
-	ResultId   uint32
-	Sampler    uint32
-	Coordinate uint32
-	Bias       uint32 `spirv:"optional"`
+	ResultType Id
+	ResultId   Id
+	Sampler    Id
+	Coordinate Id
+	Bias       Id `spirv:"optional"`
 }
 
 func (c *OpTextureSample) Opcode() uint32 { return 68 }
@@ -43,11 +43,11 @@ func init() {
 // OpTextureSampleDref samples a cube-map-array texture with depth
 // comparison using an implicit level of detail.
 type OpTextureSampleDref struct {
-	ResultType uint32
-	ResultId   uint32
-	Sampler    uint32
-	Coordinate uint32
-	Dref       uint32
+	ResultType Id
+	ResultId   Id
+	Sampler    Id
+	Coordinate Id
+	Dref       Id
 }
 
 func (c *OpTextureSampleDref) Opcode() uint32 { return 69 }
@@ -61,11 +61,11 @@ func init() {
 
 // OpTextureSampleLod samples a texture using an explicit level of detail.
 type OpTextureSampleLod struct {
-	ResultType    uint32
-	ResultId      uint32
-	Sampler       uint32
-	Coordinate    uint32
-	LevelofDetail uint32
+	ResultType    Id
+	ResultId      Id
+	Sampler       Id
+	Coordinate    Id
+	LevelofDetail Id
 }
 
 func (c *OpTextureSampleLod) Opcode() uint32 { return 70 }
@@ -80,11 +80,11 @@ func init() {
 // OpTextureSampleProj sample a texture with a projective coordinate
 // using an implicit level of detail.
 type OpTextureSampleProj struct {
-	ResultType uint32
-	ResultId   uint32
-	Sampler    uint32
-	Coordinate uint32
-	Bias       uint32 `spirv:"optional"`
+	ResultType Id
+	ResultId   Id
+	Sampler    Id
+	Coordinate Id
+	Bias       Id `spirv:"optional"`
 }
 
 func (c *OpTextureSampleProj) Opcode() uint32 { return 71 }
@@ -100,12 +100,12 @@ func init() {
 
 // OpTextureSampleGrad samples a texture with an explicit gradient.
 type OpTextureSampleGrad struct {
-	ResultType uint32
-	ResultId   uint32
-	Sampler    uint32
-	Coordinate uint32
-	Dx         uint32
-	Dy         uint32
+	ResultType Id
+	ResultId   Id
+	Sampler    Id
+	Coordinate Id
+	Dx         Id
+	Dy         Id
 }
 
 func (c *OpTextureSampleGrad) Opcode() uint32 { return 72 }
@@ -120,12 +120,12 @@ func init() {
 // OpTextureSampleOffset samples a texture with an offset from a
 // coordinate using an implicit level of detail.
 type OpTextureSampleOffset struct {
-	ResultType uint32
-	ResultId   uint32
-	Sampler    uint32
-	Coordinate uint32
-	Offset     uint32
-	Bias       uint32 `spirv:"optional"`
+	ResultType Id
+	ResultId   Id
+	Sampler    Id
+	Coordinate Id
+	Offset     Id
+	Bias       Id `spirv:"optional"`
 }
 
 func (c *OpTextureSampleOffset) Opcode() uint32 { return 73 }
@@ -142,11 +142,11 @@ func init() {
 // OpTextureSampleProjLod samples a texture with a projective
 // coordinate using an explicit level of detail.
 type OpTextureSampleProjLod struct {
-	ResultType    uint32
-	ResultId      uint32
-	Sampler       uint32
-	Coordinate    uint32
-	LevelofDetail uint32
+	ResultType    Id
+	ResultId      Id
+	Sampler       Id
+	Coordinate    Id
+	LevelofDetail Id
 }
 
 func (c *OpTextureSampleProjLod) Opcode() uint32 { return 74 }
@@ -161,12 +161,12 @@ func init() {
 // OpTextureSampleProjGrad sample a texture with a projective
 // coordinate using an explicit gradient.
 type OpTextureSampleProjGrad struct {
-	ResultType uint32
-	ResultId   uint32
-	Sampler    uint32
-	Coordinate uint32
-	Dx         uint32
-	Dy         uint32
+	ResultType Id
+	ResultId   Id
+	Sampler    Id
+	Coordinate Id
+	Dx         Id
+	Dy         Id
 }
 
 func (c *OpTextureSampleProjGrad) Opcode() uint32 { return 75 }
@@ -181,12 +181,12 @@ func init() {
 // OpTextureSampleLodOffset samples a texture with explicit level of
 // detail using an offset from a coordinate.
 type OpTextureSampleLodOffset struct {
-	ResultType    uint32
-	ResultId      uint32
-	Sampler       uint32
-	Coordinate    uint32
-	LevelofDetail uint32
-	Offset        uint32
+	ResultType    Id
+	ResultId      Id
+	Sampler       Id
+	Coordinate    Id
+	LevelofDetail Id
+	Offset        Id
 }
 
 func (c *OpTextureSampleLodOffset) Opcode() uint32 { return 76 }
@@ -201,12 +201,12 @@ func init() {
 // OpTextureSampleProjOffset samples a texture with an offset from a
 // projective coordinate using an implicit level of detail.
 type OpTextureSampleProjOffset struct {
-	ResultType uint32
-	ResultId   uint32
-	Sampler    uint32
-	Coordinate uint32
-	Offset     uint32
-	Bias       uint32 `spirv:"optional"`
+	ResultType Id
+	ResultId   Id
+	Sampler    Id
+	Coordinate Id
+	Offset     Id
+	Bias       Id `spirv:"optional"`
 }
 
 func (c *OpTextureSampleProjOffset) Opcode() uint32 { return 77 }
@@ -223,13 +223,13 @@ func init() {
 // OpTextureSampleGradOffset samples a texture with an offset
 // coordinate and an explicit gradient.
 type OpTextureSampleGradOffset struct {
-	ResultType uint32
-	ResultId   uint32
-	Sampler    uint32
-	Coordinate uint32
-	Dx         uint32
-	Dy         uint32
-	Offset     uint32
+	ResultType Id
+	ResultId   Id
+	Sampler    Id
+	Coordinate Id
+	Dx         Id
+	Dy         Id
+	Offset     Id
 }
 
 func (c *OpTextureSampleGradOffset) Opcode() uint32 { return 78 }
@@ -244,12 +244,12 @@ func init() {
 // OpTextureSampleProjLodOffset samples a texture with an offset from
 // a projective coordinate and an explicit level of detail.
 type OpTextureSampleProjLodOffset struct {
-	ResultType    uint32
-	ResultId      uint32
-	Sampler       uint32
-	Coordinate    uint32
-	LevelofDetail uint32
-	Offset        uint32
+	ResultType    Id
+	ResultId      Id
+	Sampler       Id
+	Coordinate    Id
+	LevelofDetail Id
+	Offset        Id
 }
 
 func (c *OpTextureSampleProjLodOffset) Opcode() uint32 { return 79 }
@@ -264,13 +264,13 @@ func init() {
 // OpTextureSampleProjGradOffset samples a texture with an offset from
 // a projective coordinate and an explicit gradient.
 type OpTextureSampleProjGradOffset struct {
-	ResultType uint32
-	ResultId   uint32
-	Sampler    uint32
-	Coordinate uint32
-	Dx         uint32
-	Dy         uint32
-	Offset     uint32
+	ResultType Id
+	ResultId   Id
+	Sampler    Id
+	Coordinate Id
+	Dx         Id
+	Dy         Id
+	Offset     Id
 }
 
 func (c *OpTextureSampleProjGradOffset) Opcode() uint32 { return 80 }
@@ -284,11 +284,11 @@ func init() {
 
 // OpTextureFetchTexel fetches a single texel from a texture.
 type OpTextureFetchTexel struct {
-	ResultType    uint32
-	ResultId      uint32
-	Sampler       uint32
-	Coordinate    uint32
-	LevelofDetail uint32
+	ResultType    Id
+	ResultId      Id
+	Sampler       Id
+	Coordinate    Id
+	LevelofDetail Id
 }
 
 func (c *OpTextureFetchTexel) Opcode() uint32 { return 81 }
@@ -302,11 +302,11 @@ func init() {
 
 // OpTextureFetchTexelOffset fetches a single offset texel from a texture.
 type OpTextureFetchTexelOffset struct {
-	ResultType uint32
-	ResultId   uint32
-	Sampler    uint32
-	Coordinate uint32
-	Offset     uint32
+	ResultType Id
+	ResultId   Id
+	Sampler    Id
+	Coordinate Id
+	Offset     Id
 }
 
 func (c *OpTextureFetchTexelOffset) Opcode() uint32 { return 82 }
@@ -320,11 +320,11 @@ func init() {
 
 // OpTextureFetchSample fetches a single sample from a multi-sample texture.
 type OpTextureFetchSample struct {
-	ResultType uint32
-	ResultId   uint32
-	Sampler    uint32
-	Coordinate uint32
-	Sample     uint32
+	ResultType Id
+	ResultId   Id
+	Sampler    Id
+	Coordinate Id
+	Sample     Id
 }
 
 func (c *OpTextureFetchSample) Opcode() uint32 { return 83 }
@@ -338,10 +338,10 @@ func init() {
 
 // OpTextureFetchBuffer fetches an element out of a buffer texture.
 type OpTextureFetchBuffer struct {
-	ResultType uint32
-	ResultId   uint32
-	Sampler    uint32
-	Element    uint32
+	ResultType Id
+	ResultId   Id
+	Sampler    Id
+	Element    Id
 }
 
 func (c *OpTextureFetchBuffer) Opcode() uint32 { return 84 }
@@ -355,11 +355,11 @@ func init() {
 
 // OpTextureGather gathers the requested component from four sampled texels.
 type OpTextureGather struct {
-	ResultType uint32
-	ResultId   uint32
-	Sampler    uint32
-	Coordinate uint32
-	Component  uint32
+	ResultType Id
+	ResultId   Id
+	Sampler    Id
+	Coordinate Id
+	Component  Id
 }
 
 func (c *OpTextureGather) Opcode() uint32 { return 85 }
@@ -374,12 +374,12 @@ func init() {
 // OpTextureGatherOffset gathers the requested component from four
 // offset sampled texels.
 type OpTextureGatherOffset struct {
-	ResultType uint32
-	ResultId   uint32
-	Sampler    uint32
-	Coordinate uint32
-	Component  uint32
-	Offset     uint32
+	ResultType Id
+	ResultId   Id
+	Sampler    Id
+	Coordinate Id
+	Component  Id
+	Offset     Id
 }
 
 func (c *OpTextureGatherOffset) Opcode() uint32 { return 86 }
@@ -394,12 +394,12 @@ func init() {
 // OpTextureGatherOffsets gathers the requested component from four
 // offset sampled texels.
 type OpTextureGatherOffsets struct {
-	ResultType uint32
-	ResultId   uint32
-	Sampler    uint32
-	Coordinate uint32
-	Component  uint32
-	Offsets    uint32
+	ResultType Id
+	ResultId   Id
+	Sampler    Id
+	Coordinate Id
+	Component  Id
+	Offsets    Id
 }
 
 func (c *OpTextureGatherOffsets) Opcode() uint32 { return 87 }
@@ -414,10 +414,10 @@ func init() {
 // OpTextureQuerySizeLod queries the dimensions of the texture for
 // Sampler for mipmap level for Level of Detail.
 type OpTextureQuerySizeLod struct {
-	ResultType    uint32
-	ResultId      uint32
-	Sampler       uint32
-	LevelofDetail uint32
+	ResultType    Id
+	ResultId      Id
+	Sampler       Id
+	LevelofDetail Id
 }
 
 func (c *OpTextureQuerySizeLod) Opcode() uint32 { return 88 }
@@ -432,9 +432,9 @@ func init() {
 // OpTextureQuerySize queries the dimensions of the texture for
 // Sampler, with no level of detail.
 type OpTextureQuerySize struct {
-	ResultType uint32
-	ResultId   uint32
-	Sampler    uint32
+	ResultType Id
+	ResultId   Id
+	Sampler    Id
 }
 
 func (c *OpTextureQuerySize) Opcode() uint32 { return 89 }
@@ -450,10 +450,10 @@ func init() {
 // for a hypothetical sampling of Sampler at Coordinate using an
 // implicit level of detail.
 type OpTextureQueryLod struct {
-	ResultType uint32
-	ResultId   uint32
-	Sampler    uint32
-	Coordinate uint32
+	ResultType Id
+	ResultId   Id
+	Sampler    Id
+	Coordinate Id
 }
 
 func (c *OpTextureQueryLod) Opcode() uint32 { return 90 }
@@ -468,9 +468,9 @@ func init() {
 // OpTextureQueryLevels queries the number of mipmap levels accessible
 // through Sampler.
 type OpTextureQueryLevels struct {
-	ResultType uint32
-	ResultId   uint32
-	Sampler    uint32
+	ResultType Id
+	ResultId   Id
+	Sampler    Id
 }
 
 func (c *OpTextureQueryLevels) Opcode() uint32 { return 91 }
@@ -485,9 +485,9 @@ func init() {
 // OpTextureQuerySamples queries the number of samples available per
 // texel fetch in a multisample texture.
 type OpTextureQuerySamples struct {
-	ResultType uint32
-	ResultId   uint32
-	Sampler    uint32
+	ResultType Id
+	ResultId   Id
+	Sampler    Id
 }
 
 func (c *OpTextureQuerySamples) Opcode() uint32 { return 92 }

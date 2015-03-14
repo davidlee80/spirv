@@ -21,8 +21,8 @@ func init() {
 
 // OpUndef makes an intermediate object with no initialization.
 type OpUndef struct {
-	ResultType uint32
-	ResultId   uint32
+	ResultType Id
+	ResultId   Id
 }
 
 func (c *OpUndef) Opcode() uint32 { return 45 }

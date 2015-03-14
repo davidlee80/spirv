@@ -10,10 +10,10 @@ package spirv
 // This function’s body will terminate with the next OpFunctionEnd
 // instruction.
 type OpFunction struct {
-	ResultType  uint32
-	ResultId    uint32
-	ControlMask uint32
-	Type        uint32
+	ResultType  Id
+	ResultId    Id
+	ControlMask FunctionControlMask
+	Type        Id
 }
 
 func (c *OpFunction) Opcode() uint32 { return 40 }
@@ -29,8 +29,8 @@ func (c *OpFunction) Verify() error  { return nil }
 // are listed in the OpTypeFunction of the Function Type operand for this
 // function’s OpFunction instruction.
 type OpFunctionParameter struct {
-	ResultType uint32
-	ResultId   uint32
+	ResultType Id
+	ResultId   Id
 }
 
 func (c *OpFunctionParameter) Opcode() uint32 { return 41 }
@@ -48,10 +48,10 @@ func (c *OpFunctionEnd) Verify() error  { return nil }
 // information: Result Type must match the Return Type of the function, and
 // the calling argument types must match the formal parameter types.
 type OpFunctionCall struct {
-	ResultType uint32
-	ResultId   uint32
-	FunctionId uint32
-	Argv       []uint32
+	ResultType Id
+	ResultId   Id
+	Function   Id
+	Argv       []Id
 }
 
 func (c *OpFunctionCall) Opcode() uint32 { return 43 }

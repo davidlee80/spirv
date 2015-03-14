@@ -7,12 +7,12 @@ import "fmt"
 
 // OpEnqueueMarker enqueues a marker command to to the queue object specified by Q.
 type OpEnqueueMarker struct {
-	ResultType uint32
-	ResultId   uint32
-	Q          uint32
-	NumEvents  uint32
-	WaitEvents uint32
-	RetEvent   uint32
+	ResultType Id
+	ResultId   Id
+	Q          Id
+	NumEvents  Id
+	WaitEvents Id
+	RetEvent   Id
 }
 
 func (c *OpEnqueueMarker) Opcode() uint32 { return 249 }
@@ -27,19 +27,19 @@ func init() {
 // OpEnqueueKernel enqueues the function specified by Invoke and NDRange
 // for execution to the queue object specified by Q.
 type OpEnqueueKernel struct {
-	ResultType uint32
-	ResultId   uint32
-	Q          uint32
-	Flags      uint32
-	NDRange    uint32
-	NumEvents  uint32
-	WaitEvents uint32
-	RetEvent   uint32
-	Invoke     uint32
-	Param      uint32
-	ParamSize  uint32
-	ParamAlign uint32
-	LocalSize  []uint32 `spirv:"optional"`
+	ResultType Id
+	ResultId   Id
+	Q          Id
+	Flags      KernelEnqueueFlags
+	NDRange    Id
+	NumEvents  Id
+	WaitEvents Id
+	RetEvent   Id
+	Invoke     Id
+	Param      Id
+	ParamSize  Id
+	ParamAlign Id
+	LocalSize  []Id `spirv:"optional"`
 }
 
 func (c *OpEnqueueKernel) Opcode() uint32 { return 250 }
@@ -53,7 +53,7 @@ func (c *OpEnqueueKernel) Verify() error {
 func init() {
 	Bind(func() Instruction {
 		return &OpEnqueueKernel{
-			LocalSize: []uint32{},
+			LocalSize: []Id{},
 		}
 	})
 }
@@ -62,10 +62,10 @@ func init() {
 // work-group of the dispatch given the combination of NDRange and
 // Invoke.
 type OpGetKernelNDrangeSubGroupCount struct {
-	ResultType uint32
-	ResultId   uint32
-	NDRange    uint32
-	Invoke     uint32
+	ResultType Id
+	ResultId   Id
+	NDRange    Id
+	Invoke     Id
 }
 
 func (c *OpGetKernelNDrangeSubGroupCount) Opcode() uint32 { return 251 }
@@ -80,10 +80,10 @@ func init() {
 // OpGetKernelNDrangeMaxSubGroupSize returns the maximum sub-group size for
 // Invoke and NDRange.
 type OpGetKernelNDrangeMaxSubGroupSize struct {
-	ResultType uint32
-	ResultId   uint32
-	NDRange    uint32
-	Invoke     uint32
+	ResultType Id
+	ResultId   Id
+	NDRange    Id
+	Invoke     Id
 }
 
 func (c *OpGetKernelNDrangeMaxSubGroupSize) Opcode() uint32 { return 252 }
@@ -98,9 +98,9 @@ func init() {
 // OpGetKernelWorkGroupSize returns the maximum work-group size that can be
 // used to execute Invoke on the device.
 type OpGetKernelWorkGroupSize struct {
-	ResultType uint32
-	ResultId   uint32
-	Invoke     uint32
+	ResultType Id
+	ResultId   Id
+	Invoke     Id
 }
 
 func (c *OpGetKernelWorkGroupSize) Opcode() uint32 { return 253 }
@@ -114,9 +114,9 @@ func init() {
 
 // OpGetKernelPreferredWorkGroupSizeMultiple returns the preferred multiple of work-group size for Invoke.
 type OpGetKernelPreferredWorkGroupSizeMultiple struct {
-	ResultType uint32
-	ResultId   uint32
-	Invoke     uint32
+	ResultType Id
+	ResultId   Id
+	Invoke     Id
 }
 
 func (c *OpGetKernelPreferredWorkGroupSizeMultiple) Opcode() uint32 { return 254 }
@@ -130,7 +130,7 @@ func init() {
 
 // OpRetainEvent increments the reference count of Event.
 type OpRetainEvent struct {
-	Event uint32
+	Event Id
 }
 
 func (c *OpRetainEvent) Opcode() uint32 { return 255 }
@@ -144,7 +144,7 @@ func init() {
 
 // OpReleaseEvent decrements the reference count of Event.
 type OpReleaseEvent struct {
-	Event uint32
+	Event Id
 }
 
 func (c *OpReleaseEvent) Opcode() uint32 { return 256 }
@@ -158,8 +158,8 @@ func init() {
 
 // OpCreateUserEvent creates a user event.
 type OpCreateUserEvent struct {
-	ResultType uint32
-	ResultId   uint32
+	ResultType Id
+	ResultId   Id
 }
 
 func (c *OpCreateUserEvent) Opcode() uint32 { return 257 }
@@ -174,9 +174,9 @@ func init() {
 // OpIsValidEvent returns true if Event is a valid event, otherwise returns
 // false.
 type OpIsValidEvent struct {
-	ResultType uint32
-	ResultId   uint32
-	Event      uint32
+	ResultType Id
+	ResultId   Id
+	Event      Id
 }
 
 func (c *OpIsValidEvent) Opcode() uint32 { return 258 }
@@ -190,8 +190,8 @@ func init() {
 
 // OpSetUserEventStatus sets the execution status of a user event.
 type OpSetUserEventStatus struct {
-	Event  uint32
-	Status uint32
+	Event  Id
+	Status Id
 }
 
 func (c *OpSetUserEventStatus) Opcode() uint32 { return 259 }
@@ -205,9 +205,9 @@ func init() {
 
 // OpCaptureEventProfilingInfo captures the profiling information specified by info for the command associated with the event specified by event in the memory pointed by value.
 type OpCaptureEventProfilingInfo struct {
-	Event uint32
-	Info  uint32
-	Value uint32
+	Event Id
+	Info  KernelProfilingInfo
+	Value Id
 }
 
 func (c *OpCaptureEventProfilingInfo) Opcode() uint32 { return 260 }
@@ -228,8 +228,8 @@ func init() {
 
 // OpGetDefaultQueue returns the default device queue.
 type OpGetDefaultQueue struct {
-	ResultType uint32
-	ResultId   uint32
+	ResultType Id
+	ResultId   Id
 }
 
 func (c *OpGetDefaultQueue) Opcode() uint32 { return 261 }
@@ -243,11 +243,11 @@ func init() {
 
 // OpBuildNDRange BLAHBLAH.
 type OpBuildNDRange struct {
-	ResultType       uint32
-	ResultId         uint32
-	GlobalWorkSize   uint32
-	LocalWorkSize    uint32
-	GlobalWorkOffset uint32
+	ResultType       Id
+	ResultId         Id
+	GlobalWorkSize   Id
+	LocalWorkSize    Id
+	GlobalWorkOffset Id
 }
 
 func (c *OpBuildNDRange) Opcode() uint32 { return 262 }

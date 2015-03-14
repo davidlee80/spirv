@@ -25,7 +25,7 @@ func init() {
 // It defines an import of an extended set of instructions.
 // It can later be referenced by the Result <id>
 type OpExtInstImport struct {
-	ResultId uint32
+	ResultId Id
 	Name     String
 }
 
@@ -40,11 +40,11 @@ func init() {
 
 // OpExtInst defines an instruction in an imported set of extended instructions.
 type OpExtInst struct {
-	ResultType  uint32
-	ResultId    uint32
-	Set         uint32   // Result of an OpExtInstImport instruction.
-	Instruction uint32   // Enumerant of the instruction to execute within the extended instruction Set.
-	Operands    []uint32 // Operands to the extended instruction.
+	ResultType  Id
+	ResultId    Id
+	Set         Id     // Result of an OpExtInstImport instruction.
+	Instruction uint32 // Enumerant of the instruction to execute within the extended instruction Set.
+	Operands    []Id   // Operands to the extended instruction.
 }
 
 func (c *OpExtInst) Opcode() uint32 { return 44 }

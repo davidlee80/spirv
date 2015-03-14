@@ -11,7 +11,7 @@ package spirv
 // multiple decorations to multiple target <id>s. Those are the only
 // instructions allowed to consume the Result <id>.
 type OpDecorationGroup struct {
-	ResultId uint32
+	ResultId Id
 }
 
 func (c *OpDecorationGroup) Opcode() uint32 { return 49 }
@@ -30,10 +30,10 @@ type OpDecorate struct {
 	// is a forward reference. A set of decorations can be grouped together
 	// by having multiple OpDecorate instructions target the same
 	// OpDecorationGroup instruction.
-	Target uint32
+	Target Id
 
 	// The decoration type to apply.
-	Decoration uint32
+	Decoration Decoration
 
 	// Optional list of decoration arguments.
 	//
@@ -55,14 +55,14 @@ func init() {
 // It adds a decoration to a member of a structure type.
 type OpMemberDecorate struct {
 	// The <id> of a type from OpTypeStruct.
-	StructType uint32
+	StructType Id
 
 	// Member is the number of the member to decorate in the structure.
 	// The first member is member 0, the next is member 1, . . .
 	Member uint32
 
 	// The decoration type to apply.
-	Decoration uint32
+	Decoration Decoration
 
 	// Optional list of decoration arguments.
 	//
@@ -84,10 +84,10 @@ func init() {
 // It adds a group of decorations to another <id>.
 type OpGroupDecorate struct {
 	// Decoration group is the <id> of an OpDecorationGroup instruction.
-	Group uint32
+	Group Id
 
 	// Targets are the target <id>s to decorate with the groups of decorations.
-	Targets []uint32
+	Targets []Id
 }
 
 func (c *OpGroupDecorate) Opcode() uint32 { return 52 }
@@ -103,10 +103,10 @@ func init() {
 // It adds a decoration to a member of a structure type
 type OpGroupMemberDecorate struct {
 	// The <id> of a OpDecorationGroup instruction.
-	Group uint32
+	Group Id
 
 	// Targets are the target <id>s to decorate with the groups of decorations.
-	Targets []uint32
+	Targets []Id
 }
 
 func (c *OpGroupMemberDecorate) Opcode() uint32 { return 53 }

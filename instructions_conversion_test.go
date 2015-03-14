@@ -4,26 +4,25 @@
 package spirv
 
 import (
-	"math"
 	"testing"
 )
 
 func TestConversions(t *testing.T) {
 	for _, st := range []InstructionTest{
 		{
-			in: []uint32{0x00040064, 1, 2, math.Float32bits(3)},
+			in: []uint32{0x00040064, 1, 2, 3},
 			want: &OpConvertFToU{
 				ResultType: 1,
 				ResultId:   2,
-				Value:      math.Float32bits(3),
+				Value:      3,
 			},
 		},
 		{
-			in: []uint32{0x00040065, 1, 2, math.Float32bits(3)},
+			in: []uint32{0x00040065, 1, 2, 3},
 			want: &OpConvertFToS{
 				ResultType: 1,
 				ResultId:   2,
-				Value:      math.Float32bits(3),
+				Value:      3,
 			},
 		},
 		{
@@ -109,10 +108,10 @@ func TestConversions(t *testing.T) {
 		{
 			in: []uint32{0x000500e8, 1, 2, 3, StorageClassFunction},
 			want: &OpGenericCastToPtrExplicit{
-				ResultType:   1,
-				ResultId:     2,
-				SourcePtr:    3,
-				StorageClass: StorageClassFunction,
+				ResultType: 1,
+				ResultId:   2,
+				SourcePtr:  3,
+				Storage:    StorageClassFunction,
 			},
 		},
 	} {

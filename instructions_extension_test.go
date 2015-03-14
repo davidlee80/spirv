@@ -44,7 +44,7 @@ func TestExtensions(t *testing.T) {
 				ResultId:    2,
 				Set:         3,
 				Instruction: 4,
-				Operands:    []uint32{5, 6, 7},
+				Operands:    []Id{5, 6, 7},
 			},
 		},
 	} {

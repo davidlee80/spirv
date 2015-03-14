@@ -10,68 +10,68 @@ func TestFlowControl(t *testing.T) {
 		{
 			in: []uint32{0x00050030, 1, 2, 3, 4},
 			want: &OpPhi{
-				ResultType: uint32(1),
-				ResultId:   uint32(2),
-				Operands:   []uint32{3, 4},
+				ResultType: 1,
+				ResultId:   2,
+				Operands:   []Id{3, 4},
 			},
 		},
 		{
 			in: []uint32{0x000300ce, 1, 2},
 			want: &OpLoopMerge{
-				Label:       uint32(1),
-				LoopControl: uint32(2),
+				Label:       1,
+				LoopControl: 2,
 			},
 		},
 		{
 			in: []uint32{0x000300cf, 1, 2},
 			want: &OpSelectionMerge{
-				Label:            uint32(1),
-				SelectionControl: uint32(2),
+				Label:            1,
+				SelectionControl: 2,
 			},
 		},
 		{
 			in: []uint32{0x000200d0, 1},
 			want: &OpLabel{
-				ResultId: uint32(1),
+				ResultId: 1,
 			},
 		},
 		{
 			in: []uint32{0x000200d1, 1},
 			want: &OpBranch{
-				TargetLabel: uint32(1),
+				TargetLabel: 1,
 			},
 		},
 		{
 			in: []uint32{0x000400d2, 1, 2, 3},
 			want: &OpBranchConditional{
-				Condition:     uint32(1),
-				TrueLabel:     uint32(2),
-				FalseLabel:    uint32(3),
+				Condition:     1,
+				TrueLabel:     2,
+				FalseLabel:    3,
 				BranchWeights: []uint32{},
 			},
 		},
 		{
 			in: []uint32{0x000600d2, 1, 2, 3, 4, 5},
 			want: &OpBranchConditional{
-				Condition:     uint32(1),
-				TrueLabel:     uint32(2),
-				FalseLabel:    uint32(3),
+				Condition:     1,
+				TrueLabel:     2,
+				FalseLabel:    3,
 				BranchWeights: []uint32{4, 5},
 			},
 		},
 		{
 			in: []uint32{0x000300d3, 1, 2},
 			want: &OpSwitch{
-				Selector: uint32(1),
-				Default:  uint32(2),
+				Selector: 1,
+				Default:  2,
 				Target:   []uint32{},
 			},
 		},
 		{
 			in: []uint32{0x000500d3, 1, 2, 3, 4},
 			want: &OpSwitch{
-				Selector: uint32(1),
-				Default:  uint32(2),
+				Selector: 1,
+				Default:  2,
 				Target:   []uint32{3, 4},
 			},
 		},
@@ -86,7 +86,7 @@ func TestFlowControl(t *testing.T) {
 		{
 			in: []uint32{0x000200d6, 1},
 			want: &OpReturnValue{
-				Value: uint32(1),
+				Value: 1,
 			},
 		},
 		{
@@ -96,15 +96,15 @@ func TestFlowControl(t *testing.T) {
 		{
 			in: []uint32{0x000300d8, 1, 2},
 			want: &OpLifetimeStart{
-				Object:       uint32(1),
-				MemoryAmount: uint32(2),
+				Object:       1,
+				MemoryAmount: 2,
 			},
 		},
 		{
 			in: []uint32{0x000300d9, 1, 2},
 			want: &OpLifetimeStop{
-				Object:       uint32(1),
-				MemoryAmount: uint32(2),
+				Object:       1,
+				MemoryAmount: 2,
 			},
 		},
 	} {

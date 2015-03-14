@@ -26,7 +26,7 @@ func (c *OpEndPrimitive) Verify() error  { return nil }
 //
 // This instruction can only be used when multiple streams are present
 type OpEmitStreamVertex struct {
-	Stream uint32
+	Stream Id
 }
 
 func (c *OpEmitStreamVertex) Opcode() uint32 { return 186 }
@@ -37,7 +37,7 @@ func (c *OpEmitStreamVertex) Verify() error  { return nil }
 //
 // This instruction can only be used when multiple streams are present
 type OpEndStreamPrimitive struct {
-	Stream uint32
+	Stream Id
 }
 
 func (c *OpEndStreamPrimitive) Opcode() uint32 { return 187 }

@@ -52,7 +52,7 @@ func TestConstantCreation(t *testing.T) {
 			want: &OpConstantComposite{
 				ResultType:   1,
 				ResultId:     2,
-				Constituents: []uint32{3, 4, 5},
+				Constituents: []Id{3, 4, 5},
 			},
 		},
 		{
@@ -66,7 +66,7 @@ func TestConstantCreation(t *testing.T) {
 			want: &OpConstantSampler{
 				ResultType: 1,
 				ResultId:   2,
-				Addressing: AddressingModePhysical64,
+				Mode:       AddressingModePhysical64,
 				Param:      1,
 				Filter:     SamplerFilterModeNearest,
 			},
@@ -126,7 +126,7 @@ func TestConstantCreation(t *testing.T) {
 			want: &OpSpecConstantComposite{
 				ResultType:   1,
 				ResultId:     2,
-				Constituents: []uint32{3, 4, 5},
+				Constituents: []Id{3, 4, 5},
 			},
 		},
 	} {

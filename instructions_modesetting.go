@@ -7,8 +7,8 @@ package spirv
 //
 // It sets addressing model and memory model for the entire module.
 type OpMemoryModel struct {
-	AddressingMode uint32 // Selects the module’s addressing model
-	MemoryMode     uint32 // Selects the module’s memory mode
+	AddressingModel AddressingModel // Selects the module’s addressing model
+	MemoryModel     MemoryModel     // Selects the module’s memory mode
 }
 
 func (c *OpMemoryModel) Opcode() uint32 { return 5 }
@@ -23,8 +23,8 @@ func init() {
 // OpEntryPoint represents the OpEntryPoint instruction.
 // It declares an entry point and its execution model.
 type OpEntryPoint struct {
-	ExecutionModel uint32 // Execution model for the entry point and its static call tree.
-	ResultId       uint32 // Must the Result <id> of an OpFunction instruction.
+	ExecutionModel ExecutionModel // Execution model for the entry point and its static call tree.
+	ResultId       Id             // Must the Result <id> of an OpFunction instruction.
 }
 
 func (c *OpEntryPoint) Opcode() uint32 { return 6 }
@@ -39,9 +39,9 @@ func init() {
 // OpExecutionMode represents the OpExecutionMode instruction.
 // It declares an execution mode for an entry point.
 type OpExecutionMode struct {
-	EntryPoint    uint32   // Must be the Entry Point <id> operand of an OpEntryPoint instruction.
-	ExecutionMode uint32   // The execution mode.
-	Argv          []uint32 // Literal arguments.
+	EntryPoint Id            // Must be the Entry Point <id> operand of an OpEntryPoint instruction.
+	Mode       ExecutionMode // The execution mode.
+	Argv       []uint32      // Literal arguments.
 }
 
 func (c *OpExecutionMode) Opcode() uint32 { return 7 }

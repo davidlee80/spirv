@@ -41,7 +41,7 @@ func TestComposite(t *testing.T) {
 			want: &OpCompositeConstruct{
 				ResultType:   1,
 				ResultId:     2,
-				Constituents: []uint32{3, 4, 5},
+				Constituents: []Id{3, 4, 5},
 			},
 		},
 		{

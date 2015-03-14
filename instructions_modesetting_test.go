@@ -14,8 +14,8 @@ func TestModeSetting(t *testing.T) {
 				MemoryModelGLSL450,
 			},
 			want: &OpMemoryModel{
-				AddressingMode: AddressingModePhysical32,
-				MemoryMode:     MemoryModelGLSL450,
+				AddressingModel: AddressingModePhysical32,
+				MemoryModel:     MemoryModelGLSL450,
 			},
 		},
 		{
@@ -28,9 +28,9 @@ func TestModeSetting(t *testing.T) {
 		{
 			in: []uint32{0x00060007, 0x7f, ExecutionModeSpacingEqual, 1, 2, 3},
 			want: &OpExecutionMode{
-				EntryPoint:    0x7f,
-				ExecutionMode: ExecutionModeSpacingEqual,
-				Argv:          []uint32{1, 2, 3},
+				EntryPoint: 0x7f,
+				Mode:       ExecutionModeSpacingEqual,
+				Argv:       []uint32{1, 2, 3},
 			},
 		},
 		{

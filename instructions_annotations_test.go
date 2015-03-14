@@ -34,14 +34,14 @@ func TestAnnotations(t *testing.T) {
 			in: []uint32{0x00060034, 1, 2, 3, 4, 5},
 			want: &OpGroupDecorate{
 				Group:   1,
-				Targets: []uint32{2, 3, 4, 5},
+				Targets: []Id{2, 3, 4, 5},
 			},
 		},
 		{
 			in: []uint32{0x00060035, 1, 2, 3, 4, 5},
 			want: &OpGroupMemberDecorate{
 				Group:   1,
-				Targets: []uint32{2, 3, 4, 5},
+				Targets: []Id{2, 3, 4, 5},
 			},
 		},
 	} {

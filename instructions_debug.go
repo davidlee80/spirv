@@ -8,7 +8,7 @@ package spirv
 // It documents what source language a module was translated from.
 // This has no semantic impact and can safely be removed from a module.
 type OpSource struct {
-	SourceLanguage uint32
+	SourceLanguage SourceLanguage
 	Version        uint32
 }
 
@@ -43,7 +43,7 @@ func init() {
 // It names a result ID.
 // This has no semantic impact and can safely be removed from a module.
 type OpName struct {
-	Target uint32
+	Target Id
 	Name   String
 }
 
@@ -61,7 +61,7 @@ func init() {
 // It names a member of a structure type.
 // This has no semantic impact and can safely be removed from a module.
 type OpMemberName struct {
-	Type   uint32
+	Type   Id
 	Member uint32
 	Name   String
 }
@@ -80,7 +80,7 @@ func init() {
 // It names a string for use with other debug instructions.
 // This has no semantic impact and can safely be removed from a module.
 type OpString struct {
-	ResultId uint32
+	ResultId Id
 	String   String
 }
 
@@ -98,8 +98,8 @@ func init() {
 // It adds source-level location information.
 // This has no semantic impact and can safely be removed from a module.
 type OpLine struct {
-	Target uint32
-	File   uint32
+	Target Id
+	File   Id
 	Line   uint32
 	Column uint32
 }

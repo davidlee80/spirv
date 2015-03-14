@@ -49,7 +49,7 @@ func TestMemory(t *testing.T) {
 				ResultType: 1,
 				ResultId:   2,
 				Pointer:    3,
-				MemoryAccess: []uint32{
+				MemoryAccess: []MemoryAccess{
 					MemoryAccessAligned,
 					MemoryAccessVolatile,
 				},
@@ -68,7 +68,7 @@ func TestMemory(t *testing.T) {
 			want: &OpStore{
 				Pointer: 1,
 				Object:  2,
-				MemoryAccess: []uint32{
+				MemoryAccess: []MemoryAccess{
 					MemoryAccessAligned,
 					MemoryAccessVolatile,
 				},
@@ -86,7 +86,7 @@ func TestMemory(t *testing.T) {
 			want: &OpCopyMemory{
 				Target:       1,
 				Source:       2,
-				MemoryAccess: []uint32{MemoryAccessAligned, MemoryAccessVolatile},
+				MemoryAccess: []MemoryAccess{MemoryAccessAligned, MemoryAccessVolatile},
 			},
 		},
 		{
@@ -103,7 +103,7 @@ func TestMemory(t *testing.T) {
 				Target:       1,
 				Source:       2,
 				Size:         3,
-				MemoryAccess: []uint32{MemoryAccessAligned, MemoryAccessVolatile},
+				MemoryAccess: []MemoryAccess{MemoryAccessAligned, MemoryAccessVolatile},
 			},
 		},
 		{
@@ -120,7 +120,7 @@ func TestMemory(t *testing.T) {
 				ResultType: 1,
 				ResultId:   2,
 				Base:       3,
-				Indices:    []uint32{4, 5},
+				Indices:    []Id{4, 5},
 			},
 		},
 		{
@@ -137,7 +137,7 @@ func TestMemory(t *testing.T) {
 				ResultType: 1,
 				ResultId:   2,
 				Base:       3,
-				Indices:    []uint32{4, 5},
+				Indices:    []Id{4, 5},
 			},
 		},
 		{

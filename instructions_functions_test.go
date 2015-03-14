@@ -32,7 +32,7 @@ func TestFunctions(t *testing.T) {
 			want: &OpFunctionCall{
 				ResultType: 1,
 				ResultId:   2,
-				FunctionId: 3,
+				Function:   3,
 			},
 		},
 		{
@@ -40,8 +40,8 @@ func TestFunctions(t *testing.T) {
 			want: &OpFunctionCall{
 				ResultType: 1,
 				ResultId:   2,
-				FunctionId: 3,
-				Argv:       []uint32{4, 5, 6},
+				Function:   3,
+				Argv:       []Id{4, 5, 6},
 			},
 		},
 	} {

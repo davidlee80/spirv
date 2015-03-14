@@ -12,7 +12,7 @@ package spirv
 // any invocation executes it, all invocations will execute it. If placed
 // elsewhere, an invocation may stall indefinitely.
 type OpControlBarrier struct {
-	ExecutionScope uint32
+	ExecutionScope ExecutionScope
 }
 
 func (c *OpControlBarrier) Opcode() uint32 { return 188 }
@@ -25,8 +25,8 @@ func (c *OpControlBarrier) Verify() error  { return nil }
 // ensured only for memory accesses issued by this invocation and observed by
 // another invocation executing within Scope.
 type OpMemoryBarrier struct {
-	ExecutionScope  uint32
-	MemorySemantics uint32
+	ExecutionScope  ExecutionScope
+	MemorySemantics MemorySemantics
 }
 
 func (c *OpMemoryBarrier) Opcode() uint32 { return 189 }

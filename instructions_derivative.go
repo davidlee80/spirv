@@ -6,9 +6,9 @@ package spirv
 // OpDPdx is equivalent to either OpDPdxFine or OpDPdxCoarse on P.
 // Selection of which one is based on external factors.
 type OpDPdx struct {
-	ResultType uint32
-	ResultId   uint32
-	P          uint32
+	ResultType Id
+	ResultId   Id
+	P          Id
 }
 
 func (c *OpDPdx) Opcode() uint32 { return 175 }
@@ -23,9 +23,9 @@ func init() {
 // OpDPdy is equivalent to either OpDPdyFine or OpDPdyCoarse on P.
 // Selection of which one is based on external factors.
 type OpDPdy struct {
-	ResultType uint32
-	ResultId   uint32
-	P          uint32
+	ResultType Id
+	ResultId   Id
+	P          Id
 }
 
 func (c *OpDPdy) Opcode() uint32 { return 176 }
@@ -40,9 +40,9 @@ func init() {
 // OpFwidth is equivalent to computing the sum of the absolute values of
 // OpDPdx and OpDPdy on P.
 type OpFwidth struct {
-	ResultType uint32
-	ResultId   uint32
-	P          uint32
+	ResultType Id
+	ResultId   Id
+	P          Id
 }
 
 func (c *OpFwidth) Opcode() uint32 { return 177 }
@@ -57,9 +57,9 @@ func init() {
 // OpDPdxFine calculates the partial derivative of P with respect to the
 // window x coordinate.
 type OpDPdxFine struct {
-	ResultType uint32
-	ResultId   uint32
-	P          uint32
+	ResultType Id
+	ResultId   Id
+	P          Id
 }
 
 func (c *OpDPdxFine) Opcode() uint32 { return 178 }
@@ -74,9 +74,9 @@ func init() {
 // OpDPdyFine calculates the partial derivative of P with respect to the
 // window y coordinate.
 type OpDPdyFine struct {
-	ResultType uint32
-	ResultId   uint32
-	P          uint32
+	ResultType Id
+	ResultId   Id
+	P          Id
 }
 
 func (c *OpDPdyFine) Opcode() uint32 { return 179 }
@@ -91,9 +91,9 @@ func init() {
 // OpFwidthFine is equivalent to computing the sum of the absolute values
 // of OpDPdxFine and OpDPdyFine on P.
 type OpFwidthFine struct {
-	ResultType uint32
-	ResultId   uint32
-	P          uint32
+	ResultType Id
+	ResultId   Id
+	P          Id
 }
 
 func (c *OpFwidthFine) Opcode() uint32 { return 180 }
@@ -108,9 +108,9 @@ func init() {
 // OpDPdxCoarse calculates the partial derivative of P with respect to the
 // window x coordinate.
 type OpDPdxCoarse struct {
-	ResultType uint32
-	ResultId   uint32
-	P          uint32
+	ResultType Id
+	ResultId   Id
+	P          Id
 }
 
 func (c *OpDPdxCoarse) Opcode() uint32 { return 181 }
@@ -125,9 +125,9 @@ func init() {
 // OpDPdyCoarse calculates the partial derivative of P with respect to the
 // window y coordinate.
 type OpDPdyCoarse struct {
-	ResultType uint32
-	ResultId   uint32
-	P          uint32
+	ResultType Id
+	ResultId   Id
+	P          Id
 }
 
 func (c *OpDPdyCoarse) Opcode() uint32 { return 182 }
@@ -142,9 +142,9 @@ func init() {
 // OpFwidthCoarse is equivalent to computing the sum of the absolute values
 // of OpDPdxCoarse and OpDPdyCoarse on P.
 type OpFwidthCoarse struct {
-	ResultType uint32
-	ResultId   uint32
-	P          uint32
+	ResultType Id
+	ResultId   Id
+	P          Id
 }
 
 func (c *OpFwidthCoarse) Opcode() uint32 { return 183 }
