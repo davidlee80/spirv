@@ -120,6 +120,19 @@ or:
 	}
 
 
+At the highest level, one can operate on complete modules:
+They can be load or save and verified to be correct.
+
+	module, err := spirv.Load(r)
+	...
+
+	err := module.Verify()
+	...
+
+	err := module.Save(w)
+	...
+
+
 ### License
 
 Unless otherwise stated, all of the work in this project is subject to a
