@@ -20,6 +20,7 @@ type OpAsyncGroupCopy struct {
 }
 
 func (c *OpAsyncGroupCopy) Opcode() uint32 { return 219 }
+func (c *OpAsyncGroupCopy) Optional() bool { return false }
 func (c *OpAsyncGroupCopy) Verify() error {
 	switch c.Scope {
 	case ExecutionScopeSubgroup, ExecutionScopeWorkgroup:
@@ -42,6 +43,7 @@ type OpWaitGroupEvents struct {
 }
 
 func (c *OpWaitGroupEvents) Opcode() uint32 { return 220 }
+func (c *OpWaitGroupEvents) Optional() bool { return false }
 func (c *OpWaitGroupEvents) Verify() error {
 	switch c.Scope {
 	case ExecutionScopeSubgroup, ExecutionScopeWorkgroup:
@@ -63,6 +65,7 @@ type OpGroupAll struct {
 }
 
 func (c *OpGroupAll) Opcode() uint32 { return 221 }
+func (c *OpGroupAll) Optional() bool { return false }
 func (c *OpGroupAll) Verify() error {
 	switch c.Scope {
 	case ExecutionScopeSubgroup, ExecutionScopeWorkgroup:
@@ -84,6 +87,7 @@ type OpGroupAny struct {
 }
 
 func (c *OpGroupAny) Opcode() uint32 { return 222 }
+func (c *OpGroupAny) Optional() bool { return false }
 func (c *OpGroupAny) Verify() error {
 	switch c.Scope {
 	case ExecutionScopeSubgroup, ExecutionScopeWorkgroup:
@@ -105,6 +109,7 @@ type OpGroupBroadcast struct {
 }
 
 func (c *OpGroupBroadcast) Opcode() uint32 { return 223 }
+func (c *OpGroupBroadcast) Optional() bool { return false }
 func (c *OpGroupBroadcast) Verify() error {
 	switch c.Scope {
 	case ExecutionScopeSubgroup, ExecutionScopeWorkgroup:
@@ -126,6 +131,7 @@ type OpGroupIAdd struct {
 }
 
 func (c *OpGroupIAdd) Opcode() uint32 { return 224 }
+func (c *OpGroupIAdd) Optional() bool { return false }
 func (c *OpGroupIAdd) Verify() error {
 	switch c.Scope {
 	case ExecutionScopeSubgroup, ExecutionScopeWorkgroup:
@@ -147,6 +153,7 @@ type OpGroupFAdd struct {
 }
 
 func (c *OpGroupFAdd) Opcode() uint32 { return 225 }
+func (c *OpGroupFAdd) Optional() bool { return false }
 func (c *OpGroupFAdd) Verify() error {
 	switch c.Scope {
 	case ExecutionScopeSubgroup, ExecutionScopeWorkgroup:
@@ -168,6 +175,7 @@ type OpGroupFMin struct {
 }
 
 func (c *OpGroupFMin) Opcode() uint32 { return 226 }
+func (c *OpGroupFMin) Optional() bool { return false }
 func (c *OpGroupFMin) Verify() error {
 	switch c.Scope {
 	case ExecutionScopeSubgroup, ExecutionScopeWorkgroup:
@@ -189,6 +197,7 @@ type OpGroupUMin struct {
 }
 
 func (c *OpGroupUMin) Opcode() uint32 { return 227 }
+func (c *OpGroupUMin) Optional() bool { return false }
 func (c *OpGroupUMin) Verify() error {
 	switch c.Scope {
 	case ExecutionScopeSubgroup, ExecutionScopeWorkgroup:
@@ -210,6 +219,7 @@ type OpGroupSMin struct {
 }
 
 func (c *OpGroupSMin) Opcode() uint32 { return 228 }
+func (c *OpGroupSMin) Optional() bool { return false }
 func (c *OpGroupSMin) Verify() error {
 	switch c.Scope {
 	case ExecutionScopeSubgroup, ExecutionScopeWorkgroup:
@@ -231,6 +241,7 @@ type OpGroupFMax struct {
 }
 
 func (c *OpGroupFMax) Opcode() uint32 { return 229 }
+func (c *OpGroupFMax) Optional() bool { return false }
 func (c *OpGroupFMax) Verify() error {
 	switch c.Scope {
 	case ExecutionScopeSubgroup, ExecutionScopeWorkgroup:
@@ -252,6 +263,7 @@ type OpGroupUMax struct {
 }
 
 func (c *OpGroupUMax) Opcode() uint32 { return 230 }
+func (c *OpGroupUMax) Optional() bool { return false }
 func (c *OpGroupUMax) Verify() error {
 	switch c.Scope {
 	case ExecutionScopeSubgroup, ExecutionScopeWorkgroup:
@@ -273,6 +285,7 @@ type OpGroupSMax struct {
 }
 
 func (c *OpGroupSMax) Opcode() uint32 { return 231 }
+func (c *OpGroupSMax) Optional() bool { return false }
 func (c *OpGroupSMax) Verify() error {
 	switch c.Scope {
 	case ExecutionScopeSubgroup, ExecutionScopeWorkgroup:

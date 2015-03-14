@@ -17,6 +17,7 @@ type OpFunction struct {
 }
 
 func (c *OpFunction) Opcode() uint32 { return 40 }
+func (c *OpFunction) Optional() bool { return false }
 func (c *OpFunction) Verify() error  { return nil }
 
 // OpFunctionParameter declares the <id> for a formal parameter belonging
@@ -34,12 +35,14 @@ type OpFunctionParameter struct {
 }
 
 func (c *OpFunctionParameter) Opcode() uint32 { return 41 }
+func (c *OpFunctionParameter) Optional() bool { return false }
 func (c *OpFunctionParameter) Verify() error  { return nil }
 
 // OpFunctionParameter is the last instruction of a function definition.
 type OpFunctionEnd struct{}
 
 func (c *OpFunctionEnd) Opcode() uint32 { return 42 }
+func (c *OpFunctionEnd) Optional() bool { return false }
 func (c *OpFunctionEnd) Verify() error  { return nil }
 
 // OpFunctionCall defines a function call.
@@ -55,6 +58,7 @@ type OpFunctionCall struct {
 }
 
 func (c *OpFunctionCall) Opcode() uint32 { return 43 }
+func (c *OpFunctionCall) Optional() bool { return false }
 func (c *OpFunctionCall) Verify() error  { return nil }
 
 func init() {

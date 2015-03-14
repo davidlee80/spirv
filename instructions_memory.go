@@ -22,6 +22,7 @@ type OpVariable struct {
 }
 
 func (c *OpVariable) Opcode() uint32 { return 38 }
+func (c *OpVariable) Optional() bool { return false }
 func (c *OpVariable) Verify() error  { return nil }
 
 // OpVariableArray allocates N objects sequentially in memory,
@@ -43,6 +44,7 @@ type OpVariableArray struct {
 }
 
 func (c *OpVariableArray) Opcode() uint32 { return 39 }
+func (c *OpVariableArray) Optional() bool { return false }
 func (c *OpVariableArray) Verify() error  { return nil }
 
 // OpLoad loads data through a pointer.
@@ -63,6 +65,7 @@ type OpLoad struct {
 }
 
 func (c *OpLoad) Opcode() uint32 { return 46 }
+func (c *OpLoad) Optional() bool { return false }
 func (c *OpLoad) Verify() error  { return nil }
 
 // OpStore stores data through a pointer.
@@ -80,6 +83,7 @@ type OpStore struct {
 }
 
 func (c *OpStore) Opcode() uint32 { return 47 }
+func (c *OpStore) Optional() bool { return false }
 func (c *OpStore) Verify() error  { return nil }
 
 // OpCopyMemory copies from the memory pointed to by Source to the
@@ -101,6 +105,7 @@ type OpCopyMemory struct {
 }
 
 func (c *OpCopyMemory) Opcode() uint32 { return 65 }
+func (c *OpCopyMemory) Optional() bool { return false }
 func (c *OpCopyMemory) Verify() error  { return nil }
 
 // OpCopyMemorySized copies from the memory pointed to by Source to the
@@ -124,6 +129,7 @@ type OpCopyMemorySized struct {
 }
 
 func (c *OpCopyMemorySized) Opcode() uint32 { return 66 }
+func (c *OpCopyMemorySized) Optional() bool { return false }
 func (c *OpCopyMemorySized) Verify() error  { return nil }
 
 // OpAccessChain creates a pointer into a composite object that can be
@@ -146,6 +152,7 @@ type OpAccessChain struct {
 }
 
 func (c *OpAccessChain) Opcode() uint32 { return 93 }
+func (c *OpAccessChain) Optional() bool { return false }
 func (c *OpAccessChain) Verify() error  { return nil }
 
 // OpInboundsAccessChain has the same semantics as OpAccessChain, with the
@@ -165,6 +172,7 @@ type OpInboundsAccessChain struct {
 }
 
 func (c *OpInboundsAccessChain) Opcode() uint32 { return 94 }
+func (c *OpInboundsAccessChain) Optional() bool { return false }
 func (c *OpInboundsAccessChain) Verify() error  { return nil }
 
 // OpArraylength results in the length of a run-time array.
@@ -182,6 +190,7 @@ type OpArraylength struct {
 }
 
 func (c *OpArraylength) Opcode() uint32 { return 121 }
+func (c *OpArraylength) Optional() bool { return false }
 func (c *OpArraylength) Verify() error  { return nil }
 
 // OpImagePointer forms a pointer to a texel of an image.
@@ -202,6 +211,7 @@ type OpImagePointer struct {
 }
 
 func (c *OpImagePointer) Opcode() uint32 { return 190 }
+func (c *OpImagePointer) Optional() bool { return false }
 func (c *OpImagePointer) Verify() error  { return nil }
 
 // OpGenericPtrMemSemantics returns a valid Memory Semantics
@@ -213,14 +223,11 @@ type OpGenericPtrMemSemantics struct {
 }
 
 func (c *OpGenericPtrMemSemantics) Opcode() uint32 { return 233 }
+func (c *OpGenericPtrMemSemantics) Optional() bool { return false }
 func (c *OpGenericPtrMemSemantics) Verify() error  { return nil }
 
 func init() {
-	Bind(func() Instruction {
-		return &OpVariable{
-			Initializer: 0,
-		}
-	})
+	Bind(func() Instruction { return &OpVariable{Initializer: 0} })
 	Bind(func() Instruction { return &OpVariableArray{} })
 	Bind(func() Instruction { return &OpLoad{} })
 	Bind(func() Instruction { return &OpStore{} })

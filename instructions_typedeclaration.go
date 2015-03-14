@@ -14,6 +14,7 @@ type OpTypeVoid struct {
 }
 
 func (c *OpTypeVoid) Opcode() uint32 { return 8 }
+func (c *OpTypeVoid) Optional() bool { return false }
 func (c *OpTypeVoid) Verify() error  { return nil }
 
 // OpTypeBool represents the OpTypeBool instruction.
@@ -22,6 +23,7 @@ type OpTypeBool struct {
 }
 
 func (c *OpTypeBool) Opcode() uint32 { return 9 }
+func (c *OpTypeBool) Optional() bool { return false }
 func (c *OpTypeBool) Verify() error  { return nil }
 
 // OpTypeInt represents the OpTypeInt instruction.
@@ -45,6 +47,7 @@ type OpTypeInt struct {
 }
 
 func (c *OpTypeInt) Opcode() uint32 { return 10 }
+func (c *OpTypeInt) Optional() bool { return false }
 func (c *OpTypeInt) Verify() error {
 	switch c.Signedness {
 	case 0, 1:
@@ -67,6 +70,7 @@ type OpTypeFloat struct {
 }
 
 func (c *OpTypeFloat) Opcode() uint32 { return 11 }
+func (c *OpTypeFloat) Optional() bool { return false }
 func (c *OpTypeFloat) Verify() error  { return nil }
 
 // OpTypeVector represents the OpTypeVector instruction.
@@ -84,6 +88,7 @@ type OpTypeVector struct {
 }
 
 func (c *OpTypeVector) Opcode() uint32 { return 12 }
+func (c *OpTypeVector) Optional() bool { return false }
 func (c *OpTypeVector) Verify() error  { return nil }
 
 // OpTypeMatrix declares a new matrix type.
@@ -99,6 +104,7 @@ type OpTypeMatrix struct {
 }
 
 func (c *OpTypeMatrix) Opcode() uint32 { return 13 }
+func (c *OpTypeMatrix) Optional() bool { return false }
 func (c *OpTypeMatrix) Verify() error  { return nil }
 
 // OpTypeSampler declares a new sampler type.
@@ -152,7 +158,7 @@ type OpTypeSampler struct {
 }
 
 func (c *OpTypeSampler) Opcode() uint32 { return 14 }
-
+func (c *OpTypeSampler) Optional() bool { return false }
 func (c *OpTypeSampler) Verify() error {
 	switch c.Content {
 	case 0, 1, 2:
@@ -189,6 +195,7 @@ type OpTypeFilter struct {
 }
 
 func (c *OpTypeFilter) Opcode() uint32 { return 15 }
+func (c *OpTypeFilter) Optional() bool { return false }
 func (c *OpTypeFilter) Verify() error  { return nil }
 
 // OpTypeArray declares a new array type: a dynamically-indexable ordered
@@ -208,6 +215,7 @@ type OpTypeArray struct {
 }
 
 func (c *OpTypeArray) Opcode() uint32 { return 16 }
+func (c *OpTypeArray) Optional() bool { return false }
 func (c *OpTypeArray) Verify() error  { return nil }
 
 // OpTypeRuntimeArray declares a new run-time array type.
@@ -225,6 +233,7 @@ type OpTypeRuntimeArray struct {
 }
 
 func (c *OpTypeRuntimeArray) Opcode() uint32 { return 17 }
+func (c *OpTypeRuntimeArray) Optional() bool { return false }
 func (c *OpTypeRuntimeArray) Verify() error  { return nil }
 
 // OpTypeStruct declares a new structure type: an aggregate
@@ -239,6 +248,7 @@ type OpTypeStruct struct {
 }
 
 func (c *OpTypeStruct) Opcode() uint32 { return 18 }
+func (c *OpTypeStruct) Optional() bool { return false }
 func (c *OpTypeStruct) Verify() error  { return nil }
 
 // OpTypeOpaque declares a named structure type with no body specified.
@@ -251,6 +261,7 @@ type OpTypeOpaque struct {
 }
 
 func (c *OpTypeOpaque) Opcode() uint32 { return 19 }
+func (c *OpTypeOpaque) Optional() bool { return false }
 func (c *OpTypeOpaque) Verify() error  { return nil }
 
 // OpTypePointer declares a new pointer type.
@@ -266,6 +277,7 @@ type OpTypePointer struct {
 }
 
 func (c *OpTypePointer) Opcode() uint32 { return 20 }
+func (c *OpTypePointer) Optional() bool { return false }
 func (c *OpTypePointer) Verify() error  { return nil }
 
 // OpTypeFunction declares a new function type.
@@ -286,6 +298,7 @@ type OpTypeFunction struct {
 }
 
 func (c *OpTypeFunction) Opcode() uint32 { return 21 }
+func (c *OpTypeFunction) Optional() bool { return false }
 func (c *OpTypeFunction) Verify() error  { return nil }
 
 // OpTypeEvent declares an OpenCL event object.
@@ -294,6 +307,7 @@ type OpTypeEvent struct {
 }
 
 func (c *OpTypeEvent) Opcode() uint32 { return 22 }
+func (c *OpTypeEvent) Optional() bool { return false }
 func (c *OpTypeEvent) Verify() error  { return nil }
 
 // OpTypeDeviceEvent declares an OpenCL device-side event object.
@@ -304,6 +318,7 @@ type OpTypeDeviceEvent struct {
 }
 
 func (c *OpTypeDeviceEvent) Opcode() uint32 { return 23 }
+func (c *OpTypeDeviceEvent) Optional() bool { return false }
 func (c *OpTypeDeviceEvent) Verify() error  { return nil }
 
 // OpTypeReserveId declares an OpenCL reservation id object.
@@ -314,6 +329,7 @@ type OpTypeReserveId struct {
 }
 
 func (c *OpTypeReserveId) Opcode() uint32 { return 24 }
+func (c *OpTypeReserveId) Optional() bool { return false }
 func (c *OpTypeReserveId) Verify() error  { return nil }
 
 // OpTypeQueue declares an OpenCL queue object.
@@ -324,6 +340,7 @@ type OpTypeQueue struct {
 }
 
 func (c *OpTypeQueue) Opcode() uint32 { return 25 }
+func (c *OpTypeQueue) Optional() bool { return false }
 func (c *OpTypeQueue) Verify() error  { return nil }
 
 // OpTypePipe declares an OpenCL pipe object type.
@@ -339,6 +356,7 @@ type OpTypePipe struct {
 }
 
 func (c *OpTypePipe) Opcode() uint32 { return 26 }
+func (c *OpTypePipe) Optional() bool { return false }
 func (c *OpTypePipe) Verify() error  { return nil }
 
 func init() {

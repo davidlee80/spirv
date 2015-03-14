@@ -13,6 +13,7 @@ type OpSource struct {
 }
 
 func (c *OpSource) Opcode() uint32 { return 1 }
+func (c *OpSource) Optional() bool { return true }
 func (c *OpSource) Verify() error  { return nil }
 
 // OpSourceExtension defines optional extensions used within the source language.
@@ -24,6 +25,7 @@ type OpSourceExtension struct {
 }
 
 func (c *OpSourceExtension) Opcode() uint32 { return 2 }
+func (c *OpSourceExtension) Optional() bool { return true }
 func (c *OpSourceExtension) Verify() error  { return nil }
 
 // OpName defines the OpName instruction.
@@ -36,6 +38,7 @@ type OpName struct {
 }
 
 func (c *OpName) Opcode() uint32 { return 54 }
+func (c *OpName) Optional() bool { return true }
 func (c *OpName) Verify() error  { return nil }
 
 // OpMemberName defines the OpMemberName instruction.
@@ -49,6 +52,7 @@ type OpMemberName struct {
 }
 
 func (c *OpMemberName) Opcode() uint32 { return 55 }
+func (c *OpMemberName) Optional() bool { return true }
 func (c *OpMemberName) Verify() error  { return nil }
 
 // OpString defines the OpString instruction.
@@ -61,6 +65,7 @@ type OpString struct {
 }
 
 func (c *OpString) Opcode() uint32 { return 56 }
+func (c *OpString) Optional() bool { return true }
 func (c *OpString) Verify() error  { return nil }
 
 // OpLine defines the OpLine instruction.
@@ -75,6 +80,7 @@ type OpLine struct {
 }
 
 func (c *OpLine) Opcode() uint32 { return 57 }
+func (c *OpLine) Optional() bool { return true }
 func (c *OpLine) Verify() error  { return nil }
 
 func init() {

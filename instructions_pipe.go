@@ -14,6 +14,7 @@ type OpReadPipe struct {
 }
 
 func (c *OpReadPipe) Opcode() uint32 { return 234 }
+func (c *OpReadPipe) Optional() bool { return false }
 func (c *OpReadPipe) Verify() error  { return nil }
 
 // OpWritePipe writes a packet from Ptr to P.
@@ -25,6 +26,7 @@ type OpWritePipe struct {
 }
 
 func (c *OpWritePipe) Opcode() uint32 { return 235 }
+func (c *OpWritePipe) Optional() bool { return false }
 func (c *OpWritePipe) Verify() error  { return nil }
 
 // OpReservedReadPipe reads a packet from the reserved area specified by
@@ -39,6 +41,7 @@ type OpReservedReadPipe struct {
 }
 
 func (c *OpReservedReadPipe) Opcode() uint32 { return 236 }
+func (c *OpReservedReadPipe) Optional() bool { return false }
 func (c *OpReservedReadPipe) Verify() error  { return nil }
 
 // OpReservedWritePipe writes a packet from Ptr into the reserved area
@@ -53,6 +56,7 @@ type OpReservedWritePipe struct {
 }
 
 func (c *OpReservedWritePipe) Opcode() uint32 { return 237 }
+func (c *OpReservedWritePipe) Optional() bool { return false }
 func (c *OpReservedWritePipe) Verify() error  { return nil }
 
 // OpReserveReadPipePackets reserves NumPackets entries for reading from P.
@@ -64,6 +68,7 @@ type OpReserveReadPipePackets struct {
 }
 
 func (c *OpReserveReadPipePackets) Opcode() uint32 { return 238 }
+func (c *OpReserveReadPipePackets) Optional() bool { return false }
 func (c *OpReserveReadPipePackets) Verify() error  { return nil }
 
 // OpReserveWritePipePackets reserves NumPackets entries for writing to P.
@@ -75,6 +80,7 @@ type OpReserveWritePipePackets struct {
 }
 
 func (c *OpReserveWritePipePackets) Opcode() uint32 { return 239 }
+func (c *OpReserveWritePipePackets) Optional() bool { return false }
 func (c *OpReserveWritePipePackets) Verify() error  { return nil }
 
 // OpCommitReadPipe indicates that all reads to NumPackets associated with
@@ -85,6 +91,7 @@ type OpCommitReadPipe struct {
 }
 
 func (c *OpCommitReadPipe) Opcode() uint32 { return 240 }
+func (c *OpCommitReadPipe) Optional() bool { return false }
 func (c *OpCommitReadPipe) Verify() error  { return nil }
 
 // OpCommitWritePipe indicates that all writes to NumPackets associated
@@ -95,6 +102,7 @@ type OpCommitWritePipe struct {
 }
 
 func (c *OpCommitWritePipe) Opcode() uint32 { return 241 }
+func (c *OpCommitWritePipe) Optional() bool { return false }
 func (c *OpCommitWritePipe) Verify() error  { return nil }
 
 // OpIsValidReserveId returns true if ReserveId is a valid reservation ID
@@ -106,6 +114,7 @@ type OpIsValidReserveId struct {
 }
 
 func (c *OpIsValidReserveId) Opcode() uint32 { return 242 }
+func (c *OpIsValidReserveId) Optional() bool { return false }
 func (c *OpIsValidReserveId) Verify() error  { return nil }
 
 // OpGetNumPipePackets returns the number of available entries in P.
@@ -116,6 +125,7 @@ type OpGetNumPipePackets struct {
 }
 
 func (c *OpGetNumPipePackets) Opcode() uint32 { return 243 }
+func (c *OpGetNumPipePackets) Optional() bool { return false }
 func (c *OpGetNumPipePackets) Verify() error  { return nil }
 
 // OpGetMaxPipePackets returns the maximum number of packets specified when
@@ -127,6 +137,7 @@ type OpGetMaxPipePackets struct {
 }
 
 func (c *OpGetMaxPipePackets) Opcode() uint32 { return 244 }
+func (c *OpGetMaxPipePackets) Optional() bool { return false }
 func (c *OpGetMaxPipePackets) Verify() error  { return nil }
 
 // OpGroupReserveReadPipePackets reserves NumPackets entries for reading
@@ -140,6 +151,7 @@ type OpGroupReserveReadPipePackets struct {
 }
 
 func (c *OpGroupReserveReadPipePackets) Opcode() uint32 { return 245 }
+func (c *OpGroupReserveReadPipePackets) Optional() bool { return false }
 func (c *OpGroupReserveReadPipePackets) Verify() error {
 	switch c.Scope {
 	case ExecutionScopeCrossDevice,
@@ -163,6 +175,7 @@ type OpGroupReserveWritePipePackets struct {
 }
 
 func (c *OpGroupReserveWritePipePackets) Opcode() uint32 { return 246 }
+func (c *OpGroupReserveWritePipePackets) Optional() bool { return false }
 func (c *OpGroupReserveWritePipePackets) Verify() error {
 	switch c.Scope {
 	case ExecutionScopeCrossDevice,
@@ -184,6 +197,7 @@ type OpGroupCommitReadPipe struct {
 }
 
 func (c *OpGroupCommitReadPipe) Opcode() uint32 { return 247 }
+func (c *OpGroupCommitReadPipe) Optional() bool { return false }
 func (c *OpGroupCommitReadPipe) Verify() error {
 	switch c.Scope {
 	case ExecutionScopeCrossDevice,
@@ -205,6 +219,7 @@ type OpGroupCommitWritePipe struct {
 }
 
 func (c *OpGroupCommitWritePipe) Opcode() uint32 { return 248 }
+func (c *OpGroupCommitWritePipe) Optional() bool { return false }
 func (c *OpGroupCommitWritePipe) Verify() error {
 	switch c.Scope {
 	case ExecutionScopeCrossDevice,

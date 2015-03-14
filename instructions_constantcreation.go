@@ -12,6 +12,7 @@ type OpConstantTrue struct {
 }
 
 func (c *OpConstantTrue) Opcode() uint32 { return 27 }
+func (c *OpConstantTrue) Optional() bool { return false }
 func (c *OpConstantTrue) Verify() error  { return nil }
 
 // OpConstantFalse declares a true Boolean-type scalar constant.
@@ -24,6 +25,7 @@ type OpConstantFalse struct {
 }
 
 func (c *OpConstantFalse) Opcode() uint32 { return 28 }
+func (c *OpConstantFalse) Optional() bool { return false }
 func (c *OpConstantFalse) Verify() error  { return nil }
 
 // OpConstant declares a new Integer-type or Floating-point-type
@@ -40,6 +42,7 @@ type OpConstant struct {
 }
 
 func (c *OpConstant) Opcode() uint32 { return 29 }
+func (c *OpConstant) Optional() bool { return false }
 func (c *OpConstant) Verify() error  { return nil }
 
 // OpConstantComposite declares a new composite constant.
@@ -62,6 +65,7 @@ type OpConstantComposite struct {
 }
 
 func (c *OpConstantComposite) Opcode() uint32 { return 30 }
+func (c *OpConstantComposite) Optional() bool { return false }
 func (c *OpConstantComposite) Verify() error  { return nil }
 
 // FIXME: Specification uses a Literal Number for Mode and Filter, not
@@ -88,6 +92,7 @@ type OpConstantSampler struct {
 }
 
 func (c *OpConstantSampler) Opcode() uint32 { return 31 }
+func (c *OpConstantSampler) Optional() bool { return false }
 func (c *OpConstantSampler) Verify() error {
 	switch c.Param {
 	case 0, 1:
@@ -105,6 +110,7 @@ type OpConstantNullPointer struct {
 }
 
 func (c *OpConstantNullPointer) Opcode() uint32 { return 32 }
+func (c *OpConstantNullPointer) Optional() bool { return false }
 func (c *OpConstantNullPointer) Verify() error  { return nil }
 
 // OpConstantNullObject declares a new null object constant.
@@ -115,6 +121,7 @@ type OpConstantNullObject struct {
 }
 
 func (c *OpConstantNullObject) Opcode() uint32 { return 33 }
+func (c *OpConstantNullObject) Optional() bool { return false }
 func (c *OpConstantNullObject) Verify() error  { return nil }
 
 // OpSpecConstantTrue declares a Boolean-type scalar specialization
@@ -128,6 +135,7 @@ type OpSpecConstantTrue struct {
 }
 
 func (c *OpSpecConstantTrue) Opcode() uint32 { return 34 }
+func (c *OpSpecConstantTrue) Optional() bool { return false }
 func (c *OpSpecConstantTrue) Verify() error  { return nil }
 
 // OpSpecConstantFalse declares a Boolean-type scalar specialization
@@ -141,6 +149,7 @@ type OpSpecConstantFalse struct {
 }
 
 func (c *OpSpecConstantFalse) Opcode() uint32 { return 35 }
+func (c *OpSpecConstantFalse) Optional() bool { return false }
 func (c *OpSpecConstantFalse) Verify() error  { return nil }
 
 // OpSpecConstant declares a new Integer-type or Floating-point-type
@@ -159,6 +168,7 @@ type OpSpecConstant struct {
 }
 
 func (c *OpSpecConstant) Opcode() uint32 { return 36 }
+func (c *OpSpecConstant) Optional() bool { return false }
 func (c *OpSpecConstant) Verify() error  { return nil }
 
 // OpSpecConstantComposite declares a new composite specialization constant.
@@ -183,6 +193,7 @@ type OpSpecConstantComposite struct {
 }
 
 func (c *OpSpecConstantComposite) Opcode() uint32 { return 37 }
+func (c *OpSpecConstantComposite) Optional() bool { return false }
 func (c *OpSpecConstantComposite) Verify() error  { return nil }
 
 func init() {

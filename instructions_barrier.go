@@ -16,6 +16,7 @@ type OpControlBarrier struct {
 }
 
 func (c *OpControlBarrier) Opcode() uint32 { return 188 }
+func (c *OpControlBarrier) Optional() bool { return false }
 func (c *OpControlBarrier) Verify() error  { return nil }
 
 // OpMemoryBarrier controls the order that memory accesses are observed.
@@ -30,6 +31,7 @@ type OpMemoryBarrier struct {
 }
 
 func (c *OpMemoryBarrier) Opcode() uint32 { return 189 }
+func (c *OpMemoryBarrier) Optional() bool { return false }
 func (c *OpMemoryBarrier) Verify() error  { return nil }
 
 func init() {

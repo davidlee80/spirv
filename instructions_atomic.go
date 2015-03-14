@@ -11,6 +11,7 @@ type OpAtomicInit struct {
 }
 
 func (c *OpAtomicInit) Opcode() uint32 { return 191 }
+func (c *OpAtomicInit) Optional() bool { return false }
 func (c *OpAtomicInit) Verify() error  { return nil }
 
 // OpAtomicLoad atomically loads through Pointer using the given Semantics.
@@ -26,6 +27,7 @@ type OpAtomicLoad struct {
 }
 
 func (c *OpAtomicLoad) Opcode() uint32 { return 192 }
+func (c *OpAtomicLoad) Optional() bool { return false }
 func (c *OpAtomicLoad) Verify() error  { return nil }
 
 // OpAtomicStore atomically stores through Pointer using the given Semantics.
@@ -40,6 +42,7 @@ type OpAtomicStore struct {
 }
 
 func (c *OpAtomicStore) Opcode() uint32 { return 193 }
+func (c *OpAtomicStore) Optional() bool { return false }
 func (c *OpAtomicStore) Verify() error  { return nil }
 
 // OpAtomicExchange performs the following steps atomically with respect to any
@@ -60,6 +63,7 @@ type OpAtomicExchange struct {
 }
 
 func (c *OpAtomicExchange) Opcode() uint32 { return 194 }
+func (c *OpAtomicExchange) Optional() bool { return false }
 func (c *OpAtomicExchange) Verify() error  { return nil }
 
 // OpAtomicCompareExchange performs the following steps atomically with respect
@@ -82,6 +86,7 @@ type OpAtomicCompareExchange struct {
 }
 
 func (c *OpAtomicCompareExchange) Opcode() uint32 { return 195 }
+func (c *OpAtomicCompareExchange) Optional() bool { return false }
 func (c *OpAtomicCompareExchange) Verify() error  { return nil }
 
 // OpAtomicCompareExchangeWeak performs the following steps atomically
@@ -103,6 +108,7 @@ type OpAtomicCompareExchangeWeak struct {
 }
 
 func (c *OpAtomicCompareExchangeWeak) Opcode() uint32 { return 196 }
+func (c *OpAtomicCompareExchangeWeak) Optional() bool { return false }
 func (c *OpAtomicCompareExchangeWeak) Verify() error  { return nil }
 
 // OpAtomicIIncrement performs the following steps atomically with respect
@@ -121,6 +127,7 @@ type OpAtomicIIncrement struct {
 }
 
 func (c *OpAtomicIIncrement) Opcode() uint32 { return 197 }
+func (c *OpAtomicIIncrement) Optional() bool { return false }
 func (c *OpAtomicIIncrement) Verify() error  { return nil }
 
 // OpAtomicIDecrement performs the following steps atomically with respect
@@ -139,6 +146,7 @@ type OpAtomicIDecrement struct {
 }
 
 func (c *OpAtomicIDecrement) Opcode() uint32 { return 198 }
+func (c *OpAtomicIDecrement) Optional() bool { return false }
 func (c *OpAtomicIDecrement) Verify() error  { return nil }
 
 // OpAtomicIAdd performs the following steps atomically with respect to
@@ -158,6 +166,7 @@ type OpAtomicIAdd struct {
 }
 
 func (c *OpAtomicIAdd) Opcode() uint32 { return 199 }
+func (c *OpAtomicIAdd) Optional() bool { return false }
 func (c *OpAtomicIAdd) Verify() error  { return nil }
 
 // OpAtomicISub performs the following steps atomically with respect to
@@ -177,6 +186,7 @@ type OpAtomicISub struct {
 }
 
 func (c *OpAtomicISub) Opcode() uint32 { return 200 }
+func (c *OpAtomicISub) Optional() bool { return false }
 func (c *OpAtomicISub) Verify() error  { return nil }
 
 // OpAtomicUMin performs the following steps atomically with respect to
@@ -197,6 +207,7 @@ type OpAtomicUMin struct {
 }
 
 func (c *OpAtomicUMin) Opcode() uint32 { return 201 }
+func (c *OpAtomicUMin) Optional() bool { return false }
 func (c *OpAtomicUMin) Verify() error  { return nil }
 
 // OpAtomicUMax performs the following steps atomically with respect to
@@ -217,6 +228,7 @@ type OpAtomicUMax struct {
 }
 
 func (c *OpAtomicUMax) Opcode() uint32 { return 202 }
+func (c *OpAtomicUMax) Optional() bool { return false }
 func (c *OpAtomicUMax) Verify() error  { return nil }
 
 // OpAtomicAnd performs the following steps atomically with respect to
@@ -236,6 +248,7 @@ type OpAtomicAnd struct {
 }
 
 func (c *OpAtomicAnd) Opcode() uint32 { return 203 }
+func (c *OpAtomicAnd) Optional() bool { return false }
 func (c *OpAtomicAnd) Verify() error  { return nil }
 
 // OpAtomicOr performs the following steps atomically with respect to
@@ -255,6 +268,7 @@ type OpAtomicOr struct {
 }
 
 func (c *OpAtomicOr) Opcode() uint32 { return 204 }
+func (c *OpAtomicOr) Optional() bool { return false }
 func (c *OpAtomicOr) Verify() error  { return nil }
 
 // OpAtomicXor performs the following steps atomically with respect to
@@ -275,6 +289,7 @@ type OpAtomicXor struct {
 }
 
 func (c *OpAtomicXor) Opcode() uint32 { return 205 }
+func (c *OpAtomicXor) Optional() bool { return false }
 func (c *OpAtomicXor) Verify() error  { return nil }
 
 func init() {

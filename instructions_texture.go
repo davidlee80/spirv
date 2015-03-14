@@ -12,6 +12,7 @@ type OpSampler struct {
 }
 
 func (c *OpSampler) Opcode() uint32 { return 67 }
+func (c *OpSampler) Optional() bool { return false }
 func (c *OpSampler) Verify() error  { return nil }
 
 // OpTextureSample samples a texture with an implicit level of detail.
@@ -24,6 +25,7 @@ type OpTextureSample struct {
 }
 
 func (c *OpTextureSample) Opcode() uint32 { return 68 }
+func (c *OpTextureSample) Optional() bool { return false }
 func (c *OpTextureSample) Verify() error  { return nil }
 
 // OpTextureSampleDref samples a cube-map-array texture with depth
@@ -37,6 +39,7 @@ type OpTextureSampleDref struct {
 }
 
 func (c *OpTextureSampleDref) Opcode() uint32 { return 69 }
+func (c *OpTextureSampleDref) Optional() bool { return false }
 func (c *OpTextureSampleDref) Verify() error  { return nil }
 
 // OpTextureSampleLod samples a texture using an explicit level of detail.
@@ -49,6 +52,7 @@ type OpTextureSampleLod struct {
 }
 
 func (c *OpTextureSampleLod) Opcode() uint32 { return 70 }
+func (c *OpTextureSampleLod) Optional() bool { return false }
 func (c *OpTextureSampleLod) Verify() error  { return nil }
 
 // OpTextureSampleProj sample a texture with a projective coordinate
@@ -62,6 +66,7 @@ type OpTextureSampleProj struct {
 }
 
 func (c *OpTextureSampleProj) Opcode() uint32 { return 71 }
+func (c *OpTextureSampleProj) Optional() bool { return false }
 func (c *OpTextureSampleProj) Verify() error  { return nil }
 
 // OpTextureSampleGrad samples a texture with an explicit gradient.
@@ -75,6 +80,7 @@ type OpTextureSampleGrad struct {
 }
 
 func (c *OpTextureSampleGrad) Opcode() uint32 { return 72 }
+func (c *OpTextureSampleGrad) Optional() bool { return false }
 func (c *OpTextureSampleGrad) Verify() error  { return nil }
 
 // OpTextureSampleOffset samples a texture with an offset from a
@@ -89,6 +95,7 @@ type OpTextureSampleOffset struct {
 }
 
 func (c *OpTextureSampleOffset) Opcode() uint32 { return 73 }
+func (c *OpTextureSampleOffset) Optional() bool { return false }
 func (c *OpTextureSampleOffset) Verify() error  { return nil }
 
 // OpTextureSampleProjLod samples a texture with a projective
@@ -102,6 +109,7 @@ type OpTextureSampleProjLod struct {
 }
 
 func (c *OpTextureSampleProjLod) Opcode() uint32 { return 74 }
+func (c *OpTextureSampleProjLod) Optional() bool { return false }
 func (c *OpTextureSampleProjLod) Verify() error  { return nil }
 
 // OpTextureSampleProjGrad sample a texture with a projective
@@ -116,6 +124,7 @@ type OpTextureSampleProjGrad struct {
 }
 
 func (c *OpTextureSampleProjGrad) Opcode() uint32 { return 75 }
+func (c *OpTextureSampleProjGrad) Optional() bool { return false }
 func (c *OpTextureSampleProjGrad) Verify() error  { return nil }
 
 // OpTextureSampleLodOffset samples a texture with explicit level of
@@ -130,6 +139,7 @@ type OpTextureSampleLodOffset struct {
 }
 
 func (c *OpTextureSampleLodOffset) Opcode() uint32 { return 76 }
+func (c *OpTextureSampleLodOffset) Optional() bool { return false }
 func (c *OpTextureSampleLodOffset) Verify() error  { return nil }
 
 // OpTextureSampleProjOffset samples a texture with an offset from a
@@ -144,6 +154,7 @@ type OpTextureSampleProjOffset struct {
 }
 
 func (c *OpTextureSampleProjOffset) Opcode() uint32 { return 77 }
+func (c *OpTextureSampleProjOffset) Optional() bool { return false }
 func (c *OpTextureSampleProjOffset) Verify() error  { return nil }
 
 // OpTextureSampleGradOffset samples a texture with an offset
@@ -159,6 +170,7 @@ type OpTextureSampleGradOffset struct {
 }
 
 func (c *OpTextureSampleGradOffset) Opcode() uint32 { return 78 }
+func (c *OpTextureSampleGradOffset) Optional() bool { return false }
 func (c *OpTextureSampleGradOffset) Verify() error  { return nil }
 
 // OpTextureSampleProjLodOffset samples a texture with an offset from
@@ -173,6 +185,7 @@ type OpTextureSampleProjLodOffset struct {
 }
 
 func (c *OpTextureSampleProjLodOffset) Opcode() uint32 { return 79 }
+func (c *OpTextureSampleProjLodOffset) Optional() bool { return false }
 func (c *OpTextureSampleProjLodOffset) Verify() error  { return nil }
 
 // OpTextureSampleProjGradOffset samples a texture with an offset from
@@ -188,6 +201,7 @@ type OpTextureSampleProjGradOffset struct {
 }
 
 func (c *OpTextureSampleProjGradOffset) Opcode() uint32 { return 80 }
+func (c *OpTextureSampleProjGradOffset) Optional() bool { return false }
 func (c *OpTextureSampleProjGradOffset) Verify() error  { return nil }
 
 // OpTextureFetchTexel fetches a single texel from a texture.
@@ -200,6 +214,7 @@ type OpTextureFetchTexel struct {
 }
 
 func (c *OpTextureFetchTexel) Opcode() uint32 { return 81 }
+func (c *OpTextureFetchTexel) Optional() bool { return false }
 func (c *OpTextureFetchTexel) Verify() error  { return nil }
 
 // OpTextureFetchTexelOffset fetches a single offset texel from a texture.
@@ -212,6 +227,7 @@ type OpTextureFetchTexelOffset struct {
 }
 
 func (c *OpTextureFetchTexelOffset) Opcode() uint32 { return 82 }
+func (c *OpTextureFetchTexelOffset) Optional() bool { return false }
 func (c *OpTextureFetchTexelOffset) Verify() error  { return nil }
 
 // OpTextureFetchSample fetches a single sample from a multi-sample texture.
@@ -224,6 +240,7 @@ type OpTextureFetchSample struct {
 }
 
 func (c *OpTextureFetchSample) Opcode() uint32 { return 83 }
+func (c *OpTextureFetchSample) Optional() bool { return false }
 func (c *OpTextureFetchSample) Verify() error  { return nil }
 
 // OpTextureFetchBuffer fetches an element out of a buffer texture.
@@ -235,6 +252,7 @@ type OpTextureFetchBuffer struct {
 }
 
 func (c *OpTextureFetchBuffer) Opcode() uint32 { return 84 }
+func (c *OpTextureFetchBuffer) Optional() bool { return false }
 func (c *OpTextureFetchBuffer) Verify() error  { return nil }
 
 // OpTextureGather gathers the requested component from four sampled texels.
@@ -247,6 +265,7 @@ type OpTextureGather struct {
 }
 
 func (c *OpTextureGather) Opcode() uint32 { return 85 }
+func (c *OpTextureGather) Optional() bool { return false }
 func (c *OpTextureGather) Verify() error  { return nil }
 
 // OpTextureGatherOffset gathers the requested component from four
@@ -261,6 +280,7 @@ type OpTextureGatherOffset struct {
 }
 
 func (c *OpTextureGatherOffset) Opcode() uint32 { return 86 }
+func (c *OpTextureGatherOffset) Optional() bool { return false }
 func (c *OpTextureGatherOffset) Verify() error  { return nil }
 
 // OpTextureGatherOffsets gathers the requested component from four
@@ -275,6 +295,7 @@ type OpTextureGatherOffsets struct {
 }
 
 func (c *OpTextureGatherOffsets) Opcode() uint32 { return 87 }
+func (c *OpTextureGatherOffsets) Optional() bool { return false }
 func (c *OpTextureGatherOffsets) Verify() error  { return nil }
 
 // OpTextureQuerySizeLod queries the dimensions of the texture for
@@ -287,6 +308,7 @@ type OpTextureQuerySizeLod struct {
 }
 
 func (c *OpTextureQuerySizeLod) Opcode() uint32 { return 88 }
+func (c *OpTextureQuerySizeLod) Optional() bool { return false }
 func (c *OpTextureQuerySizeLod) Verify() error  { return nil }
 
 // OpTextureQuerySize queries the dimensions of the texture for
@@ -298,6 +320,7 @@ type OpTextureQuerySize struct {
 }
 
 func (c *OpTextureQuerySize) Opcode() uint32 { return 89 }
+func (c *OpTextureQuerySize) Optional() bool { return false }
 func (c *OpTextureQuerySize) Verify() error  { return nil }
 
 // OpTextureQueryLod queries the mipmap level and the level of detail
@@ -311,6 +334,7 @@ type OpTextureQueryLod struct {
 }
 
 func (c *OpTextureQueryLod) Opcode() uint32 { return 90 }
+func (c *OpTextureQueryLod) Optional() bool { return false }
 func (c *OpTextureQueryLod) Verify() error  { return nil }
 
 // OpTextureQueryLevels queries the number of mipmap levels accessible
@@ -322,6 +346,7 @@ type OpTextureQueryLevels struct {
 }
 
 func (c *OpTextureQueryLevels) Opcode() uint32 { return 91 }
+func (c *OpTextureQueryLevels) Optional() bool { return false }
 func (c *OpTextureQueryLevels) Verify() error  { return nil }
 
 // OpTextureQuerySamples queries the number of samples available per
@@ -333,6 +358,7 @@ type OpTextureQuerySamples struct {
 }
 
 func (c *OpTextureQuerySamples) Opcode() uint32 { return 92 }
+func (c *OpTextureQuerySamples) Optional() bool { return false }
 func (c *OpTextureQuerySamples) Verify() error  { return nil }
 
 func init() {

@@ -20,6 +20,10 @@ type Instruction interface {
 	// It is used by the encoder to find the correct codec in the
 	// instruction set library.
 	Opcode() uint32
+
+	// Optional returns true if the instruction has no semantic meaning.
+	// Its presence is mostly for debugging purposes.
+	Optional() bool
 }
 
 // verifyInstruction iterates over the instruction fields and calls

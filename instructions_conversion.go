@@ -12,6 +12,7 @@ type OpConvertFToU struct {
 }
 
 func (c *OpConvertFToU) Opcode() uint32 { return 100 }
+func (c *OpConvertFToU) Optional() bool { return false }
 func (c *OpConvertFToU) Verify() error  { return nil }
 
 // OpConvertFToS converts (value preserving) Float Value from floating
@@ -23,6 +24,7 @@ type OpConvertFToS struct {
 }
 
 func (c *OpConvertFToS) Opcode() uint32 { return 101 }
+func (c *OpConvertFToS) Optional() bool { return false }
 func (c *OpConvertFToS) Verify() error  { return nil }
 
 // OpConvertSToF converts (value preserving) Signed Value from signed integer
@@ -34,6 +36,7 @@ type OpConvertSToF struct {
 }
 
 func (c *OpConvertSToF) Opcode() uint32 { return 102 }
+func (c *OpConvertSToF) Optional() bool { return false }
 func (c *OpConvertSToF) Verify() error  { return nil }
 
 // OpConvertUToF converts (value preserving) Unsigned value from unsigned
@@ -45,6 +48,7 @@ type OpConvertUToF struct {
 }
 
 func (c *OpConvertUToF) Opcode() uint32 { return 103 }
+func (c *OpConvertUToF) Optional() bool { return false }
 func (c *OpConvertUToF) Verify() error  { return nil }
 
 // OpUConvert converts (value preserving) the width of Unsigned value.
@@ -56,6 +60,7 @@ type OpUConvert struct {
 }
 
 func (c *OpUConvert) Opcode() uint32 { return 104 }
+func (c *OpUConvert) Optional() bool { return false }
 func (c *OpUConvert) Verify() error  { return nil }
 
 // OpSConvert converts (value preserving) the width of Signed Value.
@@ -67,6 +72,7 @@ type OpSConvert struct {
 }
 
 func (c *OpSConvert) Opcode() uint32 { return 105 }
+func (c *OpSConvert) Optional() bool { return false }
 func (c *OpSConvert) Verify() error  { return nil }
 
 // OpFConvert converts (value preserving) the width of Float Value.
@@ -81,6 +87,7 @@ type OpFConvert struct {
 }
 
 func (c *OpFConvert) Opcode() uint32 { return 106 }
+func (c *OpFConvert) Optional() bool { return false }
 func (c *OpFConvert) Verify() error  { return nil }
 
 // OpConvertPtrToU converts Pointer to an unsigned integer type. A Result Type
@@ -92,6 +99,7 @@ type OpConvertPtrToU struct {
 }
 
 func (c *OpConvertPtrToU) Opcode() uint32 { return 107 }
+func (c *OpConvertPtrToU) Optional() bool { return false }
 func (c *OpConvertPtrToU) Verify() error  { return nil }
 
 // OpConvertUToPtr converts Integer value to a pointer. A Result Type width
@@ -103,6 +111,7 @@ type OpConvertUToPtr struct {
 }
 
 func (c *OpConvertUToPtr) Opcode() uint32 { return 108 }
+func (c *OpConvertUToPtr) Optional() bool { return false }
 func (c *OpConvertUToPtr) Verify() error  { return nil }
 
 // OpPtrCastToGeneric converts Source pointer to a pointer value pointing to
@@ -115,6 +124,7 @@ type OpPtrCastToGeneric struct {
 }
 
 func (c *OpPtrCastToGeneric) Opcode() uint32 { return 109 }
+func (c *OpPtrCastToGeneric) Optional() bool { return false }
 func (c *OpPtrCastToGeneric) Verify() error  { return nil }
 
 // OpGenericCastToPtr converts Source pointer to a non-Generic storage-class
@@ -126,6 +136,7 @@ type OpGenericCastToPtr struct {
 }
 
 func (c *OpGenericCastToPtr) Opcode() uint32 { return 110 }
+func (c *OpGenericCastToPtr) Optional() bool { return false }
 func (c *OpGenericCastToPtr) Verify() error  { return nil }
 
 // OpBitcast defines a Bit-pattern preserving type conversion for
@@ -137,6 +148,7 @@ type OpBitcast struct {
 }
 
 func (c *OpBitcast) Opcode() uint32 { return 111 }
+func (c *OpBitcast) Optional() bool { return false }
 func (c *OpBitcast) Verify() error  { return nil }
 
 // OpGenericCastToPtrExplicit attempts to explicitly convert Source pointer
@@ -149,6 +161,7 @@ type OpGenericCastToPtrExplicit struct {
 }
 
 func (c *OpGenericCastToPtrExplicit) Opcode() uint32 { return 232 }
+func (c *OpGenericCastToPtrExplicit) Optional() bool { return false }
 func (c *OpGenericCastToPtrExplicit) Verify() error  { return nil }
 
 func init() {

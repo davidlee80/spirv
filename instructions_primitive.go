@@ -9,6 +9,7 @@ package spirv
 type OpEmitVertex struct{}
 
 func (c *OpEmitVertex) Opcode() uint32 { return 184 }
+func (c *OpEmitVertex) Optional() bool { return false }
 func (c *OpEmitVertex) Verify() error  { return nil }
 
 // OpEndPrimitive finishes the current primitive and starts a new one.
@@ -18,6 +19,7 @@ func (c *OpEmitVertex) Verify() error  { return nil }
 type OpEndPrimitive struct{}
 
 func (c *OpEndPrimitive) Opcode() uint32 { return 185 }
+func (c *OpEndPrimitive) Optional() bool { return false }
 func (c *OpEndPrimitive) Verify() error  { return nil }
 
 // OpEmitStreamVertex emits the current values of all output variables to
@@ -30,6 +32,7 @@ type OpEmitStreamVertex struct {
 }
 
 func (c *OpEmitStreamVertex) Opcode() uint32 { return 186 }
+func (c *OpEmitStreamVertex) Optional() bool { return false }
 func (c *OpEmitStreamVertex) Verify() error  { return nil }
 
 // OpEndStreamPrimitive finishes the current primitive and starts a new one.
@@ -41,6 +44,7 @@ type OpEndStreamPrimitive struct {
 }
 
 func (c *OpEndStreamPrimitive) Opcode() uint32 { return 187 }
+func (c *OpEndStreamPrimitive) Optional() bool { return false }
 func (c *OpEndStreamPrimitive) Verify() error  { return nil }
 
 func init() {

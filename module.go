@@ -104,3 +104,18 @@ func (m *Module) Verify() error {
 	// TODO Implement semantic validation.
 	return nil
 }
+
+// Strip removes all instructions which have no semantic impact on the code.
+// This includes debug symbols like source context and names.
+func (m *Module) Strip() {
+	for i := 0; i < len(m.Code); i++ {
+		if !m.Code[i].Optional() {
+			continue
+		}
+
+		copy(m.Code[i:], m.Code[i+1:])
+		m.Code[len(m.Code)-1] = nil
+		m.Code = m.Code[:len(m.Code)-1]
+		i--
+	}
+}

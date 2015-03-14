@@ -11,6 +11,7 @@ package spirv
 type OpNop struct{}
 
 func (c *OpNop) Opcode() uint32 { return 0 }
+func (c *OpNop) Optional() bool { return false }
 func (c *OpNop) Verify() error  { return ErrUnacceptable }
 
 // OpUndef makes an intermediate object with no initialization.
@@ -20,6 +21,7 @@ type OpUndef struct {
 }
 
 func (c *OpUndef) Opcode() uint32 { return 45 }
+func (c *OpUndef) Optional() bool { return false }
 func (c *OpUndef) Verify() error  { return nil }
 
 func init() {

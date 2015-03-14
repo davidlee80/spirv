@@ -12,6 +12,7 @@ type OpDPdx struct {
 }
 
 func (c *OpDPdx) Opcode() uint32 { return 175 }
+func (c *OpDPdx) Optional() bool { return false }
 func (c *OpDPdx) Verify() error  { return nil }
 
 // OpDPdy is equivalent to either OpDPdyFine or OpDPdyCoarse on P.
@@ -23,6 +24,7 @@ type OpDPdy struct {
 }
 
 func (c *OpDPdy) Opcode() uint32 { return 176 }
+func (c *OpDPdy) Optional() bool { return false }
 func (c *OpDPdy) Verify() error  { return nil }
 
 // OpFwidth is equivalent to computing the sum of the absolute values of
@@ -34,6 +36,7 @@ type OpFwidth struct {
 }
 
 func (c *OpFwidth) Opcode() uint32 { return 177 }
+func (c *OpFwidth) Optional() bool { return false }
 func (c *OpFwidth) Verify() error  { return nil }
 
 // OpDPdxFine calculates the partial derivative of P with respect to the
@@ -45,6 +48,7 @@ type OpDPdxFine struct {
 }
 
 func (c *OpDPdxFine) Opcode() uint32 { return 178 }
+func (c *OpDPdxFine) Optional() bool { return false }
 func (c *OpDPdxFine) Verify() error  { return nil }
 
 // OpDPdyFine calculates the partial derivative of P with respect to the
@@ -56,6 +60,7 @@ type OpDPdyFine struct {
 }
 
 func (c *OpDPdyFine) Opcode() uint32 { return 179 }
+func (c *OpDPdyFine) Optional() bool { return false }
 func (c *OpDPdyFine) Verify() error  { return nil }
 
 // OpFwidthFine is equivalent to computing the sum of the absolute values
@@ -67,6 +72,7 @@ type OpFwidthFine struct {
 }
 
 func (c *OpFwidthFine) Opcode() uint32 { return 180 }
+func (c *OpFwidthFine) Optional() bool { return false }
 func (c *OpFwidthFine) Verify() error  { return nil }
 
 // OpDPdxCoarse calculates the partial derivative of P with respect to the
@@ -78,6 +84,7 @@ type OpDPdxCoarse struct {
 }
 
 func (c *OpDPdxCoarse) Opcode() uint32 { return 181 }
+func (c *OpDPdxCoarse) Optional() bool { return false }
 func (c *OpDPdxCoarse) Verify() error  { return nil }
 
 // OpDPdyCoarse calculates the partial derivative of P with respect to the
@@ -89,6 +96,7 @@ type OpDPdyCoarse struct {
 }
 
 func (c *OpDPdyCoarse) Opcode() uint32 { return 182 }
+func (c *OpDPdyCoarse) Optional() bool { return false }
 func (c *OpDPdyCoarse) Verify() error  { return nil }
 
 // OpFwidthCoarse is equivalent to computing the sum of the absolute values
@@ -100,6 +108,7 @@ type OpFwidthCoarse struct {
 }
 
 func (c *OpFwidthCoarse) Opcode() uint32 { return 183 }
+func (c *OpFwidthCoarse) Optional() bool { return false }
 func (c *OpFwidthCoarse) Verify() error  { return nil }
 
 func init() {

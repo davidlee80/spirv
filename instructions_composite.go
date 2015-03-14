@@ -13,6 +13,7 @@ type OpVectorExtractDynamic struct {
 }
 
 func (c *OpVectorExtractDynamic) Opcode() uint32 { return 58 }
+func (c *OpVectorExtractDynamic) Optional() bool { return false }
 func (c *OpVectorExtractDynamic) Verify() error  { return nil }
 
 // OpVectorInsertDynamic writes a single, variably selected, component
@@ -26,6 +27,7 @@ type OpVectorInsertDynamic struct {
 }
 
 func (c *OpVectorInsertDynamic) Opcode() uint32 { return 59 }
+func (c *OpVectorInsertDynamic) Optional() bool { return false }
 func (c *OpVectorInsertDynamic) Verify() error  { return nil }
 
 // OpVectorShuffle selects arbitrary components from two vectors to make
@@ -39,6 +41,7 @@ type OpVectorShuffle struct {
 }
 
 func (c *OpVectorShuffle) Opcode() uint32 { return 60 }
+func (c *OpVectorShuffle) Optional() bool { return false }
 func (c *OpVectorShuffle) Verify() error  { return nil }
 
 // OpCompositeConstruct constructs a new composite object from a set of
@@ -50,6 +53,7 @@ type OpCompositeConstruct struct {
 }
 
 func (c *OpCompositeConstruct) Opcode() uint32 { return 61 }
+func (c *OpCompositeConstruct) Optional() bool { return false }
 func (c *OpCompositeConstruct) Verify() error  { return nil }
 
 // OpCompositeExtract extracts a part of a composite object.
@@ -61,6 +65,7 @@ type OpCompositeExtract struct {
 }
 
 func (c *OpCompositeExtract) Opcode() uint32 { return 62 }
+func (c *OpCompositeExtract) Optional() bool { return false }
 func (c *OpCompositeExtract) Verify() error  { return nil }
 
 // OpCompositeInsert inserts into a composite object.
@@ -73,6 +78,7 @@ type OpCompositeInsert struct {
 }
 
 func (c *OpCompositeInsert) Opcode() uint32 { return 63 }
+func (c *OpCompositeInsert) Optional() bool { return false }
 func (c *OpCompositeInsert) Verify() error  { return nil }
 
 // OpCopyObject makes a copy of Operand.
@@ -84,6 +90,7 @@ type OpCopyObject struct {
 }
 
 func (c *OpCopyObject) Opcode() uint32 { return 64 }
+func (c *OpCopyObject) Optional() bool { return false }
 func (c *OpCopyObject) Verify() error  { return nil }
 
 // OpTranspose transposes a matrix.
@@ -94,6 +101,7 @@ type OpTranspose struct {
 }
 
 func (c *OpTranspose) Opcode() uint32 { return 112 }
+func (c *OpTranspose) Optional() bool { return false }
 func (c *OpTranspose) Verify() error  { return nil }
 
 func init() {

@@ -12,6 +12,7 @@ type OpAny struct {
 }
 
 func (c *OpAny) Opcode() uint32 { return 98 }
+func (c *OpAny) Optional() bool { return false }
 func (c *OpAny) Verify() error  { return nil }
 
 // OpAll result is true if all components of Vector are true,
@@ -23,6 +24,7 @@ type OpAll struct {
 }
 
 func (c *OpAll) Opcode() uint32 { return 99 }
+func (c *OpAll) Optional() bool { return false }
 func (c *OpAll) Verify() error  { return nil }
 
 // OpIsNan result is true if x is an IEEE NaN,
@@ -34,6 +36,7 @@ type OpIsNan struct {
 }
 
 func (c *OpIsNan) Opcode() uint32 { return 113 }
+func (c *OpIsNan) Optional() bool { return false }
 func (c *OpIsNan) Verify() error  { return nil }
 
 // OpIsInf result is true if x is an IEEE Inf,
@@ -45,6 +48,7 @@ type OpIsInf struct {
 }
 
 func (c *OpIsInf) Opcode() uint32 { return 114 }
+func (c *OpIsInf) Optional() bool { return false }
 func (c *OpIsInf) Verify() error  { return nil }
 
 // OpIsFinite result is true if x is an IEEE finite number,
@@ -56,6 +60,7 @@ type OpIsFinite struct {
 }
 
 func (c *OpIsFinite) Opcode() uint32 { return 115 }
+func (c *OpIsFinite) Optional() bool { return false }
 func (c *OpIsFinite) Verify() error  { return nil }
 
 // OpIsNormal result is true if x is an IEEE normal number,
@@ -67,6 +72,7 @@ type OpIsNormal struct {
 }
 
 func (c *OpIsNormal) Opcode() uint32 { return 116 }
+func (c *OpIsNormal) Optional() bool { return false }
 func (c *OpIsNormal) Verify() error  { return nil }
 
 // OpSignBitSet result is true if x has its sign bit set,
@@ -78,6 +84,7 @@ type OpSignBitSet struct {
 }
 
 func (c *OpSignBitSet) Opcode() uint32 { return 117 }
+func (c *OpSignBitSet) Optional() bool { return false }
 func (c *OpSignBitSet) Verify() error  { return nil }
 
 // OpLessOrGreater result is true if x < y or x > y,
@@ -89,6 +96,7 @@ type OpLessOrGreater struct {
 }
 
 func (c *OpLessOrGreater) Opcode() uint32 { return 118 }
+func (c *OpLessOrGreater) Optional() bool { return false }
 func (c *OpLessOrGreater) Verify() error  { return nil }
 
 // OpOrdered result is true if both x == x and y == y are true,
@@ -101,6 +109,7 @@ type OpOrdered struct {
 }
 
 func (c *OpOrdered) Opcode() uint32 { return 119 }
+func (c *OpOrdered) Optional() bool { return false }
 func (c *OpOrdered) Verify() error  { return nil }
 
 // OpUnordered result is true if either x or y is an IEEE NaN,
@@ -113,6 +122,7 @@ type OpUnordered struct {
 }
 
 func (c *OpUnordered) Opcode() uint32 { return 120 }
+func (c *OpUnordered) Optional() bool { return false }
 func (c *OpUnordered) Verify() error  { return nil }
 
 // OpLogicalOr result is true if either Operand 1 or Operand 2 is true.
@@ -125,6 +135,7 @@ type OpLogicalOr struct {
 }
 
 func (c *OpLogicalOr) Opcode() uint32 { return 146 }
+func (c *OpLogicalOr) Optional() bool { return false }
 func (c *OpLogicalOr) Verify() error  { return nil }
 
 // OpLogicalXor result is true if exactly one of Operand 1 or
@@ -138,6 +149,7 @@ type OpLogicalXor struct {
 }
 
 func (c *OpLogicalXor) Opcode() uint32 { return 147 }
+func (c *OpLogicalXor) Optional() bool { return false }
 func (c *OpLogicalXor) Verify() error  { return nil }
 
 // OpLogicalAnd result is true if both Operand 1 and Operand 2 are true.
@@ -150,6 +162,7 @@ type OpLogicalAnd struct {
 }
 
 func (c *OpLogicalAnd) Opcode() uint32 { return 148 }
+func (c *OpLogicalAnd) Optional() bool { return false }
 func (c *OpLogicalAnd) Verify() error  { return nil }
 
 // OpSelect select between two objects.
@@ -163,6 +176,7 @@ type OpSelect struct {
 }
 
 func (c *OpSelect) Opcode() uint32 { return 152 }
+func (c *OpSelect) Optional() bool { return false }
 func (c *OpSelect) Verify() error  { return nil }
 
 // OpIEqual performs Integer comparison for equality.
@@ -174,6 +188,7 @@ type OpIEqual struct {
 }
 
 func (c *OpIEqual) Opcode() uint32 { return 153 }
+func (c *OpIEqual) Optional() bool { return false }
 func (c *OpIEqual) Verify() error  { return nil }
 
 // OpFOrdEqual performs Floating-point comparison for being
@@ -186,6 +201,7 @@ type OpFOrdEqual struct {
 }
 
 func (c *OpFOrdEqual) Opcode() uint32 { return 154 }
+func (c *OpFOrdEqual) Optional() bool { return false }
 func (c *OpFOrdEqual) Verify() error  { return nil }
 
 // OpFUnordEqual performs Floating-point comparison for being
@@ -198,6 +214,7 @@ type OpFUnordEqual struct {
 }
 
 func (c *OpFUnordEqual) Opcode() uint32 { return 155 }
+func (c *OpFUnordEqual) Optional() bool { return false }
 func (c *OpFUnordEqual) Verify() error  { return nil }
 
 // OpINotEqual performs Integer comparison for inequality
@@ -209,6 +226,7 @@ type OpINotEqual struct {
 }
 
 func (c *OpINotEqual) Opcode() uint32 { return 156 }
+func (c *OpINotEqual) Optional() bool { return false }
 func (c *OpINotEqual) Verify() error  { return nil }
 
 // OpFOrdNotEqual performs Floating-point comparison for being
@@ -221,6 +239,7 @@ type OpFOrdNotEqual struct {
 }
 
 func (c *OpFOrdNotEqual) Opcode() uint32 { return 157 }
+func (c *OpFOrdNotEqual) Optional() bool { return false }
 func (c *OpFOrdNotEqual) Verify() error  { return nil }
 
 // OpFUnordNotEqual performs Floating-point comparison for
@@ -233,6 +252,7 @@ type OpFUnordNotEqual struct {
 }
 
 func (c *OpFUnordNotEqual) Opcode() uint32 { return 158 }
+func (c *OpFUnordNotEqual) Optional() bool { return false }
 func (c *OpFUnordNotEqual) Verify() error  { return nil }
 
 // OpULessThan performs Unsigned-integer comparison if Operand 1
@@ -245,6 +265,7 @@ type OpULessThan struct {
 }
 
 func (c *OpULessThan) Opcode() uint32 { return 159 }
+func (c *OpULessThan) Optional() bool { return false }
 func (c *OpULessThan) Verify() error  { return nil }
 
 // OpSLessThan performs Signed-integer comparison if Operand 1
@@ -257,6 +278,7 @@ type OpSLessThan struct {
 }
 
 func (c *OpSLessThan) Opcode() uint32 { return 160 }
+func (c *OpSLessThan) Optional() bool { return false }
 func (c *OpSLessThan) Verify() error  { return nil }
 
 // OpFOrdLessThan performs Floating-point comparison if operands are
@@ -269,6 +291,7 @@ type OpFOrdLessThan struct {
 }
 
 func (c *OpFOrdLessThan) Opcode() uint32 { return 161 }
+func (c *OpFOrdLessThan) Optional() bool { return false }
 func (c *OpFOrdLessThan) Verify() error  { return nil }
 
 // OpFUnordLessThan performs Floating-point comparison if operands
@@ -281,6 +304,7 @@ type OpFUnordLessThan struct {
 }
 
 func (c *OpFUnordLessThan) Opcode() uint32 { return 162 }
+func (c *OpFUnordLessThan) Optional() bool { return false }
 func (c *OpFUnordLessThan) Verify() error  { return nil }
 
 // OpUGreaterThan performs Unsigned-integer comparison if Operand 1
@@ -293,6 +317,7 @@ type OpUGreaterThan struct {
 }
 
 func (c *OpUGreaterThan) Opcode() uint32 { return 163 }
+func (c *OpUGreaterThan) Optional() bool { return false }
 func (c *OpUGreaterThan) Verify() error  { return nil }
 
 // OpSGreaterThan performs Signed-integer comparison if Operand 1
@@ -305,6 +330,7 @@ type OpSGreaterThan struct {
 }
 
 func (c *OpSGreaterThan) Opcode() uint32 { return 164 }
+func (c *OpSGreaterThan) Optional() bool { return false }
 func (c *OpSGreaterThan) Verify() error  { return nil }
 
 // OpFOrdGreaterThan performs Floating-point comparison if operands
@@ -317,6 +343,7 @@ type OpFOrdGreaterThan struct {
 }
 
 func (c *OpFOrdGreaterThan) Opcode() uint32 { return 165 }
+func (c *OpFOrdGreaterThan) Optional() bool { return false }
 func (c *OpFOrdGreaterThan) Verify() error  { return nil }
 
 // OpFUnordGreaterThan performs Floating-point comparison if
@@ -329,6 +356,7 @@ type OpFUnordGreaterThan struct {
 }
 
 func (c *OpFUnordGreaterThan) Opcode() uint32 { return 166 }
+func (c *OpFUnordGreaterThan) Optional() bool { return false }
 func (c *OpFUnordGreaterThan) Verify() error  { return nil }
 
 // OpULessThanEqual performs Unsigned-integer comparison if Operand 1 is
@@ -341,6 +369,7 @@ type OpULessThanEqual struct {
 }
 
 func (c *OpULessThanEqual) Opcode() uint32 { return 167 }
+func (c *OpULessThanEqual) Optional() bool { return false }
 func (c *OpULessThanEqual) Verify() error  { return nil }
 
 // OpSLessThanEqual performs Signed-integer comparison if Operand 1 is
@@ -353,6 +382,7 @@ type OpSLessThanEqual struct {
 }
 
 func (c *OpSLessThanEqual) Opcode() uint32 { return 168 }
+func (c *OpSLessThanEqual) Optional() bool { return false }
 func (c *OpSLessThanEqual) Verify() error  { return nil }
 
 // OpFOrdLessThanEqual performs Floating-point comparison if operands
@@ -365,6 +395,7 @@ type OpFOrdLessThanEqual struct {
 }
 
 func (c *OpFOrdLessThanEqual) Opcode() uint32 { return 169 }
+func (c *OpFOrdLessThanEqual) Optional() bool { return false }
 func (c *OpFOrdLessThanEqual) Verify() error  { return nil }
 
 // OpFUnordLessThanEqual performs Floating-point comparison if
@@ -377,6 +408,7 @@ type OpFUnordLessThanEqual struct {
 }
 
 func (c *OpFUnordLessThanEqual) Opcode() uint32 { return 170 }
+func (c *OpFUnordLessThanEqual) Optional() bool { return false }
 func (c *OpFUnordLessThanEqual) Verify() error  { return nil }
 
 // OpUGreaterThanEqual performs Unsigned-integer comparison if Operand 1 is
@@ -389,6 +421,7 @@ type OpUGreaterThanEqual struct {
 }
 
 func (c *OpUGreaterThanEqual) Opcode() uint32 { return 171 }
+func (c *OpUGreaterThanEqual) Optional() bool { return false }
 func (c *OpUGreaterThanEqual) Verify() error  { return nil }
 
 // OpSGreaterThanEqual performs Signed-integer comparison if Operand 1 is
@@ -401,6 +434,7 @@ type OpSGreaterThanEqual struct {
 }
 
 func (c *OpSGreaterThanEqual) Opcode() uint32 { return 172 }
+func (c *OpSGreaterThanEqual) Optional() bool { return false }
 func (c *OpSGreaterThanEqual) Verify() error  { return nil }
 
 // OpFOrdGreaterThanEqual performs Floating-point comparison if
@@ -413,6 +447,7 @@ type OpFOrdGreaterThanEqual struct {
 }
 
 func (c *OpFOrdGreaterThanEqual) Opcode() uint32 { return 173 }
+func (c *OpFOrdGreaterThanEqual) Optional() bool { return false }
 func (c *OpFOrdGreaterThanEqual) Verify() error  { return nil }
 
 // OpFUnordGreaterThanEqual performs Floating-point comparison if
@@ -426,6 +461,7 @@ type OpFUnordGreaterThanEqual struct {
 }
 
 func (c *OpFUnordGreaterThanEqual) Opcode() uint32 { return 174 }
+func (c *OpFUnordGreaterThanEqual) Optional() bool { return false }
 func (c *OpFUnordGreaterThanEqual) Verify() error  { return nil }
 
 func init() {

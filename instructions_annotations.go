@@ -17,6 +17,7 @@ type OpDecorationGroup struct {
 }
 
 func (c *OpDecorationGroup) Opcode() uint32 { return 49 }
+func (c *OpDecorationGroup) Optional() bool { return false }
 func (c *OpDecorationGroup) Verify() error  { return nil }
 
 // OpDecorate represents the OpDecorate instruction.
@@ -39,6 +40,7 @@ type OpDecorate struct {
 }
 
 func (c *OpDecorate) Opcode() uint32 { return 50 }
+func (c *OpDecorate) Optional() bool { return false }
 func (c *OpDecorate) Verify() error {
 	argc := len(c.Argv)
 
@@ -96,6 +98,7 @@ type OpMemberDecorate struct {
 }
 
 func (c *OpMemberDecorate) Opcode() uint32 { return 51 }
+func (c *OpMemberDecorate) Optional() bool { return false }
 func (c *OpMemberDecorate) Verify() error {
 	argc := len(c.Argv)
 
@@ -143,6 +146,7 @@ type OpGroupDecorate struct {
 }
 
 func (c *OpGroupDecorate) Opcode() uint32 { return 52 }
+func (c *OpGroupDecorate) Optional() bool { return false }
 func (c *OpGroupDecorate) Verify() error  { return nil }
 
 // OpGroupMemberDecorate represents the OpGroupMemberDecorate instruction.
@@ -156,6 +160,7 @@ type OpGroupMemberDecorate struct {
 }
 
 func (c *OpGroupMemberDecorate) Opcode() uint32 { return 53 }
+func (c *OpGroupMemberDecorate) Optional() bool { return false }
 func (c *OpGroupMemberDecorate) Verify() error  { return nil }
 
 func init() {
