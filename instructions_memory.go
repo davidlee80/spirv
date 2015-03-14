@@ -9,8 +9,7 @@ type OpVariable struct {
 	// Result Type is a type from OpTypePointer, where the type pointed to
 	// is the type of object in memory.
 	ResultType Id
-
-	ResultId Id
+	ResultId   Id
 
 	// Storage Class is the kind of memory holding the object.
 	StorageClass StorageClass
@@ -24,14 +23,6 @@ type OpVariable struct {
 
 func (c *OpVariable) Opcode() uint32 { return 38 }
 func (c *OpVariable) Verify() error  { return nil }
-
-func init() {
-	Bind(func() Instruction {
-		return &OpVariable{
-			Initializer: 0,
-		}
-	})
-}
 
 // OpVariableArray allocates N objects sequentially in memory,
 // resulting in a pointer to the first such object.
@@ -54,12 +45,6 @@ type OpVariableArray struct {
 func (c *OpVariableArray) Opcode() uint32 { return 39 }
 func (c *OpVariableArray) Verify() error  { return nil }
 
-func init() {
-	Bind(func() Instruction {
-		return &OpVariableArray{}
-	})
-}
-
 // OpLoad loads data through a pointer.
 type OpLoad struct {
 	// Result Type is a type from OpTypePointer whose type pointed to is
@@ -80,12 +65,6 @@ type OpLoad struct {
 func (c *OpLoad) Opcode() uint32 { return 46 }
 func (c *OpLoad) Verify() error  { return nil }
 
-func init() {
-	Bind(func() Instruction {
-		return &OpLoad{}
-	})
-}
-
 // OpStore stores data through a pointer.
 type OpStore struct {
 	// Pointer is the pointer to store through. It must have a type
@@ -102,12 +81,6 @@ type OpStore struct {
 
 func (c *OpStore) Opcode() uint32 { return 47 }
 func (c *OpStore) Verify() error  { return nil }
-
-func init() {
-	Bind(func() Instruction {
-		return &OpStore{}
-	})
-}
 
 // OpCopyMemory copies from the memory pointed to by Source to the
 // memory pointed to by Target.
@@ -129,12 +102,6 @@ type OpCopyMemory struct {
 
 func (c *OpCopyMemory) Opcode() uint32 { return 65 }
 func (c *OpCopyMemory) Verify() error  { return nil }
-
-func init() {
-	Bind(func() Instruction {
-		return &OpCopyMemory{}
-	})
-}
 
 // OpCopyMemorySized copies from the memory pointed to by Source to the
 // memory pointed to by Target.
@@ -159,12 +126,6 @@ type OpCopyMemorySized struct {
 func (c *OpCopyMemorySized) Opcode() uint32 { return 66 }
 func (c *OpCopyMemorySized) Verify() error  { return nil }
 
-func init() {
-	Bind(func() Instruction {
-		return &OpCopyMemorySized{}
-	})
-}
-
 // OpAccessChain creates a pointer into a composite object that can be
 // used with OpLoad and OpStore.
 //
@@ -187,12 +148,6 @@ type OpAccessChain struct {
 func (c *OpAccessChain) Opcode() uint32 { return 93 }
 func (c *OpAccessChain) Verify() error  { return nil }
 
-func init() {
-	Bind(func() Instruction {
-		return &OpAccessChain{}
-	})
-}
-
 // OpInboundsAccessChain has the same semantics as OpAccessChain, with the
 // addition that the resulting pointer is known to point within the base object.
 type OpInboundsAccessChain struct {
@@ -212,12 +167,6 @@ type OpInboundsAccessChain struct {
 func (c *OpInboundsAccessChain) Opcode() uint32 { return 94 }
 func (c *OpInboundsAccessChain) Verify() error  { return nil }
 
-func init() {
-	Bind(func() Instruction {
-		return &OpInboundsAccessChain{}
-	})
-}
-
 // OpArraylength results in the length of a run-time array.
 type OpArraylength struct {
 	ResultType Id
@@ -234,12 +183,6 @@ type OpArraylength struct {
 
 func (c *OpArraylength) Opcode() uint32 { return 121 }
 func (c *OpArraylength) Verify() error  { return nil }
-
-func init() {
-	Bind(func() Instruction {
-		return &OpArraylength{}
-	})
-}
 
 // OpImagePointer forms a pointer to a texel of an image.
 // Use of such a pointer is limited to atomic operations.
@@ -261,18 +204,12 @@ type OpImagePointer struct {
 func (c *OpImagePointer) Opcode() uint32 { return 190 }
 func (c *OpImagePointer) Verify() error  { return nil }
 
-func init() {
-	Bind(func() Instruction {
-		return &OpImagePointer{}
-	})
-}
-
 // OpGenericPtrMemSemantics returns a valid Memory Semantics
 // value for ptr.
 type OpGenericPtrMemSemantics struct {
 	ResultType Id // Result Type must be a 32-bits wide OpTypeInt value
 	ResultId   Id
-	Ptr        Id // Ptr must point to Generic.
+	Ptr        Id
 }
 
 func (c *OpGenericPtrMemSemantics) Opcode() uint32 { return 233 }
@@ -280,6 +217,18 @@ func (c *OpGenericPtrMemSemantics) Verify() error  { return nil }
 
 func init() {
 	Bind(func() Instruction {
-		return &OpGenericPtrMemSemantics{}
+		return &OpVariable{
+			Initializer: 0,
+		}
 	})
+	Bind(func() Instruction { return &OpVariableArray{} })
+	Bind(func() Instruction { return &OpLoad{} })
+	Bind(func() Instruction { return &OpStore{} })
+	Bind(func() Instruction { return &OpCopyMemory{} })
+	Bind(func() Instruction { return &OpCopyMemorySized{} })
+	Bind(func() Instruction { return &OpAccessChain{} })
+	Bind(func() Instruction { return &OpInboundsAccessChain{} })
+	Bind(func() Instruction { return &OpArraylength{} })
+	Bind(func() Instruction { return &OpImagePointer{} })
+	Bind(func() Instruction { return &OpGenericPtrMemSemantics{} })
 }
