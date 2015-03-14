@@ -9,6 +9,31 @@ change as the specification matures.
 	Specification:   https://www.khronos.org/registry/spir-v/specs/1.0/SPIRV.pdf
 	Additional info: https://www.khronos.org/registry/spir-v/
 
+Usage
+
+By itself, this package is not very useful. All it does is decode SPIR-V
+binary into sets of 32-bit words data structure and vice-versa. It is intended
+as a tool to facilitate the creation of SPIR-V debugging tools, compilers,
+and whatever else you may require.
+
+At the highest level, one can operate on complete modules.
+They can be loaded, saved and verified to be correct:
+
+	module, err := spirv.Load(r)
+	...
+
+	err := module.Verify()
+	...
+
+	err := module.Save(w)
+	...
+
+The Encoder and Decoder can be used directly if you wish. They offer working
+with data on a per-instruction basis and if you opt out of deserialization into
+typed structures, you can examine them without any allocation overhead.
+
+
+About
 
 SPIR-V is a binary intermediate language for representing graphical-shader
 stages and compute kernels for multiple Khronos APIs. Each function in a SPIR-V
@@ -56,69 +81,5 @@ the ground up around the capabilities of modern hardware.
 	  targets this intermediate format. Third-party developers will be able to
 	  write their own compilers for other languages.
 
-
-Usage
-
-By itself, this package is not very useful. All it does is decode SPIR-V
-binary into sets of 32-bit words data structure and vice-versa. It is intended
-as a tool to facilitate the creation of SPIR-V debugging tools, compilers,
-and whatever else you may require.
-
-Here is an sample on how to decode a module from a file.
-The `Decoder` methods return either a `Header`, `[]uint32` or `Instruction`.
-
-	// Create a decoder.
-	dec := spirv.NewDecoder(fd)
-	hdr, err := dec.DecodeHeader()
-	...
-
-	for {
-		instructionWords, err := dec.DecodeInstructionWords()
-		...
-	}
-
-Or to get a higher level abstraction of the instruction data.
-This performs some copying and allocations, but gives a typed instruction
-one can work with:
-
-	for {
-		instruction, err := dec.DecodeInstruction()
-		...
-	}
-
-
-And the same to encode a module to a file:
-
-	var hdr spirv.Header
-	...
-
-	enc := spirv.NewEncoder(fd)
-	err := enc.EncodeHeader(hdr)
-	...
-
-	for _, data := [][]uint32{...} {
-		err := enc.EncodeInstructionWords(data)
-		...
-	}
-
-or:
-
-	for _, data := []Instruction{...} {
-		err := enc.EncodeInstruction(words)
-		...
-	}
-
-
-At the highest level, one can operate on complete modules:
-They can be loaded, saved and verified to be correct.
-
-	module, err := spirv.Load(r)
-	...
-
-	err := module.Verify()
-	...
-
-	err := module.Save(w)
-	...
 */
 package spirv
