@@ -26,10 +26,10 @@ func TestModeSetting(t *testing.T) {
 			},
 		},
 		{
-			in: []uint32{0x00060007, 0x7f, ExecutionModeSpacingEqual, 1, 2, 3},
+			in: []uint32{0x00060007, 0x7f, ExecutionModeLocalSize, 1, 2, 3},
 			want: &OpExecutionMode{
 				EntryPoint: 0x7f,
-				Mode:       ExecutionModeSpacingEqual,
+				Mode:       ExecutionModeLocalSize,
 				Argv:       []uint32{1, 2, 3},
 			},
 		},

@@ -52,6 +52,8 @@ func (c *OpDecorate) Verify() error {
 			return fmt.Errorf("OpDecorate: Decoration(%d) must have 1 argument", c.Decoration)
 		}
 
+		return nil
+
 	case DecorationLinkageType:
 		if argc != 1 {
 			return fmt.Errorf("OpDecorate: Decoration(%d) must have 1 argument", c.Decoration)
@@ -106,6 +108,8 @@ func (c *OpMemberDecorate) Verify() error {
 		if argc != 1 {
 			return fmt.Errorf("OpMemberDecorate: Decoration(%d) must have 1 argument", c.Decoration)
 		}
+
+		return nil
 
 	case DecorationLinkageType:
 		if argc != 1 {
