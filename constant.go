@@ -367,13 +367,12 @@ const (
 type SamplerAddressingMode uint32
 
 func (v SamplerAddressingMode) Verify() error {
-	if verifyBitFlag(
-		uint32(v),
-		true,
-		SamplerAddressingModeClampEdge|SamplerAddressingModeClamp|SamplerAddressingModeRepeat|SamplerAddressingModeRepeatMirrored) {
+	switch v {
+	case SamplerAddressingModeClampEdge, SamplerAddressingModeClamp, SamplerAddressingModeRepeat, SamplerAddressingModeRepeatMirrored:
 		return nil
+	default:
+		return errors.New("invalid SamplerAddressingMode value")
 	}
-	return errors.New("invalid SamplerAddressingMode value")
 }
 
 // Sampler Addressing Modes define the addressing mode of read image
@@ -401,14 +400,12 @@ const (
 type SamplerFilterMode uint32
 
 func (v SamplerFilterMode) Verify() error {
-	if verifyBitFlag(
-		uint32(v),
-		false,
-		SamplerFilterModeNearest|SamplerFilterModeLinear,
-	) {
+	switch v {
+	case SamplerFilterModeNearest, SamplerFilterModeLinear:
 		return nil
+	default:
+		return errors.New("invalid SamplerFilterMode value")
 	}
-	return errors.New("invalid SamplerFilterMode value")
 }
 
 // Sampler Filter Modes define the filter mode of read image
