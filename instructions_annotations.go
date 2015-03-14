@@ -17,12 +17,6 @@ type OpDecorationGroup struct {
 func (c *OpDecorationGroup) Opcode() uint32 { return 49 }
 func (c *OpDecorationGroup) Verify() error  { return nil }
 
-func init() {
-	Bind(func() Instruction {
-		return &OpDecorationGroup{}
-	})
-}
-
 // OpDecorate represents the OpDecorate instruction.
 // It adds a decoration to another <id>.
 type OpDecorate struct {
@@ -44,12 +38,6 @@ type OpDecorate struct {
 
 func (c *OpDecorate) Opcode() uint32 { return 50 }
 func (c *OpDecorate) Verify() error  { return nil }
-
-func init() {
-	Bind(func() Instruction {
-		return &OpDecorate{}
-	})
-}
 
 // OpMemberDecorate represents the OpMemberDecorate instruction.
 // It adds a decoration to a member of a structure type.
@@ -74,12 +62,6 @@ type OpMemberDecorate struct {
 func (c *OpMemberDecorate) Opcode() uint32 { return 51 }
 func (c *OpMemberDecorate) Verify() error  { return nil }
 
-func init() {
-	Bind(func() Instruction {
-		return &OpMemberDecorate{}
-	})
-}
-
 // OpGroupDecorate represents the OpGroupDecorate instruction.
 // It adds a group of decorations to another <id>.
 type OpGroupDecorate struct {
@@ -92,12 +74,6 @@ type OpGroupDecorate struct {
 
 func (c *OpGroupDecorate) Opcode() uint32 { return 52 }
 func (c *OpGroupDecorate) Verify() error  { return nil }
-
-func init() {
-	Bind(func() Instruction {
-		return &OpGroupDecorate{}
-	})
-}
 
 // OpGroupMemberDecorate represents the OpGroupMemberDecorate instruction.
 // It adds a decoration to a member of a structure type
@@ -113,7 +89,9 @@ func (c *OpGroupMemberDecorate) Opcode() uint32 { return 53 }
 func (c *OpGroupMemberDecorate) Verify() error  { return nil }
 
 func init() {
-	Bind(func() Instruction {
-		return &OpGroupMemberDecorate{}
-	})
+	Bind(func() Instruction { return &OpDecorationGroup{} })
+	Bind(func() Instruction { return &OpDecorate{} })
+	Bind(func() Instruction { return &OpMemberDecorate{} })
+	Bind(func() Instruction { return &OpGroupDecorate{} })
+	Bind(func() Instruction { return &OpGroupMemberDecorate{} })
 }

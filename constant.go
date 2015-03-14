@@ -3,40 +3,94 @@
 
 package spirv
 
+import "errors"
+
+// verifyBitFlag returns true if v is a valid bit flag in the
+// given range. This includes combinations of all possible values.
+func verifyBitFlag(v uint32, low, high uint32) bool {
+	if v < low || low > high {
+		return false
+	}
+
+	if v == low || v == high {
+		return true
+	}
+
+	lower := low
+	upper := high
+
+	if lower == 0 {
+		lower++
+	}
+
+	// FIXME Can we get rid of this loop?
+	for i := lower; i < high; i *= 2 {
+		upper |= i
+	}
+
+	return v >= low && v <= upper
+}
+
 type AccessQualifier uint32
 
+func (v AccessQualifier) Verify() error {
+	if v >= AccessQualifierReadOnly && v <= AccessQualifierReadWrite {
+		return nil
+	}
+	return errors.New("invalid AccessQualifier value")
+}
+
 // Access Qualifiers define the access permissions of OpTypeSampler
-// and OpTypePipe object. Used by OpTypePipe.
+// and OpTypePipe object.
 const (
-	AccessQualifierReadOnly  AccessQualifier = 0 // A read-only object.
-	AccessQualifierWriteOnly                 = 1 // A write-only object.
-	AccessQualifierReadWrite                 = 2 // A readable and writable object.
+	AccessQualifierReadOnly  = 0 // A read-only object.
+	AccessQualifierWriteOnly = 1 // A write-only object.
+	AccessQualifierReadWrite = 2 // A readable and writable object.
 )
 
 type AddressingModel uint32
 
+func (v AddressingModel) Verify() error {
+	if v >= AddressingModeLogical && v <= AddressingModePhysical64 {
+		return nil
+	}
+	return errors.New("invalid AddressingModel value")
+}
+
 // Addressing Modes define an existing addressing mode.
 const (
-	AddressingModeLogical    AddressingModel = 0
-	AddressingModePhysical32                 = 1
-	AddressingModePhysical64                 = 2
+	AddressingModeLogical    = 0
+	AddressingModePhysical32 = 1
+	AddressingModePhysical64 = 2
 )
 
-type Dim uint32
+type Dimensionality uint32
+
+func (v Dimensionality) Verify() error {
+	if v >= Dim1D && v <= DimBuffer {
+		return nil
+	}
+	return errors.New("invalid Dimensionality value")
+}
 
 // Dimensionalities define the dimensionality of a texture.
-//
-// Used by OpTypeSampler.
 const (
-	Dim1D     Dim = 0
-	Dim2D         = 1
-	Dim3D         = 2
-	DimCube       = 3
-	DimRect       = 4
-	DimBuffer     = 5
+	Dim1D     = 0
+	Dim2D     = 1
+	Dim3D     = 2
+	DimCube   = 3
+	DimRect   = 4
+	DimBuffer = 5
 )
 
 type ExecutionMode uint32
+
+func (v ExecutionMode) Verify() error {
+	if v >= ExecutionModeInvocations && v <= ExecutionModeContractionOff {
+		return nil
+	}
+	return errors.New("invalid ExecutionMode value")
+}
 
 // Execution Modes define a mode a module’s stage will execute in.
 const (
@@ -220,29 +274,40 @@ const (
 
 type ExecutionModel uint32
 
+func (v ExecutionModel) Verify() error {
+	if v >= ExecutionModelVertex && v <= ExecutionModelKernel {
+		return nil
+	}
+	return errors.New("invalid ExecutionModel value")
+}
+
 // Execution Models define a single execution model.
 // This is used in the EntryPoint instruction to determine what stage of the
 // pipeline a given set of instructions belongs to.
 const (
-	ExecutionModelVertex                 ExecutionModel = 0 // Vertex shading stage
-	ExecutionModelTessellationControl                   = 1 // Tessellation control (or hull) shading stage.
-	ExecutionModelTessellationEvaluation                = 2 // Tessellation evaluation (or domain) shading stage
-	ExecutionModelGeometry                              = 3 // Geometry shading stage.
-	ExecutionModelFragment                              = 4 // Fragment shading stage.
-	ExecutionModelGLCompute                             = 5 // Graphical compute shading stage.
-	ExecutionModelKernel                                = 6 // Compute kernel.
+	ExecutionModelVertex                 = 0 // Vertex shading stage
+	ExecutionModelTessellationControl    = 1 // Tessellation control (or hull) shading stage.
+	ExecutionModelTessellationEvaluation = 2 // Tessellation evaluation (or domain) shading stage
+	ExecutionModelGeometry               = 3 // Geometry shading stage.
+	ExecutionModelFragment               = 4 // Fragment shading stage.
+	ExecutionModelGLCompute              = 5 // Graphical compute shading stage.
+	ExecutionModelKernel                 = 6 // Compute kernel.
 )
 
 type FPFastMathMode uint32
 
+func (v FPFastMathMode) Verify() error {
+	if verifyBitFlag(uint32(v), FPFastMathModeNotNaN, FPFastMathModeFast) {
+		return nil
+	}
+	return errors.New("invalid FPFastMathMode value")
+}
+
 // FPFastMathModes define bitflags which enable fast math operations
 // which are otherwise unsafe.
-//
-// Only valid on OpFAdd, OpFSub, OpFMul, OpFDiv, OpFRem
-// and OpFMod instructions.
 const (
 	// Assume parameters and result are not NaN.
-	FPFastMathModeNotNaN FPFastMathMode = 0
+	FPFastMathModeNotNaN = 0
 
 	// Assume parameters and result are not +/- Inf.
 	FPFastMathModeNotInf = 2
@@ -260,6 +325,13 @@ const (
 
 type FPRoundingMode uint32
 
+func (v FPRoundingMode) Verify() error {
+	if v >= FPRoundingModeRTE && v <= FPRoundingModeRTN {
+		return nil
+	}
+	return errors.New("invalid FPRoundingMode value")
+}
+
 // FPRoundingModes associate a rounding mode with a floating-point
 // conversion instruction.
 //
@@ -271,41 +343,66 @@ type FPRoundingMode uint32
 //      rounding mode.
 //
 const (
-	FPRoundingModeRTE FPRoundingMode = 0 // Round to nearest even.
-	FPRoundingModeRTZ                = 1 // Round towards zero.
-	FPRoundingModeRTP                = 2 // Round towards positive infinity.
-	FPRoundingModeRTN                = 3 // Round towards negative infinity.
+	FPRoundingModeRTE = 0 // Round to nearest even.
+	FPRoundingModeRTZ = 1 // Round towards zero.
+	FPRoundingModeRTP = 2 // Round towards positive infinity.
+	FPRoundingModeRTN = 3 // Round towards negative infinity.
 )
 
 type LinkageType uint32
+
+func (v LinkageType) Verify() error {
+	if v >= LinkageTypeExport && v <= LinkageTypeImport {
+		return nil
+	}
+	return errors.New("invalid LinkageType value")
+}
 
 // Linkage Types associate a linkage type with functions or global
 // variables. By default, functions and global variables are private
 // to a module and cannot be accessed by other modules.
 const (
-	LinkageTypeExport LinkageType = 0 // Accessible by other modules as well.
-	LinkageTypeImport             = 1 // Declaration for a global identifier that exists in another module.
+	LinkageTypeExport = 0 // Accessible by other modules as well.
+	LinkageTypeImport = 1 // Declaration for a global identifier that exists in another module.
 )
 
 type MemoryModel uint32
 
+func (v MemoryModel) Verify() error {
+	if v >= MemoryModelSimple && v <= MemoryModelOpenCL21 {
+		return nil
+	}
+	return errors.New("invalid MemoryModel value")
+}
+
 // Memory Models define an existing memory model.
 const (
-	MemoryModelSimple   MemoryModel = 0 // No shared memory consistency issues.
-	MemoryModelGLSL450              = 1 // Memory model needed by later versions of GLSL and ESSL. Works across multiple versions.
-	MemoryModelOpenCL12             = 2 // OpenCL 1.2 memory model.
-	MemoryModelOpenCL20             = 3 // OpenCL 2.0 memory model.
-	MemoryModelOpenCL21             = 4 // OpenCL 2.1 memory model.
+	MemoryModelSimple   = 0 // No shared memory consistency issues.
+	MemoryModelGLSL450  = 1 // Memory model needed by later versions of GLSL and ESSL. Works across multiple versions.
+	MemoryModelOpenCL12 = 2 // OpenCL 1.2 memory model.
+	MemoryModelOpenCL20 = 3 // OpenCL 2.0 memory model.
+	MemoryModelOpenCL21 = 4 // OpenCL 2.1 memory model.
 )
 
 type SamplerAddressingMode uint32
+
+func (v SamplerAddressingMode) Verify() error {
+	if verifyBitFlag(
+		uint32(v),
+		SamplerAddressingModeNone,
+		SamplerAddressingModeRepeatMirrored,
+	) {
+		return nil
+	}
+	return errors.New("invalid SamplerAddressingMode value")
+}
 
 // Sampler Addressing Modes define the addressing mode of read image
 // extended instructions.
 const (
 	// The image coordinates used to sample elements of the image refer to a
 	// location inside the image, otherwise the results are undefined.
-	SamplerAddressingModeNone SamplerAddressingMode = 0
+	SamplerAddressingModeNone = 0
 
 	// Out-of-range image coordinates are clamped to the extent.
 	SamplerAddressingModeClampEdge = 2
@@ -324,11 +421,22 @@ const (
 
 type SamplerFilterMode uint32
 
+func (v SamplerFilterMode) Verify() error {
+	if verifyBitFlag(
+		uint32(v),
+		SamplerFilterModeNearest,
+		SamplerFilterModeLinear,
+	) {
+		return nil
+	}
+	return errors.New("invalid SamplerFilterMode value")
+}
+
 // Sampler Filter Modes define the filter mode of read image
 // extended instructions.
 const (
 	// Use filter nearset mode when performing a read image operation.
-	SamplerFilterModeNearest SamplerFilterMode = 16
+	SamplerFilterModeNearest = 16
 
 	// Use filter linear mode when performing a read image operation.
 	SamplerFilterModeLinear = 32
@@ -336,25 +444,36 @@ const (
 
 type SourceLanguage uint32
 
+func (v SourceLanguage) Verify() error {
+	if v >= SourceLanguageUnknown && v <= SourceLanguageOpenCL {
+		return nil
+	}
+	return errors.New("invalid SourceLanguage value")
+}
+
 // Source Languages define a source language constant.
 const (
-	SourceLanguageUnknown SourceLanguage = 0
-	SourceLanguageESSL                   = 1
-	SourceLanguageGLSL                   = 2
-	SourceLanguageOpenCL                 = 3
+	SourceLanguageUnknown = 0
+	SourceLanguageESSL    = 1
+	SourceLanguageGLSL    = 2
+	SourceLanguageOpenCL  = 3
 )
 
 type StorageClass uint32
 
+func (v StorageClass) Verify() error {
+	if v >= StorageClassUniformConstant && v <= StorageClassAtomicCounter {
+		return nil
+	}
+	return errors.New("invalid StorageClass value")
+}
+
 // Storage Classes define a class of storage for declared variables
 // (does not include intermediate values).
-//
-// Used by: OpTypePointer, OpTypeVariable, OpTypeVariableArray,
-// OpTypeGenericCastToPtrExplicit
 const (
 	// Shared externally, read-only memory, visible across all instantiation
 	// or work groups. Graphics uniform memory. OpenCL Constant memory
-	StorageClassUniformConstant StorageClass = 0
+	StorageClassUniformConstant = 0
 
 	// Input from pipeline. Read only
 	StorageClassInput = 1
@@ -393,11 +512,18 @@ const (
 
 type FunctionParameter uint32
 
+func (v FunctionParameter) Verify() error {
+	if v >= FunctionParamAttrZext && v <= FunctionParamAttrNoReadWrite {
+		return nil
+	}
+	return errors.New("invalid FunctionParameter value")
+}
+
 // Function Parameter Attributes add additional information to the return type
 // and to each parameter of a function.
 const (
 	// Value should be zero extended if needed.
-	FunctionParamAttrZext FunctionParameter = 0
+	FunctionParamAttrZext = 0
 
 	// Value should be sign extended if needed.
 	FunctionParamAttrSext = 1
@@ -437,10 +563,17 @@ const (
 
 type Decoration uint32
 
+func (v Decoration) Verify() error {
+	if v >= DecorationPrecisionLow && v <= DecorationSpecId {
+		return nil
+	}
+	return errors.New("invalid Decoration value")
+}
+
 // Decorations are used by OpDecorate and OpMemberDecorate
 const (
 	// Apply as described in the ES Precision section.
-	DecorationPrecisionLow Decoration = 0
+	DecorationPrecisionLow = 0
 
 	// Apply as described in the ES Precision section.
 	DecorationPrecisionMedium = 1
@@ -717,70 +850,81 @@ const (
 
 type Builtin uint32
 
+func (v Builtin) Verify() error {
+	if v >= BuiltinPosition && v <= BuiltinSubgroupLocalInvocationId {
+		return nil
+	}
+	return errors.New("invalid Builtin value")
+}
+
 // Builtins define a builtin operation.
 //
 // Used when Decoration is Built-In. Apply to either:
+//
 //   - The result <id> of the variable declaration of the built-in variable, or
 //   - A structure member, if the built-in is a member of a structure.
 //
 // These have the semantics described by their originating API and
 // high-level language environments.
-//
-// TODO: make these native to this specification
 const (
-	BuiltinPosition                  Builtin = 0
-	BuiltinPointSize                         = 1
-	BuiltinClipVertex                        = 2
-	BuiltinClipDistance                      = 3
-	BuiltinCullDistance                      = 4
-	BuiltinVertexId                          = 5
-	BuiltinInstanceId                        = 6
-	BuiltinPrimitiveId                       = 7
-	BuiltinInvocationId                      = 8
-	BuiltinLayer                             = 9
-	BuiltinViewportIndex                     = 10
-	BuiltinTessLevelOuter                    = 11
-	BuiltinTessLevelInner                    = 12
-	BuiltinTessCoord                         = 13
-	BuiltinPatchVertices                     = 14
-	BuiltinFragCoord                         = 15
-	BuiltinPointCoord                        = 16
-	BuiltinFrontFacing                       = 17
-	BuiltinSampleId                          = 18
-	BuiltinSamplePosition                    = 19
-	BuiltinSampleMask                        = 20
-	BuiltinFragColor                         = 21
-	BuiltinFragDepth                         = 22
-	BuiltinHelperInvocation                  = 23
-	BuiltinNumWorkgroups                     = 24
-	BuiltinWorkgroupSize                     = 25
-	BuiltinWorkgroupId                       = 26
-	BuiltinLocalInvocationId                 = 27
-	BuiltinGlobalInvocationId                = 28
-	BuiltinLocalInvocationIndex              = 29
-	BuiltinWorkDim                           = 30
-	BuiltinGlobalSize                        = 31
-	BuiltinEnqueuedWorkgroupSize             = 32
-	BuiltinGlobalOffset                      = 33
-	BuiltinGlobalLinearId                    = 34
-	BuiltinWorkgroupLinearId                 = 35
-	BuiltinSubgroupSize                      = 36
-	BuiltinSubgroupMaxSize                   = 37
-	BuiltinNumSubgroups                      = 38
-	BuiltinNumEnqueuedSubgroups              = 39
-	BuiltinSubgroupId                        = 40
-	BuiltinSubgroupLocalInvocationId         = 41
+	BuiltinPosition                  = 0
+	BuiltinPointSize                 = 1
+	BuiltinClipVertex                = 2
+	BuiltinClipDistance              = 3
+	BuiltinCullDistance              = 4
+	BuiltinVertexId                  = 5
+	BuiltinInstanceId                = 6
+	BuiltinPrimitiveId               = 7
+	BuiltinInvocationId              = 8
+	BuiltinLayer                     = 9
+	BuiltinViewportIndex             = 10
+	BuiltinTessLevelOuter            = 11
+	BuiltinTessLevelInner            = 12
+	BuiltinTessCoord                 = 13
+	BuiltinPatchVertices             = 14
+	BuiltinFragCoord                 = 15
+	BuiltinPointCoord                = 16
+	BuiltinFrontFacing               = 17
+	BuiltinSampleId                  = 18
+	BuiltinSamplePosition            = 19
+	BuiltinSampleMask                = 20
+	BuiltinFragColor                 = 21
+	BuiltinFragDepth                 = 22
+	BuiltinHelperInvocation          = 23
+	BuiltinNumWorkgroups             = 24
+	BuiltinWorkgroupSize             = 25
+	BuiltinWorkgroupId               = 26
+	BuiltinLocalInvocationId         = 27
+	BuiltinGlobalInvocationId        = 28
+	BuiltinLocalInvocationIndex      = 29
+	BuiltinWorkDim                   = 30
+	BuiltinGlobalSize                = 31
+	BuiltinEnqueuedWorkgroupSize     = 32
+	BuiltinGlobalOffset              = 33
+	BuiltinGlobalLinearId            = 34
+	BuiltinWorkgroupLinearId         = 35
+	BuiltinSubgroupSize              = 36
+	BuiltinSubgroupMaxSize           = 37
+	BuiltinNumSubgroups              = 38
+	BuiltinNumEnqueuedSubgroups      = 39
+	BuiltinSubgroupId                = 40
+	BuiltinSubgroupLocalInvocationId = 41
 )
 
 type SelectionControl uint32
 
+func (v SelectionControl) Verify() error {
+	if v >= SelectionControlNoControl && v <= SelectionControlDontFlatten {
+		return nil
+	}
+	return errors.New("invalid SelectionControl value")
+}
+
 // Selection Controls define priorities for flattening
 // of flow control structures.
-//
-// These are used by OpSelectionMerge.
 const (
 	// No control requested.
-	SelectionControlNoControl SelectionControl = 0
+	SelectionControlNoControl = 0
 
 	// Strong request, to the extent possible, to remove the flow
 	// control for this selection.
@@ -793,13 +937,18 @@ const (
 
 type LoopControl uint32
 
+func (v LoopControl) Verify() error {
+	if v >= LoopControlNoControl && v <= LoopControlDontUnroll {
+		return nil
+	}
+	return errors.New("invalid LoopControl value")
+}
+
 // Loop Controls define priorities for unrolling of
 // loop constructs.
-//
-// They are used by OpLoopMerge.
 const (
 	// No control requested.
-	LoopControlNoControl LoopControl = 0
+	LoopControlNoControl = 0
 
 	// Strong request, to the extent possible, to unroll or unwind this loop.
 	LoopControlUnroll = 1
@@ -811,12 +960,21 @@ const (
 
 type FunctionControlMask uint32
 
+func (v FunctionControlMask) Verify() error {
+	if verifyBitFlag(
+		uint32(v),
+		FunctionControlMaskInLine,
+		FunctionControlMaskConst,
+	) {
+		return nil
+	}
+	return errors.New("invalid FunctionControlMask value")
+}
+
 // Function Control Masks define bitmask hints for function optimisations.
-//
-// These are used by OpFunction.
 const (
 	// Strong request, to the extent possible, to inline the function.
-	FunctionControlMaskInLine FunctionControlMask = 1
+	FunctionControlMaskInLine = 1
 
 	// Strong request, to the extent possible, to not inline the function.
 	FunctionControlMaskDontInline = 2
@@ -834,28 +992,22 @@ const (
 
 type MemorySemantic uint32
 
+func (v MemorySemantic) Verify() error {
+	if verifyBitFlag(
+		uint32(v),
+		MemorySemanticRelaxed,
+		MemorySemanticImageMemory,
+	) {
+		return nil
+	}
+	return errors.New("invalid MemorySemantic value")
+}
+
 // Memory Semantics define bitflag memory classifications and
-// ordering semantics. Used by:
-//
-// - OpMemoryBarrier
-// - OpAtomicLoad
-// - OpAtomicStore
-// - OpAtomicExchange
-// - OpAtomicCompareExchange
-// - OpAtomicCompareExchangeWeak
-// - OpAtomicIIncrement
-// - OpAtomicIDecrement
-// - OpAtomicIAdd
-// - OpAtomicISub
-// - OpAtomicUMin
-// - OpAtomicUMax
-// - OpAtomicAnd
-// - OpAtomicOr
-// - OpAtomicXor
-//
+// ordering semantics.
 const (
 	// TODO: ...
-	MemorySemanticRelaxed MemorySemantic = 1
+	MemorySemanticRelaxed = 1
 
 	// All observers will see this memory access in the same order WRT to
 	// other sequentially-consistent memory accesses from this invocation.
@@ -896,10 +1048,21 @@ const (
 
 type MemoryAccess uint32
 
+func (v MemoryAccess) Verify() error {
+	if verifyBitFlag(
+		uint32(v),
+		MemoryAccessVolatile,
+		MemoryAccessAligned,
+	) {
+		return nil
+	}
+	return errors.New("invalid MemoryAccess value")
+}
+
 // Memory Access defines memory access semantics.
 const (
 	// This access cannot be optimized away; it has to be executed.
-	MemoryAccessVolatile MemoryAccess = 1
+	MemoryAccessVolatile = 1
 
 	// This access has a known alignment, provided as a literal in
 	// the next operand.
@@ -908,46 +1071,17 @@ const (
 
 type ExecutionScope uint32
 
+func (v ExecutionScope) Verify() error {
+	if v >= ExecutionScopeCrossDevice && v <= ExecutionScopeSubgroup {
+		return nil
+	}
+	return errors.New("invalid ExecutionScope value")
+}
+
 // Execution Scopes define the scope of execution.
-// It is used by:
-//
-//  - OpControlBarrier
-//  - OpMemoryBarrier
-//  - OpAtomicLoad
-//  - OpAtomicStore
-//  - OpAtomicExchange
-//  - OpAtomicCompareExchange
-//  - OpAtomicCompareExchangeWeak
-//  - OpAtomicIIncrement
-//  - OpAtomicIDecrement
-//  - OpAtomicIAdd
-//  - OpAtomicISub
-//  -  OpAtomicUMin
-//  - OpAtomicUMax
-//  - OpAtomicAnd
-//  - OpAtomicOr
-//  - OpAtomicXor
-//  - OpAsyncGroupCopy
-//  - OpWaitGroupEvents
-//  - OpGroupAll
-//  - OpGroupAny
-//  - OpGroupBroadcast
-//  - OpGroupIAdd
-//  - OpGroupFAdd
-//  - OpGroupFMin
-//  - OpGroupUMin
-//  - OpGroupSMin
-//  - OpGroupFMax
-//  - OpGroupUMax
-//  - OpGroupSMax
-//  - OpGroupReserveReadPipePackets
-//  - OpGroupReserveWritePipePackets
-//  - OpGroupCommitReadPipe
-//  - OpGroupCommitWritePipe
-//
 const (
 	// Everything executing on all the execution devices in the system.
-	ExecutionScopeCrossDevice ExecutionScope = 0
+	ExecutionScopeCrossDevice = 0
 
 	// Everything executing on the device executing this invocation
 	ExecutionScopeDevice = 1
@@ -961,22 +1095,18 @@ const (
 
 type GroupOperation uint32
 
+func (v GroupOperation) Verify() error {
+	if v >= GroupOperationReduce && v <= GroupOperationExclusiveScan {
+		return nil
+	}
+	return errors.New("invalid GroupOperation value")
+}
+
 // Group Operations define the class of workgroup or subgroup operation.
-// It is used by:
-//
-//  - OpGroupIAdd
-//  - OpGroupFAdd
-//  - OpGroupFMin
-//  - OpGroupUMin
-//  - OpGroupSMin
-//  - OpGroupFMax
-//  - OpGroupUMax
-//  - OpGroupSMax
-//
 const (
 	// Returns the result of a reduction operation for all values of a
 	// specific value X specified by workitems within a workgroup.
-	GroupOperationReduce GroupOperation = 0
+	GroupOperationReduce = 0
 
 	// The inclusive scan performs a binary operation with an identity
 	// I and n (where n is the size of the workgroup) elements[a0, a1, . . . an-1]
@@ -991,17 +1121,22 @@ const (
 
 type KernelEnqueueFlag uint32
 
+func (v KernelEnqueueFlag) Verify() error {
+	if v >= KernelEnqueueFlagNoWait && v <= KernelEnqueueFlagWaitWorkGroup {
+		return nil
+	}
+	return errors.New("invalid KernelEnqueueFlag value")
+}
+
 // Kernel Enqueue Flags specify when the child kernel begins execution.
 //
 // Note: Implementations are not required to honor this flag. Implementations
 // may not schedule kernel launch earlier than the point specified by this
 // flag, however.
-//
-// They are used by OpEnqueueKernel.
 const (
 	// Indicates that the enqueued kernels do not need to wait for the
 	// parent kernel to finish execution before they begin execution.
-	KernelEnqueueFlagNoWait KernelEnqueueFlag = 0
+	KernelEnqueueFlagNoWait = 0
 
 	// Indicates that all work-items of the parent kernel must finish
 	// executing and all immediate side effects committed before the
@@ -1023,8 +1158,15 @@ const (
 
 type KernelProfilingInfo uint32
 
+func (v KernelProfilingInfo) Verify() error {
+	if v == KernelProfilingInfoCmdExecTime {
+		return nil
+	}
+	return errors.New("invalid KernelProfilingInfo value")
+}
+
 // Kernel Profiling Info specifies the profiling information to be queried.
 // Used by OpCaptureEventProfilingInfo.
 const (
-	KernelProfilingInfoCmdExecTime KernelProfilingInfo = 1
+	KernelProfilingInfoCmdExecTime = 1
 )
