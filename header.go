@@ -3,6 +3,8 @@
 
 package spirv
 
+import "errors"
+
 // Endian determines the byte order for a stream.
 type Endian uint8
 
@@ -19,6 +21,9 @@ const (
 	MagicLE = 0x07230203
 	MagicBE = 0x03022307
 )
+
+// Version number of the specification this package was written for.
+const SpecificationVersion = 99
 
 // Header defines the header of a SPIR-V Module.
 type Header struct {
@@ -47,4 +52,17 @@ type Header struct {
 
 	// 0 (Reserved for instruction schema, if needed.)
 	Reserved uint32
+}
+
+// Verify returns an error if the header contains invalid data.
+func (h *Header) Verify() error {
+	if h.Magic != MagicBE && h.Magic != MagicLE {
+		return errors.New("Header.Magic: invalid value")
+	}
+
+	if h.Version != SpecificationVersion {
+		return errors.New("Header.Version: invalid version number")
+	}
+
+	return nil
 }
