@@ -49,7 +49,7 @@ func (c *OpTypeInt) Verify() error {
 	switch c.Signedness {
 	case 0, 1:
 	default:
-		return fmt.Errorf("OpTypeInt.Signedness: expected: 0, 1")
+		return fmt.Errorf("OpTypeInt: Signedness must 0 or 1")
 	}
 
 	return nil
@@ -157,25 +157,25 @@ func (c *OpTypeSampler) Verify() error {
 	switch c.Content {
 	case 0, 1, 2:
 	default:
-		return errors.New("OpTypeSampler.Content: expected: 0, 1, 2")
+		return errors.New("OpTypeSampler: Content must be 0, 1 or 2")
 	}
 
 	switch c.Arrayed {
 	case 0, 1:
 	default:
-		return errors.New("OpTypeSampler.Arrayed: expected: 0, 1")
+		return errors.New("OpTypeSampler: Arrayed must be 0 or 1")
 	}
 
 	switch c.Compare {
 	case 0, 1:
 	default:
-		return errors.New("OpTypeSampler.Compare: expected: 0, 1")
+		return errors.New("OpTypeSampler: Compare must be 0 or 1")
 	}
 
 	switch c.MS {
 	case 0, 1:
 	default:
-		return errors.New("OpTypeSampler.MS: expected: 0, 1")
+		return errors.New("OpTypeSampler: MS must be 0 or 1")
 	}
 
 	return nil
