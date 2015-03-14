@@ -7,27 +7,27 @@ import "testing"
 
 type BitTest struct {
 	in   uint32
-	low  uint32
-	high uint32
+	none bool
+	mask uint32
 	want bool
 }
 
 func TestBitflag(t *testing.T) {
 	for _, bt := range []BitTest{
-		{0, 0, 0, true},
-		{0, 2, 0, false},
-		{0, 2, 4, false},
-		{2, 0, 4, true},
-		{5, 0, 4, true},
+		{0, true, 0, true},
+		{0, false, 0, false},
+		{0, true, 7, true},
+		{2, true, 7, true},
+		{5, true, 7, true},
 	} {
-		testBitflag(t, bt.in, bt.low, bt.high, bt.want)
+		testBitflag(t, bt.in, bt.none, bt.mask, bt.want)
 	}
 }
 
-func testBitflag(t *testing.T, in, low, high uint32, want bool) {
-	have := verifyBitFlag(in, low, high)
+func testBitflag(t *testing.T, in uint32, none bool, mask uint32, want bool) {
+	have := verifyBitFlag(in, none, mask)
 	if want != have {
-		t.Fatalf("%x (%x - %x) mismatch: Want %v, Have %v",
-			in, low, high, want, have)
+		t.Fatalf("mismatch: in: %x, none: %v, mask: %x, want: %v, have: %v",
+			in, none, mask, want, have)
 	}
 }

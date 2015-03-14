@@ -7,28 +7,8 @@ import "errors"
 
 // verifyBitFlag returns true if v is a valid bit flag in the
 // given range. This includes combinations of all possible values.
-func verifyBitFlag(v uint32, low, high uint32) bool {
-	if v < low || low > high {
-		return false
-	}
-
-	if v == low || v == high {
-		return true
-	}
-
-	lower := low
-	upper := high
-
-	if lower == 0 {
-		lower++
-	}
-
-	// FIXME Can we get rid of this loop?
-	for i := lower; i < high; i *= 2 {
-		upper |= i
-	}
-
-	return v >= low && v <= upper
+func verifyBitFlag(v uint32, none bool, mask uint32) bool {
+	return v == (v&mask) && (none || v != 0)
 }
 
 type AccessQualifier uint32
@@ -297,7 +277,7 @@ const (
 type FPFastMathMode uint32
 
 func (v FPFastMathMode) Verify() error {
-	if verifyBitFlag(uint32(v), FPFastMathModeNotNaN, FPFastMathModeFast) {
+	if verifyBitFlag(uint32(v), true, FPFastMathModeNotInf|FPFastMathModeNSZ|FPFastMathModeAllowRecip|FPFastMathModeFast) {
 		return nil
 	}
 	return errors.New("invalid FPFastMathMode value")
@@ -387,14 +367,12 @@ const (
 type SamplerAddressingMode uint32
 
 func (v SamplerAddressingMode) Verify() error {
-	if verifyBitFlag(
-		uint32(v),
-		SamplerAddressingModeNone,
-		SamplerAddressingModeRepeatMirrored,
-	) {
+	switch v {
+	case SamplerAddressingModeClampEdge, SamplerAddressingModeClamp, SamplerAddressingModeRepeat, SamplerAddressingModeRepeatMirrored:
 		return nil
+	default:
+		return errors.New("invalid SamplerAddressingMode value")
 	}
-	return errors.New("invalid SamplerAddressingMode value")
 }
 
 // Sampler Addressing Modes define the addressing mode of read image
@@ -422,14 +400,12 @@ const (
 type SamplerFilterMode uint32
 
 func (v SamplerFilterMode) Verify() error {
-	if verifyBitFlag(
-		uint32(v),
-		SamplerFilterModeNearest,
-		SamplerFilterModeLinear,
-	) {
+	switch v {
+	case SamplerFilterModeNearest, SamplerFilterModeLinear:
 		return nil
+	default:
+		return errors.New("invalid SamplerFilterMode value")
 	}
-	return errors.New("invalid SamplerFilterMode value")
 }
 
 // Sampler Filter Modes define the filter mode of read image
@@ -963,8 +939,8 @@ type FunctionControlMask uint32
 func (v FunctionControlMask) Verify() error {
 	if verifyBitFlag(
 		uint32(v),
-		FunctionControlMaskInLine,
-		FunctionControlMaskConst,
+		false,
+		FunctionControlMaskInLine|FunctionControlMaskDontInline|FunctionControlMaskPure|FunctionControlMaskConst,
 	) {
 		return nil
 	}
@@ -995,8 +971,17 @@ type MemorySemantic uint32
 func (v MemorySemantic) Verify() error {
 	if verifyBitFlag(
 		uint32(v),
-		MemorySemanticRelaxed,
-		MemorySemanticImageMemory,
+		false,
+		MemorySemanticRelaxed|
+			MemorySemanticSequentiallyConsistent|
+			MemorySemanticAcquire|
+			MemorySemanticRelease|
+			MemorySemanticUniformMemory|
+			MemorySemanticSubgroupMemory|
+			MemorySemanticWorkgroupLocalMemory|
+			MemorySemanticWorkgroupGlobalMemory|
+			MemorySemanticAtomicCounterMemory|
+			MemorySemanticImageMemory,
 	) {
 		return nil
 	}
