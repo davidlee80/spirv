@@ -89,8 +89,13 @@ func (m *Module) Verify() error {
 
 	// Perform structural validity checks on each instruction, before
 	// we proceed to the semantic checks.
+	//
+	// This uses reflection to call Verify() on all relevant struct fields
+	// and then on the instruction itself. The latter is used by some
+	// instructions to validate parts which can not be caught by the field
+	// types themselves.
 	for _, instr := range m.Code {
-		err := instr.Verify()
+		err := verifyInstruction(instr)
 		if err != nil {
 			return err
 		}
