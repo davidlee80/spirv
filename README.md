@@ -121,7 +121,7 @@ or:
 
 
 At the highest level, one can operate on complete modules:
-They can be load or save and verified to be correct.
+They can be loaded, saved and verified to be correct.
 
 	module, err := spirv.Load(r)
 	...
