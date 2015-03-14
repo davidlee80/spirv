@@ -103,7 +103,7 @@ const (
 	//
 	//   [0]: Number of invocations.
 	//
-	ExecutionModeInvocations ExecutionMode = 0
+	ExecutionModeInvocations = 0
 
 	// Requests the tessellation primitive generator to divide edges into a
 	// collection of equal-sized segments. Only valid with one of the
