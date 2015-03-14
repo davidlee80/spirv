@@ -3,32 +3,40 @@
 
 package spirv
 
+type AccessQualifier uint32
+
 // Access Qualifiers define the access permissions of OpTypeSampler
 // and OpTypePipe object. Used by OpTypePipe.
 const (
-	AccessQualifierReadOnly  = 0 // A read-only object.
-	AccessQualifierWriteOnly = 1 // A write-only object.
-	AccessQualifierReadWrite = 2 // A readable and writable object.
+	AccessQualifierReadOnly  AccessQualifier = 0 // A read-only object.
+	AccessQualifierWriteOnly                 = 1 // A write-only object.
+	AccessQualifierReadWrite                 = 2 // A readable and writable object.
 )
+
+type AddressingModel uint32
 
 // Addressing Modes define an existing addressing mode.
 const (
-	AddressingModeLogical    = 0
-	AddressingModePhysical32 = 1
-	AddressingModePhysical64 = 2
+	AddressingModeLogical    AddressingModel = 0
+	AddressingModePhysical32                 = 1
+	AddressingModePhysical64                 = 2
 )
+
+type Dim uint32
 
 // Dimensionalities define the dimensionality of a texture.
 //
 // Used by OpTypeSampler.
 const (
-	Dim1D     = 0
-	Dim2D     = 1
-	Dim3D     = 2
-	DimCube   = 3
-	DimRect   = 4
-	DimBuffer = 5
+	Dim1D     Dim = 0
+	Dim2D         = 1
+	Dim3D         = 2
+	DimCube       = 3
+	DimRect       = 4
+	DimBuffer     = 5
 )
+
+type ExecutionMode uint32
 
 // Execution Modes define a mode a module’s stage will execute in.
 const (
@@ -41,7 +49,7 @@ const (
 	//
 	//   [0]: Number of invocations.
 	//
-	ExecutionModeInvocations = 0
+	ExecutionModeInvocations ExecutionMode = 0
 
 	// Requests the tessellation primitive generator to divide edges into a
 	// collection of equal-sized segments. Only valid with one of the
@@ -210,18 +218,22 @@ const (
 	ExecutionModeContractionOff = 30
 )
 
+type ExecutionModel uint32
+
 // Execution Models define a single execution model.
 // This is used in the EntryPoint instruction to determine what stage of the
 // pipeline a given set of instructions belongs to.
 const (
-	ExecutionModelVertex                 = 0 // Vertex shading stage
-	ExecutionModelTessellationControl    = 1 // Tessellation control (or hull) shading stage.
-	ExecutionModelTessellationEvaluation = 2 // Tessellation evaluation (or domain) shading stage
-	ExecutionModelGeometry               = 3 // Geometry shading stage.
-	ExecutionModelFragment               = 4 // Fragment shading stage.
-	ExecutionModelGLCompute              = 5 // Graphical compute shading stage.
-	ExecutionModelKernel                 = 6 // Compute kernel.
+	ExecutionModelVertex                 ExecutionModel = 0 // Vertex shading stage
+	ExecutionModelTessellationControl                   = 1 // Tessellation control (or hull) shading stage.
+	ExecutionModelTessellationEvaluation                = 2 // Tessellation evaluation (or domain) shading stage
+	ExecutionModelGeometry                              = 3 // Geometry shading stage.
+	ExecutionModelFragment                              = 4 // Fragment shading stage.
+	ExecutionModelGLCompute                             = 5 // Graphical compute shading stage.
+	ExecutionModelKernel                                = 6 // Compute kernel.
 )
+
+type FPFastMathMode uint32
 
 // FPFastMathModes define bitflags which enable fast math operations
 // which are otherwise unsafe.
@@ -230,7 +242,7 @@ const (
 // and OpFMod instructions.
 const (
 	// Assume parameters and result are not NaN.
-	FPFastMathModeNotNaN = 0
+	FPFastMathModeNotNaN FPFastMathMode = 0
 
 	// Assume parameters and result are not +/- Inf.
 	FPFastMathModeNotInf = 2
@@ -246,6 +258,8 @@ const (
 	FPFastMathModeFast = 16
 )
 
+type FPRoundingMode uint32
+
 // FPRoundingModes associate a rounding mode with a floating-point
 // conversion instruction.
 //
@@ -257,35 +271,41 @@ const (
 //      rounding mode.
 //
 const (
-	FPRoundingModeRTE = 0 // Round to nearest even.
-	FPRoundingModeRTZ = 1 // Round towards zero.
-	FPRoundingModeRTP = 2 // Round towards positive infinity.
-	FPRoundingModeRTN = 3 // Round towards negative infinity.
+	FPRoundingModeRTE FPRoundingMode = 0 // Round to nearest even.
+	FPRoundingModeRTZ                = 1 // Round towards zero.
+	FPRoundingModeRTP                = 2 // Round towards positive infinity.
+	FPRoundingModeRTN                = 3 // Round towards negative infinity.
 )
+
+type LinkageType uint32
 
 // Linkage Types associate a linkage type with functions or global
 // variables. By default, functions and global variables are private
 // to a module and cannot be accessed by other modules.
 const (
-	LinkageTypeExport = 0 // Accessible by other modules as well.
-	LinkageTypeImport = 1 // Declaration for a global identifier that exists in another module.
+	LinkageTypeExport LinkageType = 0 // Accessible by other modules as well.
+	LinkageTypeImport             = 1 // Declaration for a global identifier that exists in another module.
 )
+
+type MemoryModel uint32
 
 // Memory Models define an existing memory model.
 const (
-	MemoryModelSimple   = 0 // No shared memory consistency issues.
-	MemoryModelGLSL450  = 1 // Memory model needed by later versions of GLSL and ESSL. Works across multiple versions.
-	MemoryModelOpenCL12 = 2 // OpenCL 1.2 memory model.
-	MemoryModelOpenCL20 = 3 // OpenCL 2.0 memory model.
-	MemoryModelOpenCL21 = 4 // OpenCL 2.1 memory model.
+	MemoryModelSimple   MemoryModel = 0 // No shared memory consistency issues.
+	MemoryModelGLSL450              = 1 // Memory model needed by later versions of GLSL and ESSL. Works across multiple versions.
+	MemoryModelOpenCL12             = 2 // OpenCL 1.2 memory model.
+	MemoryModelOpenCL20             = 3 // OpenCL 2.0 memory model.
+	MemoryModelOpenCL21             = 4 // OpenCL 2.1 memory model.
 )
+
+type SamplerAddressingMode uint32
 
 // Sampler Addressing Modes define the addressing mode of read image
 // extended instructions.
 const (
 	// The image coordinates used to sample elements of the image refer to a
 	// location inside the image, otherwise the results are undefined.
-	SamplerAddressingModeNone = 0
+	SamplerAddressingModeNone SamplerAddressingMode = 0
 
 	// Out-of-range image coordinates are clamped to the extent.
 	SamplerAddressingModeClampEdge = 2
@@ -302,23 +322,29 @@ const (
 	SamplerAddressingModeRepeatMirrored = 8
 )
 
+type SamplerFilterMode uint32
+
 // Sampler Filter Modes define the filter mode of read image
 // extended instructions.
 const (
 	// Use filter nearset mode when performing a read image operation.
-	SamplerFilterModeNearest = 16
+	SamplerFilterModeNearest SamplerFilterMode = 16
 
 	// Use filter linear mode when performing a read image operation.
 	SamplerFilterModeLinear = 32
 )
 
+type SourceLanguage uint32
+
 // Source Languages define a source language constant.
 const (
-	SourceLanguageUnknown = 0
-	SourceLanguageESSL    = 1
-	SourceLanguageGLSL    = 2
-	SourceLanguageOpenCL  = 3
+	SourceLanguageUnknown SourceLanguage = 0
+	SourceLanguageESSL                   = 1
+	SourceLanguageGLSL                   = 2
+	SourceLanguageOpenCL                 = 3
 )
+
+type StorageClass uint32
 
 // Storage Classes define a class of storage for declared variables
 // (does not include intermediate values).
@@ -328,7 +354,7 @@ const (
 const (
 	// Shared externally, read-only memory, visible across all instantiation
 	// or work groups. Graphics uniform memory. OpenCL Constant memory
-	StorageClassUniformConstant = 0
+	StorageClassUniformConstant StorageClass = 0
 
 	// Input from pipeline. Read only
 	StorageClassInput = 1
@@ -365,11 +391,13 @@ const (
 	StorageClassAtomicCounter = 10
 )
 
+type FunctionParameter uint32
+
 // Function Parameter Attributes add additional information to the return type
 // and to each parameter of a function.
 const (
 	// Value should be zero extended if needed.
-	FunctionParamAttrZext = 0
+	FunctionParamAttrZext FunctionParameter = 0
 
 	// Value should be sign extended if needed.
 	FunctionParamAttrSext = 1
@@ -407,10 +435,12 @@ const (
 	FunctionParamAttrNoReadWrite = 8
 )
 
+type Decoration uint32
+
 // Decorations are used by OpDecorate and OpMemberDecorate
 const (
 	// Apply as described in the ES Precision section.
-	DecorationPrecisionLow = 0
+	DecorationPrecisionLow Decoration = 0
 
 	// Apply as described in the ES Precision section.
 	DecorationPrecisionMedium = 1
@@ -685,6 +715,8 @@ const (
 	DecorationSpecId = 44
 )
 
+type Builtin uint32
+
 // Builtins define a builtin operation.
 //
 // Used when Decoration is Built-In. Apply to either:
@@ -696,49 +728,51 @@ const (
 //
 // TODO: make these native to this specification
 const (
-	BuiltinPosition                  = 0
-	BuiltinPointSize                 = 1
-	BuiltinClipVertex                = 2
-	BuiltinClipDistance              = 3
-	BuiltinCullDistance              = 4
-	BuiltinVertexId                  = 5
-	BuiltinInstanceId                = 6
-	BuiltinPrimitiveId               = 7
-	BuiltinInvocationId              = 8
-	BuiltinLayer                     = 9
-	BuiltinViewportIndex             = 10
-	BuiltinTessLevelOuter            = 11
-	BuiltinTessLevelInner            = 12
-	BuiltinTessCoord                 = 13
-	BuiltinPatchVertices             = 14
-	BuiltinFragCoord                 = 15
-	BuiltinPointCoord                = 16
-	BuiltinFrontFacing               = 17
-	BuiltinSampleId                  = 18
-	BuiltinSamplePosition            = 19
-	BuiltinSampleMask                = 20
-	BuiltinFragColor                 = 21
-	BuiltinFragDepth                 = 22
-	BuiltinHelperInvocation          = 23
-	BuiltinNumWorkgroups             = 24
-	BuiltinWorkgroupSize             = 25
-	BuiltinWorkgroupId               = 26
-	BuiltinLocalInvocationId         = 27
-	BuiltinGlobalInvocationId        = 28
-	BuiltinLocalInvocationIndex      = 29
-	BuiltinWorkDim                   = 30
-	BuiltinGlobalSize                = 31
-	BuiltinEnqueuedWorkgroupSize     = 32
-	BuiltinGlobalOffset              = 33
-	BuiltinGlobalLinearId            = 34
-	BuiltinWorkgroupLinearId         = 35
-	BuiltinSubgroupSize              = 36
-	BuiltinSubgroupMaxSize           = 37
-	BuiltinNumSubgroups              = 38
-	BuiltinNumEnqueuedSubgroups      = 39
-	BuiltinSubgroupId                = 40
-	BuiltinSubgroupLocalInvocationId = 41
+	BuiltinPosition                  Builtin = 0
+	BuiltinPointSize                         = 1
+	BuiltinClipVertex                        = 2
+	BuiltinClipDistance                      = 3
+	BuiltinCullDistance                      = 4
+	BuiltinVertexId                          = 5
+	BuiltinInstanceId                        = 6
+	BuiltinPrimitiveId                       = 7
+	BuiltinInvocationId                      = 8
+	BuiltinLayer                             = 9
+	BuiltinViewportIndex                     = 10
+	BuiltinTessLevelOuter                    = 11
+	BuiltinTessLevelInner                    = 12
+	BuiltinTessCoord                         = 13
+	BuiltinPatchVertices                     = 14
+	BuiltinFragCoord                         = 15
+	BuiltinPointCoord                        = 16
+	BuiltinFrontFacing                       = 17
+	BuiltinSampleId                          = 18
+	BuiltinSamplePosition                    = 19
+	BuiltinSampleMask                        = 20
+	BuiltinFragColor                         = 21
+	BuiltinFragDepth                         = 22
+	BuiltinHelperInvocation                  = 23
+	BuiltinNumWorkgroups                     = 24
+	BuiltinWorkgroupSize                     = 25
+	BuiltinWorkgroupId                       = 26
+	BuiltinLocalInvocationId                 = 27
+	BuiltinGlobalInvocationId                = 28
+	BuiltinLocalInvocationIndex              = 29
+	BuiltinWorkDim                           = 30
+	BuiltinGlobalSize                        = 31
+	BuiltinEnqueuedWorkgroupSize             = 32
+	BuiltinGlobalOffset                      = 33
+	BuiltinGlobalLinearId                    = 34
+	BuiltinWorkgroupLinearId                 = 35
+	BuiltinSubgroupSize                      = 36
+	BuiltinSubgroupMaxSize                   = 37
+	BuiltinNumSubgroups                      = 38
+	BuiltinNumEnqueuedSubgroups              = 39
+	BuiltinSubgroupId                        = 40
+	BuiltinSubgroupLocalInvocationId         = 41
 )
+
+type SelectionControl uint32
 
 // Selection Controls define priorities for flattening
 // of flow control structures.
@@ -746,7 +780,7 @@ const (
 // These are used by OpSelectionMerge.
 const (
 	// No control requested.
-	SelectionControlNoControl = 0
+	SelectionControlNoControl SelectionControl = 0
 
 	// Strong request, to the extent possible, to remove the flow
 	// control for this selection.
@@ -757,13 +791,15 @@ const (
 	SelectionControlDontFlatten = 2
 )
 
+type LoopControl uint32
+
 // Loop Controls define priorities for unrolling of
 // loop constructs.
 //
 // They are used by OpLoopMerge.
 const (
 	// No control requested.
-	LoopControlNoControl = 0
+	LoopControlNoControl LoopControl = 0
 
 	// Strong request, to the extent possible, to unroll or unwind this loop.
 	LoopControlUnroll = 1
@@ -773,12 +809,14 @@ const (
 	LoopControlDontUnroll = 2
 )
 
+type FunctionControlMask uint32
+
 // Function Control Masks define bitmask hints for function optimisations.
 //
 // These are used by OpFunction.
 const (
 	// Strong request, to the extent possible, to inline the function.
-	FunctionControlMaskInLine = 1
+	FunctionControlMaskInLine FunctionControlMask = 1
 
 	// Strong request, to the extent possible, to not inline the function.
 	FunctionControlMaskDontInline = 2
@@ -793,6 +831,8 @@ const (
 	// computes the same result for the same argument values.
 	FunctionControlMaskConst = 8
 )
+
+type MemorySemantic uint32
 
 // Memory Semantics define bitflag memory classifications and
 // ordering semantics. Used by:
@@ -815,7 +855,7 @@ const (
 //
 const (
 	// TODO: ...
-	MemorySemanticRelaxed = 1
+	MemorySemanticRelaxed MemorySemantic = 1
 
 	// All observers will see this memory access in the same order WRT to
 	// other sequentially-consistent memory accesses from this invocation.
@@ -854,15 +894,19 @@ const (
 	MemorySemanticImageMemory = 512
 )
 
+type MemoryAccess uint32
+
 // Memory Access defines memory access semantics.
 const (
 	// This access cannot be optimized away; it has to be executed.
-	MemoryAccessVolatile = 1
+	MemoryAccessVolatile MemoryAccess = 1
 
 	// This access has a known alignment, provided as a literal in
 	// the next operand.
 	MemoryAccessAligned = 2
 )
+
+type ExecutionScope uint32
 
 // Execution Scopes define the scope of execution.
 // It is used by:
@@ -903,7 +947,7 @@ const (
 //
 const (
 	// Everything executing on all the execution devices in the system.
-	ExecutionScopeCrossDevice = 0
+	ExecutionScopeCrossDevice ExecutionScope = 0
 
 	// Everything executing on the device executing this invocation
 	ExecutionScopeDevice = 1
@@ -914,6 +958,8 @@ const (
 	// All invocations in the currently executing subgroup.
 	ExecutionScopeSubgroup = 3
 )
+
+type GroupOperation uint32
 
 // Group Operations define the class of workgroup or subgroup operation.
 // It is used by:
@@ -930,7 +976,7 @@ const (
 const (
 	// Returns the result of a reduction operation for all values of a
 	// specific value X specified by workitems within a workgroup.
-	GroupOperationReduce = 0
+	GroupOperationReduce GroupOperation = 0
 
 	// The inclusive scan performs a binary operation with an identity
 	// I and n (where n is the size of the workgroup) elements[a0, a1, . . . an-1]
@@ -943,6 +989,8 @@ const (
 	GroupOperationExclusiveScan = 2
 )
 
+type KernelEnqueueFlag uint32
+
 // Kernel Enqueue Flags specify when the child kernel begins execution.
 //
 // Note: Implementations are not required to honor this flag. Implementations
@@ -953,7 +1001,7 @@ const (
 const (
 	// Indicates that the enqueued kernels do not need to wait for the
 	// parent kernel to finish execution before they begin execution.
-	KernelEnqueueFlagNoWait = 0
+	KernelEnqueueFlagNoWait KernelEnqueueFlag = 0
 
 	// Indicates that all work-items of the parent kernel must finish
 	// executing and all immediate side effects committed before the
@@ -973,8 +1021,10 @@ const (
 	KernelEnqueueFlagWaitWorkGroup = 2
 )
 
+type KernelProfilingInfo uint32
+
 // Kernel Profiling Info specifies the profiling information to be queried.
 // Used by OpCaptureEventProfilingInfo.
 const (
-	KernelProfilingInfoCmdExecTime = 1
+	KernelProfilingInfoCmdExecTime KernelProfilingInfo = 1
 )

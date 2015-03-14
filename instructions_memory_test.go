@@ -8,7 +8,7 @@ import "testing"
 func TestMemory(t *testing.T) {
 	for _, st := range []InstructionTest{
 		{
-			in: []uint32{0x0040026, 1, 2, StorageClassPrivate},
+			in: []uint32{0x0040026, 1, 2, uint32(StorageClassPrivate)},
 			want: &OpVariable{
 				ResultType:   1,
 				ResultId:     2,
@@ -17,7 +17,7 @@ func TestMemory(t *testing.T) {
 			},
 		},
 		{
-			in: []uint32{0x0050026, 1, 2, StorageClassPrivate, 3},
+			in: []uint32{0x0050026, 1, 2, uint32(StorageClassPrivate), 3},
 			want: &OpVariable{
 				ResultType:   1,
 				ResultId:     2,
@@ -26,7 +26,7 @@ func TestMemory(t *testing.T) {
 			},
 		},
 		{
-			in: []uint32{0x0050027, 1, 2, StorageClassPrivate, 10},
+			in: []uint32{0x0050027, 1, 2, uint32(StorageClassPrivate), 10},
 			want: &OpVariableArray{
 				ResultType:   1,
 				ResultId:     2,
@@ -44,7 +44,7 @@ func TestMemory(t *testing.T) {
 		},
 		{
 			in: []uint32{0x006002e, 1, 2, 3,
-				MemoryAccessAligned, MemoryAccessVolatile},
+				uint32(MemoryAccessAligned), uint32(MemoryAccessVolatile)},
 			want: &OpLoad{
 				ResultType: 1,
 				ResultId:   2,
@@ -64,7 +64,7 @@ func TestMemory(t *testing.T) {
 		},
 		{
 			in: []uint32{0x005002f, 1, 2,
-				MemoryAccessAligned, MemoryAccessVolatile},
+				uint32(MemoryAccessAligned), uint32(MemoryAccessVolatile)},
 			want: &OpStore{
 				Pointer: 1,
 				Object:  2,
@@ -82,7 +82,7 @@ func TestMemory(t *testing.T) {
 			},
 		},
 		{
-			in: []uint32{0x0050041, 1, 2, MemoryAccessAligned, MemoryAccessVolatile},
+			in: []uint32{0x0050041, 1, 2, uint32(MemoryAccessAligned), uint32(MemoryAccessVolatile)},
 			want: &OpCopyMemory{
 				Target:       1,
 				Source:       2,
@@ -98,7 +98,7 @@ func TestMemory(t *testing.T) {
 			},
 		},
 		{
-			in: []uint32{0x0060042, 1, 2, 3, MemoryAccessAligned, MemoryAccessVolatile},
+			in: []uint32{0x0060042, 1, 2, 3, uint32(MemoryAccessAligned), uint32(MemoryAccessVolatile)},
 			want: &OpCopyMemorySized{
 				Target:       1,
 				Source:       2,

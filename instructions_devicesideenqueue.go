@@ -30,7 +30,7 @@ type OpEnqueueKernel struct {
 	ResultType Id
 	ResultId   Id
 	Q          Id
-	Flags      KernelEnqueueFlags
+	Flags      KernelEnqueueFlag
 	NDRange    Id
 	NumEvents  Id
 	WaitEvents Id

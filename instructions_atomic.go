@@ -18,11 +18,11 @@ func (c *OpAtomicInit) Verify() error  { return nil }
 // All subparts of the value that is loaded will be read atomically with
 // respect to all other atomic accesses to it within Scope.
 type OpAtomicLoad struct {
-	ResultType      Id
-	ResultId        Id
-	Pointer         Id
-	ExecutionScope  ExecutionScope
-	MemorySemantics MemorySemantics
+	ResultType     Id
+	ResultId       Id
+	Pointer        Id
+	ExecutionScope ExecutionScope
+	MemorySemantic MemorySemantic
 }
 
 func (c *OpAtomicLoad) Opcode() uint32 { return 192 }
@@ -33,10 +33,10 @@ func (c *OpAtomicLoad) Verify() error  { return nil }
 // All subparts of Value will be written atomically with respect to all
 // other atomic accesses to it within Scope.
 type OpAtomicStore struct {
-	Pointer         Id
-	ExecutionScope  ExecutionScope
-	MemorySemantics MemorySemantics
-	Value           Id
+	Pointer        Id
+	ExecutionScope ExecutionScope
+	MemorySemantic MemorySemantic
+	Value          Id
 }
 
 func (c *OpAtomicStore) Opcode() uint32 { return 193 }
@@ -51,12 +51,12 @@ func (c *OpAtomicStore) Verify() error  { return nil }
 //
 // The instruction’s result is the Original Value.
 type OpAtomicExchange struct {
-	ResultType      Id
-	ResultId        Id
-	Pointer         Id
-	ExecutionScope  ExecutionScope
-	MemorySemantics MemorySemantics
-	Value           Id
+	ResultType     Id
+	ResultId       Id
+	Pointer        Id
+	ExecutionScope ExecutionScope
+	MemorySemantic MemorySemantic
+	Value          Id
 }
 
 func (c *OpAtomicExchange) Opcode() uint32 { return 194 }
@@ -72,13 +72,13 @@ func (c *OpAtomicExchange) Verify() error  { return nil }
 //
 // The instruction’s result is the Original Value.
 type OpAtomicCompareExchange struct {
-	ResultType      Id
-	ResultId        Id
-	Pointer         Id
-	ExecutionScope  ExecutionScope
-	MemorySemantics MemorySemantics
-	Value           Id
-	Comparator      Id
+	ResultType     Id
+	ResultId       Id
+	Pointer        Id
+	ExecutionScope ExecutionScope
+	MemorySemantic MemorySemantic
+	Value          Id
+	Comparator     Id
 }
 
 func (c *OpAtomicCompareExchange) Opcode() uint32 { return 195 }
@@ -93,13 +93,13 @@ func (c *OpAtomicCompareExchange) Verify() error  { return nil }
 //   3) store the New Value back through Pointer.
 //
 type OpAtomicCompareExchangeWeak struct {
-	ResultType      Id
-	ResultId        Id
-	Pointer         Id
-	ExecutionScope  ExecutionScope
-	MemorySemantics MemorySemantics
-	Value           Id
-	Comparator      Id
+	ResultType     Id
+	ResultId       Id
+	Pointer        Id
+	ExecutionScope ExecutionScope
+	MemorySemantic MemorySemantic
+	Value          Id
+	Comparator     Id
 }
 
 func (c *OpAtomicCompareExchangeWeak) Opcode() uint32 { return 196 }
@@ -113,11 +113,11 @@ func (c *OpAtomicCompareExchangeWeak) Verify() error  { return nil }
 //   3) store the New Value back through Pointer.
 //
 type OpAtomicIIncrement struct {
-	ResultType      Id
-	ResultId        Id
-	Pointer         Id
-	ExecutionScope  ExecutionScope
-	MemorySemantics MemorySemantics
+	ResultType     Id
+	ResultId       Id
+	Pointer        Id
+	ExecutionScope ExecutionScope
+	MemorySemantic MemorySemantic
 }
 
 func (c *OpAtomicIIncrement) Opcode() uint32 { return 197 }
@@ -131,11 +131,11 @@ func (c *OpAtomicIIncrement) Verify() error  { return nil }
 //   3) store the New Value back through Pointer.
 //
 type OpAtomicIDecrement struct {
-	ResultType      Id
-	ResultId        Id
-	Pointer         Id
-	ExecutionScope  ExecutionScope
-	MemorySemantics MemorySemantics
+	ResultType     Id
+	ResultId       Id
+	Pointer        Id
+	ExecutionScope ExecutionScope
+	MemorySemantic MemorySemantic
 }
 
 func (c *OpAtomicIDecrement) Opcode() uint32 { return 198 }
@@ -149,12 +149,12 @@ func (c *OpAtomicIDecrement) Verify() error  { return nil }
 //   3) store the New Value back through Pointer.
 //
 type OpAtomicIAdd struct {
-	ResultType      Id
-	ResultId        Id
-	Pointer         Id
-	ExecutionScope  ExecutionScope
-	MemorySemantics MemorySemantics
-	Value           Id
+	ResultType     Id
+	ResultId       Id
+	Pointer        Id
+	ExecutionScope ExecutionScope
+	MemorySemantic MemorySemantic
+	Value          Id
 }
 
 func (c *OpAtomicIAdd) Opcode() uint32 { return 199 }
@@ -168,12 +168,12 @@ func (c *OpAtomicIAdd) Verify() error  { return nil }
 //   3) store the New Value back through Pointer.
 //
 type OpAtomicISub struct {
-	ResultType      Id
-	ResultId        Id
-	Pointer         Id
-	ExecutionScope  ExecutionScope
-	MemorySemantics MemorySemantics
-	Value           Id
+	ResultType     Id
+	ResultId       Id
+	Pointer        Id
+	ExecutionScope ExecutionScope
+	MemorySemantic MemorySemantic
+	Value          Id
 }
 
 func (c *OpAtomicISub) Opcode() uint32 { return 200 }
@@ -188,12 +188,12 @@ func (c *OpAtomicISub) Verify() error  { return nil }
 //   3) store the New Value back through Pointer.
 //
 type OpAtomicUMin struct {
-	ResultType      Id
-	ResultId        Id
-	Pointer         Id
-	ExecutionScope  ExecutionScope
-	MemorySemantics MemorySemantics
-	Value           Id
+	ResultType     Id
+	ResultId       Id
+	Pointer        Id
+	ExecutionScope ExecutionScope
+	MemorySemantic MemorySemantic
+	Value          Id
 }
 
 func (c *OpAtomicUMin) Opcode() uint32 { return 201 }
@@ -208,12 +208,12 @@ func (c *OpAtomicUMin) Verify() error  { return nil }
 //   3) store the New Value back through Pointer.
 //
 type OpAtomicUMax struct {
-	ResultType      Id
-	ResultId        Id
-	Pointer         Id
-	ExecutionScope  ExecutionScope
-	MemorySemantics MemorySemantics
-	Value           Id
+	ResultType     Id
+	ResultId       Id
+	Pointer        Id
+	ExecutionScope ExecutionScope
+	MemorySemantic MemorySemantic
+	Value          Id
 }
 
 func (c *OpAtomicUMax) Opcode() uint32 { return 202 }
@@ -227,12 +227,12 @@ func (c *OpAtomicUMax) Verify() error  { return nil }
 //   3) store the New Value back through Pointer.
 //
 type OpAtomicAnd struct {
-	ResultType      Id
-	ResultId        Id
-	Pointer         Id
-	ExecutionScope  ExecutionScope
-	MemorySemantics MemorySemantics
-	Value           Id
+	ResultType     Id
+	ResultId       Id
+	Pointer        Id
+	ExecutionScope ExecutionScope
+	MemorySemantic MemorySemantic
+	Value          Id
 }
 
 func (c *OpAtomicAnd) Opcode() uint32 { return 203 }
@@ -246,12 +246,12 @@ func (c *OpAtomicAnd) Verify() error  { return nil }
 //   3) store the New Value back through Pointer.
 //
 type OpAtomicOr struct {
-	ResultType      Id
-	ResultId        Id
-	Pointer         Id
-	ExecutionScope  ExecutionScope
-	MemorySemantics MemorySemantics
-	Value           Id
+	ResultType     Id
+	ResultId       Id
+	Pointer        Id
+	ExecutionScope ExecutionScope
+	MemorySemantic MemorySemantic
+	Value          Id
 }
 
 func (c *OpAtomicOr) Opcode() uint32 { return 204 }
@@ -266,12 +266,12 @@ func (c *OpAtomicOr) Verify() error  { return nil }
 //   3) store the New Value back through Pointer.
 //
 type OpAtomicXor struct {
-	ResultType      Id
-	ResultId        Id
-	Pointer         Id
-	ExecutionScope  ExecutionScope
-	MemorySemantics MemorySemantics
-	Value           Id
+	ResultType     Id
+	ResultId       Id
+	Pointer        Id
+	ExecutionScope ExecutionScope
+	MemorySemantic MemorySemantic
+	Value          Id
 }
 
 func (c *OpAtomicXor) Opcode() uint32 { return 205 }

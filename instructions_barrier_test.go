@@ -20,8 +20,8 @@ func TestBarrier(t *testing.T) {
 				MemorySemanticSequentiallyConsistent,
 			},
 			want: &OpMemoryBarrier{
-				ExecutionScope:  ExecutionScopeDevice,
-				MemorySemantics: MemorySemanticSequentiallyConsistent,
+				ExecutionScope: ExecutionScopeDevice,
+				MemorySemantic: MemorySemanticSequentiallyConsistent,
 			},
 		},
 	} {

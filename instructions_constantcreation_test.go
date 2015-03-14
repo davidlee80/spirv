@@ -57,12 +57,12 @@ func TestConstantCreation(t *testing.T) {
 		},
 		{
 			in: []uint32{0x006001f, 1, 2,
-				AddressingModePhysical64, 4, SamplerFilterModeNearest},
+				uint32(AddressingModePhysical64), 4, uint32(SamplerFilterModeNearest)},
 			err: errors.New("OpConstantSampler.Param: expected: 0, 1"),
 		},
 		{
 			in: []uint32{0x006001f, 1, 2,
-				AddressingModePhysical64, 1, SamplerFilterModeNearest},
+				uint32(AddressingModePhysical64), 1, uint32(SamplerFilterModeNearest)},
 			want: &OpConstantSampler{
 				ResultType: 1,
 				ResultId:   2,

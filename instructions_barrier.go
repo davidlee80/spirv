@@ -25,8 +25,8 @@ func (c *OpControlBarrier) Verify() error  { return nil }
 // ensured only for memory accesses issued by this invocation and observed by
 // another invocation executing within Scope.
 type OpMemoryBarrier struct {
-	ExecutionScope  ExecutionScope
-	MemorySemantics MemorySemantics
+	ExecutionScope ExecutionScope
+	MemorySemantic MemorySemantic
 }
 
 func (c *OpMemoryBarrier) Opcode() uint32 { return 189 }

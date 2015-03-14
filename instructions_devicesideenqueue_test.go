@@ -19,7 +19,7 @@ func TestDeviceSideEnqueue(t *testing.T) {
 			},
 		},
 		{
-			in: []uint32{0x000d00fa, 1, 2, 3, KernelEnqueueFlagNoWait, 5, 6, 7, 8, 9, 10, 11, 12},
+			in: []uint32{0x000d00fa, 1, 2, 3, uint32(KernelEnqueueFlagNoWait), 5, 6, 7, 8, 9, 10, 11, 12},
 			want: &OpEnqueueKernel{
 				ResultType: 1,
 				ResultId:   2,
@@ -37,7 +37,7 @@ func TestDeviceSideEnqueue(t *testing.T) {
 			},
 		},
 		{
-			in: []uint32{0x000e00fa, 1, 2, 3, KernelEnqueueFlagWaitWorkGroup, 5, 6, 7, 8, 9, 10, 11, 12, 13},
+			in: []uint32{0x000e00fa, 1, 2, 3, uint32(KernelEnqueueFlagWaitWorkGroup), 5, 6, 7, 8, 9, 10, 11, 12, 13},
 			want: &OpEnqueueKernel{
 				ResultType: 1,
 				ResultId:   2,
