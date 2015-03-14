@@ -3,6 +3,8 @@
 
 package spirv
 
+import "fmt"
+
 // OpDecorationGroup represents a collector of decorations from OpDecorate
 // instructions.
 //
@@ -37,7 +39,39 @@ type OpDecorate struct {
 }
 
 func (c *OpDecorate) Opcode() uint32 { return 50 }
-func (c *OpDecorate) Verify() error  { return nil }
+func (c *OpDecorate) Verify() error {
+	argc := len(c.Argv)
+
+	switch c.Decoration {
+	case DecorationStream, DecorationLocation, DecorationComponent,
+		DecorationIndex, DecorationBinding, DecorationOffset,
+		DecorationAlignment, DecorationXfbBuffer, DecorationStride,
+		DecorationBuiltIn, DecorationFuncParamAttr, DecorationFPRoundingMode,
+		DecorationFPFastMathMode, DecorationSpecId:
+		if argc != 1 {
+			return fmt.Errorf("OpDecorate: Decoration(%d) must have 1 argument", c.Decoration)
+		}
+
+	case DecorationLinkageType:
+		if argc != 1 {
+			return fmt.Errorf("OpDecorate: Decoration(%d) must have 1 argument", c.Decoration)
+		}
+
+		err := LinkageType(c.Argv[0]).Verify()
+		if err != nil {
+			return fmt.Errorf("OpDecorate: %v", err)
+		}
+
+		return nil
+	}
+
+	if argc > 0 {
+		return fmt.Errorf("OpDecorate: extraneous arguments for Decoration(%d)",
+			c.Decoration)
+	}
+
+	return nil
+}
 
 // OpMemberDecorate represents the OpMemberDecorate instruction.
 // It adds a decoration to a member of a structure type.
@@ -60,7 +94,39 @@ type OpMemberDecorate struct {
 }
 
 func (c *OpMemberDecorate) Opcode() uint32 { return 51 }
-func (c *OpMemberDecorate) Verify() error  { return nil }
+func (c *OpMemberDecorate) Verify() error {
+	argc := len(c.Argv)
+
+	switch c.Decoration {
+	case DecorationStream, DecorationLocation, DecorationComponent,
+		DecorationIndex, DecorationBinding, DecorationOffset,
+		DecorationAlignment, DecorationXfbBuffer, DecorationStride,
+		DecorationBuiltIn, DecorationFuncParamAttr, DecorationFPRoundingMode,
+		DecorationFPFastMathMode, DecorationSpecId:
+		if argc != 1 {
+			return fmt.Errorf("OpMemberDecorate: Decoration(%d) must have 1 argument", c.Decoration)
+		}
+
+	case DecorationLinkageType:
+		if argc != 1 {
+			return fmt.Errorf("OpMemberDecorate: Decoration(%d) must have 1 argument", c.Decoration)
+		}
+
+		err := LinkageType(c.Argv[0]).Verify()
+		if err != nil {
+			return fmt.Errorf("OpMemberDecorate: %v", err)
+		}
+
+		return nil
+	}
+
+	if argc > 0 {
+		return fmt.Errorf("OpMemberDecorate: extraneous arguments for Decoration(%d)",
+			c.Decoration)
+	}
+
+	return nil
+}
 
 // OpGroupDecorate represents the OpGroupDecorate instruction.
 // It adds a group of decorations to another <id>.

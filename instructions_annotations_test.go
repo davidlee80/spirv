@@ -3,7 +3,10 @@
 
 package spirv
 
-import "testing"
+import (
+	"errors"
+	"testing"
+)
 
 func TestAnnotations(t *testing.T) {
 	for _, st := range []InstructionTest{
@@ -14,20 +17,37 @@ func TestAnnotations(t *testing.T) {
 			},
 		},
 		{
-			in: []uint32{0x00060032, 1, DecorationNoStaticUse, 2, 3, 4},
+			in:  []uint32{0x00060032, 1, DecorationNoStaticUse, 2, 3, 4},
+			err: errors.New("OpDecorate: extraneous arguments for Decoration(26)"),
+		},
+		{
+			in:  []uint32{0x00040032, 1, DecorationLinkageType, 2},
+			err: errors.New("OpDecorate: invalid LinkageType value"),
+		},
+		{
+			in:  []uint32{0x00040032, 1, DecorationLinkageType, LinkageTypeExport},
+			err: errors.New("OpDecorate: invalid LinkageType value"),
 			want: &OpDecorate{
 				Target:     1,
-				Decoration: DecorationNoStaticUse,
-				Argv:       []uint32{2, 3, 4},
+				Decoration: DecorationLinkageType,
+				Argv:       []uint32{LinkageTypeExport},
 			},
 		},
 		{
-			in: []uint32{0x00070033, 1, 2, DecorationNoStaticUse, 3, 4, 5},
+			in:  []uint32{0x00060033, 1, 2, DecorationNoStaticUse, 3, 4},
+			err: errors.New("OpMemberDecorate: extraneous arguments for Decoration(26)"),
+		},
+		{
+			in:  []uint32{0x00050033, 1, 2, DecorationLinkageType, 3},
+			err: errors.New("OpMemberDecorate: invalid LinkageType value"),
+		},
+		{
+			in: []uint32{0x00050033, 1, 2, DecorationLinkageType, LinkageTypeExport},
 			want: &OpMemberDecorate{
 				StructType: 1,
 				Member:     2,
-				Decoration: DecorationNoStaticUse,
-				Argv:       []uint32{3, 4, 5},
+				Decoration: DecorationLinkageType,
+				Argv:       []uint32{LinkageTypeExport},
 			},
 		},
 		{
