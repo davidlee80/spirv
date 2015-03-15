@@ -37,4 +37,9 @@ func TestModule(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+
+	mod.Strip()
+	if len(mod.Code) != 5 {
+		t.Fatalf("Strip error: Expected 5 remaining instructions; have: %d", len(mod.Code))
+	}
 }

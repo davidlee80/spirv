@@ -69,5 +69,7 @@ func (set *InstructionSet) Get(opcode uint32) (InstructionFunc, bool) {
 
 // Clear unbinds all instructions.
 func (set *InstructionSet) Clear() {
+	set.Lock()
 	set.data = make(map[uint32]InstructionFunc)
+	set.Unlock()
 }
