@@ -144,7 +144,7 @@ func DecodeInstruction(words []uint32) (Instruction, error) {
 		return nil, ErrInvalidInstructionSize
 	}
 
-	constructor, ok := instructions.Get(opcode)
+	constructor, ok := instructions[opcode]
 	if !ok {
 		return nil, fmt.Errorf("unknown instruction: %08x", opcode)
 	}

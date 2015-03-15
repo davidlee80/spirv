@@ -9,15 +9,11 @@ import "reflect"
 type instructionFunc func() Instruction
 
 // InstructionSet maps opcodes to an instruction  constructor.
-type instructionSet struct {
-	data map[uint32]instructionFunc
-}
+type instructionSet map[uint32]instructionFunc
 
 // Global, internal instruction set.
 // This has instructions registered atomically during init.
-var instructions = instructionSet{
-	data: make(map[uint32]instructionFunc),
-}
+var instructions = make(instructionSet)
 
 // Bind registers the given instruction.
 //
@@ -36,20 +32,10 @@ func bind(fun instructionFunc) {
 
 	opcode := obj.Opcode()
 
-	_, ok := instructions.data[opcode]
+	_, ok := instructions[opcode]
 	if ok {
 		panic(ErrDuplicateInstruction)
 	}
 
-	instructions.data[opcode] = fun
-}
-
-// Len returns the number of registered instructions.
-func (set *instructionSet) Len() int { return len(set.data) }
-
-// Get returns the codec for the given opcode.
-// Returns false if it is not in the set.
-func (set *instructionSet) Get(opcode uint32) (instructionFunc, bool) {
-	constructor, ok := set.data[opcode]
-	return constructor, ok
+	instructions[opcode] = fun
 }
