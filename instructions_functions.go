@@ -62,8 +62,8 @@ func (c *OpFunctionCall) Optional() bool { return false }
 func (c *OpFunctionCall) Verify() error  { return nil }
 
 func init() {
-	Bind(func() Instruction { return &OpFunction{} })
-	Bind(func() Instruction { return &OpFunctionParameter{} })
-	Bind(func() Instruction { return &OpFunctionEnd{} })
-	Bind(func() Instruction { return &OpFunctionCall{} })
+	bind(func() Instruction { return &OpFunction{} })
+	bind(func() Instruction { return &OpFunctionParameter{} })
+	bind(func() Instruction { return &OpFunctionEnd{} })
+	bind(func() Instruction { return &OpFunctionCall{} })
 }

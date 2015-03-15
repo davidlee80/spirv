@@ -35,6 +35,6 @@ func (c *OpMemoryBarrier) Optional() bool { return false }
 func (c *OpMemoryBarrier) Verify() error  { return nil }
 
 func init() {
-	Bind(func() Instruction { return &OpControlBarrier{} })
-	Bind(func() Instruction { return &OpMemoryBarrier{} })
+	bind(func() Instruction { return &OpControlBarrier{} })
+	bind(func() Instruction { return &OpMemoryBarrier{} })
 }

@@ -197,15 +197,15 @@ func (c *OpSpecConstantComposite) Optional() bool { return false }
 func (c *OpSpecConstantComposite) Verify() error  { return nil }
 
 func init() {
-	Bind(func() Instruction { return &OpSpecConstantTrue{} })
-	Bind(func() Instruction { return &OpConstantTrue{} })
-	Bind(func() Instruction { return &OpConstantFalse{} })
-	Bind(func() Instruction { return &OpConstant{} })
-	Bind(func() Instruction { return &OpConstantComposite{} })
-	Bind(func() Instruction { return &OpConstantSampler{} })
-	Bind(func() Instruction { return &OpConstantNullPointer{} })
-	Bind(func() Instruction { return &OpConstantNullObject{} })
-	Bind(func() Instruction { return &OpSpecConstantFalse{} })
-	Bind(func() Instruction { return &OpSpecConstant{} })
-	Bind(func() Instruction { return &OpSpecConstantComposite{} })
+	bind(func() Instruction { return &OpSpecConstantTrue{} })
+	bind(func() Instruction { return &OpConstantTrue{} })
+	bind(func() Instruction { return &OpConstantFalse{} })
+	bind(func() Instruction { return &OpConstant{} })
+	bind(func() Instruction { return &OpConstantComposite{} })
+	bind(func() Instruction { return &OpConstantSampler{} })
+	bind(func() Instruction { return &OpConstantNullPointer{} })
+	bind(func() Instruction { return &OpConstantNullObject{} })
+	bind(func() Instruction { return &OpSpecConstantFalse{} })
+	bind(func() Instruction { return &OpSpecConstant{} })
+	bind(func() Instruction { return &OpSpecConstantComposite{} })
 }

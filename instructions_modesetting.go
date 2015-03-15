@@ -78,8 +78,8 @@ func (c *OpCompileFlag) Optional() bool { return false }
 func (c *OpCompileFlag) Verify() error  { return nil }
 
 func init() {
-	Bind(func() Instruction { return &OpMemoryModel{} })
-	Bind(func() Instruction { return &OpEntryPoint{} })
-	Bind(func() Instruction { return &OpExecutionMode{} })
-	Bind(func() Instruction { return &OpCompileFlag{} })
+	bind(func() Instruction { return &OpMemoryModel{} })
+	bind(func() Instruction { return &OpEntryPoint{} })
+	bind(func() Instruction { return &OpExecutionMode{} })
+	bind(func() Instruction { return &OpCompileFlag{} })
 }

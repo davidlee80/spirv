@@ -105,12 +105,12 @@ func (c *OpTranspose) Optional() bool { return false }
 func (c *OpTranspose) Verify() error  { return nil }
 
 func init() {
-	Bind(func() Instruction { return &OpVectorExtractDynamic{} })
-	Bind(func() Instruction { return &OpVectorInsertDynamic{} })
-	Bind(func() Instruction { return &OpVectorShuffle{} })
-	Bind(func() Instruction { return &OpCompositeConstruct{} })
-	Bind(func() Instruction { return &OpCompositeExtract{} })
-	Bind(func() Instruction { return &OpCompositeInsert{} })
-	Bind(func() Instruction { return &OpCopyObject{} })
-	Bind(func() Instruction { return &OpTranspose{} })
+	bind(func() Instruction { return &OpVectorExtractDynamic{} })
+	bind(func() Instruction { return &OpVectorInsertDynamic{} })
+	bind(func() Instruction { return &OpVectorShuffle{} })
+	bind(func() Instruction { return &OpCompositeConstruct{} })
+	bind(func() Instruction { return &OpCompositeExtract{} })
+	bind(func() Instruction { return &OpCompositeInsert{} })
+	bind(func() Instruction { return &OpCopyObject{} })
+	bind(func() Instruction { return &OpTranspose{} })
 }

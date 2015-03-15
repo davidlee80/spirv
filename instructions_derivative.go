@@ -112,13 +112,13 @@ func (c *OpFwidthCoarse) Optional() bool { return false }
 func (c *OpFwidthCoarse) Verify() error  { return nil }
 
 func init() {
-	Bind(func() Instruction { return &OpDPdx{} })
-	Bind(func() Instruction { return &OpDPdy{} })
-	Bind(func() Instruction { return &OpFwidth{} })
-	Bind(func() Instruction { return &OpDPdxFine{} })
-	Bind(func() Instruction { return &OpDPdyFine{} })
-	Bind(func() Instruction { return &OpFwidthFine{} })
-	Bind(func() Instruction { return &OpDPdxCoarse{} })
-	Bind(func() Instruction { return &OpDPdyCoarse{} })
-	Bind(func() Instruction { return &OpFwidthCoarse{} })
+	bind(func() Instruction { return &OpDPdx{} })
+	bind(func() Instruction { return &OpDPdy{} })
+	bind(func() Instruction { return &OpFwidth{} })
+	bind(func() Instruction { return &OpDPdxFine{} })
+	bind(func() Instruction { return &OpDPdyFine{} })
+	bind(func() Instruction { return &OpFwidthFine{} })
+	bind(func() Instruction { return &OpDPdxCoarse{} })
+	bind(func() Instruction { return &OpDPdyCoarse{} })
+	bind(func() Instruction { return &OpFwidthCoarse{} })
 }

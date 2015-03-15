@@ -48,8 +48,8 @@ func (c *OpEndStreamPrimitive) Optional() bool { return false }
 func (c *OpEndStreamPrimitive) Verify() error  { return nil }
 
 func init() {
-	Bind(func() Instruction { return &OpEmitVertex{} })
-	Bind(func() Instruction { return &OpEndPrimitive{} })
-	Bind(func() Instruction { return &OpEmitStreamVertex{} })
-	Bind(func() Instruction { return &OpEndStreamPrimitive{} })
+	bind(func() Instruction { return &OpEmitVertex{} })
+	bind(func() Instruction { return &OpEndPrimitive{} })
+	bind(func() Instruction { return &OpEmitStreamVertex{} })
+	bind(func() Instruction { return &OpEndStreamPrimitive{} })
 }

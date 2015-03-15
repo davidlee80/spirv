@@ -25,6 +25,6 @@ func (c *OpUndef) Optional() bool { return false }
 func (c *OpUndef) Verify() error  { return nil }
 
 func init() {
-	Bind(func() Instruction { return &OpNop{} })
-	Bind(func() Instruction { return &OpUndef{} })
+	bind(func() Instruction { return &OpNop{} })
+	bind(func() Instruction { return &OpUndef{} })
 }

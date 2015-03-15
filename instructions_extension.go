@@ -42,7 +42,7 @@ func (c *OpExtInst) Optional() bool { return false }
 func (c *OpExtInst) Verify() error  { return nil }
 
 func init() {
-	Bind(func() Instruction { return &OpExtension{} })
-	Bind(func() Instruction { return &OpExtInstImport{} })
-	Bind(func() Instruction { return &OpExtInst{} })
+	bind(func() Instruction { return &OpExtension{} })
+	bind(func() Instruction { return &OpExtInstImport{} })
+	bind(func() Instruction { return &OpExtInst{} })
 }

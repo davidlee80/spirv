@@ -84,10 +84,10 @@ func (c *OpLine) Optional() bool { return true }
 func (c *OpLine) Verify() error  { return nil }
 
 func init() {
-	Bind(func() Instruction { return &OpSource{} })
-	Bind(func() Instruction { return &OpSourceExtension{} })
-	Bind(func() Instruction { return &OpName{} })
-	Bind(func() Instruction { return &OpMemberName{} })
-	Bind(func() Instruction { return &OpString{} })
-	Bind(func() Instruction { return &OpLine{} })
+	bind(func() Instruction { return &OpSource{} })
+	bind(func() Instruction { return &OpSourceExtension{} })
+	bind(func() Instruction { return &OpName{} })
+	bind(func() Instruction { return &OpMemberName{} })
+	bind(func() Instruction { return &OpString{} })
+	bind(func() Instruction { return &OpLine{} })
 }

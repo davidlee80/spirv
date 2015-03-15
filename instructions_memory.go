@@ -227,15 +227,15 @@ func (c *OpGenericPtrMemSemantics) Optional() bool { return false }
 func (c *OpGenericPtrMemSemantics) Verify() error  { return nil }
 
 func init() {
-	Bind(func() Instruction { return &OpVariable{Initializer: 0} })
-	Bind(func() Instruction { return &OpVariableArray{} })
-	Bind(func() Instruction { return &OpLoad{} })
-	Bind(func() Instruction { return &OpStore{} })
-	Bind(func() Instruction { return &OpCopyMemory{} })
-	Bind(func() Instruction { return &OpCopyMemorySized{} })
-	Bind(func() Instruction { return &OpAccessChain{} })
-	Bind(func() Instruction { return &OpInboundsAccessChain{} })
-	Bind(func() Instruction { return &OpArraylength{} })
-	Bind(func() Instruction { return &OpImagePointer{} })
-	Bind(func() Instruction { return &OpGenericPtrMemSemantics{} })
+	bind(func() Instruction { return &OpVariable{Initializer: 0} })
+	bind(func() Instruction { return &OpVariableArray{} })
+	bind(func() Instruction { return &OpLoad{} })
+	bind(func() Instruction { return &OpStore{} })
+	bind(func() Instruction { return &OpCopyMemory{} })
+	bind(func() Instruction { return &OpCopyMemorySized{} })
+	bind(func() Instruction { return &OpAccessChain{} })
+	bind(func() Instruction { return &OpInboundsAccessChain{} })
+	bind(func() Instruction { return &OpArraylength{} })
+	bind(func() Instruction { return &OpImagePointer{} })
+	bind(func() Instruction { return &OpGenericPtrMemSemantics{} })
 }

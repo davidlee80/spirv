@@ -9,18 +9,18 @@ import (
 )
 
 // InstructionFunc defines a constructor for an instruction.
-type InstructionFunc func() Instruction
+type instructionFunc func() Instruction
 
 // InstructionSet maps opcodes to an instruction  constructor.
 type InstructionSet struct {
 	sync.RWMutex
-	data map[uint32]InstructionFunc
+	data map[uint32]instructionFunc
 }
 
 // Global, internal instruction set.
 // This has instructions registered atomically during init.
 var instructions = InstructionSet{
-	data: make(map[uint32]InstructionFunc),
+	data: make(map[uint32]instructionFunc),
 }
 
 // Bind registers the given instruction.
@@ -30,7 +30,7 @@ var instructions = InstructionSet{
 // entry for the instruction's opcode.
 //
 // All instructions are meant to be registered during package initialisation
-func Bind(fun InstructionFunc) {
+func bind(fun instructionFunc) {
 	obj := fun()
 	rv := reflect.ValueOf(obj)
 
@@ -60,7 +60,7 @@ func (set *InstructionSet) Len() int {
 
 // Get returns the codec for the given opcode.
 // Returns false if it is not in the set.
-func (set *InstructionSet) Get(opcode uint32) (InstructionFunc, bool) {
+func (set *InstructionSet) Get(opcode uint32) (instructionFunc, bool) {
 	instructions.RLock()
 	constructor, ok := set.data[opcode]
 	instructions.RUnlock()
@@ -70,6 +70,6 @@ func (set *InstructionSet) Get(opcode uint32) (InstructionFunc, bool) {
 // Clear unbinds all instructions.
 func (set *InstructionSet) Clear() {
 	set.Lock()
-	set.data = make(map[uint32]InstructionFunc)
+	set.data = make(map[uint32]instructionFunc)
 	set.Unlock()
 }

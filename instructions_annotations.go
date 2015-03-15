@@ -164,9 +164,9 @@ func (c *OpGroupMemberDecorate) Optional() bool { return false }
 func (c *OpGroupMemberDecorate) Verify() error  { return nil }
 
 func init() {
-	Bind(func() Instruction { return &OpDecorationGroup{} })
-	Bind(func() Instruction { return &OpDecorate{} })
-	Bind(func() Instruction { return &OpMemberDecorate{} })
-	Bind(func() Instruction { return &OpGroupDecorate{} })
-	Bind(func() Instruction { return &OpGroupMemberDecorate{} })
+	bind(func() Instruction { return &OpDecorationGroup{} })
+	bind(func() Instruction { return &OpDecorate{} })
+	bind(func() Instruction { return &OpMemberDecorate{} })
+	bind(func() Instruction { return &OpGroupDecorate{} })
+	bind(func() Instruction { return &OpGroupMemberDecorate{} })
 }

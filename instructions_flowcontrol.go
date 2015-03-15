@@ -120,7 +120,7 @@ func (c *OpKill) Optional() bool { return false }
 func (c *OpKill) Verify() error  { return nil }
 
 func init() {
-	Bind(func() Instruction {
+	bind(func() Instruction {
 		return &OpKill{}
 	})
 }
@@ -172,16 +172,16 @@ func (c *OpLifetimeStop) Optional() bool { return false }
 func (c *OpLifetimeStop) Verify() error  { return nil }
 
 func init() {
-	Bind(func() Instruction { return &OpPhi{} })
-	Bind(func() Instruction { return &OpLoopMerge{} })
-	Bind(func() Instruction { return &OpSelectionMerge{} })
-	Bind(func() Instruction { return &OpLabel{} })
-	Bind(func() Instruction { return &OpBranch{} })
-	Bind(func() Instruction { return &OpBranchConditional{} })
-	Bind(func() Instruction { return &OpSwitch{} })
-	Bind(func() Instruction { return &OpReturn{} })
-	Bind(func() Instruction { return &OpReturnValue{} })
-	Bind(func() Instruction { return &OpUnreachable{} })
-	Bind(func() Instruction { return &OpLifetimeStart{} })
-	Bind(func() Instruction { return &OpLifetimeStop{} })
+	bind(func() Instruction { return &OpPhi{} })
+	bind(func() Instruction { return &OpLoopMerge{} })
+	bind(func() Instruction { return &OpSelectionMerge{} })
+	bind(func() Instruction { return &OpLabel{} })
+	bind(func() Instruction { return &OpBranch{} })
+	bind(func() Instruction { return &OpBranchConditional{} })
+	bind(func() Instruction { return &OpSwitch{} })
+	bind(func() Instruction { return &OpReturn{} })
+	bind(func() Instruction { return &OpReturnValue{} })
+	bind(func() Instruction { return &OpUnreachable{} })
+	bind(func() Instruction { return &OpLifetimeStart{} })
+	bind(func() Instruction { return &OpLifetimeStop{} })
 }
