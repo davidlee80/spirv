@@ -67,14 +67,14 @@ func (m *Module) Save(w io.Writer) error {
 	// Write the header.
 	err := enc.EncodeHeader(m.Header)
 	if err != nil {
-		return err
+		return fmt.Errorf("spirv: %v", err)
 	}
 
 	// Write all instructions.
 	for _, instr := range m.Code {
 		err := enc.EncodeInstruction(instr)
 		if err != nil {
-			return err
+			return fmt.Errorf("spirv: %v", err)
 		}
 	}
 
