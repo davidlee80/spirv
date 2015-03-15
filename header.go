@@ -3,8 +3,6 @@
 
 package spirv
 
-import "errors"
-
 // Endian determines the byte order for a stream.
 type Endian uint8
 
@@ -57,11 +55,11 @@ type Header struct {
 // Verify returns an error if the header contains invalid data.
 func (h *Header) Verify() error {
 	if h.Magic != MagicBE && h.Magic != MagicLE {
-		return errors.New("Header.Magic: invalid value")
+		return ErrInvalidMagicValue
 	}
 
 	if h.Version != SpecificationVersion {
-		return errors.New("Header.Version: invalid version number")
+		return ErrInvalidVersion
 	}
 
 	return nil

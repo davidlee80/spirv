@@ -5,7 +5,6 @@ package spirv
 
 import (
 	"bytes"
-	"errors"
 	"reflect"
 	"testing"
 )
@@ -77,17 +76,17 @@ func TestEncodeHeader(t *testing.T) {
 		{
 			in:   Header{},
 			want: nil,
-			err:  errors.New("Header.Magic: invalid value"),
+			err:  ErrInvalidMagicValue,
 		},
 		{
 			in:   Header{123, 99, 1, 255, 0},
 			want: nil,
-			err:  errors.New("Header.Magic: invalid value"),
+			err:  ErrInvalidMagicValue,
 		},
 		{
 			in:   Header{MagicLE, 100, 1, 255, 0},
 			want: nil,
-			err:  errors.New("Header.Version: invalid version number"),
+			err:  ErrInvalidVersion,
 		},
 		{
 			in: Header{MagicLE, 99, 1, 255, 0},
