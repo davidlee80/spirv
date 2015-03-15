@@ -78,7 +78,8 @@ func (c *OpGetKernelWorkGroupSize) Opcode() uint32 { return 253 }
 func (c *OpGetKernelWorkGroupSize) Optional() bool { return false }
 func (c *OpGetKernelWorkGroupSize) Verify() error  { return nil }
 
-// OpGetKernelPreferredWorkGroupSizeMultiple returns the preferred multiple of work-group size for Invoke.
+// OpGetKernelPreferredWorkGroupSizeMultiple returns the preferred multiple of
+// work-group size for Invoke.
 type OpGetKernelPreferredWorkGroupSizeMultiple struct {
 	ResultType Id
 	ResultId   Id
@@ -139,7 +140,9 @@ func (c *OpSetUserEventStatus) Opcode() uint32 { return 259 }
 func (c *OpSetUserEventStatus) Optional() bool { return false }
 func (c *OpSetUserEventStatus) Verify() error  { return nil }
 
-// OpCaptureEventProfilingInfo captures the profiling information specified by info for the command associated with the event specified by event in the memory pointed by value.
+// OpCaptureEventProfilingInfo captures the profiling information specified
+// by info for the command associated with the event specified by event in
+// the memory pointed by value.
 type OpCaptureEventProfilingInfo struct {
 	Event Id
 	Info  KernelProfilingInfo
