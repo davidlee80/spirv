@@ -5,6 +5,34 @@ package spirv
 
 import "errors"
 
+var (
+	ErrInvalidAccessQualifier       = errors.New("invalid AccessQualifier value")
+	ErrInvalidAddressingModel       = errors.New("invalid AddressingModel value")
+	ErrInvalidDimensionality        = errors.New("invalid Dimensionality value")
+	ErrInvalidExecutionMode         = errors.New("invalid ExecutionMode value")
+	ErrInvalidExecutionModel        = errors.New("invalid ExecutionModel value")
+	ErrInvalidFPFastMathMode        = errors.New("invalid FPFastMathMode value")
+	ErrInvalidKernelProfilingInfo   = errors.New("invalid KernelProfilingInfo value")
+	ErrInvalidKernelEnqueueFlag     = errors.New("invalid KernelEnqueueFlag value")
+	ErrInvalidGroupOperation        = errors.New("invalid GroupOperation value")
+	ErrInvalidExecutionScope        = errors.New("invalid ExecutionScope value")
+	ErrInvalidMemoryAccess          = errors.New("invalid MemoryAccess value")
+	ErrInvalidMemorySemantic        = errors.New("invalid MemorySemantic value")
+	ErrInvalidFunctionControlMask   = errors.New("invalid FunctionControlMask value")
+	ErrInvalidLoopControl           = errors.New("invalid LoopControl value")
+	ErrInvalidSelectionControl      = errors.New("invalid SelectionControl value")
+	ErrInvalidBuiltin               = errors.New("invalid Builtin value")
+	ErrInvalidDecoration            = errors.New("invalid Decoration value")
+	ErrInvalidFunctionParameter     = errors.New("invalid FunctionParameter value")
+	ErrInvalidStorageClass          = errors.New("invalid StorageClass value")
+	ErrInvalidSourceLanguage        = errors.New("invalid SourceLanguage value")
+	ErrInvalidSamplerFilterMode     = errors.New("invalid SamplerFilterMode value")
+	ErrInvalidSamplerAddressingMode = errors.New("invalid SamplerAddressingMode value")
+	ErrInvalidMemoryModel           = errors.New("invalid MemoryModel value")
+	ErrInvalidLinkageType           = errors.New("invalid LinkageType value")
+	ErrInvalidFPRoundingMode        = errors.New("invalid FPRoundingMode value")
+)
+
 // verifyBitFlag returns true if v is a valid bit flag in the
 // given range. This includes combinations of all possible values.
 func verifyBitFlag(v uint32, none bool, mask uint32) bool {
@@ -17,7 +45,7 @@ func (v AccessQualifier) Verify() error {
 	if v >= AccessQualifierReadOnly && v <= AccessQualifierReadWrite {
 		return nil
 	}
-	return errors.New("invalid AccessQualifier value")
+	return ErrInvalidAccessQualifier
 }
 
 // Access Qualifiers define the access permissions of OpTypeSampler
@@ -34,7 +62,7 @@ func (v AddressingModel) Verify() error {
 	if v >= AddressingModeLogical && v <= AddressingModePhysical64 {
 		return nil
 	}
-	return errors.New("invalid AddressingModel value")
+	return ErrInvalidAddressingModel
 }
 
 // Addressing Modes define an existing addressing mode.
@@ -50,7 +78,7 @@ func (v Dimensionality) Verify() error {
 	if v >= Dim1D && v <= DimBuffer {
 		return nil
 	}
-	return errors.New("invalid Dimensionality value")
+	return ErrInvalidDimensionality
 }
 
 // Dimensionalities define the dimensionality of a texture.
@@ -69,7 +97,7 @@ func (v ExecutionMode) Verify() error {
 	if v >= ExecutionModeInvocations && v <= ExecutionModeContractionOff {
 		return nil
 	}
-	return errors.New("invalid ExecutionMode value")
+	return ErrInvalidExecutionMode
 }
 
 // Execution Modes define a mode a module’s stage will execute in.
@@ -258,7 +286,7 @@ func (v ExecutionModel) Verify() error {
 	if v >= ExecutionModelVertex && v <= ExecutionModelKernel {
 		return nil
 	}
-	return errors.New("invalid ExecutionModel value")
+	return ErrInvalidExecutionModel
 }
 
 // Execution Models define a single execution model.
@@ -280,7 +308,7 @@ func (v FPFastMathMode) Verify() error {
 	if verifyBitFlag(uint32(v), true, FPFastMathModeNotInf|FPFastMathModeNSZ|FPFastMathModeAllowRecip|FPFastMathModeFast) {
 		return nil
 	}
-	return errors.New("invalid FPFastMathMode value")
+	return ErrInvalidFPFastMathMode
 }
 
 // FPFastMathModes define bitflags which enable fast math operations
@@ -309,7 +337,7 @@ func (v FPRoundingMode) Verify() error {
 	if v >= FPRoundingModeRTE && v <= FPRoundingModeRTN {
 		return nil
 	}
-	return errors.New("invalid FPRoundingMode value")
+	return ErrInvalidFPRoundingMode
 }
 
 // FPRoundingModes associate a rounding mode with a floating-point
@@ -335,7 +363,7 @@ func (v LinkageType) Verify() error {
 	if v >= LinkageTypeExport && v <= LinkageTypeImport {
 		return nil
 	}
-	return errors.New("invalid LinkageType value")
+	return ErrInvalidLinkageType
 }
 
 // Linkage Types associate a linkage type with functions or global
@@ -352,7 +380,7 @@ func (v MemoryModel) Verify() error {
 	if v >= MemoryModelSimple && v <= MemoryModelOpenCL21 {
 		return nil
 	}
-	return errors.New("invalid MemoryModel value")
+	return ErrInvalidMemoryModel
 }
 
 // Memory Models define an existing memory model.
@@ -368,10 +396,12 @@ type SamplerAddressingMode uint32
 
 func (v SamplerAddressingMode) Verify() error {
 	switch v {
-	case SamplerAddressingModeClampEdge, SamplerAddressingModeClamp, SamplerAddressingModeRepeat, SamplerAddressingModeRepeatMirrored:
+	case SamplerAddressingModeNone, SamplerAddressingModeClampEdge,
+		SamplerAddressingModeClamp, SamplerAddressingModeRepeat,
+		SamplerAddressingModeRepeatMirrored:
 		return nil
 	default:
-		return errors.New("invalid SamplerAddressingMode value")
+		return ErrInvalidSamplerAddressingMode
 	}
 }
 
@@ -404,7 +434,7 @@ func (v SamplerFilterMode) Verify() error {
 	case SamplerFilterModeNearest, SamplerFilterModeLinear:
 		return nil
 	default:
-		return errors.New("invalid SamplerFilterMode value")
+		return ErrInvalidSamplerFilterMode
 	}
 }
 
@@ -424,7 +454,7 @@ func (v SourceLanguage) Verify() error {
 	if v >= SourceLanguageUnknown && v <= SourceLanguageOpenCL {
 		return nil
 	}
-	return errors.New("invalid SourceLanguage value")
+	return ErrInvalidSourceLanguage
 }
 
 // Source Languages define a source language constant.
@@ -441,7 +471,7 @@ func (v StorageClass) Verify() error {
 	if v >= StorageClassUniformConstant && v <= StorageClassAtomicCounter {
 		return nil
 	}
-	return errors.New("invalid StorageClass value")
+	return ErrInvalidStorageClass
 }
 
 // Storage Classes define a class of storage for declared variables
@@ -492,7 +522,7 @@ func (v FunctionParameter) Verify() error {
 	if v >= FunctionParamAttrZext && v <= FunctionParamAttrNoReadWrite {
 		return nil
 	}
-	return errors.New("invalid FunctionParameter value")
+	return ErrInvalidFunctionParameter
 }
 
 // Function Parameter Attributes add additional information to the return type
@@ -543,7 +573,7 @@ func (v Decoration) Verify() error {
 	if v >= DecorationPrecisionLow && v <= DecorationSpecId {
 		return nil
 	}
-	return errors.New("invalid Decoration value")
+	return ErrInvalidDecoration
 }
 
 // Decorations are used by OpDecorate and OpMemberDecorate
@@ -830,7 +860,7 @@ func (v Builtin) Verify() error {
 	if v >= BuiltinPosition && v <= BuiltinSubgroupLocalInvocationId {
 		return nil
 	}
-	return errors.New("invalid Builtin value")
+	return ErrInvalidBuiltin
 }
 
 // Builtins define a builtin operation.
@@ -893,7 +923,7 @@ func (v SelectionControl) Verify() error {
 	if v >= SelectionControlNoControl && v <= SelectionControlDontFlatten {
 		return nil
 	}
-	return errors.New("invalid SelectionControl value")
+	return ErrInvalidSelectionControl
 }
 
 // Selection Controls define priorities for flattening
@@ -917,7 +947,7 @@ func (v LoopControl) Verify() error {
 	if v >= LoopControlNoControl && v <= LoopControlDontUnroll {
 		return nil
 	}
-	return errors.New("invalid LoopControl value")
+	return ErrInvalidLoopControl
 }
 
 // Loop Controls define priorities for unrolling of
@@ -944,7 +974,7 @@ func (v FunctionControlMask) Verify() error {
 	) {
 		return nil
 	}
-	return errors.New("invalid FunctionControlMask value")
+	return ErrInvalidFunctionControlMask
 }
 
 // Function Control Masks define bitmask hints for function optimisations.
@@ -985,7 +1015,7 @@ func (v MemorySemantic) Verify() error {
 	) {
 		return nil
 	}
-	return errors.New("invalid MemorySemantic value")
+	return ErrInvalidMemorySemantic
 }
 
 // Memory Semantics define bitflag memory classifications and
@@ -1037,7 +1067,7 @@ func (v MemoryAccess) Verify() error {
 	if v >= MemoryAccessVolatile && v <= MemoryAccessAligned {
 		return nil
 	}
-	return errors.New("invalid MemoryAccess value")
+	return ErrInvalidMemoryAccess
 }
 
 // Memory Access defines memory access semantics.
@@ -1056,7 +1086,7 @@ func (v ExecutionScope) Verify() error {
 	if v >= ExecutionScopeCrossDevice && v <= ExecutionScopeSubgroup {
 		return nil
 	}
-	return errors.New("invalid ExecutionScope value")
+	return ErrInvalidExecutionScope
 }
 
 // Execution Scopes define the scope of execution.
@@ -1080,7 +1110,7 @@ func (v GroupOperation) Verify() error {
 	if v >= GroupOperationReduce && v <= GroupOperationExclusiveScan {
 		return nil
 	}
-	return errors.New("invalid GroupOperation value")
+	return ErrInvalidGroupOperation
 }
 
 // Group Operations define the class of workgroup or subgroup operation.
@@ -1106,7 +1136,7 @@ func (v KernelEnqueueFlag) Verify() error {
 	if v >= KernelEnqueueFlagNoWait && v <= KernelEnqueueFlagWaitWorkGroup {
 		return nil
 	}
-	return errors.New("invalid KernelEnqueueFlag value")
+	return ErrInvalidKernelEnqueueFlag
 }
 
 // Kernel Enqueue Flags specify when the child kernel begins execution.
@@ -1143,7 +1173,7 @@ func (v KernelProfilingInfo) Verify() error {
 	if v == KernelProfilingInfoCmdExecTime {
 		return nil
 	}
-	return errors.New("invalid KernelProfilingInfo value")
+	return ErrInvalidKernelProfilingInfo
 }
 
 // Kernel Profiling Info specifies the profiling information to be queried.
