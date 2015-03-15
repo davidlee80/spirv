@@ -3,13 +3,28 @@
 
 package spirv
 
-import "reflect"
+import (
+	"reflect"
+	"sort"
+)
 
 // InstructionFunc defines a constructor for an instruction.
 type instructionFunc func() Instruction
 
 // InstructionSet maps opcodes to an instruction  constructor.
 type instructionSet map[uint32]instructionFunc
+
+// Opcodes returns a sorted list of all registered opcodes.
+func (set instructionSet) Opcodes() []int {
+	out := make([]int, 0, len(set))
+
+	for opcode := range set {
+		out = append(out, int(opcode))
+	}
+
+	sort.Ints(out)
+	return out
+}
 
 // Global, internal instruction set.
 // This has instructions registered atomically during init.

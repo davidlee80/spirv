@@ -13,7 +13,14 @@ var mod = NewModule()
 
 func init() {
 	mod.Code = []Instruction{
+		&OpCompileFlag{
+			Flag: "I'm too early in the stream",
+		},
 		&OpSource{SourceLanguageGLSL, 450},
+		&OpMemoryModel{
+			AddressingModel: AddressingModeLogical,
+			MemoryModel:     MemoryModelGLSL450,
+		},
 		&OpExtInst{
 			ResultType:  1,
 			ResultId:    2,
@@ -48,8 +55,10 @@ func TestModuleVerify(t *testing.T) {
 
 func TestModuleStrip(t *testing.T) {
 	mod.Strip()
-	if len(mod.Code) != 5 {
-		t.Fatalf("Strip error: Expected 5 remaining instructions; have: %d", len(mod.Code))
+	want := 7
+	have := len(mod.Code)
+	if have != want {
+		t.Fatalf("Strip error: Expected %d remaining instructions; have: %d", want, have)
 	}
 }
 

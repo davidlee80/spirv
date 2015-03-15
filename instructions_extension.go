@@ -11,7 +11,7 @@ type OpExtension struct {
 	Name String
 }
 
-func (c *OpExtension) Opcode() uint32 { return 3 }
+func (c *OpExtension) Opcode() uint32 { return opcodeExtension }
 func (c *OpExtension) Optional() bool { return false }
 func (c *OpExtension) Verify() error  { return nil }
 
@@ -24,7 +24,7 @@ type OpExtInstImport struct {
 	Name     String
 }
 
-func (c *OpExtInstImport) Opcode() uint32 { return 4 }
+func (c *OpExtInstImport) Opcode() uint32 { return opcodeExtInstImport }
 func (c *OpExtInstImport) Optional() bool { return false }
 func (c *OpExtInstImport) Verify() error  { return nil }
 
@@ -37,7 +37,7 @@ type OpExtInst struct {
 	Operands    []Id   // Operands to the extended instruction.
 }
 
-func (c *OpExtInst) Opcode() uint32 { return 44 }
+func (c *OpExtInst) Opcode() uint32 { return opcodeExtInst }
 func (c *OpExtInst) Optional() bool { return false }
 func (c *OpExtInst) Verify() error  { return nil }
 

@@ -11,7 +11,7 @@ type OpDPdx struct {
 	P          Id
 }
 
-func (c *OpDPdx) Opcode() uint32 { return 175 }
+func (c *OpDPdx) Opcode() uint32 { return opcodeDPdx }
 func (c *OpDPdx) Optional() bool { return false }
 func (c *OpDPdx) Verify() error  { return nil }
 
@@ -23,7 +23,7 @@ type OpDPdy struct {
 	P          Id
 }
 
-func (c *OpDPdy) Opcode() uint32 { return 176 }
+func (c *OpDPdy) Opcode() uint32 { return opcodeDPdy }
 func (c *OpDPdy) Optional() bool { return false }
 func (c *OpDPdy) Verify() error  { return nil }
 
@@ -35,7 +35,7 @@ type OpFwidth struct {
 	P          Id
 }
 
-func (c *OpFwidth) Opcode() uint32 { return 177 }
+func (c *OpFwidth) Opcode() uint32 { return opcodeFwidth }
 func (c *OpFwidth) Optional() bool { return false }
 func (c *OpFwidth) Verify() error  { return nil }
 
@@ -47,7 +47,7 @@ type OpDPdxFine struct {
 	P          Id
 }
 
-func (c *OpDPdxFine) Opcode() uint32 { return 178 }
+func (c *OpDPdxFine) Opcode() uint32 { return opcodeDPdxFine }
 func (c *OpDPdxFine) Optional() bool { return false }
 func (c *OpDPdxFine) Verify() error  { return nil }
 
@@ -59,7 +59,7 @@ type OpDPdyFine struct {
 	P          Id
 }
 
-func (c *OpDPdyFine) Opcode() uint32 { return 179 }
+func (c *OpDPdyFine) Opcode() uint32 { return opcodeDPdyFine }
 func (c *OpDPdyFine) Optional() bool { return false }
 func (c *OpDPdyFine) Verify() error  { return nil }
 
@@ -71,7 +71,7 @@ type OpFwidthFine struct {
 	P          Id
 }
 
-func (c *OpFwidthFine) Opcode() uint32 { return 180 }
+func (c *OpFwidthFine) Opcode() uint32 { return opcodeFwidthFine }
 func (c *OpFwidthFine) Optional() bool { return false }
 func (c *OpFwidthFine) Verify() error  { return nil }
 
@@ -83,7 +83,7 @@ type OpDPdxCoarse struct {
 	P          Id
 }
 
-func (c *OpDPdxCoarse) Opcode() uint32 { return 181 }
+func (c *OpDPdxCoarse) Opcode() uint32 { return opcodeDPdxCoarse }
 func (c *OpDPdxCoarse) Optional() bool { return false }
 func (c *OpDPdxCoarse) Verify() error  { return nil }
 
@@ -95,7 +95,7 @@ type OpDPdyCoarse struct {
 	P          Id
 }
 
-func (c *OpDPdyCoarse) Opcode() uint32 { return 182 }
+func (c *OpDPdyCoarse) Opcode() uint32 { return opcodeDPdyCoarse }
 func (c *OpDPdyCoarse) Optional() bool { return false }
 func (c *OpDPdyCoarse) Verify() error  { return nil }
 
@@ -107,7 +107,7 @@ type OpFwidthCoarse struct {
 	P          Id
 }
 
-func (c *OpFwidthCoarse) Opcode() uint32 { return 183 }
+func (c *OpFwidthCoarse) Opcode() uint32 { return opcodeFwidthCoarse }
 func (c *OpFwidthCoarse) Optional() bool { return false }
 func (c *OpFwidthCoarse) Verify() error  { return nil }
 

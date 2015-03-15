@@ -21,7 +21,7 @@ type OpVariable struct {
 	Initializer Id `spirv:"optional"`
 }
 
-func (c *OpVariable) Opcode() uint32 { return 38 }
+func (c *OpVariable) Opcode() uint32 { return opcodeVariable }
 func (c *OpVariable) Optional() bool { return false }
 func (c *OpVariable) Verify() error  { return nil }
 
@@ -43,7 +43,7 @@ type OpVariableArray struct {
 	N Id
 }
 
-func (c *OpVariableArray) Opcode() uint32 { return 39 }
+func (c *OpVariableArray) Opcode() uint32 { return opcodeVariableArray }
 func (c *OpVariableArray) Optional() bool { return false }
 func (c *OpVariableArray) Verify() error  { return nil }
 
@@ -64,7 +64,7 @@ type OpLoad struct {
 	MemoryAccess []MemoryAccess
 }
 
-func (c *OpLoad) Opcode() uint32 { return 46 }
+func (c *OpLoad) Opcode() uint32 { return opcodeLoad }
 func (c *OpLoad) Optional() bool { return false }
 func (c *OpLoad) Verify() error  { return nil }
 
@@ -82,7 +82,7 @@ type OpStore struct {
 	MemoryAccess []MemoryAccess
 }
 
-func (c *OpStore) Opcode() uint32 { return 47 }
+func (c *OpStore) Opcode() uint32 { return opcodeStore }
 func (c *OpStore) Optional() bool { return false }
 func (c *OpStore) Verify() error  { return nil }
 
@@ -104,7 +104,7 @@ type OpCopyMemory struct {
 	MemoryAccess []MemoryAccess
 }
 
-func (c *OpCopyMemory) Opcode() uint32 { return 65 }
+func (c *OpCopyMemory) Opcode() uint32 { return opcodeCopyMemory }
 func (c *OpCopyMemory) Optional() bool { return false }
 func (c *OpCopyMemory) Verify() error  { return nil }
 
@@ -128,7 +128,7 @@ type OpCopyMemorySized struct {
 	MemoryAccess []MemoryAccess
 }
 
-func (c *OpCopyMemorySized) Opcode() uint32 { return 66 }
+func (c *OpCopyMemorySized) Opcode() uint32 { return opcodeCopyMemorySized }
 func (c *OpCopyMemorySized) Optional() bool { return false }
 func (c *OpCopyMemorySized) Verify() error  { return nil }
 
@@ -151,7 +151,7 @@ type OpAccessChain struct {
 	Indices []Id
 }
 
-func (c *OpAccessChain) Opcode() uint32 { return 93 }
+func (c *OpAccessChain) Opcode() uint32 { return opcodeAccessChain }
 func (c *OpAccessChain) Optional() bool { return false }
 func (c *OpAccessChain) Verify() error  { return nil }
 
@@ -171,7 +171,7 @@ type OpInboundsAccessChain struct {
 	Indices []Id
 }
 
-func (c *OpInboundsAccessChain) Opcode() uint32 { return 94 }
+func (c *OpInboundsAccessChain) Opcode() uint32 { return opcodeInboundsAccessChain }
 func (c *OpInboundsAccessChain) Optional() bool { return false }
 func (c *OpInboundsAccessChain) Verify() error  { return nil }
 
@@ -189,7 +189,7 @@ type OpArraylength struct {
 	Member uint32
 }
 
-func (c *OpArraylength) Opcode() uint32 { return 121 }
+func (c *OpArraylength) Opcode() uint32 { return opcodeArraylength }
 func (c *OpArraylength) Optional() bool { return false }
 func (c *OpArraylength) Verify() error  { return nil }
 
@@ -210,7 +210,7 @@ type OpImagePointer struct {
 	Sample     Id
 }
 
-func (c *OpImagePointer) Opcode() uint32 { return 190 }
+func (c *OpImagePointer) Opcode() uint32 { return opcodeImagePointer }
 func (c *OpImagePointer) Optional() bool { return false }
 func (c *OpImagePointer) Verify() error  { return nil }
 
@@ -222,7 +222,7 @@ type OpGenericPtrMemSemantics struct {
 	Ptr        Id
 }
 
-func (c *OpGenericPtrMemSemantics) Opcode() uint32 { return 233 }
+func (c *OpGenericPtrMemSemantics) Opcode() uint32 { return opcodeGenericPtrMemSemantics }
 func (c *OpGenericPtrMemSemantics) Optional() bool { return false }
 func (c *OpGenericPtrMemSemantics) Verify() error  { return nil }
 

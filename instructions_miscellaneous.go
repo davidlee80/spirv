@@ -10,7 +10,7 @@ package spirv
 // when it is being used.
 type OpNop struct{}
 
-func (c *OpNop) Opcode() uint32 { return 0 }
+func (c *OpNop) Opcode() uint32 { return opcodeNop }
 func (c *OpNop) Optional() bool { return false }
 func (c *OpNop) Verify() error  { return ErrUnacceptable }
 
@@ -20,7 +20,7 @@ type OpUndef struct {
 	ResultId   Id
 }
 
-func (c *OpUndef) Opcode() uint32 { return 45 }
+func (c *OpUndef) Opcode() uint32 { return opcodeUndef }
 func (c *OpUndef) Optional() bool { return false }
 func (c *OpUndef) Verify() error  { return nil }
 

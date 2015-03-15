@@ -11,7 +11,7 @@ type OpConvertFToU struct {
 	Value      Id
 }
 
-func (c *OpConvertFToU) Opcode() uint32 { return 100 }
+func (c *OpConvertFToU) Opcode() uint32 { return opcodeConvertFToU }
 func (c *OpConvertFToU) Optional() bool { return false }
 func (c *OpConvertFToU) Verify() error  { return nil }
 
@@ -23,7 +23,7 @@ type OpConvertFToS struct {
 	Value      Id
 }
 
-func (c *OpConvertFToS) Opcode() uint32 { return 101 }
+func (c *OpConvertFToS) Opcode() uint32 { return opcodeConvertFToS }
 func (c *OpConvertFToS) Optional() bool { return false }
 func (c *OpConvertFToS) Verify() error  { return nil }
 
@@ -35,7 +35,7 @@ type OpConvertSToF struct {
 	Value      Id
 }
 
-func (c *OpConvertSToF) Opcode() uint32 { return 102 }
+func (c *OpConvertSToF) Opcode() uint32 { return opcodeConvertSToF }
 func (c *OpConvertSToF) Optional() bool { return false }
 func (c *OpConvertSToF) Verify() error  { return nil }
 
@@ -47,7 +47,7 @@ type OpConvertUToF struct {
 	Value      Id
 }
 
-func (c *OpConvertUToF) Opcode() uint32 { return 103 }
+func (c *OpConvertUToF) Opcode() uint32 { return opcodeConvertUToF }
 func (c *OpConvertUToF) Optional() bool { return false }
 func (c *OpConvertUToF) Verify() error  { return nil }
 
@@ -59,7 +59,7 @@ type OpUConvert struct {
 	Value      Id
 }
 
-func (c *OpUConvert) Opcode() uint32 { return 104 }
+func (c *OpUConvert) Opcode() uint32 { return opcodeUConvert }
 func (c *OpUConvert) Optional() bool { return false }
 func (c *OpUConvert) Verify() error  { return nil }
 
@@ -71,7 +71,7 @@ type OpSConvert struct {
 	Value      Id
 }
 
-func (c *OpSConvert) Opcode() uint32 { return 105 }
+func (c *OpSConvert) Opcode() uint32 { return opcodeSConvert }
 func (c *OpSConvert) Optional() bool { return false }
 func (c *OpSConvert) Verify() error  { return nil }
 
@@ -86,7 +86,7 @@ type OpFConvert struct {
 	Value      Id
 }
 
-func (c *OpFConvert) Opcode() uint32 { return 106 }
+func (c *OpFConvert) Opcode() uint32 { return opcodeFConvert }
 func (c *OpFConvert) Optional() bool { return false }
 func (c *OpFConvert) Verify() error  { return nil }
 
@@ -98,7 +98,7 @@ type OpConvertPtrToU struct {
 	Value      Id
 }
 
-func (c *OpConvertPtrToU) Opcode() uint32 { return 107 }
+func (c *OpConvertPtrToU) Opcode() uint32 { return opcodeConvertPtrToU }
 func (c *OpConvertPtrToU) Optional() bool { return false }
 func (c *OpConvertPtrToU) Verify() error  { return nil }
 
@@ -110,7 +110,7 @@ type OpConvertUToPtr struct {
 	Value      Id
 }
 
-func (c *OpConvertUToPtr) Opcode() uint32 { return 108 }
+func (c *OpConvertUToPtr) Opcode() uint32 { return opcodeConvertUToPtr }
 func (c *OpConvertUToPtr) Optional() bool { return false }
 func (c *OpConvertUToPtr) Verify() error  { return nil }
 
@@ -123,7 +123,7 @@ type OpPtrCastToGeneric struct {
 	Source     Id
 }
 
-func (c *OpPtrCastToGeneric) Opcode() uint32 { return 109 }
+func (c *OpPtrCastToGeneric) Opcode() uint32 { return opcodePtrCastToGeneric }
 func (c *OpPtrCastToGeneric) Optional() bool { return false }
 func (c *OpPtrCastToGeneric) Verify() error  { return nil }
 
@@ -135,7 +135,7 @@ type OpGenericCastToPtr struct {
 	Source     Id
 }
 
-func (c *OpGenericCastToPtr) Opcode() uint32 { return 110 }
+func (c *OpGenericCastToPtr) Opcode() uint32 { return opcodeGenericCastToPtr }
 func (c *OpGenericCastToPtr) Optional() bool { return false }
 func (c *OpGenericCastToPtr) Verify() error  { return nil }
 
@@ -147,7 +147,7 @@ type OpBitcast struct {
 	Operand    Id // Operand is the bit pattern whose type will change
 }
 
-func (c *OpBitcast) Opcode() uint32 { return 111 }
+func (c *OpBitcast) Opcode() uint32 { return opcodeBitcast }
 func (c *OpBitcast) Optional() bool { return false }
 func (c *OpBitcast) Verify() error  { return nil }
 
@@ -160,7 +160,7 @@ type OpGenericCastToPtrExplicit struct {
 	Storage    StorageClass
 }
 
-func (c *OpGenericCastToPtrExplicit) Opcode() uint32 { return 232 }
+func (c *OpGenericCastToPtrExplicit) Opcode() uint32 { return opcodeGenericCastToPtrExplicit }
 func (c *OpGenericCastToPtrExplicit) Optional() bool { return false }
 func (c *OpGenericCastToPtrExplicit) Verify() error  { return nil }
 

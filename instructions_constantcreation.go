@@ -11,7 +11,7 @@ type OpConstantTrue struct {
 	ResultId   Id
 }
 
-func (c *OpConstantTrue) Opcode() uint32 { return 27 }
+func (c *OpConstantTrue) Opcode() uint32 { return opcodeConstantTrue }
 func (c *OpConstantTrue) Optional() bool { return false }
 func (c *OpConstantTrue) Verify() error  { return nil }
 
@@ -24,7 +24,7 @@ type OpConstantFalse struct {
 	ResultId Id
 }
 
-func (c *OpConstantFalse) Opcode() uint32 { return 28 }
+func (c *OpConstantFalse) Opcode() uint32 { return opcodeConstantFalse }
 func (c *OpConstantFalse) Optional() bool { return false }
 func (c *OpConstantFalse) Verify() error  { return nil }
 
@@ -41,7 +41,7 @@ type OpConstant struct {
 	Value []uint32
 }
 
-func (c *OpConstant) Opcode() uint32 { return 29 }
+func (c *OpConstant) Opcode() uint32 { return opcodeConstant }
 func (c *OpConstant) Optional() bool { return false }
 func (c *OpConstant) Verify() error  { return nil }
 
@@ -64,7 +64,7 @@ type OpConstantComposite struct {
 	Constituents []Id
 }
 
-func (c *OpConstantComposite) Opcode() uint32 { return 30 }
+func (c *OpConstantComposite) Opcode() uint32 { return opcodeConstantComposite }
 func (c *OpConstantComposite) Optional() bool { return false }
 func (c *OpConstantComposite) Verify() error  { return nil }
 
@@ -91,7 +91,7 @@ type OpConstantSampler struct {
 	Filter SamplerFilterMode
 }
 
-func (c *OpConstantSampler) Opcode() uint32 { return 31 }
+func (c *OpConstantSampler) Opcode() uint32 { return opcodeConstantSampler }
 func (c *OpConstantSampler) Optional() bool { return false }
 func (c *OpConstantSampler) Verify() error {
 	switch c.Param {
@@ -109,7 +109,7 @@ type OpConstantNullPointer struct {
 	ResultId   Id
 }
 
-func (c *OpConstantNullPointer) Opcode() uint32 { return 32 }
+func (c *OpConstantNullPointer) Opcode() uint32 { return opcodeConstantNullPointer }
 func (c *OpConstantNullPointer) Optional() bool { return false }
 func (c *OpConstantNullPointer) Verify() error  { return nil }
 
@@ -120,7 +120,7 @@ type OpConstantNullObject struct {
 	ResultId   Id
 }
 
-func (c *OpConstantNullObject) Opcode() uint32 { return 33 }
+func (c *OpConstantNullObject) Opcode() uint32 { return opcodeConstantNullObject }
 func (c *OpConstantNullObject) Optional() bool { return false }
 func (c *OpConstantNullObject) Verify() error  { return nil }
 
@@ -134,7 +134,7 @@ type OpSpecConstantTrue struct {
 	ResultId   Id
 }
 
-func (c *OpSpecConstantTrue) Opcode() uint32 { return 34 }
+func (c *OpSpecConstantTrue) Opcode() uint32 { return opcodeSpecConstantTrue }
 func (c *OpSpecConstantTrue) Optional() bool { return false }
 func (c *OpSpecConstantTrue) Verify() error  { return nil }
 
@@ -148,7 +148,7 @@ type OpSpecConstantFalse struct {
 	ResultId   Id
 }
 
-func (c *OpSpecConstantFalse) Opcode() uint32 { return 35 }
+func (c *OpSpecConstantFalse) Opcode() uint32 { return opcodeSpecConstantFalse }
 func (c *OpSpecConstantFalse) Optional() bool { return false }
 func (c *OpSpecConstantFalse) Verify() error  { return nil }
 
@@ -167,7 +167,7 @@ type OpSpecConstant struct {
 	Value []uint32
 }
 
-func (c *OpSpecConstant) Opcode() uint32 { return 36 }
+func (c *OpSpecConstant) Opcode() uint32 { return opcodeSpecConstant }
 func (c *OpSpecConstant) Optional() bool { return false }
 func (c *OpSpecConstant) Verify() error  { return nil }
 
@@ -192,7 +192,7 @@ type OpSpecConstantComposite struct {
 	Constituents []Id
 }
 
-func (c *OpSpecConstantComposite) Opcode() uint32 { return 37 }
+func (c *OpSpecConstantComposite) Opcode() uint32 { return opcodeSpecConstantComposite }
 func (c *OpSpecConstantComposite) Optional() bool { return false }
 func (c *OpSpecConstantComposite) Verify() error  { return nil }
 

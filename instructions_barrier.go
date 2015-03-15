@@ -15,7 +15,7 @@ type OpControlBarrier struct {
 	ExecutionScope ExecutionScope
 }
 
-func (c *OpControlBarrier) Opcode() uint32 { return 188 }
+func (c *OpControlBarrier) Opcode() uint32 { return opcodeControlBarrier }
 func (c *OpControlBarrier) Optional() bool { return false }
 func (c *OpControlBarrier) Verify() error  { return nil }
 
@@ -30,7 +30,7 @@ type OpMemoryBarrier struct {
 	MemorySemantic MemorySemantic
 }
 
-func (c *OpMemoryBarrier) Opcode() uint32 { return 189 }
+func (c *OpMemoryBarrier) Opcode() uint32 { return opcodeMemoryBarrier }
 func (c *OpMemoryBarrier) Optional() bool { return false }
 func (c *OpMemoryBarrier) Verify() error  { return nil }
 

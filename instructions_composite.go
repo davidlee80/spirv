@@ -12,7 +12,7 @@ type OpVectorExtractDynamic struct {
 	Index      Id
 }
 
-func (c *OpVectorExtractDynamic) Opcode() uint32 { return 58 }
+func (c *OpVectorExtractDynamic) Opcode() uint32 { return opcodeVectorExtractDynamic }
 func (c *OpVectorExtractDynamic) Optional() bool { return false }
 func (c *OpVectorExtractDynamic) Verify() error  { return nil }
 
@@ -26,7 +26,7 @@ type OpVectorInsertDynamic struct {
 	Index      Id
 }
 
-func (c *OpVectorInsertDynamic) Opcode() uint32 { return 59 }
+func (c *OpVectorInsertDynamic) Opcode() uint32 { return opcodeVectorInsertDynamic }
 func (c *OpVectorInsertDynamic) Optional() bool { return false }
 func (c *OpVectorInsertDynamic) Verify() error  { return nil }
 
@@ -40,7 +40,7 @@ type OpVectorShuffle struct {
 	Components []uint32
 }
 
-func (c *OpVectorShuffle) Opcode() uint32 { return 60 }
+func (c *OpVectorShuffle) Opcode() uint32 { return opcodeVectorShuffle }
 func (c *OpVectorShuffle) Optional() bool { return false }
 func (c *OpVectorShuffle) Verify() error  { return nil }
 
@@ -52,7 +52,7 @@ type OpCompositeConstruct struct {
 	Constituents []Id
 }
 
-func (c *OpCompositeConstruct) Opcode() uint32 { return 61 }
+func (c *OpCompositeConstruct) Opcode() uint32 { return opcodeCompositeConstruct }
 func (c *OpCompositeConstruct) Optional() bool { return false }
 func (c *OpCompositeConstruct) Verify() error  { return nil }
 
@@ -64,7 +64,7 @@ type OpCompositeExtract struct {
 	Indices    []uint32
 }
 
-func (c *OpCompositeExtract) Opcode() uint32 { return 62 }
+func (c *OpCompositeExtract) Opcode() uint32 { return opcodeCompositeExtract }
 func (c *OpCompositeExtract) Optional() bool { return false }
 func (c *OpCompositeExtract) Verify() error  { return nil }
 
@@ -77,7 +77,7 @@ type OpCompositeInsert struct {
 	Indices    []uint32
 }
 
-func (c *OpCompositeInsert) Opcode() uint32 { return 63 }
+func (c *OpCompositeInsert) Opcode() uint32 { return opcodeCompositeInsert }
 func (c *OpCompositeInsert) Optional() bool { return false }
 func (c *OpCompositeInsert) Verify() error  { return nil }
 
@@ -89,7 +89,7 @@ type OpCopyObject struct {
 	Operand    Id
 }
 
-func (c *OpCopyObject) Opcode() uint32 { return 64 }
+func (c *OpCopyObject) Opcode() uint32 { return opcodeCopyObject }
 func (c *OpCopyObject) Optional() bool { return false }
 func (c *OpCopyObject) Verify() error  { return nil }
 
@@ -100,7 +100,7 @@ type OpTranspose struct {
 	Matrix     Id
 }
 
-func (c *OpTranspose) Opcode() uint32 { return 112 }
+func (c *OpTranspose) Opcode() uint32 { return opcodeTranspose }
 func (c *OpTranspose) Optional() bool { return false }
 func (c *OpTranspose) Verify() error  { return nil }
 

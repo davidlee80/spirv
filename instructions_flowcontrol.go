@@ -15,7 +15,7 @@ type OpPhi struct {
 	Operands   []Id
 }
 
-func (c *OpPhi) Opcode() uint32 { return 48 }
+func (c *OpPhi) Opcode() uint32 { return opcodePhi }
 func (c *OpPhi) Optional() bool { return false }
 func (c *OpPhi) Verify() error {
 	if len(c.Operands) == 0 {
@@ -35,7 +35,7 @@ type OpLoopMerge struct {
 	LoopControl LoopControl
 }
 
-func (c *OpLoopMerge) Opcode() uint32 { return 206 }
+func (c *OpLoopMerge) Opcode() uint32 { return opcodeLoopMerge }
 func (c *OpLoopMerge) Optional() bool { return false }
 func (c *OpLoopMerge) Verify() error  { return nil }
 
@@ -46,7 +46,7 @@ type OpSelectionMerge struct {
 	SelectionControl SelectionControl
 }
 
-func (c *OpSelectionMerge) Opcode() uint32 { return 207 }
+func (c *OpSelectionMerge) Opcode() uint32 { return opcodeSelectionMerge }
 func (c *OpSelectionMerge) Optional() bool { return false }
 func (c *OpSelectionMerge) Verify() error  { return nil }
 
@@ -55,7 +55,7 @@ type OpLabel struct {
 	ResultId Id
 }
 
-func (c *OpLabel) Opcode() uint32 { return 208 }
+func (c *OpLabel) Opcode() uint32 { return opcodeLabel }
 func (c *OpLabel) Optional() bool { return false }
 func (c *OpLabel) Verify() error  { return nil }
 
@@ -64,7 +64,7 @@ type OpBranch struct {
 	TargetLabel Id
 }
 
-func (c *OpBranch) Opcode() uint32 { return 209 }
+func (c *OpBranch) Opcode() uint32 { return opcodeBranch }
 func (c *OpBranch) Optional() bool { return false }
 func (c *OpBranch) Verify() error  { return nil }
 
@@ -77,7 +77,7 @@ type OpBranchConditional struct {
 	BranchWeights []uint32 `spirv:"optional"`
 }
 
-func (c *OpBranchConditional) Opcode() uint32 { return 210 }
+func (c *OpBranchConditional) Opcode() uint32 { return opcodeBranchConditional }
 func (c *OpBranchConditional) Optional() bool { return false }
 func (c *OpBranchConditional) Verify() error {
 	if len(c.BranchWeights) != 0 && len(c.BranchWeights) != 2 {
@@ -94,7 +94,7 @@ type OpSwitch struct {
 	Target []uint32 `spirv:"optional"`
 }
 
-func (c *OpSwitch) Opcode() uint32 { return 211 }
+func (c *OpSwitch) Opcode() uint32 { return opcodeSwitch }
 func (c *OpSwitch) Optional() bool { return false }
 func (c *OpSwitch) Verify() error {
 	if len(c.Target)%2 != 0 {
@@ -115,7 +115,7 @@ func (c *OpSwitch) Verify() error {
 // OpKill discards the fragment shader.
 type OpKill struct{}
 
-func (c *OpKill) Opcode() uint32 { return 212 }
+func (c *OpKill) Opcode() uint32 { return opcodeKill }
 func (c *OpKill) Optional() bool { return false }
 func (c *OpKill) Verify() error  { return nil }
 
@@ -128,7 +128,7 @@ func init() {
 // OpReturn returns with no value from a function with void return type.
 type OpReturn struct{}
 
-func (c *OpReturn) Opcode() uint32 { return 213 }
+func (c *OpReturn) Opcode() uint32 { return opcodeReturn }
 func (c *OpReturn) Optional() bool { return false }
 func (c *OpReturn) Verify() error  { return nil }
 
@@ -137,7 +137,7 @@ type OpReturnValue struct {
 	Value Id
 }
 
-func (c *OpReturnValue) Opcode() uint32 { return 214 }
+func (c *OpReturnValue) Opcode() uint32 { return opcodeReturnValue }
 func (c *OpReturnValue) Optional() bool { return false }
 func (c *OpReturnValue) Verify() error  { return nil }
 
@@ -145,7 +145,7 @@ func (c *OpReturnValue) Verify() error  { return nil }
 // Flow Graph.
 type OpUnreachable struct{}
 
-func (c *OpUnreachable) Opcode() uint32 { return 215 }
+func (c *OpUnreachable) Opcode() uint32 { return opcodeUnreachable }
 func (c *OpUnreachable) Optional() bool { return false }
 func (c *OpUnreachable) Verify() error  { return nil }
 
@@ -156,7 +156,7 @@ type OpLifetimeStart struct {
 	MemoryAmount uint32
 }
 
-func (c *OpLifetimeStart) Opcode() uint32 { return 216 }
+func (c *OpLifetimeStart) Opcode() uint32 { return opcodeLifetimeStart }
 func (c *OpLifetimeStart) Optional() bool { return false }
 func (c *OpLifetimeStart) Verify() error  { return nil }
 
@@ -167,7 +167,7 @@ type OpLifetimeStop struct {
 	MemoryAmount uint32
 }
 
-func (c *OpLifetimeStop) Opcode() uint32 { return 217 }
+func (c *OpLifetimeStop) Opcode() uint32 { return opcodeLifetimeStop }
 func (c *OpLifetimeStop) Optional() bool { return false }
 func (c *OpLifetimeStop) Verify() error  { return nil }
 

@@ -11,7 +11,7 @@ type OpReadPipe struct {
 	Ptr        Id
 }
 
-func (c *OpReadPipe) Opcode() uint32 { return 234 }
+func (c *OpReadPipe) Opcode() uint32 { return opcodeReadPipe }
 func (c *OpReadPipe) Optional() bool { return false }
 func (c *OpReadPipe) Verify() error  { return nil }
 
@@ -23,7 +23,7 @@ type OpWritePipe struct {
 	Ptr        Id
 }
 
-func (c *OpWritePipe) Opcode() uint32 { return 235 }
+func (c *OpWritePipe) Opcode() uint32 { return opcodeWritePipe }
 func (c *OpWritePipe) Optional() bool { return false }
 func (c *OpWritePipe) Verify() error  { return nil }
 
@@ -38,7 +38,7 @@ type OpReservedReadPipe struct {
 	Ptr        Id
 }
 
-func (c *OpReservedReadPipe) Opcode() uint32 { return 236 }
+func (c *OpReservedReadPipe) Opcode() uint32 { return opcodeReservedReadPipe }
 func (c *OpReservedReadPipe) Optional() bool { return false }
 func (c *OpReservedReadPipe) Verify() error  { return nil }
 
@@ -53,7 +53,7 @@ type OpReservedWritePipe struct {
 	Ptr        Id
 }
 
-func (c *OpReservedWritePipe) Opcode() uint32 { return 237 }
+func (c *OpReservedWritePipe) Opcode() uint32 { return opcodeReservedWritePipe }
 func (c *OpReservedWritePipe) Optional() bool { return false }
 func (c *OpReservedWritePipe) Verify() error  { return nil }
 
@@ -65,7 +65,7 @@ type OpReserveReadPipePackets struct {
 	NumPackets Id
 }
 
-func (c *OpReserveReadPipePackets) Opcode() uint32 { return 238 }
+func (c *OpReserveReadPipePackets) Opcode() uint32 { return opcodeReserveReadPipePackets }
 func (c *OpReserveReadPipePackets) Optional() bool { return false }
 func (c *OpReserveReadPipePackets) Verify() error  { return nil }
 
@@ -77,7 +77,7 @@ type OpReserveWritePipePackets struct {
 	NumPackets Id
 }
 
-func (c *OpReserveWritePipePackets) Opcode() uint32 { return 239 }
+func (c *OpReserveWritePipePackets) Opcode() uint32 { return opcodeReserveWritePipePackets }
 func (c *OpReserveWritePipePackets) Optional() bool { return false }
 func (c *OpReserveWritePipePackets) Verify() error  { return nil }
 
@@ -88,7 +88,7 @@ type OpCommitReadPipe struct {
 	ReserveId Id
 }
 
-func (c *OpCommitReadPipe) Opcode() uint32 { return 240 }
+func (c *OpCommitReadPipe) Opcode() uint32 { return opcodeCommitReadPipe }
 func (c *OpCommitReadPipe) Optional() bool { return false }
 func (c *OpCommitReadPipe) Verify() error  { return nil }
 
@@ -99,7 +99,7 @@ type OpCommitWritePipe struct {
 	ReserveId Id
 }
 
-func (c *OpCommitWritePipe) Opcode() uint32 { return 241 }
+func (c *OpCommitWritePipe) Opcode() uint32 { return opcodeCommitWritePipe }
 func (c *OpCommitWritePipe) Optional() bool { return false }
 func (c *OpCommitWritePipe) Verify() error  { return nil }
 
@@ -111,7 +111,7 @@ type OpIsValidReserveId struct {
 	ReserveId  Id
 }
 
-func (c *OpIsValidReserveId) Opcode() uint32 { return 242 }
+func (c *OpIsValidReserveId) Opcode() uint32 { return opcodeIsValidReserveId }
 func (c *OpIsValidReserveId) Optional() bool { return false }
 func (c *OpIsValidReserveId) Verify() error  { return nil }
 
@@ -122,7 +122,7 @@ type OpGetNumPipePackets struct {
 	P          Id
 }
 
-func (c *OpGetNumPipePackets) Opcode() uint32 { return 243 }
+func (c *OpGetNumPipePackets) Opcode() uint32 { return opcodeGetNumPipePackets }
 func (c *OpGetNumPipePackets) Optional() bool { return false }
 func (c *OpGetNumPipePackets) Verify() error  { return nil }
 
@@ -134,7 +134,7 @@ type OpGetMaxPipePackets struct {
 	P          Id
 }
 
-func (c *OpGetMaxPipePackets) Opcode() uint32 { return 244 }
+func (c *OpGetMaxPipePackets) Opcode() uint32 { return opcodeGetMaxPipePackets }
 func (c *OpGetMaxPipePackets) Optional() bool { return false }
 func (c *OpGetMaxPipePackets) Verify() error  { return nil }
 
@@ -148,7 +148,7 @@ type OpGroupReserveReadPipePackets struct {
 	NumPackets Id
 }
 
-func (c *OpGroupReserveReadPipePackets) Opcode() uint32 { return 245 }
+func (c *OpGroupReserveReadPipePackets) Opcode() uint32 { return opcodeGroupReserveReadPipePackets }
 func (c *OpGroupReserveReadPipePackets) Optional() bool { return false }
 func (c *OpGroupReserveReadPipePackets) Verify() error  { return nil }
 
@@ -162,7 +162,7 @@ type OpGroupReserveWritePipePackets struct {
 	NumPackets Id
 }
 
-func (c *OpGroupReserveWritePipePackets) Opcode() uint32 { return 246 }
+func (c *OpGroupReserveWritePipePackets) Opcode() uint32 { return opcodeGroupReserveWritePipePackets }
 func (c *OpGroupReserveWritePipePackets) Optional() bool { return false }
 func (c *OpGroupReserveWritePipePackets) Verify() error  { return nil }
 
@@ -174,7 +174,7 @@ type OpGroupCommitReadPipe struct {
 	ReserveId Id
 }
 
-func (c *OpGroupCommitReadPipe) Opcode() uint32 { return 247 }
+func (c *OpGroupCommitReadPipe) Opcode() uint32 { return opcodeGroupCommitReadPipe }
 func (c *OpGroupCommitReadPipe) Optional() bool { return false }
 func (c *OpGroupCommitReadPipe) Verify() error  { return nil }
 
@@ -186,7 +186,7 @@ type OpGroupCommitWritePipe struct {
 	ReserveId Id
 }
 
-func (c *OpGroupCommitWritePipe) Opcode() uint32 { return 248 }
+func (c *OpGroupCommitWritePipe) Opcode() uint32 { return opcodeGroupCommitWritePipe }
 func (c *OpGroupCommitWritePipe) Optional() bool { return false }
 func (c *OpGroupCommitWritePipe) Verify() error  { return nil }
 

@@ -10,7 +10,7 @@ type OpSNegate struct {
 	Operand    Id
 }
 
-func (c *OpSNegate) Opcode() uint32 { return 95 }
+func (c *OpSNegate) Opcode() uint32 { return opcodeSNegate }
 func (c *OpSNegate) Optional() bool { return false }
 func (c *OpSNegate) Verify() error  { return nil }
 
@@ -21,7 +21,7 @@ type OpFNegate struct {
 	Operand    Id
 }
 
-func (c *OpFNegate) Opcode() uint32 { return 96 }
+func (c *OpFNegate) Opcode() uint32 { return opcodeFNegate }
 func (c *OpFNegate) Optional() bool { return false }
 func (c *OpFNegate) Verify() error  { return nil }
 
@@ -32,7 +32,7 @@ type OpNot struct {
 	Operand    Id
 }
 
-func (c *OpNot) Opcode() uint32 { return 97 }
+func (c *OpNot) Opcode() uint32 { return opcodeNot }
 func (c *OpNot) Optional() bool { return false }
 func (c *OpNot) Verify() error  { return nil }
 
@@ -44,7 +44,7 @@ type OpIAdd struct {
 	Operand2   Id
 }
 
-func (c *OpIAdd) Opcode() uint32 { return 122 }
+func (c *OpIAdd) Opcode() uint32 { return opcodeIAdd }
 func (c *OpIAdd) Optional() bool { return false }
 func (c *OpIAdd) Verify() error  { return nil }
 
@@ -56,7 +56,7 @@ type OpFAdd struct {
 	Operand2   Id
 }
 
-func (c *OpFAdd) Opcode() uint32 { return 123 }
+func (c *OpFAdd) Opcode() uint32 { return opcodeFAdd }
 func (c *OpFAdd) Optional() bool { return false }
 func (c *OpFAdd) Verify() error  { return nil }
 
@@ -68,7 +68,7 @@ type OpISub struct {
 	Operand2   Id
 }
 
-func (c *OpISub) Opcode() uint32 { return 124 }
+func (c *OpISub) Opcode() uint32 { return opcodeISub }
 func (c *OpISub) Optional() bool { return false }
 func (c *OpISub) Verify() error  { return nil }
 
@@ -80,7 +80,7 @@ type OpFSub struct {
 	Operand2   Id
 }
 
-func (c *OpFSub) Opcode() uint32 { return 125 }
+func (c *OpFSub) Opcode() uint32 { return opcodeFSub }
 func (c *OpFSub) Optional() bool { return false }
 func (c *OpFSub) Verify() error  { return nil }
 
@@ -92,7 +92,7 @@ type OpIMul struct {
 	Operand2   Id
 }
 
-func (c *OpIMul) Opcode() uint32 { return 126 }
+func (c *OpIMul) Opcode() uint32 { return opcodeIMul }
 func (c *OpIMul) Optional() bool { return false }
 func (c *OpIMul) Verify() error  { return nil }
 
@@ -104,7 +104,7 @@ type OpFMul struct {
 	Operand2   Id
 }
 
-func (c *OpFMul) Opcode() uint32 { return 127 }
+func (c *OpFMul) Opcode() uint32 { return opcodeFMul }
 func (c *OpFMul) Optional() bool { return false }
 func (c *OpFMul) Verify() error  { return nil }
 
@@ -116,7 +116,7 @@ type OpUDiv struct {
 	Operand2   Id
 }
 
-func (c *OpUDiv) Opcode() uint32 { return 128 }
+func (c *OpUDiv) Opcode() uint32 { return opcodeUDiv }
 func (c *OpUDiv) Optional() bool { return false }
 func (c *OpUDiv) Verify() error  { return nil }
 
@@ -128,7 +128,7 @@ type OpSDiv struct {
 	Operand2   Id
 }
 
-func (c *OpSDiv) Opcode() uint32 { return 129 }
+func (c *OpSDiv) Opcode() uint32 { return opcodeSDiv }
 func (c *OpSDiv) Optional() bool { return false }
 func (c *OpSDiv) Verify() error  { return nil }
 
@@ -140,7 +140,7 @@ type OpFDiv struct {
 	Operand2   Id
 }
 
-func (c *OpFDiv) Opcode() uint32 { return 130 }
+func (c *OpFDiv) Opcode() uint32 { return opcodeFDiv }
 func (c *OpFDiv) Optional() bool { return false }
 func (c *OpFDiv) Verify() error  { return nil }
 
@@ -152,7 +152,7 @@ type OpUMod struct {
 	Operand2   Id
 }
 
-func (c *OpUMod) Opcode() uint32 { return 131 }
+func (c *OpUMod) Opcode() uint32 { return opcodeUMod }
 func (c *OpUMod) Optional() bool { return false }
 func (c *OpUMod) Verify() error  { return nil }
 
@@ -164,7 +164,7 @@ type OpSRem struct {
 	Operand2   Id
 }
 
-func (c *OpSRem) Opcode() uint32 { return 132 }
+func (c *OpSRem) Opcode() uint32 { return opcodeSRem }
 func (c *OpSRem) Optional() bool { return false }
 func (c *OpSRem) Verify() error  { return nil }
 
@@ -176,7 +176,7 @@ type OpSMod struct {
 	Operand2   Id
 }
 
-func (c *OpSMod) Opcode() uint32 { return 133 }
+func (c *OpSMod) Opcode() uint32 { return opcodeSMod }
 func (c *OpSMod) Optional() bool { return false }
 func (c *OpSMod) Verify() error  { return nil }
 
@@ -188,7 +188,7 @@ type OpFRem struct {
 	Operand2   Id
 }
 
-func (c *OpFRem) Opcode() uint32 { return 134 }
+func (c *OpFRem) Opcode() uint32 { return opcodeFRem }
 func (c *OpFRem) Optional() bool { return false }
 func (c *OpFRem) Verify() error  { return nil }
 
@@ -200,7 +200,7 @@ type OpFMod struct {
 	Operand2   Id
 }
 
-func (c *OpFMod) Opcode() uint32 { return 135 }
+func (c *OpFMod) Opcode() uint32 { return opcodeFMod }
 func (c *OpFMod) Optional() bool { return false }
 func (c *OpFMod) Verify() error  { return nil }
 
@@ -212,7 +212,7 @@ type OpVectorTimesScalar struct {
 	Scalar     Id
 }
 
-func (c *OpVectorTimesScalar) Opcode() uint32 { return 136 }
+func (c *OpVectorTimesScalar) Opcode() uint32 { return opcodeVectorTimesScalar }
 func (c *OpVectorTimesScalar) Optional() bool { return false }
 func (c *OpVectorTimesScalar) Verify() error  { return nil }
 
@@ -224,7 +224,7 @@ type OpMatrixTimesScalar struct {
 	Scalar     Id
 }
 
-func (c *OpMatrixTimesScalar) Opcode() uint32 { return 137 }
+func (c *OpMatrixTimesScalar) Opcode() uint32 { return opcodeMatrixTimesScalar }
 func (c *OpMatrixTimesScalar) Optional() bool { return false }
 func (c *OpMatrixTimesScalar) Verify() error  { return nil }
 
@@ -236,7 +236,7 @@ type OpVectorTimesMatrix struct {
 	Matrix     Id
 }
 
-func (c *OpVectorTimesMatrix) Opcode() uint32 { return 138 }
+func (c *OpVectorTimesMatrix) Opcode() uint32 { return opcodeVectorTimesMatrix }
 func (c *OpVectorTimesMatrix) Optional() bool { return false }
 func (c *OpVectorTimesMatrix) Verify() error  { return nil }
 
@@ -248,7 +248,7 @@ type OpMatrixTimesVector struct {
 	Vector     Id
 }
 
-func (c *OpMatrixTimesVector) Opcode() uint32 { return 139 }
+func (c *OpMatrixTimesVector) Opcode() uint32 { return opcodeMatrixTimesVector }
 func (c *OpMatrixTimesVector) Optional() bool { return false }
 func (c *OpMatrixTimesVector) Verify() error  { return nil }
 
@@ -260,7 +260,7 @@ type OpMatrixTimesMatrix struct {
 	Right      Id
 }
 
-func (c *OpMatrixTimesMatrix) Opcode() uint32 { return 140 }
+func (c *OpMatrixTimesMatrix) Opcode() uint32 { return opcodeMatrixTimesMatrix }
 func (c *OpMatrixTimesMatrix) Optional() bool { return false }
 func (c *OpMatrixTimesMatrix) Verify() error  { return nil }
 
@@ -272,7 +272,7 @@ type OpOuterProduct struct {
 	Vector2    Id
 }
 
-func (c *OpOuterProduct) Opcode() uint32 { return 141 }
+func (c *OpOuterProduct) Opcode() uint32 { return opcodeOuterProduct }
 func (c *OpOuterProduct) Optional() bool { return false }
 func (c *OpOuterProduct) Verify() error  { return nil }
 
@@ -284,7 +284,7 @@ type OpDot struct {
 	Vector2    Id
 }
 
-func (c *OpDot) Opcode() uint32 { return 142 }
+func (c *OpDot) Opcode() uint32 { return opcodeDot }
 func (c *OpDot) Optional() bool { return false }
 func (c *OpDot) Verify() error  { return nil }
 
@@ -297,7 +297,7 @@ type OpShiftRightLogical struct {
 	Operand2   Id
 }
 
-func (c *OpShiftRightLogical) Opcode() uint32 { return 143 }
+func (c *OpShiftRightLogical) Opcode() uint32 { return opcodeShiftRightLogical }
 func (c *OpShiftRightLogical) Optional() bool { return false }
 func (c *OpShiftRightLogical) Verify() error  { return nil }
 
@@ -310,7 +310,7 @@ type OpShiftRightArithmetic struct {
 	Operand2   Id
 }
 
-func (c *OpShiftRightArithmetic) Opcode() uint32 { return 144 }
+func (c *OpShiftRightArithmetic) Opcode() uint32 { return opcodeShiftRightArithmetic }
 func (c *OpShiftRightArithmetic) Optional() bool { return false }
 func (c *OpShiftRightArithmetic) Verify() error  { return nil }
 
@@ -323,7 +323,7 @@ type OpShiftLeftLogical struct {
 	Operand2   Id
 }
 
-func (c *OpShiftLeftLogical) Opcode() uint32 { return 145 }
+func (c *OpShiftLeftLogical) Opcode() uint32 { return opcodeShiftLeftLogical }
 func (c *OpShiftLeftLogical) Optional() bool { return false }
 func (c *OpShiftLeftLogical) Verify() error  { return nil }
 
@@ -336,7 +336,7 @@ type OpBitwiseOr struct {
 	Operand2   Id
 }
 
-func (c *OpBitwiseOr) Opcode() uint32 { return 149 }
+func (c *OpBitwiseOr) Opcode() uint32 { return opcodeBitwiseOr }
 func (c *OpBitwiseOr) Optional() bool { return false }
 func (c *OpBitwiseOr) Verify() error  { return nil }
 
@@ -349,7 +349,7 @@ type OpBitwiseXor struct {
 	Operand2   Id
 }
 
-func (c *OpBitwiseXor) Opcode() uint32 { return 150 }
+func (c *OpBitwiseXor) Opcode() uint32 { return opcodeBitwiseXor }
 func (c *OpBitwiseXor) Optional() bool { return false }
 func (c *OpBitwiseXor) Verify() error  { return nil }
 
@@ -362,7 +362,7 @@ type OpBitwiseAnd struct {
 	Operand2   Id
 }
 
-func (c *OpBitwiseAnd) Opcode() uint32 { return 151 }
+func (c *OpBitwiseAnd) Opcode() uint32 { return opcodeBitwiseAnd }
 func (c *OpBitwiseAnd) Optional() bool { return false }
 func (c *OpBitwiseAnd) Verify() error  { return nil }
 

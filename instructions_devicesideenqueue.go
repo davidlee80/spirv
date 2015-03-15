@@ -13,7 +13,7 @@ type OpEnqueueMarker struct {
 	RetEvent   Id
 }
 
-func (c *OpEnqueueMarker) Opcode() uint32 { return 249 }
+func (c *OpEnqueueMarker) Opcode() uint32 { return opcodeEnqueueMarker }
 func (c *OpEnqueueMarker) Optional() bool { return false }
 func (c *OpEnqueueMarker) Verify() error  { return nil }
 
@@ -35,7 +35,7 @@ type OpEnqueueKernel struct {
 	LocalSize  []Id `spirv:"optional"`
 }
 
-func (c *OpEnqueueKernel) Opcode() uint32 { return 250 }
+func (c *OpEnqueueKernel) Opcode() uint32 { return opcodeEnqueueKernel }
 func (c *OpEnqueueKernel) Optional() bool { return false }
 func (c *OpEnqueueKernel) Verify() error  { return nil }
 
@@ -49,7 +49,7 @@ type OpGetKernelNDrangeSubGroupCount struct {
 	Invoke     Id
 }
 
-func (c *OpGetKernelNDrangeSubGroupCount) Opcode() uint32 { return 251 }
+func (c *OpGetKernelNDrangeSubGroupCount) Opcode() uint32 { return opcodeGetKernelNDrangeSubGroupCount }
 func (c *OpGetKernelNDrangeSubGroupCount) Optional() bool { return false }
 func (c *OpGetKernelNDrangeSubGroupCount) Verify() error  { return nil }
 
@@ -62,7 +62,9 @@ type OpGetKernelNDrangeMaxSubGroupSize struct {
 	Invoke     Id
 }
 
-func (c *OpGetKernelNDrangeMaxSubGroupSize) Opcode() uint32 { return 252 }
+func (c *OpGetKernelNDrangeMaxSubGroupSize) Opcode() uint32 {
+	return opcodeGetKernelNDrangeMaxSubGroupSize
+}
 func (c *OpGetKernelNDrangeMaxSubGroupSize) Optional() bool { return false }
 func (c *OpGetKernelNDrangeMaxSubGroupSize) Verify() error  { return nil }
 
@@ -74,7 +76,7 @@ type OpGetKernelWorkGroupSize struct {
 	Invoke     Id
 }
 
-func (c *OpGetKernelWorkGroupSize) Opcode() uint32 { return 253 }
+func (c *OpGetKernelWorkGroupSize) Opcode() uint32 { return opcodeGetKernelWorkGroupSize }
 func (c *OpGetKernelWorkGroupSize) Optional() bool { return false }
 func (c *OpGetKernelWorkGroupSize) Verify() error  { return nil }
 
@@ -86,7 +88,9 @@ type OpGetKernelPreferredWorkGroupSizeMultiple struct {
 	Invoke     Id
 }
 
-func (c *OpGetKernelPreferredWorkGroupSizeMultiple) Opcode() uint32 { return 254 }
+func (c *OpGetKernelPreferredWorkGroupSizeMultiple) Opcode() uint32 {
+	return opcodeGetKernelPreferredWorkGroupSizeMultiple
+}
 func (c *OpGetKernelPreferredWorkGroupSizeMultiple) Optional() bool { return false }
 func (c *OpGetKernelPreferredWorkGroupSizeMultiple) Verify() error  { return nil }
 
@@ -95,7 +99,7 @@ type OpRetainEvent struct {
 	Event Id
 }
 
-func (c *OpRetainEvent) Opcode() uint32 { return 255 }
+func (c *OpRetainEvent) Opcode() uint32 { return opcodeRetainEvent }
 func (c *OpRetainEvent) Optional() bool { return false }
 func (c *OpRetainEvent) Verify() error  { return nil }
 
@@ -114,7 +118,7 @@ type OpCreateUserEvent struct {
 	ResultId   Id
 }
 
-func (c *OpCreateUserEvent) Opcode() uint32 { return 257 }
+func (c *OpCreateUserEvent) Opcode() uint32 { return opcodeCreateUserEvent }
 func (c *OpCreateUserEvent) Optional() bool { return false }
 func (c *OpCreateUserEvent) Verify() error  { return nil }
 
@@ -126,7 +130,7 @@ type OpIsValidEvent struct {
 	Event      Id
 }
 
-func (c *OpIsValidEvent) Opcode() uint32 { return 258 }
+func (c *OpIsValidEvent) Opcode() uint32 { return opcodeIsValidEvent }
 func (c *OpIsValidEvent) Optional() bool { return false }
 func (c *OpIsValidEvent) Verify() error  { return nil }
 
@@ -136,7 +140,7 @@ type OpSetUserEventStatus struct {
 	Status Id
 }
 
-func (c *OpSetUserEventStatus) Opcode() uint32 { return 259 }
+func (c *OpSetUserEventStatus) Opcode() uint32 { return opcodeSetUserEventStatus }
 func (c *OpSetUserEventStatus) Optional() bool { return false }
 func (c *OpSetUserEventStatus) Verify() error  { return nil }
 
@@ -149,7 +153,7 @@ type OpCaptureEventProfilingInfo struct {
 	Value Id
 }
 
-func (c *OpCaptureEventProfilingInfo) Opcode() uint32 { return 260 }
+func (c *OpCaptureEventProfilingInfo) Opcode() uint32 { return opcodeCaptureEventProfilingInfo }
 func (c *OpCaptureEventProfilingInfo) Optional() bool { return false }
 func (c *OpCaptureEventProfilingInfo) Verify() error  { return nil }
 
@@ -159,7 +163,7 @@ type OpGetDefaultQueue struct {
 	ResultId   Id
 }
 
-func (c *OpGetDefaultQueue) Opcode() uint32 { return 261 }
+func (c *OpGetDefaultQueue) Opcode() uint32 { return opcodeGetDefaultQueue }
 func (c *OpGetDefaultQueue) Optional() bool { return false }
 func (c *OpGetDefaultQueue) Verify() error  { return nil }
 
@@ -172,7 +176,7 @@ type OpBuildNDRange struct {
 	GlobalWorkOffset Id
 }
 
-func (c *OpBuildNDRange) Opcode() uint32 { return 262 }
+func (c *OpBuildNDRange) Opcode() uint32 { return opcodeBuildNDRange }
 func (c *OpBuildNDRange) Optional() bool { return false }
 func (c *OpBuildNDRange) Verify() error  { return nil }
 

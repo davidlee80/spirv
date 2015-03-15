@@ -11,7 +11,7 @@ type OpSampler struct {
 	Filter     Id
 }
 
-func (c *OpSampler) Opcode() uint32 { return 67 }
+func (c *OpSampler) Opcode() uint32 { return opcodeSampler }
 func (c *OpSampler) Optional() bool { return false }
 func (c *OpSampler) Verify() error  { return nil }
 
@@ -24,7 +24,7 @@ type OpTextureSample struct {
 	Bias       Id `spirv:"optional"`
 }
 
-func (c *OpTextureSample) Opcode() uint32 { return 68 }
+func (c *OpTextureSample) Opcode() uint32 { return opcodeTextureSample }
 func (c *OpTextureSample) Optional() bool { return false }
 func (c *OpTextureSample) Verify() error  { return nil }
 
@@ -38,7 +38,7 @@ type OpTextureSampleDref struct {
 	Dref       Id
 }
 
-func (c *OpTextureSampleDref) Opcode() uint32 { return 69 }
+func (c *OpTextureSampleDref) Opcode() uint32 { return opcodeTextureSampleDref }
 func (c *OpTextureSampleDref) Optional() bool { return false }
 func (c *OpTextureSampleDref) Verify() error  { return nil }
 
@@ -51,7 +51,7 @@ type OpTextureSampleLod struct {
 	LevelofDetail Id
 }
 
-func (c *OpTextureSampleLod) Opcode() uint32 { return 70 }
+func (c *OpTextureSampleLod) Opcode() uint32 { return opcodeTextureSampleLod }
 func (c *OpTextureSampleLod) Optional() bool { return false }
 func (c *OpTextureSampleLod) Verify() error  { return nil }
 
@@ -65,7 +65,7 @@ type OpTextureSampleProj struct {
 	Bias       Id `spirv:"optional"`
 }
 
-func (c *OpTextureSampleProj) Opcode() uint32 { return 71 }
+func (c *OpTextureSampleProj) Opcode() uint32 { return opcodeTextureSampleProj }
 func (c *OpTextureSampleProj) Optional() bool { return false }
 func (c *OpTextureSampleProj) Verify() error  { return nil }
 
@@ -79,7 +79,7 @@ type OpTextureSampleGrad struct {
 	Dy         Id
 }
 
-func (c *OpTextureSampleGrad) Opcode() uint32 { return 72 }
+func (c *OpTextureSampleGrad) Opcode() uint32 { return opcodeTextureSampleGrad }
 func (c *OpTextureSampleGrad) Optional() bool { return false }
 func (c *OpTextureSampleGrad) Verify() error  { return nil }
 
@@ -94,7 +94,7 @@ type OpTextureSampleOffset struct {
 	Bias       Id `spirv:"optional"`
 }
 
-func (c *OpTextureSampleOffset) Opcode() uint32 { return 73 }
+func (c *OpTextureSampleOffset) Opcode() uint32 { return opcodeTextureSampleOffset }
 func (c *OpTextureSampleOffset) Optional() bool { return false }
 func (c *OpTextureSampleOffset) Verify() error  { return nil }
 
@@ -108,7 +108,7 @@ type OpTextureSampleProjLod struct {
 	LevelofDetail Id
 }
 
-func (c *OpTextureSampleProjLod) Opcode() uint32 { return 74 }
+func (c *OpTextureSampleProjLod) Opcode() uint32 { return opcodeTextureSampleProjLod }
 func (c *OpTextureSampleProjLod) Optional() bool { return false }
 func (c *OpTextureSampleProjLod) Verify() error  { return nil }
 
@@ -123,7 +123,7 @@ type OpTextureSampleProjGrad struct {
 	Dy         Id
 }
 
-func (c *OpTextureSampleProjGrad) Opcode() uint32 { return 75 }
+func (c *OpTextureSampleProjGrad) Opcode() uint32 { return opcodeTextureSampleProjGrad }
 func (c *OpTextureSampleProjGrad) Optional() bool { return false }
 func (c *OpTextureSampleProjGrad) Verify() error  { return nil }
 
@@ -138,7 +138,7 @@ type OpTextureSampleLodOffset struct {
 	Offset        Id
 }
 
-func (c *OpTextureSampleLodOffset) Opcode() uint32 { return 76 }
+func (c *OpTextureSampleLodOffset) Opcode() uint32 { return opcodeTextureSampleLodOffset }
 func (c *OpTextureSampleLodOffset) Optional() bool { return false }
 func (c *OpTextureSampleLodOffset) Verify() error  { return nil }
 
@@ -153,7 +153,7 @@ type OpTextureSampleProjOffset struct {
 	Bias       Id `spirv:"optional"`
 }
 
-func (c *OpTextureSampleProjOffset) Opcode() uint32 { return 77 }
+func (c *OpTextureSampleProjOffset) Opcode() uint32 { return opcodeTextureSampleProjOffset }
 func (c *OpTextureSampleProjOffset) Optional() bool { return false }
 func (c *OpTextureSampleProjOffset) Verify() error  { return nil }
 
@@ -169,7 +169,7 @@ type OpTextureSampleGradOffset struct {
 	Offset     Id
 }
 
-func (c *OpTextureSampleGradOffset) Opcode() uint32 { return 78 }
+func (c *OpTextureSampleGradOffset) Opcode() uint32 { return opcodeTextureSampleGradOffset }
 func (c *OpTextureSampleGradOffset) Optional() bool { return false }
 func (c *OpTextureSampleGradOffset) Verify() error  { return nil }
 
@@ -184,7 +184,7 @@ type OpTextureSampleProjLodOffset struct {
 	Offset        Id
 }
 
-func (c *OpTextureSampleProjLodOffset) Opcode() uint32 { return 79 }
+func (c *OpTextureSampleProjLodOffset) Opcode() uint32 { return opcodeTextureSampleProjLodOffset }
 func (c *OpTextureSampleProjLodOffset) Optional() bool { return false }
 func (c *OpTextureSampleProjLodOffset) Verify() error  { return nil }
 
@@ -200,7 +200,7 @@ type OpTextureSampleProjGradOffset struct {
 	Offset     Id
 }
 
-func (c *OpTextureSampleProjGradOffset) Opcode() uint32 { return 80 }
+func (c *OpTextureSampleProjGradOffset) Opcode() uint32 { return opcodeTextureSampleProjGradOffset }
 func (c *OpTextureSampleProjGradOffset) Optional() bool { return false }
 func (c *OpTextureSampleProjGradOffset) Verify() error  { return nil }
 
@@ -213,7 +213,7 @@ type OpTextureFetchTexel struct {
 	LevelofDetail Id
 }
 
-func (c *OpTextureFetchTexel) Opcode() uint32 { return 81 }
+func (c *OpTextureFetchTexel) Opcode() uint32 { return opcodeTextureFetchTexel }
 func (c *OpTextureFetchTexel) Optional() bool { return false }
 func (c *OpTextureFetchTexel) Verify() error  { return nil }
 
@@ -226,7 +226,7 @@ type OpTextureFetchTexelOffset struct {
 	Offset     Id
 }
 
-func (c *OpTextureFetchTexelOffset) Opcode() uint32 { return 82 }
+func (c *OpTextureFetchTexelOffset) Opcode() uint32 { return opcodeTextureFetchTexelOffset }
 func (c *OpTextureFetchTexelOffset) Optional() bool { return false }
 func (c *OpTextureFetchTexelOffset) Verify() error  { return nil }
 
@@ -239,7 +239,7 @@ type OpTextureFetchSample struct {
 	Sample     Id
 }
 
-func (c *OpTextureFetchSample) Opcode() uint32 { return 83 }
+func (c *OpTextureFetchSample) Opcode() uint32 { return opcodeTextureFetchSample }
 func (c *OpTextureFetchSample) Optional() bool { return false }
 func (c *OpTextureFetchSample) Verify() error  { return nil }
 
@@ -251,7 +251,7 @@ type OpTextureFetchBuffer struct {
 	Element    Id
 }
 
-func (c *OpTextureFetchBuffer) Opcode() uint32 { return 84 }
+func (c *OpTextureFetchBuffer) Opcode() uint32 { return opcodeTextureFetchBuffer }
 func (c *OpTextureFetchBuffer) Optional() bool { return false }
 func (c *OpTextureFetchBuffer) Verify() error  { return nil }
 
@@ -264,7 +264,7 @@ type OpTextureGather struct {
 	Component  Id
 }
 
-func (c *OpTextureGather) Opcode() uint32 { return 85 }
+func (c *OpTextureGather) Opcode() uint32 { return opcodeTextureGather }
 func (c *OpTextureGather) Optional() bool { return false }
 func (c *OpTextureGather) Verify() error  { return nil }
 
@@ -279,7 +279,7 @@ type OpTextureGatherOffset struct {
 	Offset     Id
 }
 
-func (c *OpTextureGatherOffset) Opcode() uint32 { return 86 }
+func (c *OpTextureGatherOffset) Opcode() uint32 { return opcodeTextureGatherOffset }
 func (c *OpTextureGatherOffset) Optional() bool { return false }
 func (c *OpTextureGatherOffset) Verify() error  { return nil }
 
@@ -294,7 +294,7 @@ type OpTextureGatherOffsets struct {
 	Offsets    Id
 }
 
-func (c *OpTextureGatherOffsets) Opcode() uint32 { return 87 }
+func (c *OpTextureGatherOffsets) Opcode() uint32 { return opcodeTextureGatherOffsets }
 func (c *OpTextureGatherOffsets) Optional() bool { return false }
 func (c *OpTextureGatherOffsets) Verify() error  { return nil }
 
@@ -307,7 +307,7 @@ type OpTextureQuerySizeLod struct {
 	LevelofDetail Id
 }
 
-func (c *OpTextureQuerySizeLod) Opcode() uint32 { return 88 }
+func (c *OpTextureQuerySizeLod) Opcode() uint32 { return opcodeTextureQuerySizeLod }
 func (c *OpTextureQuerySizeLod) Optional() bool { return false }
 func (c *OpTextureQuerySizeLod) Verify() error  { return nil }
 
@@ -319,7 +319,7 @@ type OpTextureQuerySize struct {
 	Sampler    Id
 }
 
-func (c *OpTextureQuerySize) Opcode() uint32 { return 89 }
+func (c *OpTextureQuerySize) Opcode() uint32 { return opcodeTextureQuerySize }
 func (c *OpTextureQuerySize) Optional() bool { return false }
 func (c *OpTextureQuerySize) Verify() error  { return nil }
 
@@ -333,7 +333,7 @@ type OpTextureQueryLod struct {
 	Coordinate Id
 }
 
-func (c *OpTextureQueryLod) Opcode() uint32 { return 90 }
+func (c *OpTextureQueryLod) Opcode() uint32 { return opcodeTextureQueryLod }
 func (c *OpTextureQueryLod) Optional() bool { return false }
 func (c *OpTextureQueryLod) Verify() error  { return nil }
 
@@ -345,7 +345,7 @@ type OpTextureQueryLevels struct {
 	Sampler    Id
 }
 
-func (c *OpTextureQueryLevels) Opcode() uint32 { return 91 }
+func (c *OpTextureQueryLevels) Opcode() uint32 { return opcodeTextureQueryLevels }
 func (c *OpTextureQueryLevels) Optional() bool { return false }
 func (c *OpTextureQueryLevels) Verify() error  { return nil }
 
@@ -357,7 +357,7 @@ type OpTextureQuerySamples struct {
 	Sampler    Id
 }
 
-func (c *OpTextureQuerySamples) Opcode() uint32 { return 92 }
+func (c *OpTextureQuerySamples) Opcode() uint32 { return opcodeTextureQuerySamples }
 func (c *OpTextureQuerySamples) Optional() bool { return false }
 func (c *OpTextureQuerySamples) Verify() error  { return nil }
 

@@ -16,7 +16,7 @@ type OpDecorationGroup struct {
 	ResultId Id
 }
 
-func (c *OpDecorationGroup) Opcode() uint32 { return 49 }
+func (c *OpDecorationGroup) Opcode() uint32 { return opcodeDecorationGroup }
 func (c *OpDecorationGroup) Optional() bool { return false }
 func (c *OpDecorationGroup) Verify() error  { return nil }
 
@@ -39,7 +39,7 @@ type OpDecorate struct {
 	Argv []uint32
 }
 
-func (c *OpDecorate) Opcode() uint32 { return 50 }
+func (c *OpDecorate) Opcode() uint32 { return opcodeDecorate }
 func (c *OpDecorate) Optional() bool { return false }
 func (c *OpDecorate) Verify() error {
 	argc := len(c.Argv)
@@ -97,7 +97,7 @@ type OpMemberDecorate struct {
 	Argv []uint32
 }
 
-func (c *OpMemberDecorate) Opcode() uint32 { return 51 }
+func (c *OpMemberDecorate) Opcode() uint32 { return opcodeMemberDecorate }
 func (c *OpMemberDecorate) Optional() bool { return false }
 func (c *OpMemberDecorate) Verify() error {
 	argc := len(c.Argv)
@@ -145,7 +145,7 @@ type OpGroupDecorate struct {
 	Targets []Id
 }
 
-func (c *OpGroupDecorate) Opcode() uint32 { return 52 }
+func (c *OpGroupDecorate) Opcode() uint32 { return opcodeGroupDecorate }
 func (c *OpGroupDecorate) Optional() bool { return false }
 func (c *OpGroupDecorate) Verify() error  { return nil }
 
@@ -159,7 +159,7 @@ type OpGroupMemberDecorate struct {
 	Targets []Id
 }
 
-func (c *OpGroupMemberDecorate) Opcode() uint32 { return 53 }
+func (c *OpGroupMemberDecorate) Opcode() uint32 { return opcodeGroupMemberDecorate }
 func (c *OpGroupMemberDecorate) Optional() bool { return false }
 func (c *OpGroupMemberDecorate) Verify() error  { return nil }
 

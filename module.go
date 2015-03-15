@@ -88,7 +88,7 @@ func (m *Module) Verify() error {
 	// Check the header for structural validity.
 	err := m.Header.Verify()
 	if err != nil {
-		return err
+		return fmt.Errorf("spirv: %v", err)
 	}
 
 	// Perform structural validity checks on each instruction, before
@@ -101,11 +101,16 @@ func (m *Module) Verify() error {
 	for _, instr := range m.Code {
 		err := verifyInstruction(instr)
 		if err != nil {
-			return err
+			return fmt.Errorf("spirv: %v", err)
 		}
 	}
 
-	// TODO Implement semantic validation.
+	// TODO Implement all semantic validation.
+	err = m.verifyLogicalLayout()
+	if err != nil {
+		return fmt.Errorf("spirv: %v", err)
+	}
+
 	return nil
 }
 
@@ -122,4 +127,51 @@ func (m *Module) Strip() {
 		m.Code = m.Code[:len(m.Code)-1]
 		i--
 	}
+}
+
+// verifyLogicalLayout ensures the module meets the Logical Layout
+// requirements as defined in the spec chapter 2.4
+func (m *Module) verifyLogicalLayout() error {
+	// Find the required MemoryModel instruction.
+	//
+	// Everything before it is optional, but does require ordering, so
+	// we will check those separately. This cuts down on iterations.
+	addr := m.indexOf(opcodeMemoryModel)
+	if addr == -1 {
+		return ErrMissingMemoryModel
+	}
+
+	if m.count(opcodeMemoryModel) > 1 {
+		return ErrTooManyMemoryModels
+	}
+
+	// TODO: Check the optional instructions before the memory mode.
+	// TODO: Check the remaining instructions.
+	return nil
+}
+
+// indexOf finds the address of the first instruction with the given opcode.
+// Returns -1 if it could not be found.
+func (m *Module) indexOf(opcode uint32) int {
+	for i, instr := range m.Code {
+		if instr.Opcode() == opcode {
+			return i
+		}
+	}
+
+	return -1
+}
+
+// count counts the number of occurrences of the instruction with the
+// given opcode.
+func (m *Module) count(opcode uint32) int {
+	var count int
+
+	for _, instr := range m.Code {
+		if instr.Opcode() == opcode {
+			count++
+		}
+	}
+
+	return count
 }

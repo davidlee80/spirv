@@ -11,7 +11,7 @@ type OpAny struct {
 	Vector     Id
 }
 
-func (c *OpAny) Opcode() uint32 { return 98 }
+func (c *OpAny) Opcode() uint32 { return opcodeAny }
 func (c *OpAny) Optional() bool { return false }
 func (c *OpAny) Verify() error  { return nil }
 
@@ -23,7 +23,7 @@ type OpAll struct {
 	Vector     Id
 }
 
-func (c *OpAll) Opcode() uint32 { return 99 }
+func (c *OpAll) Opcode() uint32 { return opcodeAll }
 func (c *OpAll) Optional() bool { return false }
 func (c *OpAll) Verify() error  { return nil }
 
@@ -35,7 +35,7 @@ type OpIsNan struct {
 	X          Id
 }
 
-func (c *OpIsNan) Opcode() uint32 { return 113 }
+func (c *OpIsNan) Opcode() uint32 { return opcodeIsNan }
 func (c *OpIsNan) Optional() bool { return false }
 func (c *OpIsNan) Verify() error  { return nil }
 
@@ -47,7 +47,7 @@ type OpIsInf struct {
 	X          Id
 }
 
-func (c *OpIsInf) Opcode() uint32 { return 114 }
+func (c *OpIsInf) Opcode() uint32 { return opcodeIsInf }
 func (c *OpIsInf) Optional() bool { return false }
 func (c *OpIsInf) Verify() error  { return nil }
 
@@ -59,7 +59,7 @@ type OpIsFinite struct {
 	X          Id
 }
 
-func (c *OpIsFinite) Opcode() uint32 { return 115 }
+func (c *OpIsFinite) Opcode() uint32 { return opcodeIsFinite }
 func (c *OpIsFinite) Optional() bool { return false }
 func (c *OpIsFinite) Verify() error  { return nil }
 
@@ -71,7 +71,7 @@ type OpIsNormal struct {
 	X          Id
 }
 
-func (c *OpIsNormal) Opcode() uint32 { return 116 }
+func (c *OpIsNormal) Opcode() uint32 { return opcodeIsNormal }
 func (c *OpIsNormal) Optional() bool { return false }
 func (c *OpIsNormal) Verify() error  { return nil }
 
@@ -83,7 +83,7 @@ type OpSignBitSet struct {
 	X          Id
 }
 
-func (c *OpSignBitSet) Opcode() uint32 { return 117 }
+func (c *OpSignBitSet) Opcode() uint32 { return opcodeSignBitSet }
 func (c *OpSignBitSet) Optional() bool { return false }
 func (c *OpSignBitSet) Verify() error  { return nil }
 
@@ -95,7 +95,7 @@ type OpLessOrGreater struct {
 	X          Id
 }
 
-func (c *OpLessOrGreater) Opcode() uint32 { return 118 }
+func (c *OpLessOrGreater) Opcode() uint32 { return opcodeLessOrGreater }
 func (c *OpLessOrGreater) Optional() bool { return false }
 func (c *OpLessOrGreater) Verify() error  { return nil }
 
@@ -108,7 +108,7 @@ type OpOrdered struct {
 	Y          Id
 }
 
-func (c *OpOrdered) Opcode() uint32 { return 119 }
+func (c *OpOrdered) Opcode() uint32 { return opcodeOrdered }
 func (c *OpOrdered) Optional() bool { return false }
 func (c *OpOrdered) Verify() error  { return nil }
 
@@ -121,7 +121,7 @@ type OpUnordered struct {
 	Y          Id
 }
 
-func (c *OpUnordered) Opcode() uint32 { return 120 }
+func (c *OpUnordered) Opcode() uint32 { return opcodeUnordered }
 func (c *OpUnordered) Optional() bool { return false }
 func (c *OpUnordered) Verify() error  { return nil }
 
@@ -134,7 +134,7 @@ type OpLogicalOr struct {
 	Operand2   Id
 }
 
-func (c *OpLogicalOr) Opcode() uint32 { return 146 }
+func (c *OpLogicalOr) Opcode() uint32 { return opcodeLogicalOr }
 func (c *OpLogicalOr) Optional() bool { return false }
 func (c *OpLogicalOr) Verify() error  { return nil }
 
@@ -148,7 +148,7 @@ type OpLogicalXor struct {
 	Operand2   Id
 }
 
-func (c *OpLogicalXor) Opcode() uint32 { return 147 }
+func (c *OpLogicalXor) Opcode() uint32 { return opcodeLogicalXor }
 func (c *OpLogicalXor) Optional() bool { return false }
 func (c *OpLogicalXor) Verify() error  { return nil }
 
@@ -161,7 +161,7 @@ type OpLogicalAnd struct {
 	Operand2   Id
 }
 
-func (c *OpLogicalAnd) Opcode() uint32 { return 148 }
+func (c *OpLogicalAnd) Opcode() uint32 { return opcodeLogicalAnd }
 func (c *OpLogicalAnd) Optional() bool { return false }
 func (c *OpLogicalAnd) Verify() error  { return nil }
 
@@ -175,7 +175,7 @@ type OpSelect struct {
 	Object2    Id
 }
 
-func (c *OpSelect) Opcode() uint32 { return 152 }
+func (c *OpSelect) Opcode() uint32 { return opcodeSelect }
 func (c *OpSelect) Optional() bool { return false }
 func (c *OpSelect) Verify() error  { return nil }
 
@@ -187,7 +187,7 @@ type OpIEqual struct {
 	Object2    Id
 }
 
-func (c *OpIEqual) Opcode() uint32 { return 153 }
+func (c *OpIEqual) Opcode() uint32 { return opcodeIEqual }
 func (c *OpIEqual) Optional() bool { return false }
 func (c *OpIEqual) Verify() error  { return nil }
 
@@ -200,7 +200,7 @@ type OpFOrdEqual struct {
 	Object2    Id
 }
 
-func (c *OpFOrdEqual) Opcode() uint32 { return 154 }
+func (c *OpFOrdEqual) Opcode() uint32 { return opcodeFOrdEqual }
 func (c *OpFOrdEqual) Optional() bool { return false }
 func (c *OpFOrdEqual) Verify() error  { return nil }
 
@@ -213,7 +213,7 @@ type OpFUnordEqual struct {
 	Object2    Id
 }
 
-func (c *OpFUnordEqual) Opcode() uint32 { return 155 }
+func (c *OpFUnordEqual) Opcode() uint32 { return opcodeFUnordEqual }
 func (c *OpFUnordEqual) Optional() bool { return false }
 func (c *OpFUnordEqual) Verify() error  { return nil }
 
@@ -225,7 +225,7 @@ type OpINotEqual struct {
 	Object2    Id
 }
 
-func (c *OpINotEqual) Opcode() uint32 { return 156 }
+func (c *OpINotEqual) Opcode() uint32 { return opcodeINotEqual }
 func (c *OpINotEqual) Optional() bool { return false }
 func (c *OpINotEqual) Verify() error  { return nil }
 
@@ -238,7 +238,7 @@ type OpFOrdNotEqual struct {
 	Object2    Id
 }
 
-func (c *OpFOrdNotEqual) Opcode() uint32 { return 157 }
+func (c *OpFOrdNotEqual) Opcode() uint32 { return opcodeFOrdNotEqual }
 func (c *OpFOrdNotEqual) Optional() bool { return false }
 func (c *OpFOrdNotEqual) Verify() error  { return nil }
 
@@ -251,7 +251,7 @@ type OpFUnordNotEqual struct {
 	Object2    Id
 }
 
-func (c *OpFUnordNotEqual) Opcode() uint32 { return 158 }
+func (c *OpFUnordNotEqual) Opcode() uint32 { return opcodeFUnordNotEqual }
 func (c *OpFUnordNotEqual) Optional() bool { return false }
 func (c *OpFUnordNotEqual) Verify() error  { return nil }
 
@@ -264,7 +264,7 @@ type OpULessThan struct {
 	Object2    Id
 }
 
-func (c *OpULessThan) Opcode() uint32 { return 159 }
+func (c *OpULessThan) Opcode() uint32 { return opcodeULessThan }
 func (c *OpULessThan) Optional() bool { return false }
 func (c *OpULessThan) Verify() error  { return nil }
 
@@ -277,7 +277,7 @@ type OpSLessThan struct {
 	Object2    Id
 }
 
-func (c *OpSLessThan) Opcode() uint32 { return 160 }
+func (c *OpSLessThan) Opcode() uint32 { return opcodeSLessThan }
 func (c *OpSLessThan) Optional() bool { return false }
 func (c *OpSLessThan) Verify() error  { return nil }
 
@@ -290,7 +290,7 @@ type OpFOrdLessThan struct {
 	Object2    Id
 }
 
-func (c *OpFOrdLessThan) Opcode() uint32 { return 161 }
+func (c *OpFOrdLessThan) Opcode() uint32 { return opcodeFOrdLessThan }
 func (c *OpFOrdLessThan) Optional() bool { return false }
 func (c *OpFOrdLessThan) Verify() error  { return nil }
 
@@ -303,7 +303,7 @@ type OpFUnordLessThan struct {
 	Object2    Id
 }
 
-func (c *OpFUnordLessThan) Opcode() uint32 { return 162 }
+func (c *OpFUnordLessThan) Opcode() uint32 { return opcodeFUnordLessThan }
 func (c *OpFUnordLessThan) Optional() bool { return false }
 func (c *OpFUnordLessThan) Verify() error  { return nil }
 
@@ -316,7 +316,7 @@ type OpUGreaterThan struct {
 	Object2    Id
 }
 
-func (c *OpUGreaterThan) Opcode() uint32 { return 163 }
+func (c *OpUGreaterThan) Opcode() uint32 { return opcodeUGreaterThan }
 func (c *OpUGreaterThan) Optional() bool { return false }
 func (c *OpUGreaterThan) Verify() error  { return nil }
 
@@ -329,7 +329,7 @@ type OpSGreaterThan struct {
 	Object2    Id
 }
 
-func (c *OpSGreaterThan) Opcode() uint32 { return 164 }
+func (c *OpSGreaterThan) Opcode() uint32 { return opcodeSGreaterThan }
 func (c *OpSGreaterThan) Optional() bool { return false }
 func (c *OpSGreaterThan) Verify() error  { return nil }
 
@@ -342,7 +342,7 @@ type OpFOrdGreaterThan struct {
 	Object2    Id
 }
 
-func (c *OpFOrdGreaterThan) Opcode() uint32 { return 165 }
+func (c *OpFOrdGreaterThan) Opcode() uint32 { return opcodeFOrdGreaterThan }
 func (c *OpFOrdGreaterThan) Optional() bool { return false }
 func (c *OpFOrdGreaterThan) Verify() error  { return nil }
 
@@ -355,7 +355,7 @@ type OpFUnordGreaterThan struct {
 	Object2    Id
 }
 
-func (c *OpFUnordGreaterThan) Opcode() uint32 { return 166 }
+func (c *OpFUnordGreaterThan) Opcode() uint32 { return opcodeFUnordGreaterThan }
 func (c *OpFUnordGreaterThan) Optional() bool { return false }
 func (c *OpFUnordGreaterThan) Verify() error  { return nil }
 
@@ -368,7 +368,7 @@ type OpULessThanEqual struct {
 	Object2    Id
 }
 
-func (c *OpULessThanEqual) Opcode() uint32 { return 167 }
+func (c *OpULessThanEqual) Opcode() uint32 { return opcodeULessThanEqual }
 func (c *OpULessThanEqual) Optional() bool { return false }
 func (c *OpULessThanEqual) Verify() error  { return nil }
 
@@ -381,7 +381,7 @@ type OpSLessThanEqual struct {
 	Object2    Id
 }
 
-func (c *OpSLessThanEqual) Opcode() uint32 { return 168 }
+func (c *OpSLessThanEqual) Opcode() uint32 { return opcodeSLessThanEqual }
 func (c *OpSLessThanEqual) Optional() bool { return false }
 func (c *OpSLessThanEqual) Verify() error  { return nil }
 
@@ -394,7 +394,7 @@ type OpFOrdLessThanEqual struct {
 	Object2    Id
 }
 
-func (c *OpFOrdLessThanEqual) Opcode() uint32 { return 169 }
+func (c *OpFOrdLessThanEqual) Opcode() uint32 { return opcodeFOrdLessThanEqual }
 func (c *OpFOrdLessThanEqual) Optional() bool { return false }
 func (c *OpFOrdLessThanEqual) Verify() error  { return nil }
 
@@ -407,7 +407,7 @@ type OpFUnordLessThanEqual struct {
 	Object2    Id
 }
 
-func (c *OpFUnordLessThanEqual) Opcode() uint32 { return 170 }
+func (c *OpFUnordLessThanEqual) Opcode() uint32 { return opcodeFUnordLessThanEqual }
 func (c *OpFUnordLessThanEqual) Optional() bool { return false }
 func (c *OpFUnordLessThanEqual) Verify() error  { return nil }
 
@@ -420,7 +420,7 @@ type OpUGreaterThanEqual struct {
 	Object2    Id
 }
 
-func (c *OpUGreaterThanEqual) Opcode() uint32 { return 171 }
+func (c *OpUGreaterThanEqual) Opcode() uint32 { return opcodeUGreaterThanEqual }
 func (c *OpUGreaterThanEqual) Optional() bool { return false }
 func (c *OpUGreaterThanEqual) Verify() error  { return nil }
 
@@ -433,7 +433,7 @@ type OpSGreaterThanEqual struct {
 	Object2    Id
 }
 
-func (c *OpSGreaterThanEqual) Opcode() uint32 { return 172 }
+func (c *OpSGreaterThanEqual) Opcode() uint32 { return opcodeSGreaterThanEqual }
 func (c *OpSGreaterThanEqual) Optional() bool { return false }
 func (c *OpSGreaterThanEqual) Verify() error  { return nil }
 
@@ -446,7 +446,7 @@ type OpFOrdGreaterThanEqual struct {
 	Object2    Id
 }
 
-func (c *OpFOrdGreaterThanEqual) Opcode() uint32 { return 173 }
+func (c *OpFOrdGreaterThanEqual) Opcode() uint32 { return opcodeFOrdGreaterThanEqual }
 func (c *OpFOrdGreaterThanEqual) Optional() bool { return false }
 func (c *OpFOrdGreaterThanEqual) Verify() error  { return nil }
 
@@ -460,7 +460,7 @@ type OpFUnordGreaterThanEqual struct {
 	Object2    Id
 }
 
-func (c *OpFUnordGreaterThanEqual) Opcode() uint32 { return 174 }
+func (c *OpFUnordGreaterThanEqual) Opcode() uint32 { return opcodeFUnordGreaterThanEqual }
 func (c *OpFUnordGreaterThanEqual) Optional() bool { return false }
 func (c *OpFUnordGreaterThanEqual) Verify() error  { return nil }
 

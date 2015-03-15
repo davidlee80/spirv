@@ -14,4 +14,6 @@ var (
 	ErrDuplicateInstruction   = errors.New("duplicate opcode being registered")
 	ErrInvalidMagicValue      = errors.New("Header: invalid magic value")
 	ErrInvalidVersion         = errors.New("Header: invalid version number")
+	ErrMissingMemoryModel     = errors.New("missing OpMemoryModel; each module must define exactly one of these")
+	ErrTooManyMemoryModels    = errors.New("a module must define one and only one OpMemoryModel")
 )

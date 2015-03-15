@@ -10,7 +10,7 @@ type OpAtomicInit struct {
 	Value   Id
 }
 
-func (c *OpAtomicInit) Opcode() uint32 { return 191 }
+func (c *OpAtomicInit) Opcode() uint32 { return opcodeAtomicInit }
 func (c *OpAtomicInit) Optional() bool { return false }
 func (c *OpAtomicInit) Verify() error  { return nil }
 
@@ -26,7 +26,7 @@ type OpAtomicLoad struct {
 	MemorySemantic MemorySemantic
 }
 
-func (c *OpAtomicLoad) Opcode() uint32 { return 192 }
+func (c *OpAtomicLoad) Opcode() uint32 { return opcodeAtomicLoad }
 func (c *OpAtomicLoad) Optional() bool { return false }
 func (c *OpAtomicLoad) Verify() error  { return nil }
 
@@ -41,7 +41,7 @@ type OpAtomicStore struct {
 	Value          Id
 }
 
-func (c *OpAtomicStore) Opcode() uint32 { return 193 }
+func (c *OpAtomicStore) Opcode() uint32 { return opcodeAtomicStore }
 func (c *OpAtomicStore) Optional() bool { return false }
 func (c *OpAtomicStore) Verify() error  { return nil }
 
@@ -62,7 +62,7 @@ type OpAtomicExchange struct {
 	Value          Id
 }
 
-func (c *OpAtomicExchange) Opcode() uint32 { return 194 }
+func (c *OpAtomicExchange) Opcode() uint32 { return opcodeAtomicExchange }
 func (c *OpAtomicExchange) Optional() bool { return false }
 func (c *OpAtomicExchange) Verify() error  { return nil }
 
@@ -85,7 +85,7 @@ type OpAtomicCompareExchange struct {
 	Comparator     Id
 }
 
-func (c *OpAtomicCompareExchange) Opcode() uint32 { return 195 }
+func (c *OpAtomicCompareExchange) Opcode() uint32 { return opcodeAtomicCompareExchange }
 func (c *OpAtomicCompareExchange) Optional() bool { return false }
 func (c *OpAtomicCompareExchange) Verify() error  { return nil }
 
@@ -107,7 +107,7 @@ type OpAtomicCompareExchangeWeak struct {
 	Comparator     Id
 }
 
-func (c *OpAtomicCompareExchangeWeak) Opcode() uint32 { return 196 }
+func (c *OpAtomicCompareExchangeWeak) Opcode() uint32 { return opcodeAtomicCompareExchangeWeak }
 func (c *OpAtomicCompareExchangeWeak) Optional() bool { return false }
 func (c *OpAtomicCompareExchangeWeak) Verify() error  { return nil }
 
@@ -126,7 +126,7 @@ type OpAtomicIIncrement struct {
 	MemorySemantic MemorySemantic
 }
 
-func (c *OpAtomicIIncrement) Opcode() uint32 { return 197 }
+func (c *OpAtomicIIncrement) Opcode() uint32 { return opcodeAtomicIIncrement }
 func (c *OpAtomicIIncrement) Optional() bool { return false }
 func (c *OpAtomicIIncrement) Verify() error  { return nil }
 
@@ -145,7 +145,7 @@ type OpAtomicIDecrement struct {
 	MemorySemantic MemorySemantic
 }
 
-func (c *OpAtomicIDecrement) Opcode() uint32 { return 198 }
+func (c *OpAtomicIDecrement) Opcode() uint32 { return opcodeAtomicIDecrement }
 func (c *OpAtomicIDecrement) Optional() bool { return false }
 func (c *OpAtomicIDecrement) Verify() error  { return nil }
 
@@ -165,7 +165,7 @@ type OpAtomicIAdd struct {
 	Value          Id
 }
 
-func (c *OpAtomicIAdd) Opcode() uint32 { return 199 }
+func (c *OpAtomicIAdd) Opcode() uint32 { return opcodeAtomicIAdd }
 func (c *OpAtomicIAdd) Optional() bool { return false }
 func (c *OpAtomicIAdd) Verify() error  { return nil }
 
@@ -185,7 +185,7 @@ type OpAtomicISub struct {
 	Value          Id
 }
 
-func (c *OpAtomicISub) Opcode() uint32 { return 200 }
+func (c *OpAtomicISub) Opcode() uint32 { return opcodeAtomicISub }
 func (c *OpAtomicISub) Optional() bool { return false }
 func (c *OpAtomicISub) Verify() error  { return nil }
 
@@ -206,7 +206,7 @@ type OpAtomicUMin struct {
 	Value          Id
 }
 
-func (c *OpAtomicUMin) Opcode() uint32 { return 201 }
+func (c *OpAtomicUMin) Opcode() uint32 { return opcodeAtomicUMin }
 func (c *OpAtomicUMin) Optional() bool { return false }
 func (c *OpAtomicUMin) Verify() error  { return nil }
 
@@ -227,7 +227,7 @@ type OpAtomicUMax struct {
 	Value          Id
 }
 
-func (c *OpAtomicUMax) Opcode() uint32 { return 202 }
+func (c *OpAtomicUMax) Opcode() uint32 { return opcodeAtomicUMax }
 func (c *OpAtomicUMax) Optional() bool { return false }
 func (c *OpAtomicUMax) Verify() error  { return nil }
 
@@ -247,7 +247,7 @@ type OpAtomicAnd struct {
 	Value          Id
 }
 
-func (c *OpAtomicAnd) Opcode() uint32 { return 203 }
+func (c *OpAtomicAnd) Opcode() uint32 { return opcodeAtomicAnd }
 func (c *OpAtomicAnd) Optional() bool { return false }
 func (c *OpAtomicAnd) Verify() error  { return nil }
 
@@ -267,7 +267,7 @@ type OpAtomicOr struct {
 	Value          Id
 }
 
-func (c *OpAtomicOr) Opcode() uint32 { return 204 }
+func (c *OpAtomicOr) Opcode() uint32 { return opcodeAtomicOr }
 func (c *OpAtomicOr) Optional() bool { return false }
 func (c *OpAtomicOr) Verify() error  { return nil }
 
@@ -288,7 +288,7 @@ type OpAtomicXor struct {
 	Value          Id
 }
 
-func (c *OpAtomicXor) Opcode() uint32 { return 205 }
+func (c *OpAtomicXor) Opcode() uint32 { return opcodeAtomicXor }
 func (c *OpAtomicXor) Optional() bool { return false }
 func (c *OpAtomicXor) Verify() error  { return nil }
 

@@ -13,7 +13,7 @@ type OpTypeVoid struct {
 	ResultId Id
 }
 
-func (c *OpTypeVoid) Opcode() uint32 { return 8 }
+func (c *OpTypeVoid) Opcode() uint32 { return opcodeTypeVoid }
 func (c *OpTypeVoid) Optional() bool { return false }
 func (c *OpTypeVoid) Verify() error  { return nil }
 
@@ -22,7 +22,7 @@ type OpTypeBool struct {
 	ResultId Id
 }
 
-func (c *OpTypeBool) Opcode() uint32 { return 9 }
+func (c *OpTypeBool) Opcode() uint32 { return opcodeTypeBool }
 func (c *OpTypeBool) Optional() bool { return false }
 func (c *OpTypeBool) Verify() error  { return nil }
 
@@ -46,7 +46,7 @@ type OpTypeInt struct {
 	Signedness uint32
 }
 
-func (c *OpTypeInt) Opcode() uint32 { return 10 }
+func (c *OpTypeInt) Opcode() uint32 { return opcodeTypeInt }
 func (c *OpTypeInt) Optional() bool { return false }
 func (c *OpTypeInt) Verify() error {
 	switch c.Signedness {
@@ -69,7 +69,7 @@ type OpTypeFloat struct {
 	Width uint32
 }
 
-func (c *OpTypeFloat) Opcode() uint32 { return 11 }
+func (c *OpTypeFloat) Opcode() uint32 { return opcodeTypeFloat }
 func (c *OpTypeFloat) Optional() bool { return false }
 func (c *OpTypeFloat) Verify() error  { return nil }
 
@@ -87,7 +87,7 @@ type OpTypeVector struct {
 	ComponentCount uint32
 }
 
-func (c *OpTypeVector) Opcode() uint32 { return 12 }
+func (c *OpTypeVector) Opcode() uint32 { return opcodeTypeVector }
 func (c *OpTypeVector) Optional() bool { return false }
 func (c *OpTypeVector) Verify() error  { return nil }
 
@@ -103,7 +103,7 @@ type OpTypeMatrix struct {
 	ColumnCount uint32
 }
 
-func (c *OpTypeMatrix) Opcode() uint32 { return 13 }
+func (c *OpTypeMatrix) Opcode() uint32 { return opcodeTypeMatrix }
 func (c *OpTypeMatrix) Optional() bool { return false }
 func (c *OpTypeMatrix) Verify() error  { return nil }
 
@@ -157,7 +157,7 @@ type OpTypeSampler struct {
 	AccessQualifier Id `spirv:"optional"`
 }
 
-func (c *OpTypeSampler) Opcode() uint32 { return 14 }
+func (c *OpTypeSampler) Opcode() uint32 { return opcodeTypeSampler }
 func (c *OpTypeSampler) Optional() bool { return false }
 func (c *OpTypeSampler) Verify() error {
 	switch c.Content {
@@ -194,7 +194,7 @@ type OpTypeFilter struct {
 	ResultId Id
 }
 
-func (c *OpTypeFilter) Opcode() uint32 { return 15 }
+func (c *OpTypeFilter) Opcode() uint32 { return opcodeTypeFilter }
 func (c *OpTypeFilter) Optional() bool { return false }
 func (c *OpTypeFilter) Verify() error  { return nil }
 
@@ -214,7 +214,7 @@ type OpTypeArray struct {
 	Length Id
 }
 
-func (c *OpTypeArray) Opcode() uint32 { return 16 }
+func (c *OpTypeArray) Opcode() uint32 { return opcodeTypeArray }
 func (c *OpTypeArray) Optional() bool { return false }
 func (c *OpTypeArray) Verify() error  { return nil }
 
@@ -232,7 +232,7 @@ type OpTypeRuntimeArray struct {
 	ElementType Id
 }
 
-func (c *OpTypeRuntimeArray) Opcode() uint32 { return 17 }
+func (c *OpTypeRuntimeArray) Opcode() uint32 { return opcodeTypeRuntimeArray }
 func (c *OpTypeRuntimeArray) Optional() bool { return false }
 func (c *OpTypeRuntimeArray) Verify() error  { return nil }
 
@@ -247,7 +247,7 @@ type OpTypeStruct struct {
 	Members []Id
 }
 
-func (c *OpTypeStruct) Opcode() uint32 { return 18 }
+func (c *OpTypeStruct) Opcode() uint32 { return opcodeTypeStruct }
 func (c *OpTypeStruct) Optional() bool { return false }
 func (c *OpTypeStruct) Verify() error  { return nil }
 
@@ -260,7 +260,7 @@ type OpTypeOpaque struct {
 	Name String
 }
 
-func (c *OpTypeOpaque) Opcode() uint32 { return 19 }
+func (c *OpTypeOpaque) Opcode() uint32 { return opcodeTypeOpaque }
 func (c *OpTypeOpaque) Optional() bool { return false }
 func (c *OpTypeOpaque) Verify() error  { return nil }
 
@@ -276,7 +276,7 @@ type OpTypePointer struct {
 	Type Id
 }
 
-func (c *OpTypePointer) Opcode() uint32 { return 20 }
+func (c *OpTypePointer) Opcode() uint32 { return opcodeTypePointer }
 func (c *OpTypePointer) Optional() bool { return false }
 func (c *OpTypePointer) Verify() error  { return nil }
 
@@ -297,7 +297,7 @@ type OpTypeFunction struct {
 	Parameters []Id
 }
 
-func (c *OpTypeFunction) Opcode() uint32 { return 21 }
+func (c *OpTypeFunction) Opcode() uint32 { return opcodeTypeFunction }
 func (c *OpTypeFunction) Optional() bool { return false }
 func (c *OpTypeFunction) Verify() error  { return nil }
 
@@ -306,7 +306,7 @@ type OpTypeEvent struct {
 	ResultId Id
 }
 
-func (c *OpTypeEvent) Opcode() uint32 { return 22 }
+func (c *OpTypeEvent) Opcode() uint32 { return opcodeTypeEvent }
 func (c *OpTypeEvent) Optional() bool { return false }
 func (c *OpTypeEvent) Verify() error  { return nil }
 
@@ -317,7 +317,7 @@ type OpTypeDeviceEvent struct {
 	ResultId Id
 }
 
-func (c *OpTypeDeviceEvent) Opcode() uint32 { return 23 }
+func (c *OpTypeDeviceEvent) Opcode() uint32 { return opcodeTypeDeviceEvent }
 func (c *OpTypeDeviceEvent) Optional() bool { return false }
 func (c *OpTypeDeviceEvent) Verify() error  { return nil }
 
@@ -328,7 +328,7 @@ type OpTypeReserveId struct {
 	ResultId Id
 }
 
-func (c *OpTypeReserveId) Opcode() uint32 { return 24 }
+func (c *OpTypeReserveId) Opcode() uint32 { return opcodeTypeReserveId }
 func (c *OpTypeReserveId) Optional() bool { return false }
 func (c *OpTypeReserveId) Verify() error  { return nil }
 
@@ -339,7 +339,7 @@ type OpTypeQueue struct {
 	ResultId Id
 }
 
-func (c *OpTypeQueue) Opcode() uint32 { return 25 }
+func (c *OpTypeQueue) Opcode() uint32 { return opcodeTypeQueue }
 func (c *OpTypeQueue) Optional() bool { return false }
 func (c *OpTypeQueue) Verify() error  { return nil }
 
@@ -355,7 +355,7 @@ type OpTypePipe struct {
 	AccessQualifier AccessQualifier
 }
 
-func (c *OpTypePipe) Opcode() uint32 { return 26 }
+func (c *OpTypePipe) Opcode() uint32 { return opcodeTypePipe }
 func (c *OpTypePipe) Optional() bool { return false }
 func (c *OpTypePipe) Verify() error  { return nil }
 

@@ -12,7 +12,7 @@ type OpSource struct {
 	Version        uint32
 }
 
-func (c *OpSource) Opcode() uint32 { return 1 }
+func (c *OpSource) Opcode() uint32 { return opcodeSource }
 func (c *OpSource) Optional() bool { return true }
 func (c *OpSource) Verify() error  { return nil }
 
@@ -24,7 +24,7 @@ type OpSourceExtension struct {
 	Extension String
 }
 
-func (c *OpSourceExtension) Opcode() uint32 { return 2 }
+func (c *OpSourceExtension) Opcode() uint32 { return opcodeSourceExtension }
 func (c *OpSourceExtension) Optional() bool { return true }
 func (c *OpSourceExtension) Verify() error  { return nil }
 
@@ -37,7 +37,7 @@ type OpName struct {
 	Name   String
 }
 
-func (c *OpName) Opcode() uint32 { return 54 }
+func (c *OpName) Opcode() uint32 { return opcodeName }
 func (c *OpName) Optional() bool { return true }
 func (c *OpName) Verify() error  { return nil }
 
@@ -51,7 +51,7 @@ type OpMemberName struct {
 	Name   String
 }
 
-func (c *OpMemberName) Opcode() uint32 { return 55 }
+func (c *OpMemberName) Opcode() uint32 { return opcodeMemberName }
 func (c *OpMemberName) Optional() bool { return true }
 func (c *OpMemberName) Verify() error  { return nil }
 
@@ -64,7 +64,7 @@ type OpString struct {
 	String   String
 }
 
-func (c *OpString) Opcode() uint32 { return 56 }
+func (c *OpString) Opcode() uint32 { return opcodeString }
 func (c *OpString) Optional() bool { return true }
 func (c *OpString) Verify() error  { return nil }
 
@@ -79,7 +79,7 @@ type OpLine struct {
 	Column uint32
 }
 
-func (c *OpLine) Opcode() uint32 { return 57 }
+func (c *OpLine) Opcode() uint32 { return opcodeLine }
 func (c *OpLine) Optional() bool { return true }
 func (c *OpLine) Verify() error  { return nil }
 

@@ -8,7 +8,7 @@ package spirv
 // variables are undefined.
 type OpEmitVertex struct{}
 
-func (c *OpEmitVertex) Opcode() uint32 { return 184 }
+func (c *OpEmitVertex) Opcode() uint32 { return opcodeEmitVertex }
 func (c *OpEmitVertex) Optional() bool { return false }
 func (c *OpEmitVertex) Verify() error  { return nil }
 
@@ -18,7 +18,7 @@ func (c *OpEmitVertex) Verify() error  { return nil }
 // This instruction can only be used when only one stream is present.
 type OpEndPrimitive struct{}
 
-func (c *OpEndPrimitive) Opcode() uint32 { return 185 }
+func (c *OpEndPrimitive) Opcode() uint32 { return opcodeEndPrimitive }
 func (c *OpEndPrimitive) Optional() bool { return false }
 func (c *OpEndPrimitive) Verify() error  { return nil }
 
@@ -31,7 +31,7 @@ type OpEmitStreamVertex struct {
 	Stream Id
 }
 
-func (c *OpEmitStreamVertex) Opcode() uint32 { return 186 }
+func (c *OpEmitStreamVertex) Opcode() uint32 { return opcodeEmitStreamVertex }
 func (c *OpEmitStreamVertex) Optional() bool { return false }
 func (c *OpEmitStreamVertex) Verify() error  { return nil }
 
@@ -43,7 +43,7 @@ type OpEndStreamPrimitive struct {
 	Stream Id
 }
 
-func (c *OpEndStreamPrimitive) Opcode() uint32 { return 187 }
+func (c *OpEndStreamPrimitive) Opcode() uint32 { return opcodeEndStreamPrimitive }
 func (c *OpEndStreamPrimitive) Optional() bool { return false }
 func (c *OpEndStreamPrimitive) Verify() error  { return nil }
 
