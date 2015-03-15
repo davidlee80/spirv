@@ -4,7 +4,6 @@
 package spirv
 
 import (
-	"errors"
 	"fmt"
 	"io"
 	"reflect"
@@ -25,7 +24,7 @@ func NewDecoder(r io.Reader) *Decoder {
 	return &Decoder{
 		r:      r,
 		endian: LittleEndian,
-		ubuf:   make([]uint32, 32),
+		ubuf:   make([]uint32, 16),
 	}
 }
 
@@ -59,13 +58,13 @@ func (d *Decoder) DecodeHeader() (Header, error) {
 	case MagicBE:
 		d.endian = BigEndian
 	default:
-		return hdr, errors.New("Header.Magic: invalid value")
+		return hdr, ErrInvalidMagicValue
 	}
 
 	// Read remaining header.
 	err = d.read(d.ubuf[:4])
 	if err != nil {
-		return hdr, nil
+		return hdr, err
 	}
 
 	hdr.Version = d.ubuf[0]

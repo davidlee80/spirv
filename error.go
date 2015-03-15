@@ -12,4 +12,5 @@ var (
 	ErrUnacceptable           = errors.New("use of this instruction is not allowed")
 	ErrInstructionNotPointer  = errors.New("value from Codec.New is not a pointer type")
 	ErrDuplicateInstruction   = errors.New("duplicate opcode being registered")
+	ErrInvalidMagicValue      = errors.New("Header: invalid magic value")
 )
