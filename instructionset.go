@@ -3,23 +3,19 @@
 
 package spirv
 
-import (
-	"reflect"
-	"sync"
-)
+import "reflect"
 
 // InstructionFunc defines a constructor for an instruction.
 type instructionFunc func() Instruction
 
 // InstructionSet maps opcodes to an instruction  constructor.
-type InstructionSet struct {
-	sync.RWMutex
+type instructionSet struct {
 	data map[uint32]instructionFunc
 }
 
 // Global, internal instruction set.
 // This has instructions registered atomically during init.
-var instructions = InstructionSet{
+var instructions = instructionSet{
 	data: make(map[uint32]instructionFunc),
 }
 
@@ -40,36 +36,20 @@ func bind(fun instructionFunc) {
 
 	opcode := obj.Opcode()
 
-	instructions.Lock()
 	_, ok := instructions.data[opcode]
 	if ok {
 		panic(ErrDuplicateInstruction)
 	}
 
 	instructions.data[opcode] = fun
-	instructions.Unlock()
 }
 
 // Len returns the number of registered instructions.
-func (set *InstructionSet) Len() int {
-	set.RLock()
-	v := len(set.data)
-	set.RUnlock()
-	return v
-}
+func (set *instructionSet) Len() int { return len(set.data) }
 
 // Get returns the codec for the given opcode.
 // Returns false if it is not in the set.
-func (set *InstructionSet) Get(opcode uint32) (instructionFunc, bool) {
-	instructions.RLock()
+func (set *instructionSet) Get(opcode uint32) (instructionFunc, bool) {
 	constructor, ok := set.data[opcode]
-	instructions.RUnlock()
 	return constructor, ok
-}
-
-// Clear unbinds all instructions.
-func (set *InstructionSet) Clear() {
-	set.Lock()
-	set.data = make(map[uint32]instructionFunc)
-	set.Unlock()
 }
