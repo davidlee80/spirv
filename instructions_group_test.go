@@ -12,7 +12,7 @@ func TestGroup(t *testing.T) {
 	for _, st := range []InstructionTest{
 		{
 			in:  []uint32{0x000900db, 1, 2, ExecutionScopeDevice, 3, 4, 5, 6, 7},
-			err: errors.New("OpAsyncGroupCopy.Scope: must be Subgroup or Workgroup"),
+			err: errors.New("OpAsyncGroupCopy: Scope must be Subgroup or Workgroup"),
 		},
 		{
 			in: []uint32{0x000900db, 1, 2, ExecutionScopeSubgroup, 3, 4, 5, 6, 7},
@@ -29,7 +29,7 @@ func TestGroup(t *testing.T) {
 		},
 		{
 			in:  []uint32{0x000600dc, 1, 2, ExecutionScopeDevice, 3, 4},
-			err: errors.New("OpWaitGroupEvents.Scope: must be Subgroup or Workgroup"),
+			err: errors.New("OpWaitGroupEvents: Scope must be Subgroup or Workgroup"),
 		},
 		{
 			in: []uint32{0x000600dc, 1, 2, ExecutionScopeSubgroup, 3, 4},
@@ -43,7 +43,7 @@ func TestGroup(t *testing.T) {
 		},
 		{
 			in:  []uint32{0x000500dd, 1, 2, ExecutionScopeDevice, 3},
-			err: errors.New("OpGroupAll.Scope: must be Subgroup or Workgroup"),
+			err: errors.New("OpGroupAll: Scope must be Subgroup or Workgroup"),
 		},
 		{
 			in: []uint32{0x000500dd, 1, 2, ExecutionScopeSubgroup, 3},
@@ -56,7 +56,7 @@ func TestGroup(t *testing.T) {
 		},
 		{
 			in:  []uint32{0x000500de, 1, 2, ExecutionScopeDevice, 3},
-			err: errors.New("OpGroupAny.Scope: must be Subgroup or Workgroup"),
+			err: errors.New("OpGroupAny: Scope must be Subgroup or Workgroup"),
 		},
 		{
 			in: []uint32{0x000500de, 1, 2, ExecutionScopeSubgroup, 3},
@@ -69,7 +69,7 @@ func TestGroup(t *testing.T) {
 		},
 		{
 			in:  []uint32{0x000600df, 1, 2, ExecutionScopeDevice, 3, 4},
-			err: errors.New("OpGroupBroadcast.Scope: must be Subgroup or Workgroup"),
+			err: errors.New("OpGroupBroadcast: Scope must be Subgroup or Workgroup"),
 		},
 		{
 			in: []uint32{0x000600df, 1, 2, ExecutionScopeSubgroup, 3, 4},
@@ -83,7 +83,7 @@ func TestGroup(t *testing.T) {
 		},
 		{
 			in:  []uint32{0x000600e0, 1, 2, ExecutionScopeDevice, GroupOperationReduce, 4},
-			err: errors.New("OpGroupIAdd.Scope: must be Subgroup or Workgroup"),
+			err: errors.New("OpGroupIAdd: Scope must be Subgroup or Workgroup"),
 		},
 		{
 			in: []uint32{0x000600e0, 1, 2, ExecutionScopeSubgroup, GroupOperationReduce, 4},
@@ -97,7 +97,7 @@ func TestGroup(t *testing.T) {
 		},
 		{
 			in:  []uint32{0x000600e1, 1, 2, ExecutionScopeDevice, GroupOperationReduce, 4},
-			err: errors.New("OpGroupFAdd.Scope: must be Subgroup or Workgroup"),
+			err: errors.New("OpGroupFAdd: Scope must be Subgroup or Workgroup"),
 		},
 		{
 			in: []uint32{0x000600e1, 1, 2, ExecutionScopeSubgroup, GroupOperationReduce, 4},
@@ -111,7 +111,7 @@ func TestGroup(t *testing.T) {
 		},
 		{
 			in:  []uint32{0x000600e2, 1, 2, ExecutionScopeDevice, GroupOperationReduce, 4},
-			err: errors.New("OpGroupFMin.Scope: must be Subgroup or Workgroup"),
+			err: errors.New("OpGroupFMin: Scope must be Subgroup or Workgroup"),
 		},
 		{
 			in: []uint32{0x000600e2, 1, 2, ExecutionScopeSubgroup, GroupOperationReduce, 4},
@@ -125,7 +125,7 @@ func TestGroup(t *testing.T) {
 		},
 		{
 			in:  []uint32{0x000600e3, 1, 2, ExecutionScopeDevice, GroupOperationReduce, 4},
-			err: errors.New("OpGroupUMin.Scope: must be Subgroup or Workgroup"),
+			err: errors.New("OpGroupUMin: Scope must be Subgroup or Workgroup"),
 		},
 		{
 			in: []uint32{0x000600e3, 1, 2, ExecutionScopeSubgroup, GroupOperationReduce, 4},
@@ -139,7 +139,7 @@ func TestGroup(t *testing.T) {
 		},
 		{
 			in:  []uint32{0x000600e4, 1, 2, ExecutionScopeDevice, GroupOperationReduce, 4},
-			err: errors.New("OpGroupSMin.Scope: must be Subgroup or Workgroup"),
+			err: errors.New("OpGroupSMin: Scope must be Subgroup or Workgroup"),
 		},
 		{
 			in: []uint32{0x000600e4, 1, 2, ExecutionScopeSubgroup, GroupOperationReduce, 4},
@@ -153,7 +153,7 @@ func TestGroup(t *testing.T) {
 		},
 		{
 			in:  []uint32{0x000600e5, 1, 2, ExecutionScopeDevice, GroupOperationReduce, 4},
-			err: errors.New("OpGroupFMax.Scope: must be Subgroup or Workgroup"),
+			err: errors.New("OpGroupFMax: Scope must be Subgroup or Workgroup"),
 		},
 		{
 			in: []uint32{0x000600e5, 1, 2, ExecutionScopeSubgroup, GroupOperationReduce, 4},
@@ -167,7 +167,7 @@ func TestGroup(t *testing.T) {
 		},
 		{
 			in:  []uint32{0x000600e6, 1, 2, ExecutionScopeDevice, GroupOperationReduce, 4},
-			err: errors.New("OpGroupUMax.Scope: must be Subgroup or Workgroup"),
+			err: errors.New("OpGroupUMax: Scope must be Subgroup or Workgroup"),
 		},
 		{
 			in: []uint32{0x000600e6, 1, 2, ExecutionScopeSubgroup, GroupOperationReduce, 4},
@@ -181,7 +181,7 @@ func TestGroup(t *testing.T) {
 		},
 		{
 			in:  []uint32{0x000600e7, 1, 2, ExecutionScopeDevice, GroupOperationReduce, 4},
-			err: errors.New("OpGroupSMax.Scope: must be Subgroup or Workgroup"),
+			err: errors.New("OpGroupSMax: Scope must be Subgroup or Workgroup"),
 		},
 		{
 			in: []uint32{0x000600e7, 1, 2, ExecutionScopeSubgroup, GroupOperationReduce, 4},

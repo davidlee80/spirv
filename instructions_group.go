@@ -25,7 +25,7 @@ func (c *OpAsyncGroupCopy) Verify() error {
 	switch c.Scope {
 	case ExecutionScopeSubgroup, ExecutionScopeWorkgroup:
 	default:
-		return errors.New("OpAsyncGroupCopy.Scope: must be Subgroup or Workgroup")
+		return errors.New("OpAsyncGroupCopy: Scope must be Subgroup or Workgroup")
 	}
 
 	return nil
@@ -48,7 +48,7 @@ func (c *OpWaitGroupEvents) Verify() error {
 	switch c.Scope {
 	case ExecutionScopeSubgroup, ExecutionScopeWorkgroup:
 	default:
-		return errors.New("OpWaitGroupEvents.Scope: must be Subgroup or Workgroup")
+		return errors.New("OpWaitGroupEvents: Scope must be Subgroup or Workgroup")
 	}
 
 	return nil
@@ -70,7 +70,7 @@ func (c *OpGroupAll) Verify() error {
 	switch c.Scope {
 	case ExecutionScopeSubgroup, ExecutionScopeWorkgroup:
 	default:
-		return errors.New("OpGroupAll.Scope: must be Subgroup or Workgroup")
+		return errors.New("OpGroupAll: Scope must be Subgroup or Workgroup")
 	}
 
 	return nil
@@ -92,7 +92,7 @@ func (c *OpGroupAny) Verify() error {
 	switch c.Scope {
 	case ExecutionScopeSubgroup, ExecutionScopeWorkgroup:
 	default:
-		return errors.New("OpGroupAny.Scope: must be Subgroup or Workgroup")
+		return errors.New("OpGroupAny: Scope must be Subgroup or Workgroup")
 	}
 
 	return nil
@@ -114,7 +114,7 @@ func (c *OpGroupBroadcast) Verify() error {
 	switch c.Scope {
 	case ExecutionScopeSubgroup, ExecutionScopeWorkgroup:
 	default:
-		return errors.New("OpGroupBroadcast.Scope: must be Subgroup or Workgroup")
+		return errors.New("OpGroupBroadcast: Scope must be Subgroup or Workgroup")
 	}
 
 	return nil
@@ -136,7 +136,7 @@ func (c *OpGroupIAdd) Verify() error {
 	switch c.Scope {
 	case ExecutionScopeSubgroup, ExecutionScopeWorkgroup:
 	default:
-		return errors.New("OpGroupIAdd.Scope: must be Subgroup or Workgroup")
+		return errors.New("OpGroupIAdd: Scope must be Subgroup or Workgroup")
 	}
 
 	return nil
@@ -158,7 +158,7 @@ func (c *OpGroupFAdd) Verify() error {
 	switch c.Scope {
 	case ExecutionScopeSubgroup, ExecutionScopeWorkgroup:
 	default:
-		return errors.New("OpGroupFAdd.Scope: must be Subgroup or Workgroup")
+		return errors.New("OpGroupFAdd: Scope must be Subgroup or Workgroup")
 	}
 
 	return nil
@@ -180,7 +180,7 @@ func (c *OpGroupFMin) Verify() error {
 	switch c.Scope {
 	case ExecutionScopeSubgroup, ExecutionScopeWorkgroup:
 	default:
-		return errors.New("OpGroupFMin.Scope: must be Subgroup or Workgroup")
+		return errors.New("OpGroupFMin: Scope must be Subgroup or Workgroup")
 	}
 
 	return nil
@@ -202,7 +202,7 @@ func (c *OpGroupUMin) Verify() error {
 	switch c.Scope {
 	case ExecutionScopeSubgroup, ExecutionScopeWorkgroup:
 	default:
-		return errors.New("OpGroupUMin.Scope: must be Subgroup or Workgroup")
+		return errors.New("OpGroupUMin: Scope must be Subgroup or Workgroup")
 	}
 
 	return nil
@@ -224,7 +224,7 @@ func (c *OpGroupSMin) Verify() error {
 	switch c.Scope {
 	case ExecutionScopeSubgroup, ExecutionScopeWorkgroup:
 	default:
-		return errors.New("OpGroupSMin.Scope: must be Subgroup or Workgroup")
+		return errors.New("OpGroupSMin: Scope must be Subgroup or Workgroup")
 	}
 
 	return nil
@@ -246,7 +246,7 @@ func (c *OpGroupFMax) Verify() error {
 	switch c.Scope {
 	case ExecutionScopeSubgroup, ExecutionScopeWorkgroup:
 	default:
-		return errors.New("OpGroupFMax.Scope: must be Subgroup or Workgroup")
+		return errors.New("OpGroupFMax: Scope must be Subgroup or Workgroup")
 	}
 
 	return nil
@@ -268,7 +268,7 @@ func (c *OpGroupUMax) Verify() error {
 	switch c.Scope {
 	case ExecutionScopeSubgroup, ExecutionScopeWorkgroup:
 	default:
-		return errors.New("OpGroupUMax.Scope: must be Subgroup or Workgroup")
+		return errors.New("OpGroupUMax: Scope must be Subgroup or Workgroup")
 	}
 
 	return nil
@@ -290,7 +290,7 @@ func (c *OpGroupSMax) Verify() error {
 	switch c.Scope {
 	case ExecutionScopeSubgroup, ExecutionScopeWorkgroup:
 	default:
-		return errors.New("OpGroupSMax.Scope: must be Subgroup or Workgroup")
+		return errors.New("OpGroupSMax: Scope must be Subgroup or Workgroup")
 	}
 
 	return nil
