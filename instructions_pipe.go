@@ -3,8 +3,6 @@
 
 package spirv
 
-import "fmt"
-
 // OpReadPipe reads a packet from P into Ptr.
 type OpReadPipe struct {
 	ResultType Id
@@ -152,17 +150,7 @@ type OpGroupReserveReadPipePackets struct {
 
 func (c *OpGroupReserveReadPipePackets) Opcode() uint32 { return 245 }
 func (c *OpGroupReserveReadPipePackets) Optional() bool { return false }
-func (c *OpGroupReserveReadPipePackets) Verify() error {
-	switch c.Scope {
-	case ExecutionScopeCrossDevice,
-		ExecutionScopeDevice,
-		ExecutionScopeWorkgroup,
-		ExecutionScopeSubgroup:
-	default:
-		return fmt.Errorf("OpGroupReserveReadPipePackets.Scope: expected an Execution Scope constant")
-	}
-	return nil
-}
+func (c *OpGroupReserveReadPipePackets) Verify() error  { return nil }
 
 // OpGroupReserveWritePipePackets reserves NumPackets entries for writing
 // to P at group level.
@@ -176,17 +164,7 @@ type OpGroupReserveWritePipePackets struct {
 
 func (c *OpGroupReserveWritePipePackets) Opcode() uint32 { return 246 }
 func (c *OpGroupReserveWritePipePackets) Optional() bool { return false }
-func (c *OpGroupReserveWritePipePackets) Verify() error {
-	switch c.Scope {
-	case ExecutionScopeCrossDevice,
-		ExecutionScopeDevice,
-		ExecutionScopeWorkgroup,
-		ExecutionScopeSubgroup:
-	default:
-		return fmt.Errorf("OpGroupReserveWritePipePackets.Scope: expected an Execution Scope constant")
-	}
-	return nil
-}
+func (c *OpGroupReserveWritePipePackets) Verify() error  { return nil }
 
 // OpGroupCommitReadPipe is a group level indication that all reads to
 // NumPackets associated with ReserveId to P are completed.
@@ -198,17 +176,7 @@ type OpGroupCommitReadPipe struct {
 
 func (c *OpGroupCommitReadPipe) Opcode() uint32 { return 247 }
 func (c *OpGroupCommitReadPipe) Optional() bool { return false }
-func (c *OpGroupCommitReadPipe) Verify() error {
-	switch c.Scope {
-	case ExecutionScopeCrossDevice,
-		ExecutionScopeDevice,
-		ExecutionScopeWorkgroup,
-		ExecutionScopeSubgroup:
-	default:
-		return fmt.Errorf("OpGroupCommitReadPipe.Scope: expected an Execution Scope constant")
-	}
-	return nil
-}
+func (c *OpGroupCommitReadPipe) Verify() error  { return nil }
 
 // OpGroupCommitWritePipe is a group level indication that all writes to
 // NumPackets associated with ReserveId to P are completed.
@@ -220,17 +188,7 @@ type OpGroupCommitWritePipe struct {
 
 func (c *OpGroupCommitWritePipe) Opcode() uint32 { return 248 }
 func (c *OpGroupCommitWritePipe) Optional() bool { return false }
-func (c *OpGroupCommitWritePipe) Verify() error {
-	switch c.Scope {
-	case ExecutionScopeCrossDevice,
-		ExecutionScopeDevice,
-		ExecutionScopeWorkgroup,
-		ExecutionScopeSubgroup:
-	default:
-		return fmt.Errorf("OpGroupCommitWritePipe.Scope: expected an Execution Scope constant")
-	}
-	return nil
-}
+func (c *OpGroupCommitWritePipe) Verify() error  { return nil }
 
 func init() {
 	Bind(func() Instruction { return &OpReadPipe{} })
