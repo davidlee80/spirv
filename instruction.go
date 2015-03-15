@@ -5,13 +5,6 @@ package spirv
 
 import "fmt"
 
-// Verifiable defines any type which implements verification semantics.
-// This may entail simple range checks on numeric fields and constants, or
-// as complex as semantic rule validation in a whole module.
-type Verifiable interface {
-	Verify() error
-}
-
 // Instruction defines a generic instruction.
 type Instruction interface {
 	Verifiable

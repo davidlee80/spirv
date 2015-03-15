@@ -5,6 +5,13 @@ package spirv
 
 import "reflect"
 
+// Verifiable defines any type which implements verification semantics.
+// This may entail simple range checks on numeric fields and constants, or
+// as complex as semantic rule validation in a whole module.
+type Verifiable interface {
+	Verify() error
+}
+
 type layout struct {
 	target     uint32
 	preceeding []uint32
