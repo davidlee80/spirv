@@ -37,16 +37,7 @@ type OpLoopMerge struct {
 
 func (c *OpLoopMerge) Opcode() uint32 { return 206 }
 func (c *OpLoopMerge) Optional() bool { return false }
-func (c *OpLoopMerge) Verify() error {
-	switch c.LoopControl {
-	case LoopControlNoControl,
-		LoopControlUnroll,
-		LoopControlDontUnroll:
-	default:
-		return fmt.Errorf("OpLoopMerge.LoopControl: expected a Loop Control constant")
-	}
-	return nil
-}
+func (c *OpLoopMerge) Verify() error  { return nil }
 
 // OpSelectionMerge declares and controls a structured control-flow selection
 // construct, used with OpBranchConditional or OpSwitch.
@@ -57,16 +48,7 @@ type OpSelectionMerge struct {
 
 func (c *OpSelectionMerge) Opcode() uint32 { return 207 }
 func (c *OpSelectionMerge) Optional() bool { return false }
-func (c *OpSelectionMerge) Verify() error {
-	switch c.SelectionControl {
-	case SelectionControlNoControl,
-		SelectionControlFlatten,
-		SelectionControlDontFlatten:
-	default:
-		return fmt.Errorf("OpSelectionMerge.SelectionControl: expected a Selection Control constant")
-	}
-	return nil
-}
+func (c *OpSelectionMerge) Verify() error  { return nil }
 
 // OpLabel defines a block label.
 type OpLabel struct {
@@ -99,7 +81,7 @@ func (c *OpBranchConditional) Opcode() uint32 { return 210 }
 func (c *OpBranchConditional) Optional() bool { return false }
 func (c *OpBranchConditional) Verify() error {
 	if len(c.BranchWeights) != 0 && len(c.BranchWeights) != 2 {
-		return fmt.Errorf("OpBranchConditional.BranchWeights: expected 0 or 2 elements")
+		return fmt.Errorf("OpBranchConditional: BranchWeights expects 0 or 2 elements")
 	}
 	return nil
 }
@@ -116,15 +98,17 @@ func (c *OpSwitch) Opcode() uint32 { return 211 }
 func (c *OpSwitch) Optional() bool { return false }
 func (c *OpSwitch) Verify() error {
 	if len(c.Target)%2 != 0 {
-		return fmt.Errorf("OpSwitch.Target: expected array of (LiteralNumber, Label) pairs")
+		return fmt.Errorf("OpSwitch: Target expects array of (LiteralNumber, Label) pairs")
 	}
+
 	for j := 0; j < len(c.Target); j += 2 {
 		for k := j + 2; k < len(c.Target); k += 2 {
 			if c.Target[j] == c.Target[k] {
-				return fmt.Errorf("OpSwitch.Target: literals must be unique")
+				return fmt.Errorf("OpSwitch: Target literals must be unique")
 			}
 		}
 	}
+
 	return nil
 }
 
