@@ -3,7 +3,10 @@
 
 package spirv
 
-import "io"
+import (
+	"fmt"
+	"io"
+)
 
 // Module defines a complete SPIR-V module.
 type Module struct {
@@ -35,7 +38,7 @@ func Load(r io.Reader) (*Module, error) {
 	// Load the module header.
 	mod.Header, err = dec.DecodeHeader()
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("spirv: %v", err)
 	}
 
 	// Load all instructions.
@@ -47,7 +50,8 @@ func Load(r io.Reader) (*Module, error) {
 			if err == io.EOF {
 				break // Not an error -- just end of stream.
 			}
-			return nil, err
+
+			return nil, fmt.Errorf("spirv: %v", err)
 		}
 
 		mod.Code = append(mod.Code, instr)

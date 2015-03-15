@@ -6,6 +6,7 @@ package spirv
 import (
 	"bytes"
 	"fmt"
+	"io"
 	"reflect"
 	"testing"
 )
@@ -72,7 +73,7 @@ func TestFaultyInstructions(t *testing.T) {
 		{
 			in:   nil,
 			want: nil,
-			err:  ErrUnexpectedEOF,
+			err:  io.EOF,
 		},
 		{
 			in:  []uint32{0x00000001},

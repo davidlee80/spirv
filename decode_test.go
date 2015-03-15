@@ -5,6 +5,7 @@ package spirv
 
 import (
 	"bytes"
+	"io"
 	"reflect"
 	"testing"
 )
@@ -20,7 +21,7 @@ func TestDecodeWords(t *testing.T) {
 		{
 			in:   nil,
 			want: nil,
-			err:  ErrUnexpectedEOF,
+			err:  io.EOF,
 		},
 		{
 			in: []byte{

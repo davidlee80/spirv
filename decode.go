@@ -83,6 +83,9 @@ func (d *Decoder) DecodeInstructionWords() ([]uint32, error) {
 	// Read the first word: word count + opcode.
 	err := d.read(d.ubuf[:1])
 	if err != nil {
+		if err == ErrUnexpectedEOF {
+			return nil, io.EOF // Not fatal in this one case -- just end of stream.
+		}
 		return nil, err
 	}
 

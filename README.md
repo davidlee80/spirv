@@ -92,7 +92,7 @@ the ground up around the capabilities of modern hardware.
 
 ### Install
 
-    go get github.com/jteeuwen/spirv
+    go get github.com/jteeuwen/spirv/...
 
 
 ### License
