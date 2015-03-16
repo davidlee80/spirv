@@ -12,23 +12,6 @@ type Verifiable interface {
 	Verify() error
 }
 
-type layout struct {
-	target     uint32
-	preceeding []uint32
-}
-
-// logicalLayout holds descriptors defining the order in which instructions
-// must appear in a module.
-var logicalLayout = []layout{
-	{
-		target: opcodeSource,
-	},
-	{
-		target:     opcodeSourceExtension,
-		preceeding: []uint32{opcodeSource},
-	},
-}
-
 // verifyInstruction iterates over the instruction fields and calls
 // Verify() on all of those which implement it. We then call Verify
 // on the instruction itself.
