@@ -12,7 +12,6 @@ import (
 )
 
 func main() {
-	os.Args = append(os.Args, "../testdata/test.spirv")
 	file := parseArgs()
 
 	fd, err := os.Open(file)
