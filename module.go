@@ -3,10 +3,7 @@
 
 package spirv
 
-import (
-	"fmt"
-	"io"
-)
+import "io"
 
 // Module defines a complete SPIR-V module.
 type Module struct {
@@ -38,7 +35,7 @@ func Load(r io.Reader) (*Module, error) {
 	// Load the module header.
 	mod.Header, err = dec.DecodeHeader()
 	if err != nil {
-		return nil, fmt.Errorf("spirv: %v", err)
+		return nil, err
 	}
 
 	// Load all instructions.
@@ -51,7 +48,7 @@ func Load(r io.Reader) (*Module, error) {
 				break // Not an error -- just end of stream.
 			}
 
-			return nil, fmt.Errorf("spirv: %v", err)
+			return nil, err
 		}
 
 		mod.Code = append(mod.Code, instr)
@@ -67,14 +64,14 @@ func (m *Module) Save(w io.Writer) error {
 	// Write the header.
 	err := enc.EncodeHeader(m.Header)
 	if err != nil {
-		return fmt.Errorf("spirv: %v", err)
+		return err
 	}
 
 	// Write all instructions.
 	for _, instr := range m.Code {
 		err := enc.EncodeInstruction(instr)
 		if err != nil {
-			return fmt.Errorf("spirv: %v", err)
+			return err
 		}
 	}
 
@@ -88,7 +85,7 @@ func (m *Module) Verify() error {
 	// Check the header for structural validity.
 	err := m.Header.Verify()
 	if err != nil {
-		return fmt.Errorf("spirv: %v", err)
+		return err
 	}
 
 	// Perform structural validity checks on each instruction, before
@@ -101,7 +98,7 @@ func (m *Module) Verify() error {
 	for _, instr := range m.Code {
 		err := verifyInstruction(instr)
 		if err != nil {
-			return fmt.Errorf("spirv: %v", err)
+			return err
 		}
 	}
 
