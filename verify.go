@@ -85,10 +85,18 @@ func init() {
 		opcodeVariable, // Can be only global -- Storage Class != Function
 		regEndGroup, regMultiOptional,
 
+		// Function
 		regBeginGroup,
 		opcodeFunction,
 		opcodeFunctionParameter, regMultiOptional,
+
+		// Block
+		regBeginGroup,
+		opcodeLabel,
 		regAny, regMultiOptional,
+		opcodeBranch,
+		regEndGroup, regMultiOptional,
+
 		opcodeFunctionEnd,
 		regEndGroup, regAtleastOne,
 	}

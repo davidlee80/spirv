@@ -57,10 +57,10 @@ func TestModuleVerifyLogicalLayout(t *testing.T) {
 		&OpFunctionParameter{},
 		&OpFunctionParameter{},
 		&OpFunctionParameter{},
+		&OpLabel{},
 		&OpIAdd{},
 		&OpIAdd{},
-		&OpIAdd{},
-		&OpIAdd{},
+		&OpBranch{},
 	}
 
 	err = mod.verifyLogicalLayout()
@@ -81,10 +81,10 @@ func TestModuleVerifyLogicalLayout(t *testing.T) {
 		&OpFunctionParameter{},
 		&OpFunctionParameter{},
 		&OpFunctionParameter{},
+		&OpLabel{},
 		&OpIAdd{},
 		&OpIAdd{},
-		&OpIAdd{},
-		&OpIAdd{},
+		&OpBranch{},
 		&OpFunctionEnd{},
 	}
 
