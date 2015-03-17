@@ -114,7 +114,18 @@ func (m *Module) Verify() error {
 	// type <id>s match iff the types match.
 
 	// Perform some checks related to Logical addressing mode.
-	return m.verifyLogicalAddressing()
+	err = m.verifyLogicalAddressing()
+	if err != nil {
+		return err
+	}
+
+	// Check the validity of result IDs.
+	err = m.verifySSA()
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // Strip removes all instructions which have no semantic impact on the code.
@@ -132,18 +143,51 @@ func (m *Module) Strip() {
 	}
 }
 
+// verifySSA performs some sanity checks on result id values, as defined
+// in chapter 2.15.1 of the specification.
+func (m *Module) verifySSA() error {
+	// Each <id> must appear exactly once as the result <id> of an instruction.
+	//
+	// Create a list of all result ids and ensure there are no duplicates.
+	set := make(map[Id]int)
+
+	for addr, instr := range m.Code {
+		id, ok := instructionResultId(instr)
+		if !ok {
+			continue
+		}
+
+		paddr, ok := set[id]
+		if !ok {
+			set[id] = addr
+			continue
+		}
+
+		return NewLayoutError(
+			addr, "duplicate ResultId(%d); previous definition at: $%08x",
+			id, paddr,
+		)
+	}
+
+	// TODO: The definition of an SSA <id> should dominate all uses of it,
+	// with the following exceptions
+	return nil
+}
+
 // verifyLogicalAddressing performs a number of checks if the logical
 // addressing mode is selected for this module.
 func (m *Module) verifyLogicalAddressing() error {
 	v := m.Code.First(opcodeMemoryModel).(*OpMemoryModel)
 
 	if v.AddressingModel != AddressingModeLogical {
+		// These rules apply only to AddressingModeLogical
 		return nil
 	}
 
 	// Variables can not allocate pointer types.
-	variables := m.Code.FilterIndex(opcodeVariable, 0)
-	_ = variables
+
+	// FIXME: Ask for clarification on meaning of OpVariable rules.
+	// ref: https://github.com/jteeuwen/spirv/issues/25
 	return nil
 }
 

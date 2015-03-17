@@ -222,7 +222,8 @@ func TestModuleVerifyLogicalLayout10(t *testing.T) {
 }
 
 func TestModuleVerifyLogicalAddressing1(t *testing.T) {
-	// Valid module.
+	// Faulty module: variable allocates pointer type while
+	// memory model is Logical.
 	mod.Code = []Instruction{
 		&OpCompileFlag{},
 		&OpMemoryModel{
@@ -242,6 +243,29 @@ func TestModuleVerifyLogicalAddressing1(t *testing.T) {
 	err := mod.verifyLogicalAddressing()
 	if err != nil {
 		t.Fatal(err)
+	}
+}
+
+func TestModuleVerifySSA(t *testing.T) {
+	// Faulty module: 2 identical result IDs.
+	mod.Code = []Instruction{
+		&OpCompileFlag{},
+		&OpMemoryModel{},
+		&OpEntryPoint{},
+		&OpExecutionMode{},
+
+		&OpFunction{ResultId: 1},
+		&OpFunctionEnd{},
+
+		&OpFunction{ResultId: 1},
+		&OpFunctionEnd{},
+	}
+
+	want := NewLayoutError(6, "duplicate ResultId(%d); previous definition at: $%08x", 1, 4)
+	have := mod.verifySSA()
+
+	if !reflect.DeepEqual(have, want) {
+		t.Fatalf("error mismatch:\nWant: %v\nHave: %v", want, have)
 	}
 }
 
