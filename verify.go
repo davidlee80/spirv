@@ -4,7 +4,6 @@
 package spirv
 
 import (
-	"fmt"
 	"reflect"
 	"regexp"
 )
@@ -131,10 +130,7 @@ func init() {
 	}
 
 	// The pattern has to be applied to the entire input slice, not just a subset.
-	str := "^" + string(out) + "$"
-
-	fmt.Printf("%q\n", str)
-	regLayoutPattern = regexp.MustCompile(str)
+	regLayoutPattern = regexp.MustCompile("^" + string(out) + "$")
 }
 
 // Verifiable defines any type which implements verification semantics.
