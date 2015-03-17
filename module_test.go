@@ -221,6 +221,30 @@ func TestModuleVerifyLogicalLayout10(t *testing.T) {
 	}
 }
 
+func TestModuleVerifyLogicalAddressing1(t *testing.T) {
+	// Valid module.
+	mod.Code = []Instruction{
+		&OpCompileFlag{},
+		&OpMemoryModel{
+			AddressingModel: AddressingModeLogical,
+		},
+		&OpEntryPoint{},
+		&OpExecutionMode{},
+
+		&OpVariable{
+			StorageClass: StorageClassFunction,
+		},
+
+		&OpFunction{},
+		&OpFunctionEnd{},
+	}
+
+	err := mod.verifyLogicalAddressing()
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
 func TestModuleStrip(t *testing.T) {
 	mod.Code = []Instruction{
 		&OpSource{SourceLanguageGLSL, 450},

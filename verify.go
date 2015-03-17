@@ -205,10 +205,10 @@ func verifySlice(rv reflect.Value) error {
 
 // verifyFunctionStructure tests variable declarations in functions.
 // ALl of them must be the first instructions in the first block.
-func verifyFunctionStructure(set []Instruction) error {
-	// Find all function blocks
-	fstart := filter(set, opcodeFunction, 0)
-	fend := filter(set, opcodeFunctionEnd, 0)
+func verifyFunctionStructure(set InstructionList) error {
+	// Find all function blocks.
+	fstart := set.FilterIndex(opcodeFunction, 0)
+	fend := set.FilterIndex(opcodeFunctionEnd, 0)
 
 	if len(fstart) != len(fend) {
 		return nil // This should never happen.
@@ -218,16 +218,16 @@ func verifyFunctionStructure(set []Instruction) error {
 		fe := fend[i]
 
 		// Find all block ranges inside a function.
-		bstart := filter(set[fs:fe], opcodeLabel, fs)
-		bend := filter(set[fs:fe], opcodeBranch, fs)
+		bstart := set[fs:fe].FilterIndex(opcodeLabel, fs)
+		bend := set[fs:fe].FilterIndex(opcodeBranch, fs)
 
 		for j, bs := range bstart {
 			be := bend[j]
 
 			// Only the first block may hold OpVariable instructions.
 			if j > 0 {
-				if count(set[bs:be], opcodeVariable) > 0 {
-					addr := indexOf(set[bs:be], opcodeVariable)
+				if set[bs:be].Count(opcodeVariable) > 0 {
+					addr := set[bs:be].Index(opcodeVariable)
 					return NewLayoutError(addr+bs,
 						"variable definition may only appear in the first block")
 				}
@@ -256,8 +256,8 @@ func verifyFunctionStructure(set []Instruction) error {
 }
 
 // verifyGlobalVariables checks the storage class of global variables.
-func verifyGlobalVariables(set []Instruction) error {
-	for _, i := range globalVariables(set) {
+func verifyGlobalVariables(set InstructionList) error {
+	for _, i := range set.globalVariables() {
 		v := set[i].(*OpVariable)
 		if v.StorageClass == StorageClassFunction {
 			return NewLayoutError(i, "global variable: storage class can not be StorageClassFunction")
@@ -268,8 +268,8 @@ func verifyGlobalVariables(set []Instruction) error {
 }
 
 // verifyLocalVariables checks the storage class of local variables.
-func verifyLocalVariables(set []Instruction) error {
-	for _, i := range localVariables(set) {
+func verifyLocalVariables(set InstructionList) error {
+	for _, i := range set.localVariables() {
 		v := set[i].(*OpVariable)
 		if v.StorageClass != StorageClassFunction {
 			return NewLayoutError(i, "local variable: storage class must be StorageClassFunction")
@@ -291,11 +291,11 @@ func verifyLocalVariables(set []Instruction) error {
 // FIXME: This approach can only tell us if the structure is valid or not.
 // It will not give us any context as to which instructions are wrong when
 // the check fails. This is not useful at all.
-func verifyLayoutPattern(code []Instruction) error {
+func verifyLayoutPattern(set InstructionList) error {
 	// Turn all instruction opcodes into a list of runes.
 	var input bytes.Buffer
 
-	for _, v := range code {
+	for _, v := range set {
 		// We add 0xff to each opcode, because we want to prevent the
 		// possibility that an opcode is treated as an ASCII character.
 		// It could be interpreted as a special regex marker like ?, +, *, etc,
@@ -308,71 +308,4 @@ func verifyLayoutPattern(code []Instruction) error {
 	}
 
 	return nil
-}
-
-// localVariables returns all variables defined in functions.
-func localVariables(set []Instruction) []int {
-	start := filter(set, opcodeFunction, 0)
-	end := filter(set, opcodeFunctionEnd, 0)
-
-	if len(start) != len(end) {
-		return nil // This should never happen.
-	}
-
-	var out []int
-
-	for i, s := range start {
-		e := end[i]
-		v := filter(set[s:e], opcodeVariable, s)
-		out = append(out, v...)
-	}
-
-	return out
-}
-
-// globalVariables returns global variables defined in the module.
-func globalVariables(set []Instruction) []int {
-	funcIndex := indexOf(set, opcodeFunction)
-	return filter(set[:funcIndex], opcodeVariable, 0)
-}
-
-// indexOf returns the index of the first instance of the given opcode.
-// Returns -1 if none was found.
-func indexOf(set []Instruction, opcode uint32) int {
-	for i, v := range set {
-		if v.Opcode() == opcode {
-			return i
-		}
-	}
-
-	return -1
-}
-
-// filter returns all instruction indices with the given opcode.
-// The offset value is optionally added to a resulting index.
-// This can be useful if you want indices relative to some other point than
-// the start of the provided set.
-func filter(set []Instruction, opcode uint32, offset int) []int {
-	out := make([]int, 0, len(set))
-
-	for i, v := range set {
-		if v.Opcode() == opcode {
-			out = append(out, i+offset)
-		}
-	}
-
-	return out
-}
-
-// count returns the number of instances of the given instruction in the set.
-func count(set []Instruction, opcode uint32) int {
-	var count int
-
-	for _, v := range set {
-		if v.Opcode() == opcode {
-			count++
-		}
-	}
-
-	return count
 }

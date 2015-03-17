@@ -8,7 +8,7 @@ import "io"
 // Module defines a complete SPIR-V module.
 type Module struct {
 	Header Header
-	Code   []Instruction
+	Code   InstructionList
 }
 
 // NewModule creates a new, default module.
@@ -109,8 +109,12 @@ func (m *Module) Verify() error {
 		return err
 	}
 
-	// TODO Implement remaining semantic validation.
-	return nil
+	// TODO: Non-structure types (scalars, vectors, arrays, etc.) with the same
+	// operand parameterization cannot be type aliases. For nonstructures, two
+	// type <id>s match iff the types match.
+
+	// Perform some checks related to Logical addressing mode.
+	return m.verifyLogicalAddressing()
 }
 
 // Strip removes all instructions which have no semantic impact on the code.
@@ -128,6 +132,21 @@ func (m *Module) Strip() {
 	}
 }
 
+// verifyLogicalAddressing performs a number of checks if the logical
+// addressing mode is selected for this module.
+func (m *Module) verifyLogicalAddressing() error {
+	v := m.Code.First(opcodeMemoryModel).(*OpMemoryModel)
+
+	if v.AddressingModel != AddressingModeLogical {
+		return nil
+	}
+
+	// Variables can not allocate pointer types.
+	variables := m.Code.FilterIndex(opcodeVariable, 0)
+	_ = variables
+	return nil
+}
+
 // verifyLogicalLayout ensures the module meets the Logical Layout
 // requirements as defined in the spec chapter 2.4.
 func (m *Module) verifyLogicalLayout() error {
@@ -135,7 +154,7 @@ func (m *Module) verifyLogicalLayout() error {
 	//
 	// This will be caught by the regex match below, but here we can be
 	// more specific with our error message.
-	if count(m.Code, opcodeMemoryModel) != 1 {
+	if m.Code.Count(opcodeMemoryModel) != 1 {
 		return ErrMemoryModel
 	}
 
@@ -143,7 +162,7 @@ func (m *Module) verifyLogicalLayout() error {
 	//
 	// This will be caught by the regex match below, but here we can be
 	// more specific with our error message.
-	if count(m.Code, opcodeEntryPoint) == 0 {
+	if m.Code.Count(opcodeEntryPoint) == 0 {
 		return ErrEntrypoint
 	}
 
@@ -151,7 +170,7 @@ func (m *Module) verifyLogicalLayout() error {
 	//
 	// This will be caught by the regex match below, but here we can be
 	// more specific with our error message.
-	if count(m.Code, opcodeExecutionMode) == 0 {
+	if m.Code.Count(opcodeExecutionMode) == 0 {
 		return ErrExecutionMode
 	}
 
