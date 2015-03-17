@@ -102,12 +102,13 @@ func (m *Module) Verify() error {
 		}
 	}
 
-	// TODO Implement all semantic validation.
+	// Ensure logical layout is up to standards.
 	err = m.verifyLogicalLayout()
 	if err != nil {
 		return err
 	}
 
+	// TODO Implement remaining semantic validation.
 	return nil
 }
 
@@ -128,16 +129,6 @@ func (m *Module) Strip() {
 
 // verifyLogicalLayout ensures the module meets the Logical Layout
 // requirements as defined in the spec chapter 2.4.
-//
-// FIXME: We're using the standard regexp package here and we treat the
-// instruction set as a sequence of runes. We may want to investigate writing a
-// custom regex parser; specifically for the limited subset of functionality we
-// need and which operates on ints instead of strings.
-// Refer to http://swtch.com/~rsc/regexp/regexp2.html for inspiration.
-//
-// FIXME: This approach can only tell us if the structure is valid or not.
-// It will not give us any context as to which instructions are wrong when
-// the check fails. This is not useful at all.
 func (m *Module) verifyLogicalLayout() error {
 	// We must have one and only one OpmemoryModel.
 	//

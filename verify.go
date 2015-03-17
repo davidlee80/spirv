@@ -281,6 +281,16 @@ func verifyLocalVariables(set []Instruction) error {
 
 // verifyLayoutPattern turns the code into a regular expression input,
 // which is tested for instruction ordering.
+//
+// FIXME: We're using the standard regexp package here and we treat the
+// instruction set as a sequence of runes. We may want to investigate writing a
+// custom regex parser; specifically for the limited subset of functionality we
+// need and which operates on ints instead a string.
+// Refer to http://swtch.com/~rsc/regexp/regexp2.html for inspiration.
+//
+// FIXME: This approach can only tell us if the structure is valid or not.
+// It will not give us any context as to which instructions are wrong when
+// the check fails. This is not useful at all.
 func verifyLayoutPattern(code []Instruction) error {
 	// Turn all instruction opcodes into a list of runes.
 	var input bytes.Buffer
