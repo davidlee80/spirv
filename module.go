@@ -79,8 +79,9 @@ func (m *Module) Save(w io.Writer) error {
 }
 
 // Verify returns an error if the module contains invalid data.
-// This level of verification applies semantic validation as defined in
-// the specification.
+//
+// This applies a host of different levels of structural and semantic
+// validation as defined in the spec chapter 2.15.
 func (m *Module) Verify() error {
 	// Check the header for structural validity.
 	err := m.Header.Verify()
