@@ -1,8 +1,11 @@
 ## SPIR-V
 
-_Note_: This is a work in progress. Not all instructions have yet
-been implemented. They will be in the course of the next few days.
-Expect breaking code changes to appear regularly.
+_Note_: This is a work in progress. Instructions have all been implemented.
+We are in the process of implementing full semantic validation. This is going
+to take a while. Partly because the specification is incomplete and in flux.
+But also because it is a hard problem to solve. Expect breaking changes to
+appear frequently.
+
 
 Package SPIR-V is a Go encoder/decoder for the Vulkan SPIR-V format.
 This is based on the [preliminary specificationn][1] (pdf) and is subject to
