@@ -4,6 +4,7 @@
 package spirv
 
 import (
+	"bytes"
 	"fmt"
 	"io"
 )
@@ -131,47 +132,31 @@ func (m *Module) Strip() {
 
 // verifyLogicalLayout ensures the module meets the Logical Layout
 // requirements as defined in the spec chapter 2.4
+//
+// FIXME: We're using the standard regexp package here and we treat the
+// instruction set as a sequence of runes. We may want to investigate writing a
+// custom regex parser; specifically for the limited subset of functionality we
+// need and which operates on ints instead of strings.
+// Refer to http://swtch.com/~rsc/regexp/regexp2.html for inspiration.
+//
+// FIXME: This approach can only tell us if the structure is valid or not.
+// It will not give us any context as to which instructions are wrong when
+// the check fails. This is not useful at all.
 func (m *Module) verifyLogicalLayout() error {
-	// Find the required MemoryModel instruction.
-	//
-	// Everything before it is optional, but does require ordering, so
-	// we will check those separately. This cuts down on iterations.
-	addr := m.indexOf(opcodeMemoryModel)
-	if addr == -1 {
-		return ErrMissingMemoryModel
+	// Turn all instruction opcodes into a list of runes.
+	var input bytes.Buffer
+
+	for _, v := range m.Code {
+		// We add 0xff to each opcode, because we want to prevent the
+		// possibility that an opcode is treated as an ASCII character.
+		// It could be interpreted as a special regex marker like ?, +, *, etc,
+		// which is not ideal.
+		input.WriteRune(0xff + rune(v.Opcode()))
 	}
 
-	if m.count(opcodeMemoryModel) > 1 {
-		return ErrTooManyMemoryModels
+	if !regLayoutPattern.MatchReader(&input) {
+		return fmt.Errorf("logical structure for the module is invalid")
 	}
 
-	// TODO: Check the optional instructions before the memory mode.
-	// TODO: Check the remaining instructions.
 	return nil
-}
-
-// indexOf finds the address of the first instruction with the given opcode.
-// Returns -1 if it could not be found.
-func (m *Module) indexOf(opcode uint32) int {
-	for i, instr := range m.Code {
-		if instr.Opcode() == opcode {
-			return i
-		}
-	}
-
-	return -1
-}
-
-// count counts the number of occurrences of the instruction with the
-// given opcode.
-func (m *Module) count(opcode uint32) int {
-	var count int
-
-	for _, instr := range m.Code {
-		if instr.Opcode() == opcode {
-			count++
-		}
-	}
-
-	return count
 }

@@ -11,51 +11,104 @@ import (
 
 var mod = NewModule()
 
-func init() {
+func TestModuleVerifyLogicalLayout(t *testing.T) {
 	mod.Code = []Instruction{
-		&OpCompileFlag{
-			Flag: "I'm too early in the stream",
-		},
-		&OpSource{SourceLanguageGLSL, 450},
-		&OpMemoryModel{
-			AddressingModel: AddressingModeLogical,
-			MemoryModel:     MemoryModelGLSL450,
-		},
-		&OpExtInst{
-			ResultType:  1,
-			ResultId:    2,
-			Set:         3,
-			Instruction: 4,
-			Operands:    []Id{5, 4, 5},
-		},
-		&OpFunction{
-			ResultType:   0,
-			ResultId:     1,
-			ControlMask:  FunctionControlMaskInLine,
-			FunctionType: 2,
-		},
-		&OpFunctionParameter{
-			ResultType: 0,
-			ResultId:   1,
-		},
-		&OpFunctionParameter{
-			ResultType: 0,
-			ResultId:   1,
-		},
+		&OpCompileFlag{},
+		&OpSource{},
+		&OpMemoryModel{},
+		&OpEntryPoint{},
+		&OpExecutionMode{},
+
+		&OpFunction{},
 		&OpFunctionEnd{},
 	}
-}
 
-func TestModuleVerify(t *testing.T) {
-	err := mod.Verify()
+	err := mod.verifyLogicalLayout()
+	if err == nil {
+		t.Fatalf("expected failure")
+	}
+
+	mod.Code = []Instruction{
+		&OpCompileFlag{},
+		&OpMemoryModel{},
+		&OpEntryPoint{},
+		&OpExecutionMode{},
+
+		&OpFunction{},
+		&OpFunctionEnd{},
+	}
+
+	err = mod.verifyLogicalLayout()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// Faulty module with 2 functions.. latter with parameters and a body,
+	// but missing the OpFunctionEnd.
+	mod.Code = []Instruction{
+		&OpMemoryModel{},
+		&OpEntryPoint{},
+		&OpExecutionMode{},
+
+		&OpFunction{},
+		&OpFunctionEnd{},
+
+		&OpFunction{},
+		&OpFunctionParameter{},
+		&OpFunctionParameter{},
+		&OpFunctionParameter{},
+		&OpIAdd{},
+		&OpIAdd{},
+		&OpIAdd{},
+		&OpIAdd{},
+	}
+
+	err = mod.verifyLogicalLayout()
+	if err == nil {
+		t.Fatalf("expected failure")
+	}
+
+	// Complete module with 2 functions.. latter with parameters and a body.
+	mod.Code = []Instruction{
+		&OpMemoryModel{},
+		&OpEntryPoint{},
+		&OpExecutionMode{},
+
+		&OpFunction{},
+		&OpFunctionEnd{},
+
+		&OpFunction{},
+		&OpFunctionParameter{},
+		&OpFunctionParameter{},
+		&OpFunctionParameter{},
+		&OpIAdd{},
+		&OpIAdd{},
+		&OpIAdd{},
+		&OpIAdd{},
+		&OpFunctionEnd{},
+	}
+
+	err = mod.verifyLogicalLayout()
 	if err != nil {
 		t.Fatal(err)
 	}
 }
 
 func TestModuleStrip(t *testing.T) {
+	mod.Code = []Instruction{
+		&OpSource{SourceLanguageGLSL, 450},
+		&OpCompileFlag{
+			Flag: "test",
+		},
+		&OpMemoryModel{
+			AddressingModel: AddressingModeLogical,
+			MemoryModel:     MemoryModelGLSL450,
+		},
+	}
+
 	mod.Strip()
-	want := 7
+
+	want := 2
 	have := len(mod.Code)
 	if have != want {
 		t.Fatalf("Strip error: Expected %d remaining instructions; have: %d", want, have)
