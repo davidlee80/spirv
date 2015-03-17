@@ -4,7 +4,6 @@
 package spirv
 
 import (
-	"bytes"
 	"fmt"
 	"io"
 )
@@ -109,7 +108,7 @@ func (m *Module) Verify() error {
 	// TODO Implement all semantic validation.
 	err = m.verifyLogicalLayout()
 	if err != nil {
-		return fmt.Errorf("spirv: %v", err)
+		return err
 	}
 
 	return nil
@@ -131,7 +130,7 @@ func (m *Module) Strip() {
 }
 
 // verifyLogicalLayout ensures the module meets the Logical Layout
-// requirements as defined in the spec chapter 2.4
+// requirements as defined in the spec chapter 2.4.
 //
 // FIXME: We're using the standard regexp package here and we treat the
 // instruction set as a sequence of runes. We may want to investigate writing a
@@ -143,20 +142,51 @@ func (m *Module) Strip() {
 // It will not give us any context as to which instructions are wrong when
 // the check fails. This is not useful at all.
 func (m *Module) verifyLogicalLayout() error {
-	// Turn all instruction opcodes into a list of runes.
-	var input bytes.Buffer
-
-	for _, v := range m.Code {
-		// We add 0xff to each opcode, because we want to prevent the
-		// possibility that an opcode is treated as an ASCII character.
-		// It could be interpreted as a special regex marker like ?, +, *, etc,
-		// which is not ideal.
-		input.WriteRune(0xff + rune(v.Opcode()))
+	// We must have one and only one OpmemoryModel.
+	//
+	// This will be caught by the regex match below, but here we can be
+	// more specific with our error message.
+	if count(m.Code, opcodeMemoryModel) != 1 {
+		return ErrMemoryModel
 	}
 
-	if !regLayoutPattern.MatchReader(&input) {
-		return fmt.Errorf("logical structure for the module is invalid")
+	// We must have at least one OpEntryPoint.
+	//
+	// This will be caught by the regex match below, but here we can be
+	// more specific with our error message.
+	if count(m.Code, opcodeEntryPoint) == 0 {
+		return ErrEntrypoint
 	}
 
-	return nil
+	// We must have at least one OpExecutionMode.
+	//
+	// This will be caught by the regex match below, but here we can be
+	// more specific with our error message.
+	if count(m.Code, opcodeExecutionMode) == 0 {
+		return ErrExecutionMode
+	}
+
+	// Test instruction order.
+	err := verifyLayoutPattern(m.Code)
+	if err != nil {
+		return err
+	}
+
+	// Some instructions have requirements beyond what can be tested
+	// with a regular expression pattern.
+
+	// Global Variables must not have StorageClassFunction.
+	err = verifyGlobalVariables(m.Code)
+	if err != nil {
+		return err
+	}
+
+	// Local Variables must have StorageClassFunction.
+	err = verifyLocalVariables(m.Code)
+	if err != nil {
+		return err
+	}
+
+	// All local variables must be the first instructions in the first block.
+	return verifyFunctionStructure(m.Code)
 }
