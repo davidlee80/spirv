@@ -125,6 +125,12 @@ func (m *Module) Verify() error {
 		return err
 	}
 
+	// Check validity of entry point usage.
+	err = m.verifyEntrypoints()
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -143,6 +149,34 @@ func (m *Module) Strip() {
 	}
 }
 
+// verifyEntrypoints performs some sanity checks on entrypoint definitions.
+func (m *Module) verifyEntrypoints() error {
+	// There must be at least 1 OpEntryPoint, unless a Link capability
+	// is being used.
+	if !m.hasLinkageType() && m.Code.Count(opcodeEntryPoint) == 0 {
+		return NewLayoutError(0, "unless the Linkage capabilities are used, we require at least 1 OpEntryPoint")
+	}
+
+	// No function can be targeted by both an OpEntryPoint instruction and an
+	// OpFunctionCall instruction.
+	entries := m.Code.FilterIndex(opcodeEntryPoint, 0)
+	calls := m.Code.FilterIndex(opcodeFunctionCall, 0)
+
+	if len(entries) > 0 && len(calls) > 0 {
+		for _, c := range calls {
+			fc := m.Code[c].(*OpFunctionCall)
+			addr := m.hasResultId(fc.Function, entries)
+			if addr > -1 {
+				return NewLayoutError(
+					c, "call to function previously defined as entrypoint at $%08x", addr,
+				)
+			}
+		}
+	}
+
+	return nil
+}
+
 // verifySSA performs some sanity checks on result id values, as defined
 // in chapter 2.15.1 of the specification.
 func (m *Module) verifySSA() error {
@@ -152,6 +186,12 @@ func (m *Module) verifySSA() error {
 	set := make(map[Id]int)
 
 	for addr, instr := range m.Code {
+		if _, ok := instr.(*OpEntryPoint); ok {
+			// ResultId is entry point target. Not id for this
+			// instruction itself -- ignore it.
+			continue
+		}
+
 		id, ok := instructionResultId(instr)
 		if !ok {
 			continue
@@ -170,8 +210,37 @@ func (m *Module) verifySSA() error {
 	}
 
 	// TODO: The definition of an SSA <id> should dominate all uses of it,
-	// with the following exceptions
+	// with the following exceptions :... (see spec)
+
 	return nil
+}
+
+// hasResultId returns the addr of a list entry, if src has a ResultId
+// matching any of the Result Ids in list. Returns -1 otherwise.
+func (m *Module) hasResultId(src Id, list []int) int {
+	for _, addr := range list {
+		dst, ok := instructionResultId(m.Code[addr])
+		if ok && src == dst {
+			return addr
+		}
+	}
+
+	return -1
+}
+
+// hasLinkageType returns true if there is a OpDecorate instance
+// on a (global) variable or function with a LinkageType defined.
+func (m *Module) hasLinkageType() bool {
+	decorations := m.Code.Filter(opcodeDecorate)
+
+	for _, i := range decorations {
+		v := i.(*OpDecorate)
+		if v.Decoration == DecorationLinkageType {
+			return true
+		}
+	}
+
+	return false
 }
 
 // verifyLogicalAddressing performs a number of checks if the logical

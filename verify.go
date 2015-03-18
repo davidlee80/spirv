@@ -41,7 +41,7 @@ func init() {
 
 		opcodeMemoryModel,
 
-		opcodeEntryPoint, regAtleastOne,
+		opcodeEntryPoint, regMultiOptional,
 		opcodeExecutionMode, regAtleastOne,
 		opcodeString, regMultiOptional,
 		opcodeName, regMultiOptional,

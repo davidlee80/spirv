@@ -246,7 +246,7 @@ func TestModuleVerifyLogicalAddressing1(t *testing.T) {
 	}
 }
 
-func TestModuleVerifySSA(t *testing.T) {
+func TestModuleVerifySSA1(t *testing.T) {
 	// Faulty module: 2 identical result IDs.
 	mod.Code = []Instruction{
 		&OpCompileFlag{},
@@ -263,6 +263,78 @@ func TestModuleVerifySSA(t *testing.T) {
 
 	want := NewLayoutError(6, "duplicate ResultId(%d); previous definition at: $%08x", 1, 4)
 	have := mod.verifySSA()
+
+	if !reflect.DeepEqual(have, want) {
+		t.Fatalf("error mismatch:\nWant: %v\nHave: %v", want, have)
+	}
+}
+
+func TestModuleVerifyEntrypoints1(t *testing.T) {
+	// Faulty module: missing OpEntryPoint and no LinkageType decoration
+	// used to offset its absence.
+	mod.Code = []Instruction{
+		&OpCompileFlag{},
+		&OpMemoryModel{},
+		&OpExecutionMode{},
+
+		&OpFunction{},
+		&OpFunctionEnd{},
+	}
+
+	want := NewLayoutError(0, "unless the Linkage capabilities are used, we require at least 1 OpEntryPoint")
+	have := mod.verifyEntrypoints()
+
+	if !reflect.DeepEqual(have, want) {
+		t.Fatalf("error mismatch:\nWant: %v\nHave: %v", want, have)
+	}
+}
+
+func TestModuleVerifyEntrypoints2(t *testing.T) {
+	// Good module: missing OpEntryPoint but a LinkageType decoration
+	// is present.
+	mod.Code = []Instruction{
+		&OpCompileFlag{},
+		&OpMemoryModel{},
+		&OpExecutionMode{},
+
+		&OpDecorate{
+			Decoration: DecorationLinkageType,
+		},
+		&OpFunction{},
+		&OpFunctionEnd{},
+	}
+
+	err := mod.verifyEntrypoints()
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestModuleVerifyEntrypoints3(t *testing.T) {
+	// Bad module: function is targeted by both OpEntryPoint and
+	// OpFunctionCall. This is akin to a C/Go/etc program calling
+	// main() from somewhere in the program. This is not allowed in SPIR-V.
+	mod.Code = []Instruction{
+		&OpCompileFlag{},
+		&OpMemoryModel{},
+		&OpEntryPoint{
+			ExecutionModel: ExecutionModelFragment,
+			ResultId:       1,
+		},
+		&OpExecutionMode{},
+
+		&OpFunction{ResultId: 1},
+		&OpLabel{},
+		&OpFunctionCall{
+			ResultId: 2,
+			Function: 1,
+		}, // Recursive call to ourselves.
+		&OpBranch{},
+		&OpFunctionEnd{},
+	}
+
+	want := NewLayoutError(6, "call to function previously defined as entrypoint at $%08x", 2)
+	have := mod.verifyEntrypoints()
 
 	if !reflect.DeepEqual(have, want) {
 		t.Fatalf("error mismatch:\nWant: %v\nHave: %v", want, have)
