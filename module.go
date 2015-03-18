@@ -162,15 +162,17 @@ func (m *Module) verifyEntrypoints() error {
 	entries := m.Code.FilterIndex(opcodeEntryPoint, 0)
 	calls := m.Code.FilterIndex(opcodeFunctionCall, 0)
 
-	if len(entries) > 0 && len(calls) > 0 {
-		for _, c := range calls {
-			fc := m.Code[c].(*OpFunctionCall)
-			addr := m.hasResultId(fc.Function, entries)
-			if addr > -1 {
-				return NewLayoutError(
-					c, "call to function previously defined as entrypoint at $%08x", addr,
-				)
-			}
+	if len(entries) == 0 || len(calls) == 0 {
+		return nil
+	}
+
+	for _, c := range calls {
+		fc := m.Code[c].(*OpFunctionCall)
+		addr := m.hasResultId(fc.Function, entries)
+		if addr > -1 {
+			return NewLayoutError(
+				c, "call to function previously defined as entrypoint at $%08x", addr,
+			)
 		}
 	}
 
